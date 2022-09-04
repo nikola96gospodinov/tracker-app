@@ -1,0 +1,197 @@
+// Imports
+@import './variables.scss';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600;800&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
+// Other files
+@import './forms/form.scss';
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+    background: $neutral-9;
+    overflow-x: hidden;
+    color: $neutral-1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+}
+
+span {
+    font-family: inherit;
+}
+
+.container {
+    width: 1024px;
+    margin: 0 auto;
+}
+
+.sub-heading {
+    color: $neutral-10;
+    font-size: 2.5rem;
+    font-weight: 600;
+    border-left: .5rem solid $primary-1;
+    padding-left: .5rem;
+    border-radius: .5rem;
+}
+
+.button {
+    display: block;
+    font-size: 1.125rem;
+    border-radius: .5rem;
+    transition: .3s;
+    padding: .5rem 2.5rem;
+    cursor: pointer;
+}
+
+.button-primary {
+    background: $primary-4;
+    color: $neutral-10;
+    border: none;
+    box-shadow: $shadow-main;
+}
+
+.button-primary:hover {
+    box-shadow: $shadow-hover;
+    transform: translateY(.1rem);
+    background: $primary-3;
+}
+
+.button-secondary {
+    background: $neutral-10;
+    color: $neutral-1;
+    font-weight: 600;
+    border: none;
+    box-shadow: $shadow-main;
+}
+
+.button-secondary:hover {
+    background: $primary-6;
+    transform: translateY(.1rem);
+    color: $neutral-10;
+}
+
+.button-tertiary {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $primary-4;
+    border: .1rem solid $primary-4;
+    padding: .4rem 2.4rem;
+}
+
+.button-tertiary:hover {
+    background: $primary-4;
+    color: $neutral-10;
+    font-weight: 500;
+}
+
+.button-link {
+    padding: 0;
+    border: none;
+    font-size: 1rem;
+    background: transparent;
+    color: $primary-4;
+}
+
+.button-link:hover {
+    text-decoration: underline;
+}
+
+.double-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+.triple-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+.quadruple-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+.two-one-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+}
+
+.full-screen-centered {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        width: 768px;
+    }
+
+    .sub-heading {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 834px) {
+    .container {
+        width: 550px;
+    }
+
+    .double-grid-t, .triple-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quadruple-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
+
+    .double-grid, .quadruple-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 5vw;
+    }
+
+    .sub-heading {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .cta {
+        padding: .5rem 1.25rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container {
+        width: 1368px;
+    }
+
+    .sub-heading {
+        font-size: 3rem;
+        border-left: .75rem solid $primary-1;
+        padding-left: .75rem;
+    }
+}

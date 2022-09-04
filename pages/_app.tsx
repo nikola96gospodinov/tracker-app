@@ -5,6 +5,8 @@ import { User, onAuthStateChanged } from 'firebase/auth'
 import { AuthProvider } from '../context/AuthContext'
 import { auth } from '../firebase/firebase'
 
+import '../styles/style.scss'
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [currentUser, setCurrentUser] = useState<User | null>()
 

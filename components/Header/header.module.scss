@@ -1,0 +1,68 @@
+@import '../../styles/variables.scss';
+
+.header {
+    background: $neutral-1;
+
+    .borderUp {
+        width: 100%;
+        height: .5rem;
+        background: linear-gradient($primary-4, $primary-7);
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.25rem;
+
+        a {
+            color: $neutral-8;
+            text-decoration: none;
+            margin-left: 1rem;
+            font-size: 1.25rem;
+        }
+
+        a:hover {
+            color: $neutral-10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .greetingOuter {
+    background: $neutral-1;
+    position: relative;
+    overflow: hidden;
+
+    .greeting {
+        display: flex;
+        height: 45vh;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    
+        h1 {
+            font-size: 3rem;
+            color: $neutral-10;
+    
+            span {
+                color: $primary-8;
+            }
+        }
+
+        h2 {
+            color: $neutral-7;
+        }
+    }
+
+    img {
+        position: absolute;
+        height: 45vh;
+        top: 12vh;
+        left: -12vh;
+    }
+}
+}

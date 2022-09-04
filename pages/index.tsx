@@ -1,5 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { signOut } from "firebase/auth"
+
+import { auth } from '../firebase/firebase'
 
 const Home: NextPage = () => {
   return (
@@ -10,6 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       This is the homepage that doesn't do shit right now
+      <button onClick={() => signOut(auth)}>Logout</button>
     </div>
   )
 }
