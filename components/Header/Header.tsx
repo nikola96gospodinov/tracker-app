@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import moment from 'moment'
 
 import Logo from '../Logo'
@@ -8,7 +9,7 @@ import styles from './header.module.scss'
 const now = moment()
 
 // Address myself differently every time with a different affirmation :)
-const randomName = () => {
+const randomName = (): string => {
 	const names = [
 		'champ',
 		'winner',
@@ -20,7 +21,7 @@ const randomName = () => {
 	return name
 }
 
-const generateGreeting = () => {
+const generateGreeting = (): string => {
 	const hour = moment(now).format('HH')
 	if (Number(hour) >= 7 && Number(hour) <= 11) {
 		return 'Good morning'
@@ -34,33 +35,39 @@ const generateGreeting = () => {
 const name = randomName()
 const greeting = generateGreeting()
 
+const menu = [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Enter metrics', path: '/metrics' },
+    { title: 'Roadmap', path: '/roadmap' },
+    { title: 'Profile', path: '/profile' }
+]
+
 const Header = (): JSX.Element => {
+    const router = useRouter()
+
     return (
         <header className={styles.header}>
             <div className={styles.borderUp}></div>
-            <div className="container">
+            <div className='container'>
                 <div className={styles.navigation}>
                     <div className={styles.logo}>
                         <Logo />
                     </div>
-                    <div>
-                        <Link href="/">
-                            <a>Home</a>
-                        </Link>
-                        <Link href="/current-week">
-                            <a>Current week</a>
-                        </Link>
-                        <Link href="/previous-weeks">
-                            <a>Previous weeks</a>
-                        </Link>
-                        <Link href="/activities">
-                            <a>Activities</a>
-                        </Link>
-                    </div>
+                    <nav>
+                        {menu.map((item, index) => {
+                            return (
+                                <Link key={index} href={item.path}>
+                                    <a
+                                        className={router.pathname === item.path ? styles.navActive : ''}
+                                    >{item.title}</a>
+                                </Link>
+                            )
+                        })}
+                    </nav>
                 </div>
             </div>
             <div className={styles.greetingOuter}>
-                <div className="container">
+                <div className='container'>
                     <div className={styles.greeting}>
                         <h1>{greeting}, <span>{name}!</span></h1>
                         <h2>Remember to trust the process</h2>

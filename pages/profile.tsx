@@ -1,30 +1,30 @@
 import type { NextPage } from 'next'
 import { doc, getDoc } from 'firebase/firestore'
-import { useContext, useEffect } from 'react'
-import { User, signOut } from 'firebase/auth'
+import { useEffect } from 'react'
+import { signOut } from 'firebase/auth'
+import useUserLogged from '../hooks/useUserLogged'
+import { useAuthUser } from '@react-query-firebase/auth'
 
 import { auth, db } from '../firebase/firebase'
-import { AuthContext } from '../context/AuthContext'
-import useUserNotLogged from '../hooks/useUserNotLogged'
 
 const Profile: NextPage = () => {
-    const loading = useUserNotLogged()
-    const user  = useContext(AuthContext) as User
+    const isLoading = useUserLogged()
+    const { data: user } = useAuthUser(['user'], auth)
 
     const getUser = () => {
-        const userRef = doc(db, 'users', user.uid)
-        getDoc(userRef)
-            .then(res => console.log(res.data()))
-            .catch(error => console.log(error))
+        if (user) {
+            const userRef = doc(db, 'users', user?.uid)
+            getDoc(userRef)
+                .then(res => console.log(res.data()))
+                .catch(error => console.log(error))
+        }
     }
 
     useEffect(() => {
-        if (user) {
-            getUser()
-        }
+        getUser()
     }, [user])
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div>
                 Loading...

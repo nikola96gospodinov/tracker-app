@@ -19,6 +19,11 @@
         margin-bottom: 2rem;
     }
 
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
     label {
         font-size: 1.125rem;
         margin-bottom: .25rem;
@@ -29,7 +34,7 @@
         }
     }
 
-    input {
+    input[type='email'], input[type='password'] {
         padding: .5rem;
         border-radius: .5rem;
         border: none;
@@ -37,7 +42,7 @@
         box-shadow: $shadow-inset;
     }
 
-    button {
+    input[type='submit'] {
         margin-top: 2rem;
     }
 

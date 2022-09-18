@@ -1,39 +1,39 @@
-import { User, signInWithEmailAndPassword } from 'firebase/auth'
 import Link from 'next/link'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useContext, useState, useEffect } from 'react'
-import { MdErrorOutline } from 'react-icons/md'
+import { useEffect, useState } from 'react'
+import { useAuthSignInWithEmailAndPassword, useAuthUser } from '@react-query-firebase/auth'
 
-import { AuthContext } from '../../context/AuthContext'
+import { MdErrorOutline } from 'react-icons/md'
 import { auth } from '../../firebase/firebase'
-import useUserLogged from '../../hooks/useUserLogged'
 import Spinner from '../../components/spinner'
 
 const Login: NextPage = () => {
-    const loading = useUserLogged()
-    const user  = useContext(AuthContext) as User
+    const { data: user, isLoading } = useAuthUser(["user"], auth)
     const router = useRouter()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState<string>()
+    const signIn = useAuthSignInWithEmailAndPassword(auth, {
+        onSuccess() {
+            router.push('/')
+        },
+        onError() {
+            setErrorMessage('Wrong email or password')
+        }
+    })
 
     useEffect(() => {
         if (user) router.push('/')
     }, [user])
 
-    const logUser = (): void => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                router.push('/profile')
-            })
-            .catch(() => {
-                setErrorMessage('Wrong email or password')
-            })
+    const logUser = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault()
+        signIn.mutate({ email, password })
     }
 
-    if (loading) {
+    if (isLoading || user) {
         return (
             <div className='full-screen-centered'>
                 <Spinner />
@@ -45,24 +45,27 @@ const Login: NextPage = () => {
         <div className='full-screen-centered form-background'>
             <div className='form-container'>
                 <h1>Login</h1>
-                <label htmlFor='email'>Email</label>
-                <input
-                    id='email'
-                    type='email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <label htmlFor='password'>Password</label>
-                <input
-                    id='password'
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                    onClick={() => logUser()}
-                    className='button button-primary'
-                >Login</button>
+                <form onSubmit={(e) => logUser(e)}>
+                    <label htmlFor='email'>Email</label>
+                    <input
+                        id='email'
+                        type='email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <label htmlFor='password'>Password</label>
+                    <input
+                        id='password'
+                        type='password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <input
+                        type='submit'
+                        value='Login'
+                        className='button button-primary'
+                    />
+                </form>
                 <Link href='/reset-password'>
                     <a className='button button-link'>Forgot your password?</a>
                 </Link>

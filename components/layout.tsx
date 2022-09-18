@@ -1,13 +1,13 @@
 import Header from './Header/Header'
-import Footer from './Footer/footer'
+import Footer from './Footer/Footer'
 
-const Layout = ({ children }: { children: JSX.Element }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <Header/>
-            <main>
-                {children}
-            </main>
+                <main>
+                    {children}
+                </main>
             <Footer/>
         </>
     )

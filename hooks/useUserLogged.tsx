@@ -1,25 +1,19 @@
-import { User } from "firebase/auth"
+import { useAuthUser } from "@react-query-firebase/auth"
 import { useRouter } from "next/router"
-import { useState, useContext, useEffect } from "react"
-
-import { AuthContext } from "../context/AuthContext"
+import { useEffect } from "react"
+import { auth } from "../firebase/firebase"
 
 const useUserLogged = (): boolean => {
-    const [loading, setLoading] = useState(true)
-    const user  = useContext(AuthContext) as User
+    const { data: user, isLoading } = useAuthUser(["user"], auth)
     const router = useRouter()
 
     useEffect(() => {
-        if (user === undefined) {
-            setLoading(true)
-        } else if (user) {
-            router.push('/')
-        } else {
-            setLoading(false)
+        if (!user && !isLoading) {
+            router.push('/login')
         }
-    }, [user])
+    }, [user, isLoading])
 
-    return loading
+    return isLoading
 }
 
 export default useUserLogged
