@@ -93,12 +93,7 @@ const Register: NextPage = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    {
-                        errors.email ?
-                        <span className='field-error'>Please enter a valid email</span> :
-                        <></>
-                        
-                    }
+                    {errors.email && <span className='field-error'>Please enter a valid email</span>}
                     <label htmlFor='password'>Password</label>
                     <input
                         id='password'
@@ -107,7 +102,7 @@ const Register: NextPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     {
-                        passwordErrors.letter || passwordErrors.minLength || passwordErrors.number ?
+                        (passwordErrors.letter || passwordErrors.minLength || passwordErrors.number) &&
                         <span className='error-span'>
                             Your password must:
                             <ul>
@@ -115,8 +110,7 @@ const Register: NextPage = () => {
                                 <li className={passwordErrors.letter ? 'field-error' : ''}>contain at least one letter</li>
                                 <li className={passwordErrors.number ? 'field-error' : ''}>contain at least on number</li>
                             </ul>
-                        </span> :
-                        <></>
+                        </span>
                     }
                     <label htmlFor='confirm-password'>Confirm Password</label>
                     <input
@@ -125,11 +119,7 @@ const Register: NextPage = () => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    {
-                        errors.confirmPassword ?
-                        <span className='field-error'>Passwords must match</span> :
-                        <></>
-                    }
+                    {errors.confirmPassword && <span className='field-error'>Passwords must match</span>}
                     <input
                         type='submit'
                         value='Register'
@@ -145,12 +135,11 @@ const Register: NextPage = () => {
                     </Link>
                 </span>
                 {
-                    errors.form ?
+                    errors.form &&
                         <div className='form-error'>
                             <MdErrorOutline />
                             <span>There was an issue with the registration. Please try again</span>
-                        </div> 
-                        : <></>
+                        </div>
                 }
             </div>
         </div>

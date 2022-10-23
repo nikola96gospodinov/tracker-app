@@ -37,8 +37,8 @@ const greeting = generateGreeting()
 
 const menu = [
     { title: 'Dashboard', path: '/' },
-    { title: 'Enter metrics', path: '/metrics' },
-    { title: 'Roadmap', path: '/roadmap' },
+    { title: 'Set metrics', path: '/metrics' },
+    { title: 'Goals', path: '/goals' },
     { title: 'Profile', path: '/profile' }
 ]
 

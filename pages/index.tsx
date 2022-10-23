@@ -4,21 +4,14 @@ import { useAuthUser } from '@react-query-firebase/auth'
 
 import Spinner from '../components/spinner'
 import Layout from '../components/layout'
-import { auth, db } from '../firebase/firebase'
+import { auth } from '../firebase/firebase'
 import useUserLogged from '../hooks/useUserLogged'
 
 import WeeklyReview from '../components/HomePageComponents/WeeklyReview'
-import { doc } from 'firebase/firestore'
-import { useFirestoreDocument } from '@react-query-firebase/firestore'
 
 const Home: NextPage = () => {
   const { data: user } = useAuthUser(["user"], auth)
   const isLoading = useUserLogged()
-
-  const goalsRef = doc(db, 'goals', 'gj713NtZKjZEvCvrD7')
-  const { data: goals } = useFirestoreDocument(['goals'], goalsRef)
-
-  console.log(goals?.data())
 
   if (isLoading || !user) {
     return (
@@ -29,16 +22,16 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div>
+    <>
       <Head>
         <title>Dashboard</title>
         <meta name="description" content="Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <WeeklyReview />
+        {user && <WeeklyReview userID={user.uid}/>}
       </Layout>
-    </div>
+    </>
   )
 }
 
