@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Goal } from './interfaces'
+import { Goal } from '../interfaces'
 
 export const GoalBox = ({ goal }: { goal: Goal }) => {
     return (

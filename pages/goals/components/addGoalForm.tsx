@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
-import { db } from '../../firebase/firebase'
-import useGetGoals from '../../hooks/useGetGoals'
+import { db } from '../../../firebase/firebase'
+import useGetGoals from '../hooks/useGetGoals'
 
-import { Goal } from './interfaces'
+import { Goal } from '../interfaces'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)

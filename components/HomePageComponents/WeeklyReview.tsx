@@ -1,4 +1,4 @@
-import useGetGoals from '../../hooks/useGetGoals'
+import useGetGoals from '../../pages/goals/hooks/useGetGoals'
 import NoGoals from '../NoGoals'
 import Spinner from '../spinner'
 

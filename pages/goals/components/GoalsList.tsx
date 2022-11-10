@@ -1,8 +1,8 @@
-import useGetGoals from '../../hooks/useGetGoals'
+import useGetGoals from '../hooks/useGetGoals'
 import EmptyGoalsList from './EmptyGoalsList'
-import Spinner from '../../components/spinner'
+import Spinner from '../../../components/spinner'
 import { GoalBox } from './goal'
-import { Goal } from './interfaces'
+import { Goal } from '../interfaces'
 
 interface Props {
     userID: string

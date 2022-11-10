@@ -1,8 +1,8 @@
 import { collection, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 
-import { db } from '../firebase/firebase'
-import { AllGoals } from '../pages/goals/interfaces'
+import { db } from '../../../firebase/firebase'
+import { AllGoals } from '../interfaces'
 
 const useGetGoals = (userID: string) => {
     const [allGoals, setAllGoals] = useState<AllGoals>()
