@@ -28,15 +28,15 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
     })
     const [triedSubmitting, setTriedSubmitting] = useState(false)
 
-    const { allGoals } = useGetGoals(userID)
+    const { goals } = useGetGoals(userID)
     const goalsCollection = collection(db, 'goals')
     const goalsRef = doc(goalsCollection, userID)
-    const goalsNames = useMemo(() => allGoals?.activeGoals?.map((goal: Goal) => goal.name), [allGoals])
+    const goalsNames = useMemo(() => goals?.map((goal: Goal) => goal.name), [goals])
 
     const addGoal = async (newGoal: Goal) => {
-        if (allGoals) {
+        if (goals) {
             try {
-                setDoc(goalsRef, { activeGoals: [...allGoals!.activeGoals, newGoal] }, { merge: true })
+                setDoc(goalsRef, { data: [...goals, newGoal] }, { merge: true })
                 setAddGoalsFormOpen(false)
             } catch (e) {
                 console.log(e)
@@ -56,10 +56,7 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
                     name,
                     category,
                     deadline,
-                    description,
-                    active: true,
-                    archived: false,
-                    achieved: false
+                    description
                 } as Goal
                 addGoal(newGoal)
             }

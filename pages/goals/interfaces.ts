@@ -15,8 +15,6 @@ export interface Goal {
     habits?: string[]
 }
 
-export interface AllGoals {
-    activeGoals: Goal[]
-    achievedGoals: Goal[]
-    archivedGoals: Goal[]
+export interface GoalsData {
+    data: Goal[]
 }
