@@ -1,5 +1,5 @@
 import { collection, doc, setDoc } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
@@ -31,6 +31,7 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
     const { allGoals } = useGetGoals(userID)
     const goalsCollection = collection(db, 'goals')
     const goalsRef = doc(goalsCollection, userID)
+    const goalsNames = useMemo(() => allGoals?.activeGoals?.map((goal: Goal) => goal.name), [allGoals])
 
     const addGoal = async (newGoal: Goal) => {
         if (allGoals) {
@@ -68,10 +69,16 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
     const FormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
 
+        const nameError = () => {
+            if (name === '') return 'Please set a name for the goal'
+            if (goalsNames?.includes(name)) return 'Name of the goal must be unique'
+            return ''
+        }
+
         setErrors({
             ...errors,
-            nameErr: name === '' ? 'Please set a name for the goal' : '',
-            categoryErr: category ? false : true
+            nameErr: nameError(),
+            categoryErr: !Boolean(category)
         })
 
         setTriedSubmitting(true)

@@ -1,8 +1,8 @@
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { db } from '../firebase/firebase'
-import { Goal } from '../pages/goals/interfaces'
-import useGetGoals from '../pages/goals/hooks/useGetGoals'
+import { db } from '../../../firebase/firebase'
+import { Goal } from '../interfaces'
+import useGetGoals from './useGetGoals'
 
 const useAddGoal = (userID: string, newGoal: Goal) => {
     const [errorAdding, setErrorAdding] = useState(false)

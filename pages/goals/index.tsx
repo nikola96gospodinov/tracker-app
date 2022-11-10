@@ -10,7 +10,7 @@ import useUserLogged from '../../hooks/useUserLogged'
 import GoalsList from './components/GoalsList'
 import AddGoalForm from './components/addGoalForm'
 
-import styles from './goals.module.scss'
+import styles from './components/goals.module.scss'
 
 const Goals: NextPage = () => {
     const { data: user } = useAuthUser(["user"], auth)
