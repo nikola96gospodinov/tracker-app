@@ -26,9 +26,7 @@ const GoalsList = ({ userID, setAddGoalsFormOpen }: Props) => {
                 goals.length === 0 ?
                     <EmptyGoalsList setAddGoalsFormOpen={setAddGoalsFormOpen} /> :
                     <div className='triple-grid'>
-                        {
-                            goals.map((goal: Goal) => <GoalBox key={goal.id} goal={goal} />)
-                        }
+                        { goals.map((goal: Goal) => <GoalBox key={goal.id} goal={goal} />) }
                     </div>
             }
         </>

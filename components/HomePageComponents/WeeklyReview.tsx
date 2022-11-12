@@ -7,9 +7,9 @@ interface Props {
 }
 
 const WeeklyReview = ({ userID }: Props) => {
-    const { allGoals } = useGetGoals(userID)
+    const { goals } = useGetGoals(userID)
 
-    if (!allGoals) {
+    if (!goals) {
         return (
             <div className='initial-section'>
             <div className='container'>
@@ -26,9 +26,9 @@ const WeeklyReview = ({ userID }: Props) => {
             <div className='container'>
                 <div className='initial-section-inner'>
                     {
-                        allGoals.activeGoals.length === 0 ?
+                        goals.length === 0 ?
                         <NoGoals />
-                        : <>Here are your goals {allGoals.activeGoals.length}</>
+                        : <>Here are your goals {goals.length}</>
                     }
                 </div>
             </div>
