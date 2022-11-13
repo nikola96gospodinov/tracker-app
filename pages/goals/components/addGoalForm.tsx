@@ -4,6 +4,7 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 import { db } from '../../../firebase/firebase'
+import { toKebabCase } from '../../../helpers/string-manipulation-functions'
 import useGetGoals from '../hooks/useGetGoals'
 
 import { Goal } from '../interfaces'
@@ -56,7 +57,8 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
                     name,
                     category,
                     deadline,
-                    description
+                    description,
+                    urlPath: toKebabCase(name)
                 } as Goal
                 addGoal(newGoal)
             }

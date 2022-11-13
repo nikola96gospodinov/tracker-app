@@ -8,7 +8,7 @@ import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
 import GoalsList from './components/GoalsList'
-import AddGoalForm from './components/addGoalForm'
+import AddGoalForm from './components/AddGoalForm'
 
 import styles from './components/goals.module.scss'
 

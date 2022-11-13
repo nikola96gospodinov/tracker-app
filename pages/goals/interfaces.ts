@@ -9,6 +9,7 @@ export interface Goal {
     id: string
     name: string
     category: Category
+    urlPath: string
     description?: string
     deadline?: string
     milestones?: Milestone[]

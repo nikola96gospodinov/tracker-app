@@ -39,6 +39,14 @@
         text-decoration: underline;
     }
 
+    a {
+        color: $neutral-1;
+
+        &:hover {
+            color: $primary-4;
+        }
+    }
+
     &:hover {
         transform: translateY(.2rem);
         border-bottom: solid .2rem $primary-4;

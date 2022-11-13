@@ -1,7 +1,7 @@
 import useGetGoals from '../hooks/useGetGoals'
 import EmptyGoalsList from './EmptyGoalsList'
 import Spinner from '../../../components/spinner'
-import { GoalBox } from './goal'
+import { GoalBox } from './Goal'
 import { Goal } from '../interfaces'
 
 interface Props {

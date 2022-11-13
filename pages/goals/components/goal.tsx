@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { toKebabCase } from '../../../helpers/functions'
 import { Goal } from '../interfaces'
 import { goalsIcons } from '../contants'
 
@@ -10,7 +9,7 @@ export const GoalBox = ({ goal }: { goal: Goal }) => {
     const icon = goalsIcons[goal.category as keyof typeof goalsIcons]
 
     return (
-        <Link href={`/goals/active/${toKebabCase(goal.name)}`}>
+        <Link href={`/goals/${goal.urlPath}`}>
             <a>
                 <div className={styles.goalGrid}>
                     <div className={styles.imgHolder}>
@@ -22,7 +21,7 @@ export const GoalBox = ({ goal }: { goal: Goal }) => {
                     <div>
                         <h3>{goal.name}</h3>
                         <p>{goal.description}</p>
-                        <Link href={`/goals/active/${toKebabCase(goal.name)}`}>
+                        <Link href={`/goals/${goal.urlPath}`}>
                             <a className={styles.configGoalBtn}>Configure goal</a>
                         </Link>
                     </div>
