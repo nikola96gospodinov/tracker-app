@@ -1,8 +1,9 @@
-import useGetGoals from '../hooks/useGetGoals'
+import useGetDocs from '../../../../hooks/useGetDoc'
 import EmptyGoalsList from './EmptyGoalsList'
-import Spinner from '../../../components/spinner'
-import { GoalBox } from './Goal'
-import { Goal } from '../interfaces'
+import Spinner from '../../../../components/spinner'
+import { GoalBox } from './GoalListing'
+import { Goal } from '../../interfaces'
+import { GOALS } from '../../constants'
 
 interface Props {
     userID: string
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const GoalsList = ({ userID, setAddGoalsFormOpen }: Props) => {
-    const { goals, errorFetching } = useGetGoals(userID)
+    const { docs: goals, errorFetching } = useGetDocs<Goal>({ userID, path: GOALS })
 
     if (errorFetching) {
         return <p>There was an error</p>

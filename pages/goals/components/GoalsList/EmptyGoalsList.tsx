@@ -1,4 +1,4 @@
-import styles from './goals.module.scss'
+import styles from '../goals.module.scss'
 
 interface Props {
     setAddGoalsFormOpen: React.Dispatch<React.SetStateAction<boolean>>

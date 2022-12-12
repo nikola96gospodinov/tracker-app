@@ -1,55 +1,257 @@
 @import '../../../styles/variables.scss';
 
-.goalGrid {
-    display: grid;
-    grid-template-columns: 5rem 1fr;
-    grid-gap: 1rem;
-    align-items: center;
-    transition: .2s ease;
-    cursor: pointer;
-    border-bottom: solid .2rem transparent;
-    padding-bottom: 2rem;
-    color: $neutral-1;
+// Common
+.categoryPill {
+    background: linear-gradient(to left, transparent, $primary-10);
+    padding: .5rem 1rem;
+    border-radius: 2rem;
+    display: inline-flex;
+    grid-gap: 3rem;
 
-    .imgHolder {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 50%;
+    div {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(transparent, $primary-10);
+        grid-gap: .5rem;
 
         img {
-            max-width: 3rem!important;
-            min-width: 3rem!important;
-            max-height: 3rem!important;
-            min-height: 3rem!important;
+            max-width: 1.25rem!important;
+            min-width: 1.25rem!important;
+            max-height: 1.25rem!important;
+            min-height: 1.25rem!important;
+        }
+
+        svg {
+            width: 1.125rem;
+            height: 1.125rem;
+            color: $primary-5;
+        }
+    }
+}
+
+// Goals Listing
+.goalHolder {
+    background-color: $neutral-11;
+    color: $primary-5;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    transition: .2s ease;
+    position: relative;
+    box-shadow: $shadow-inset;
+
+    &:hover {
+        border-top: .25rem solid;
+        box-shadow: $shadow-inset;
+        transform: translateY(.1rem);
+    }
+
+    .editIcon {
+        position: absolute;
+        top: .75rem;
+        right: .75rem;
+        font-size: 1.25rem;
+        transition: .1s ease;
+
+        &:hover {
+            transform: scale(.9);
         }
     }
 
-    h3 {
-        font-size: 1.25rem;
+    .textHolder {
+        color: $neutral-1;
+        margin-top: .5rem;
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: .25rem;
+        }
+
+        .dueDate {
+            display: flex;
+            align-items: center;
+            grid-gap: .25rem;
+            margin-top: .5rem;
+        }
+    }
+}
+
+// Individual Goals pages
+.goalsPage {
+    .headerSection {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        svg {
+            font-size: 1.5rem;
+            transition: .2s ease;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        .editIcon {
+            color: $neutral-3;
+
+            &:hover {
+                color: $primary-5;
+            }
+        }
+
+        .deleteIcon {
+            font-size: 1.25rem;
+            color: $neutral-3;
+            margin-left: .75rem;
+
+            &:hover {
+                color: $red-5;
+            }
+        }
+    }
+
+    h1 {
+        margin-top: 1.5rem;
         margin-bottom: .5rem;
     }
 
-    .configGoalBtn {
-        display: block;
-        margin-top: .5rem;
-        text-decoration: underline;
+    p {
+        font-size: 1.25rem;
     }
+}
 
-    a {
-        color: $neutral-1;
+.goalConfiguration {
+    margin-top: 2rem;
 
-        &:hover {
-            color: $primary-4;
+    .controls {
+        border-bottom: .1rem solid $neutral-7;
+        display: flex;
+        justify-content: space-between;
+
+        .tabs {
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+
+            > div {
+                padding: .5rem;
+                cursor: pointer;
+                transition: .1s ease;
+            }
+
+            .active {
+                border-bottom: .2rem solid $primary-4;
+                transform: translateY(.1rem);
+            }
+        }
+
+        .addButton {
+            padding: .5rem 1rem;
+            box-shadow: none;
+            font-size: 1rem;
+            margin: .5rem;
+        }
+    }
+}
+
+.noData {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 12rem;
+    font-size: 1.25rem;
+}
+
+// Milestones
+.milestonesTable {
+    margin-top: 2rem;
+    width: 100%;
+
+    tr {
+        text-align: left;
+
+        span {
+            display: block;
+            margin-bottom: .25rem;
         }
     }
 
-    &:hover {
-        transform: translateY(.2rem);
-        border-bottom: solid .2rem $primary-4;
-        border-radius: 1rem;
+    th {
+        border-bottom: .1rem solid $neutral-9;
+        padding: .5rem;
+
+        &:first-child {
+            text-align: center;
+        }
+    }
+
+    td {
+        padding: .5rem;
+        border-bottom: .1rem solid $neutral-9;
+        border-right: .1rem solid $neutral-9;
+
+        &:first-child {
+            text-align: center;
+        }
+
+        &:last-child {
+            border-right: none;
+            text-align: right;
+        }
+
+        svg {
+            color: $neutral-3;
+            font-size: 1.125rem;
+            margin-right: .5rem;
+            transition: .2s ease;
+            cursor: pointer;
+            vertical-align: middle;
+
+            &:hover {
+                transform: scale(1.2);
+                color: $primary-5;
+            }
+        }
+
+        .delete {
+            &:hover {
+                color: $red-5;
+            }
+        }
+    }
+
+    input {
+        border: none;
+        box-shadow: $shadow-inset;
+        border-bottom: .1rem transparent;
+        padding: .25rem .5rem;
+        min-width: 10rem;
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+            border-bottom: .1rem solid $primary-5;
+        }
+    }
+
+    .newMilestone {
+        background: $neutral-9;
+
+        .save {
+            &:hover {
+                color: $green-5;
+            }
+        }
+    }
+
+    .pastMilestone {
+        opacity: .7;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .upcomingMilestone {
+        background: $neutral-11;
     }
 }

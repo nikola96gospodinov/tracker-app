@@ -1,22 +1,17 @@
-import { useRouter } from "next/router"
-
 interface Props {
-    userID: string
+    children: React.ReactNode
 }
 
-const EditIndividualGoal = ({ userID }: Props) => {
-    const router = useRouter()
-    const { goalURL } = router.query
-
+const InitialSection = ({ children }: Props) => {
     return (
         <div className='initial-section'>
             <div className='container'>
                 <div className='initial-section-inner'>
-                    
+                    {children}
                 </div>
             </div>
         </div>
     )
 }
 
-export default EditIndividualGoal
+export default InitialSection

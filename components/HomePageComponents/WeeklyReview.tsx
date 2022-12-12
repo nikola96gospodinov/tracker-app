@@ -1,4 +1,6 @@
-import useGetGoals from '../../pages/goals/hooks/useGetGoals'
+import useGetDocs from '../../hooks/useGetDoc'
+import { GOALS } from '../../pages/goals/constants'
+import { Goal } from '../../pages/goals/interfaces'
 import NoGoals from '../NoGoals'
 import Spinner from '../spinner'
 
@@ -7,7 +9,7 @@ interface Props {
 }
 
 const WeeklyReview = ({ userID }: Props) => {
-    const { goals } = useGetGoals(userID)
+    const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
 
     if (!goals) {
         return (

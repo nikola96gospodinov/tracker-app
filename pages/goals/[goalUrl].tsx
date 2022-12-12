@@ -5,10 +5,10 @@ import Layout from '../../components/layout'
 import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
-import EditIndividualGoal from './components/EditIndividualGoal'
+import IndividualGoalContent from './components/IndividualGoalPage/IndividualGoalContent'
 
 const IndividualGoal: NextPage = () => {
-  const { data: user } = useAuthUser(["user"], auth)
+  const { data: user } = useAuthUser(['user'], auth)
   const isLoading = useUserLogged()
 
   if (isLoading || !user) {
@@ -27,7 +27,7 @@ const IndividualGoal: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        {user && <EditIndividualGoal userID={user.uid}/>}
+        {user && <IndividualGoalContent userID={user.uid}/>}
       </Layout>
     </>
   )

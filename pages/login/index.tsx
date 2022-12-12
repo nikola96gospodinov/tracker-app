@@ -81,12 +81,11 @@ const Login: NextPage = () => {
                     </Link>
                 </span>
                 {
-                    errorMessage ?
+                    errorMessage &&
                         <div className='form-error'>
                             <MdErrorOutline />
                             <span>{errorMessage}</span>
-                        </div> 
-                        : <></>
+                        </div>
                 }
             </div>
         </div>

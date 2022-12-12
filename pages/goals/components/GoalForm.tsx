@@ -1,27 +1,28 @@
-import { collection, doc, setDoc } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
-import { db } from '../../../firebase/firebase'
-import { toKebabCase } from '../../../helpers/string-manipulation-functions'
-import useGetGoals from '../hooks/useGetGoals'
 
+import { toKebabCase } from '../../../helpers/string-manipulation-functions'
+import { addGoal, updateGoal } from '../helpers/crud-operations'
+import useGetDocs from '../../../hooks/useGetDoc'
 import { Goal } from '../interfaces'
+import { GOALS } from '../constants'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
 
 interface Props {
-    setAddGoalsFormOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setGoalsFormOpen: React.Dispatch<React.SetStateAction<boolean>>
     userID: string
+    goal?: Goal
 }
 
-const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [deadline, setDeadline] = useState('')
-    const [category, setCategory] = useState('')
+const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
+    const [name, setName] = useState(goal?.name ?? '')
+    const [description, setDescription] = useState(goal?.description ?? '')
+    const [deadline, setDeadline] = useState(goal?.deadline ?? '')
+    const [category, setCategory] = useState(goal?.category ?? '')
     const [errors, setErrors] = useState({
         nameErr: '',
         categoryErr: false,
@@ -29,38 +30,48 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
     })
     const [triedSubmitting, setTriedSubmitting] = useState(false)
 
-    const { goals } = useGetGoals(userID)
-    const goalsCollection = collection(db, 'goals')
-    const goalsRef = doc(goalsCollection, userID)
-    const goalsNames = useMemo(() => goals?.map((goal: Goal) => goal.name), [goals])
-
-    const addGoal = async (newGoal: Goal) => {
-        if (goals) {
-            try {
-                setDoc(goalsRef, { data: [...goals, newGoal] }, { merge: true })
-                setAddGoalsFormOpen(false)
-            } catch (e) {
-                console.log(e)
-                setErrors({
-                    ...errors,
-                    form: true
-                })
-            }
-        }
-    }
+    const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
+    const goalsNames = useMemo(() => {
+        return goals?.map((goal: Goal) => goal.name)
+            .filter(name => name !== goal?.name)
+    }, [goals, goal?.name])
 
     useEffect(() => {
         if (triedSubmitting) {
             if (!errors.nameErr && !errors.categoryErr && !errors.form) {
-                const newGoal = {
-                    id: uuidv4(),
-                    name,
-                    category,
-                    deadline,
-                    description,
-                    urlPath: toKebabCase(name)
-                } as Goal
-                addGoal(newGoal)
+                if (goal) {
+                    updateGoal({
+                        goals,
+                        goal,
+                        updatedGoal: {
+                            ...goal,
+                            name,
+                            description,
+                            deadline,
+                            category
+                        } as Goal,
+                        userID,
+                        setGoalsFormOpen,
+                        errors,
+                        setErrors
+                    })
+                } else {
+                    addGoal({
+                        goals,
+                        newGoal: {
+                            id: uuidv4(),
+                            name,
+                            category,
+                            deadline,
+                            description,
+                            urlPath: toKebabCase(name)
+                        } as Goal,
+                        userID,
+                        setGoalsFormOpen,
+                        errors,
+                        setErrors
+                    })
+                }
             }
         }
     }, [triedSubmitting, errors.nameErr, errors.categoryErr, errors.form])
@@ -88,9 +99,9 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
             <div className='form-container'>
                 <AiFillCloseCircle
                     className='close'
-                    onClick={() => setAddGoalsFormOpen(false)}    
+                    onClick={() => setGoalsFormOpen(false)}    
                 />
-                <h1>Set a goal</h1>
+                <h1>{ goal ? 'Update' : 'Set a' } goal</h1>
                 <form onSubmit={(e) => FormSubmit(e)}>
                     <label htmlFor='name'>Name</label>
                     <input
@@ -132,7 +143,7 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
                     />
                     <input
                         type='submit'
-                        value='Set goal'
+                        value={`${goal ? 'Update' : 'Set'} Goal`}
                         className='button button-primary'
                     />
                 </form>
@@ -140,7 +151,7 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
                     errors.form &&
                         <div className='form-error'>
                             <MdErrorOutline />
-                            <span>There was an issue setting your goal. Please try again</span>
+                            <span>There was an issue { goal ? 'updating' : 'setting' } your goal. Please try again</span>
                         </div>
                 }
             </div>
@@ -148,4 +159,4 @@ const AddGoalForm = ({ setAddGoalsFormOpen, userID }: Props) => {
     )
 }
 
-export default AddGoalForm
+export default GoalForm
