@@ -7,7 +7,7 @@ import { useAuthSendPasswordResetEmail, useAuthUser } from '@react-query-firebas
 
 import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
-import { validateEmail } from '../register'
+import { validateEmail } from '../../helpers/string-validator-functions'
 
 const ResetPassword: NextPage = () => {
     const { isLoading } = useAuthUser(['user'], auth)
@@ -112,12 +112,11 @@ const ResetPassword: NextPage = () => {
                             </Link>
                         </span>
                         {
-                            errors.form ?
+                            errors.form &&
                                 <div className='form-error'>
                                     <MdErrorOutline />
                                     <span>There was an issue with the registration. Please try again</span>
                                 </div> 
-                                : <></>
                         }
                     </>
                 }

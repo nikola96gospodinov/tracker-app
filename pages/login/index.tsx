@@ -3,8 +3,8 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useAuthSignInWithEmailAndPassword, useAuthUser } from '@react-query-firebase/auth'
-
 import { MdErrorOutline } from 'react-icons/md'
+
 import { auth } from '../../firebase/firebase'
 import Spinner from '../../components/spinner'
 

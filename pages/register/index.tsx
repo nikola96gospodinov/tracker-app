@@ -7,8 +7,7 @@ import { useAuthCreateUserWithEmailAndPassword, useAuthUser } from '@react-query
 
 import { auth } from '../../firebase/firebase'
 import Spinner from '../../components/spinner'
-
-export const validateEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+import { validateEmail } from '../../helpers/string-validator-functions'
 
 const Register: NextPage = () => {
     const { data: user, isLoading } = useAuthUser(["user"], auth)
