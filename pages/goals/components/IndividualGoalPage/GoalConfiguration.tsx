@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { Goal } from '../../interfaces'
 import DailyHabits from './DailyHabits'
-import Milestones from './Milestones'
+import Milestones from './Milestones/Milestones'
 import WeeklyTargets from './WeeklyTargets'
 
 import styles from '../goal.module.scss'
