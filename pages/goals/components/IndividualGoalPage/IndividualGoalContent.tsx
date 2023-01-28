@@ -7,9 +7,9 @@ import Spinner from '../../../../components/spinner'
 import GoalForm from '../GoalForm'
 import useGetDocs from '../../../../hooks/useGetDoc'
 import GoalConfiguration from './GoalConfiguration'
-import DeleteGoal from './DeleteGoal'
 import { Goal } from '../../interfaces'
 import { GOALS } from '../../constants'
+import DeleteDoc from '../../../../components/DeleteDoc'
 
 interface Props {
     userID: string
@@ -30,7 +30,7 @@ const IndividualGoalContent = ({ userID }: Props) => {
         )
     }
 
-    const goal = goals?.find(goal => goal.urlPath === goalUrl)
+    const goal = goals?.find((goal) => goal.urlPath === goalUrl)
 
     if (!goal) {
         return (
@@ -42,9 +42,27 @@ const IndividualGoalContent = ({ userID }: Props) => {
 
     return (
         <InitialSection>
-            <GoalInfo goal={goal} setDeleteWarning={setDeleteWarning} setEditForm={setEditForm} />
-            { editForm && <GoalForm setGoalsFormOpen={setEditForm} userID={userID} goal={goal} /> }
-            { deleteWarning && <DeleteGoal setDeleteWarning={setDeleteWarning} userID={userID} goals={goals} goal={goal} /> }
+            <GoalInfo
+                goal={goal}
+                setDeleteWarning={setDeleteWarning}
+                setEditForm={setEditForm}
+            />
+            {editForm && (
+                <GoalForm
+                    setGoalsFormOpen={setEditForm}
+                    userID={userID}
+                    goal={goal}
+                />
+            )}
+            {deleteWarning && (
+                <DeleteDoc
+                    setDeleteWarning={setDeleteWarning}
+                    userID={userID}
+                    docs={goals}
+                    doc={goal}
+                    path={GOALS}
+                />
+            )}
             <GoalConfiguration goal={goal} />
         </InitialSection>
     )

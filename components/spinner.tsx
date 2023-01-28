@@ -12,7 +12,7 @@ const Spinner = () => {
             }}
         >
             <div className={styles.ldsRipple}><div></div><div></div></div>
-            <p>Loading...</p>
+            <h2>Loading...</h2>
         </div>
     )
 }

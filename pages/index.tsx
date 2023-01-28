@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useAuthUser } from '@react-query-firebase/auth'
-
+ 
 import Spinner from '../components/spinner'
 import Layout from '../components/layout'
 import { auth } from '../firebase/firebase'
@@ -10,7 +10,7 @@ import useUserLogged from '../hooks/useUserLogged'
 import WeeklyReview from '../components/HomePageComponents/WeeklyReview'
 
 const Home: NextPage = () => {
-  const { data: user } = useAuthUser(["user"], auth)
+  const { data: user } = useAuthUser(['user'], auth)
   const isLoading = useUserLogged()
 
   if (isLoading || !user) {

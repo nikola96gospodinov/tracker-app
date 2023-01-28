@@ -140,6 +140,7 @@ export const UpcomingMilestones: React.FunctionComponent<{
         {
           upcomingMilestones?.map(milestone => {
             const isActiveMilestone = milestone.id == activeMilestone?.id
+            console.log(milestone)
   
             return (
               <tr key={milestone.id} className={isActiveMilestone ? styles.newMilestone : styles.upcomingMilestones}>

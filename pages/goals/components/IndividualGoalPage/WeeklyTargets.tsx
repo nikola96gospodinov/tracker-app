@@ -1,16 +1,9 @@
 import React from 'react'
 
 import EmptyContent from './EmptyContent'
+import { TabElementProps } from './interfaces'
 
-interface Props {
-    goalID: string
-    shortName: string
-    newElementAdded: boolean
-    setNewElementAdded: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-
-const WeeklyTargets = ({ goalID, shortName }: Props) => {
+const WeeklyTargets = ({ goalID, shortName }: TabElementProps) => {
   return (
     <div>
       <EmptyContent shortName={shortName} />

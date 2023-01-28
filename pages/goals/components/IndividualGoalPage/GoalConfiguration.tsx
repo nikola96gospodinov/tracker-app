@@ -7,23 +7,23 @@ import WeeklyTargets from './WeeklyTargets'
 
 import styles from '../goal.module.scss'
 
-const DAILY_HABITS = 'Daily Habis'
-const WEEKLY_TARGETS = 'Weekly Targets'
-const MILESTONES = 'Milestones'
+const DAILY_HABITS_CAPITALIZED = 'Daily Habis'
+const WEEKLY_TARGETS_CAPITALIZED = 'Weekly Targets'
+export const MILESTONES_CAPITALIZED = 'Milestones'
 
 const tabs = [
     {
-        name: DAILY_HABITS,
+        name: DAILY_HABITS_CAPITALIZED,
         shortName: 'habits',
         Component: DailyHabits
     },
     {
-        name: WEEKLY_TARGETS,
+        name: WEEKLY_TARGETS_CAPITALIZED,
         shortName: 'targets',
         Component: WeeklyTargets
     },
     {
-        name: MILESTONES,
+        name: MILESTONES_CAPITALIZED,
         shortName: 'milestones',
         Component: Milestones
     }
@@ -36,6 +36,8 @@ interface Props {
 const GoalConfiguration = ({ goal }: Props) => {
     const [activeTab, setActiveTab] = useState<string>(tabs[0].name)
     const [newElementAdded, setNewElementAdded] = useState(false)
+
+    console.log(activeTab)
 
     return (
         <div className={styles.goalConfiguration}>
@@ -62,7 +64,14 @@ const GoalConfiguration = ({ goal }: Props) => {
             <div className={styles.content}>
                 {tabs.map(({ Component, shortName, name }, key) => {
                     if (activeTab === name) {
-                        return <Component key={key} shortName={shortName} goalID={goal.id} newElementAdded={newElementAdded} setNewElementAdded={setNewElementAdded} />
+                        return <Component
+                            key={key}
+                            shortName={shortName}
+                            goalID={goal.id}
+                            newElementAdded={newElementAdded}
+                            setNewElementAdded={setNewElementAdded}
+                            activeTab={activeTab}
+                        />
                     } else {
                         return null
                     }

@@ -4,10 +4,11 @@ import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 
 import { toKebabCase } from '../../../helpers/string-manipulation-functions'
-import { addGoal, updateGoal } from '../helpers/crud-operations'
 import useGetDocs from '../../../hooks/useGetDoc'
 import { Goal } from '../interfaces'
 import { GOALS } from '../constants'
+import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
+import { ErrorsDispatch } from '../../../types/crud-opearations.types'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
@@ -32,56 +33,49 @@ const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
 
     const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
     const goalsNames = useMemo(() => {
-        return goals?.map((goal: Goal) => goal.name)
-            .filter(name => name !== goal?.name)
+        return goals
+            ?.map((goal: Goal) => goal.name)
+            .filter((name) => name !== goal?.name)
     }, [goals, goal?.name])
 
     useEffect(() => {
         if (triedSubmitting) {
             if (!errors.nameErr && !errors.categoryErr && !errors.form) {
-                if (goal) {
-                    updateGoal({
-                        goals,
-                        goal,
-                        updatedGoal: {
-                            ...goal,
-                            name,
-                            description,
-                            deadline,
-                            category
-                        } as Goal,
-                        userID,
-                        setGoalsFormOpen,
-                        errors,
-                        setErrors
-                    })
-                } else {
-                    addGoal({
-                        goals,
-                        newGoal: {
-                            id: uuidv4(),
-                            name,
-                            category,
-                            deadline,
-                            description,
-                            urlPath: toKebabCase(name)
-                        } as Goal,
-                        userID,
-                        setGoalsFormOpen,
-                        errors,
-                        setErrors
-                    })
-                }
+                submitDoc<Goal>({
+                    path: GOALS,
+                    docs: goals!,
+                    orgDoc: goal,
+                    updatedDoc: {
+                        ...goal,
+                        name,
+                        description,
+                        deadline,
+                        category
+                    } as Goal,
+                    newDoc: {
+                        id: uuidv4(),
+                        name,
+                        category,
+                        deadline,
+                        description,
+                        urlPath: toKebabCase(name)
+                    } as Goal,
+                    userID,
+                    setDocsFormOpen: setGoalsFormOpen,
+                    errors,
+                    setErrors: setErrors as ErrorsDispatch
+                })
             }
         }
     }, [triedSubmitting, errors.nameErr, errors.categoryErr, errors.form])
 
-    const FormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
 
         const nameError = () => {
             if (name === '') return 'Please set a name for the goal'
-            if (goalsNames?.includes(name)) return 'Name of the goal must be unique'
+            if (goalsNames?.includes(name))
+                return 'Name of the goal must be unique'
             return ''
         }
 
@@ -99,10 +93,10 @@ const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
             <div className='form-container'>
                 <AiFillCloseCircle
                     className='close'
-                    onClick={() => setGoalsFormOpen(false)}    
+                    onClick={() => setGoalsFormOpen(false)}
                 />
-                <h1>{ goal ? 'Update' : 'Set a' } goal</h1>
-                <form onSubmit={(e) => FormSubmit(e)}>
+                <h1>{goal ? 'Update' : 'Set a'} goal</h1>
+                <form onSubmit={(e) => handleFormSubmit(e)}>
                     <label htmlFor='name'>Name</label>
                     <input
                         id='name'
@@ -110,23 +104,37 @@ const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
-                    {errors.nameErr && <span className='field-error'>{errors.nameErr}</span>}
+                    {errors.nameErr !== '' && (
+                        <span className='field-error'>{errors.nameErr}</span>
+                    )}
                     <label htmlFor='category'>Category</label>
-                    <select id='category' value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <select
+                        id='category'
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
                         <optgroup label='Individual'>
                             <option value='health'>Health</option>
                             <option value='career'>Career</option>
                             <option value='financial'>Financial</option>
-                            <option value='other-personal'>Other (Individual)</option>
+                            <option value='other-personal'>
+                                Other (Individual)
+                            </option>
                         </optgroup>
                         <optgroup label='Collective'>
                             <option value='family'>Family</option>
                             <option value='partner'>Partner</option>
                             <option value='comunity'>Community</option>
-                            <option value='other-collective'>Other (Collective)</option>
+                            <option value='other-collective'>
+                                Other (Collective)
+                            </option>
                         </optgroup>
                     </select>
-                    {errors.categoryErr && <span className='field-error'>Please select a category</span>}
+                    {errors.categoryErr && (
+                        <span className='field-error'>
+                            Please select a category
+                        </span>
+                    )}
                     <label htmlFor='deadline'>Deadline (Optional)</label>
                     <input
                         id='deadline'
@@ -147,13 +155,15 @@ const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
                         className='button button-primary'
                     />
                 </form>
-                {
-                    errors.form &&
-                        <div className='form-error'>
-                            <MdErrorOutline />
-                            <span>There was an issue { goal ? 'updating' : 'setting' } your goal. Please try again</span>
-                        </div>
-                }
+                {errors.form && (
+                    <div className='form-error'>
+                        <MdErrorOutline />
+                        <span>
+                            There was an issue {goal ? 'updating' : 'setting'}{' '}
+                            your goal. Please try again
+                        </span>
+                    </div>
+                )}
             </div>
         </div>
     )

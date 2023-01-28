@@ -14,5 +14,36 @@
         box-shadow: $shadow-hover;
         padding: 3rem;
         margin-bottom: 4rem;
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        
+            h1 {
+                font-size: 2rem;
+            }
+        
+            svg {
+                width: 2rem;
+                height: 2rem;
+                cursor: pointer;
+                color: $primary-4;
+            }
+        }
+        
+        .noContent {
+            display: flex;
+            min-height: 40vh;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        
+            p {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+        }
     }
 }

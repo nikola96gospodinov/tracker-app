@@ -1,7 +1,7 @@
 import useGetDocs from '../../../../hooks/useGetDoc'
-import EmptyGoalsList from './EmptyGoalsList'
+import EmptyContentList from '../../../../components/EmptyContentList'
 import Spinner from '../../../../components/spinner'
-import { GoalBox } from './GoalListing'
+import { GoalBox } from './GoalBox'
 import { Goal } from '../../interfaces'
 import { GOALS } from '../../constants'
 
@@ -25,7 +25,7 @@ const GoalsList = ({ userID, setAddGoalsFormOpen }: Props) => {
         <>
             {
                 goals.length === 0 ?
-                    <EmptyGoalsList setAddGoalsFormOpen={setAddGoalsFormOpen} /> :
+                    <EmptyContentList name={GOALS} setAddFormOpen={setAddGoalsFormOpen} /> :
                     <div className='triple-grid'>
                         { goals.map((goal: Goal) => <GoalBox key={goal.id} goal={goal} />) }
                     </div>

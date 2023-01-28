@@ -1,0 +1,53 @@
+@import '../../../styles/variables.scss';
+
+.habitBox {
+    background: $neutral-11;
+    padding: 1.5rem;
+    box-shadow: $shadow-inset;
+    border-radius: 1rem;
+    transition: .2s ease;
+    border-top: .25rem solid transparent;
+
+    &:hover {
+        border-color: $primary-5;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        margin-bottom: .5rem;
+    }
+
+    p {
+        font-size: 1.125rem;
+    }
+
+    .iconHolder {
+        margin-top: .5rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: .5rem;
+
+        svg {
+            font-size: 1.125rem;
+            transition: .2s ease;
+            cursor: pointer;
+
+            &:hover {
+                scale: 1.1;
+            }
+        }
+
+        .editIcon {
+            font-size: 1.25rem;
+
+            &:hover {
+                color: $primary-5;
+            }
+        }
+
+        .deleteIcon:hover {
+            color: $red-5;
+        }
+    }
+}

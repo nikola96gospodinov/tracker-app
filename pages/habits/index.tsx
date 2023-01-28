@@ -1,20 +1,20 @@
 import { useState } from 'react'
 import { useAuthUser } from '@react-query-firebase/auth'
-import { NextPage } from 'next'
 import { MdAddBox } from 'react-icons/md'
+import { NextPage } from 'next'
 
-import Layout from '../../components/layout'
 import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
-import GoalsList from './components/GoalsList/GoalsList'
-import GoalForm from './components/GoalForm'
 import InitialSection from '../../components/InitialSection'
+import Layout from '../../components/layout'
+import HabitForm from './components/HabitForm'
+import HabitsList from './components/HabitsList/HabitsList'
 
-const Goals: NextPage = () => {
-    const { data: user } = useAuthUser(["user"], auth)
+const Habits: NextPage = () => {
+    const { data: user } = useAuthUser(['user'], auth)
     const isLoading = useUserLogged()
-    const [addGoalsFormOpen, setAddGoalsFormOpen] = useState(false)
+    const [addHabitsFormOpen, setAddHabitsFormOpen] = useState(false)
 
     if (isLoading || !user) {
         return (
@@ -29,15 +29,15 @@ const Goals: NextPage = () => {
             <Layout>
                 <InitialSection>
                     <div className='header'>
-                        <h1>My Goals</h1>
-                        <MdAddBox onClick={() => setAddGoalsFormOpen(true)} />
+                        <h1>My Habits</h1>
+                        <MdAddBox onClick={() => setAddHabitsFormOpen(true)} />
                     </div>
-                    {user && <GoalsList userID={user.uid} setAddGoalsFormOpen={setAddGoalsFormOpen} />}
-                    {addGoalsFormOpen && user && <GoalForm setGoalsFormOpen={setAddGoalsFormOpen} userID={user.uid} />}
+                    {user && <HabitsList userID={user.uid} setAddHabitsFormOpen={setAddHabitsFormOpen} />}
+                    {addHabitsFormOpen && <HabitForm setHabitsFormOpen={setAddHabitsFormOpen} userID={user.uid}/>}
                 </InitialSection>
             </Layout>
         </>
     )
 }
 
-export default Goals
+export default Habits
