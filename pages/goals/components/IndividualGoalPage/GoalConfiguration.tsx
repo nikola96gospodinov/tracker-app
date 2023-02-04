@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Goal } from '../../interfaces'
+import { Goal } from '../../types'
 import DailyHabits from './DailyHabits'
 import Milestones from './Milestones/Milestones'
 import WeeklyTargets from './WeeklyTargets'
@@ -37,8 +37,6 @@ const GoalConfiguration = ({ goal }: Props) => {
     const [activeTab, setActiveTab] = useState<string>(tabs[0].name)
     const [newElementAdded, setNewElementAdded] = useState(false)
 
-    console.log(activeTab)
-
     return (
         <div className={styles.goalConfiguration}>
             <div className={styles.controls}>
@@ -48,30 +46,42 @@ const GoalConfiguration = ({ goal }: Props) => {
                             key={key}
                             onClick={() => {
                                 setActiveTab(tab.name)
-                                if (tab.name !== activeTab) setNewElementAdded(false)
+                                if (tab.name !== activeTab)
+                                    setNewElementAdded(false)
                             }}
-                            className={activeTab === tab.name ? styles.active : undefined}
+                            className={
+                                activeTab === tab.name
+                                    ? styles.active
+                                    : undefined
+                            }
                         >
                             {tab.name}
                         </div>
                     ))}
                 </div>
                 <div>
-                    <button className={`button button-primary ${styles.addButton}`} onClick={() => setNewElementAdded(true)}>New +</button>
+                    <button
+                        className={`button button-primary ${styles.addButton}`}
+                        onClick={() => setNewElementAdded(true)}
+                    >
+                        New +
+                    </button>
                 </div>
             </div>
 
             <div className={styles.content}>
                 {tabs.map(({ Component, shortName, name }, key) => {
                     if (activeTab === name) {
-                        return <Component
-                            key={key}
-                            shortName={shortName}
-                            goalID={goal.id}
-                            newElementAdded={newElementAdded}
-                            setNewElementAdded={setNewElementAdded}
-                            activeTab={activeTab}
-                        />
+                        return (
+                            <Component
+                                key={key}
+                                shortName={shortName}
+                                goalID={goal.id}
+                                newElementAdded={newElementAdded}
+                                setNewElementAdded={setNewElementAdded}
+                                activeTab={activeTab}
+                            />
+                        )
                     } else {
                         return null
                     }

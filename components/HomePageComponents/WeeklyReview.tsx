@@ -1,6 +1,6 @@
 import useGetDocs from '../../hooks/useGetDoc'
 import { GOALS } from '../../pages/goals/constants'
-import { Goal } from '../../pages/goals/interfaces'
+import { Goal } from '../../pages/goals/types'
 import NoGoals from '../NoGoals'
 import Spinner from '../spinner'
 
@@ -14,12 +14,12 @@ const WeeklyReview = ({ userID }: Props) => {
     if (!goals) {
         return (
             <div className='initial-section'>
-            <div className='container'>
-                <div className='initial-section-inner'>
-                    <Spinner />
+                <div className='container'>
+                    <div className='initial-section-inner'>
+                        <Spinner />
+                    </div>
                 </div>
             </div>
-        </div>
         )
     }
 
@@ -27,11 +27,11 @@ const WeeklyReview = ({ userID }: Props) => {
         <div className='initial-section'>
             <div className='container'>
                 <div className='initial-section-inner'>
-                    {
-                        goals.length === 0 ?
+                    {goals.length === 0 ? (
                         <NoGoals />
-                        : <>Here are your goals {goals.length}</>
-                    }
+                    ) : (
+                        <>Here are your goals {goals.length}</>
+                    )}
                 </div>
             </div>
         </div>

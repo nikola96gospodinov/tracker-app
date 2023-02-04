@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { toKebabCase } from '../../../helpers/string-manipulation-functions'
 import useGetDocs from '../../../hooks/useGetDoc'
-import { Goal } from '../interfaces'
+import { Goal } from '../types'
 import { GOALS } from '../constants'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
 import { ErrorsDispatch } from '../../../types/crud-opearations.types'
@@ -113,6 +113,12 @@ const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >
+                        <option
+                            value=''
+                            disabled
+                            selected
+                            style={{ opacity: 0.5 }}
+                        ></option>
                         <optgroup label='Individual'>
                             <option value='health'>Health</option>
                             <option value='career'>Career</option>
@@ -129,6 +135,11 @@ const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
                                 Other (Collective)
                             </option>
                         </optgroup>
+                        <option
+                            value=''
+                            disabled
+                            style={{ opacity: 0.5 }}
+                        ></option>
                     </select>
                     {errors.categoryErr && (
                         <span className='field-error'>

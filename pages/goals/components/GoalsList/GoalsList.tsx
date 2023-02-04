@@ -2,7 +2,7 @@ import useGetDocs from '../../../../hooks/useGetDoc'
 import EmptyContentList from '../../../../components/EmptyContentList'
 import Spinner from '../../../../components/spinner'
 import { GoalBox } from './GoalBox'
-import { Goal } from '../../interfaces'
+import { Goal } from '../../types'
 import { GOALS } from '../../constants'
 
 interface Props {
@@ -11,7 +11,10 @@ interface Props {
 }
 
 const GoalsList = ({ userID, setAddGoalsFormOpen }: Props) => {
-    const { docs: goals, errorFetching } = useGetDocs<Goal>({ userID, path: GOALS })
+    const { docs: goals, errorFetching } = useGetDocs<Goal>({
+        userID,
+        path: GOALS
+    })
 
     if (errorFetching) {
         return <p>There was an error</p>
@@ -23,13 +26,18 @@ const GoalsList = ({ userID, setAddGoalsFormOpen }: Props) => {
 
     return (
         <>
-            {
-                goals.length === 0 ?
-                    <EmptyContentList name={GOALS} setAddFormOpen={setAddGoalsFormOpen} /> :
-                    <div className='triple-grid'>
-                        { goals.map((goal: Goal) => <GoalBox key={goal.id} goal={goal} />) }
-                    </div>
-            }
+            {goals.length === 0 ? (
+                <EmptyContentList
+                    name={GOALS}
+                    setAddFormOpen={setAddGoalsFormOpen}
+                />
+            ) : (
+                <div className='triple-grid'>
+                    {goals.map((goal: Goal) => (
+                        <GoalBox key={goal.id} goal={goal} />
+                    ))}
+                </div>
+            )}
         </>
     )
 }

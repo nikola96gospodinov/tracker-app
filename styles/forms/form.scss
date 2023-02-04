@@ -7,13 +7,13 @@
 .form-container {
     background-color: $neutral-10;
     min-width: 25rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     box-shadow: $shadow-inset;
     padding: 3rem;
     padding-top: 2.5rem;
     display: flex;
     flex-direction: column;
-    border-top: .5rem solid $primary-4;
+    border-top: 0.5rem solid $primary-4;
     position: relative;
 
     .close {
@@ -21,17 +21,17 @@
         width: 2rem;
         height: 2rem;
         cursor: pointer;
-        right: -.75rem;
+        right: -0.75rem;
         top: -1.25rem;
         color: $neutral-1;
         border-radius: 50%;
         background: $neutral-10;
         box-shadow: $shadow-main;
-        transition: .2s ease;
+        transition: 0.2s ease;
 
         &:hover {
             box-shadow: $shadow-hover;
-            transform: translateY(.1rem);
+            transform: translateY(0.1rem);
         }
     }
 
@@ -46,7 +46,7 @@
 
     label {
         font-size: 1.125rem;
-        margin-bottom: .25rem;
+        margin-bottom: 0.25rem;
         margin-top: 1rem;
 
         &:first-of-type {
@@ -54,9 +54,15 @@
         }
     }
 
-    input[type='email'], input[type='password'], input[type='text'], input[type='date'], textarea, select {
-        padding: .5rem;
-        border-radius: .5rem;
+    input[type='email'],
+    input[type='password'],
+    input[type='text'],
+    input[type='date'],
+    input[type='number'],
+    textarea,
+    select {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
         border: none;
         background: $neutral-9;
         box-shadow: $shadow-inset;
@@ -68,7 +74,8 @@
     }
 
     select {
-        background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat 97.5% $neutral-9;
+        background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png)
+            no-repeat 97.5% $neutral-9;
         -webkit-appearance: none;
         -moz-appearance: none;
     }
@@ -92,6 +99,54 @@
             display: inline;
         }
     }
+
+    .radio-holder {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        p {
+            font-size: 1.125rem;
+            margin-right: 0.25rem;
+        }
+
+        label {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        input[type='radio'] {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            color: $primary-4;
+            width: 1rem;
+            height: 1rem;
+            border: 0.1rem solid $primary-4;
+            border-radius: 50%;
+            display: grid;
+            place-content: center;
+
+            &::before {
+                content: '';
+                width: 0.6rem;
+                height: 0.6rem;
+                border-radius: 50%;
+                transform: scale(0);
+                transition: 120ms transform ease-in-out;
+                box-shadow: inset 1rem 1rem $primary-4;
+            }
+
+            &:checked::before {
+                transform: scale(1);
+            }
+        }
+    }
 }
 
 .form-error {
@@ -103,18 +158,18 @@
     justify-content: center;
     background: $red-10;
     padding: 1rem;
-    border-radius: .5rem;
-    border: .1rem solid $red-4;
+    border-radius: 0.5rem;
+    border: 0.1rem solid $red-4;
 
     svg {
         width: 2rem;
         height: 2rem;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
     }
 }
 
 .error-span {
-    font-size: .875rem;
+    font-size: 0.875rem;
 
     li {
         margin-left: 1rem;
@@ -123,5 +178,5 @@
 
 .field-error {
     color: $red-4;
-    font-size: .875rem;
+    font-size: 0.875rem;
 }

@@ -5,8 +5,8 @@
     padding: 1.5rem;
     box-shadow: $shadow-inset;
     border-radius: 1rem;
-    transition: .2s ease;
-    border-top: .25rem solid transparent;
+    transition: 0.2s ease;
+    border-top: 0.25rem solid transparent;
 
     &:hover {
         border-color: $primary-5;
@@ -14,23 +14,24 @@
 
     h3 {
         font-size: 1.25rem;
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
     }
 
     p {
         font-size: 1.125rem;
+        margin-bottom: 0.25rem;
     }
 
     .iconHolder {
-        margin-top: .5rem;
+        margin-top: 0.25rem;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: .5rem;
+        gap: 0.5rem;
 
         svg {
             font-size: 1.125rem;
-            transition: .2s ease;
+            transition: 0.2s ease;
             cursor: pointer;
 
             &:hover {

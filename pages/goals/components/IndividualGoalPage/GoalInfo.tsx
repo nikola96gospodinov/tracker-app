@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { formatDateFromString } from '../../../../helpers/date-manipulation-functions'
 import { capitalizeFirstLetter } from '../../../../helpers/string-manipulation-functions'
 import { goalsIcons } from '../../constants'
-import { Goal } from '../../interfaces'
+import { Goal } from '../../types'
 
 import styles from '../goal.module.scss'
 
@@ -25,15 +25,16 @@ const GoalInfo = ({ goal, setEditForm, setDeleteWarning }: Props) => {
             <div className={styles.headerSection}>
                 <div className={styles.categoryPill}>
                     <div>
-                        <Image
-                            src={icon.src}
-                            alt={icon.alt}
-                        />
+                        <Image src={icon.src} alt={icon.alt} />
                         <span>{capitalizeFirstLetter(goal.category)}</span>
                     </div>
                     <div>
                         <BsFillCalendar2CheckFill />
-                        <span>{goal.deadline ? formatDateFromString(goal.deadline)  : 'N/A'}</span>
+                        <span>
+                            {goal.deadline
+                                ? formatDateFromString(goal.deadline)
+                                : 'N/A'}
+                        </span>
                     </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>

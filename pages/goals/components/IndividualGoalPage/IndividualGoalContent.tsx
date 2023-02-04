@@ -7,7 +7,7 @@ import Spinner from '../../../../components/spinner'
 import GoalForm from '../GoalForm'
 import useGetDocs from '../../../../hooks/useGetDoc'
 import GoalConfiguration from './GoalConfiguration'
-import { Goal } from '../../interfaces'
+import { Goal } from '../../types'
 import { GOALS } from '../../constants'
 import DeleteDoc from '../../../../components/DeleteDoc'
 

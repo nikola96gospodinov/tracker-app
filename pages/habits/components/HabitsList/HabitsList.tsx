@@ -2,7 +2,7 @@ import EmptyContentList from '../../../../components/EmptyContentList'
 import Spinner from '../../../../components/spinner'
 import useGetDocs from '../../../../hooks/useGetDoc'
 import { HABITS } from '../../constants'
-import { Habit } from '../../interfaces'
+import { Habit } from '../../types'
 import { HabitBox } from './HabitBox'
 
 interface Props {
@@ -11,7 +11,10 @@ interface Props {
 }
 
 const HabitsList = ({ userID, setAddHabitsFormOpen }: Props) => {
-    const { docs: habits, errorFetching } = useGetDocs<Habit>({ userID, path: HABITS })
+    const { docs: habits, errorFetching } = useGetDocs<Habit>({
+        userID,
+        path: HABITS
+    })
 
     if (errorFetching) {
         return <p>There was an error</p>
@@ -23,13 +26,22 @@ const HabitsList = ({ userID, setAddHabitsFormOpen }: Props) => {
 
     return (
         <>
-            {
-                habits.length === 0 ?
-                    <EmptyContentList name={HABITS} setAddFormOpen={setAddHabitsFormOpen} /> :
-                    <div className='triple-grid'>
-                        { habits.map((habit: Habit) => <HabitBox key={habit.id} habit={habit} userID={userID} />) }
-                    </div>
-            }
+            {habits.length === 0 ? (
+                <EmptyContentList
+                    name={HABITS}
+                    setAddFormOpen={setAddHabitsFormOpen}
+                />
+            ) : (
+                <div className='triple-grid'>
+                    {habits.map((habit: Habit) => (
+                        <HabitBox
+                            key={habit.id}
+                            habit={habit}
+                            userID={userID}
+                        />
+                    ))}
+                </div>
+            )}
         </>
     )
 }

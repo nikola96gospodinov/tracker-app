@@ -1,5 +1,5 @@
-import { Goal } from '../pages/goals/interfaces'
-import { Habit } from '../pages/habits/interfaces'
+import { Goal } from '../pages/goals/types'
+import { Habit } from '../pages/habits/types'
 
 export type Doc = Goal | Habit
 export interface Errors {

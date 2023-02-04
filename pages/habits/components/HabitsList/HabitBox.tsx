@@ -6,7 +6,7 @@ import DeleteDoc from '../../../../components/DeleteDoc'
 import Spinner from '../../../../components/spinner'
 import useGetDocs from '../../../../hooks/useGetDoc'
 import { HABITS } from '../../constants'
-import { Habit } from '../../interfaces'
+import { Habit } from '../../types'
 import style from '../habit.module.scss'
 import HabitForm from '../HabitForm'
 
@@ -25,6 +25,15 @@ export const HabitBox: React.FunctionComponent<{
             <div className={style.habitBox}>
                 <h3>{habit.name}</h3>
                 <p>{habit.description}</p>
+                <p>
+                    <strong>Target:</strong> {habit.target} {habit.metric}{' '}
+                    {habit.type}
+                </p>
+                <p>
+                    <strong>Longest Streak:</strong> {habit.longestStreak}
+                </p>
+
+                <div className={style.type}></div>
                 <div className={style.iconHolder}>
                     <AiTwotoneEdit
                         className={style.editIcon}
