@@ -5,21 +5,25 @@ import DeleteDoc from '../../../components/DeleteDoc'
 import InitialSection from '../../../components/InitialSection'
 import Spinner from '../../../components/UIElements/spinner'
 import useGetDocs from '../../../hooks/useGetDoc'
+import useUserLogged from '../../../hooks/useUserLogged'
 import { HABITS } from '../../../pages/habits//constants'
 import { Habit } from '../../../pages/habits//types'
 import HabitForm from '../HabitForm'
 import HabitInfo from './HabitInfo'
 
-const IndividualHabitContent: React.FunctionComponent<{
-    userID: string
-}> = ({ userID }) => {
+const IndividualHabitContent = () => {
+    const { user } = useUserLogged()
+    const userID = user?.uid
     const router = useRouter()
     const { habitUrl } = router.query
-    const { docs: habits } = useGetDocs<Habit>({ userID, path: HABITS })
+    const { docs: habits } = useGetDocs<Habit>({
+        userID: userID ?? '',
+        path: HABITS
+    })
     const [editForm, setEditForm] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
 
-    if (!habits) {
+    if (!habits || !userID) {
         return (
             <InitialSection>
                 <Spinner />

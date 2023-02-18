@@ -1,5 +1,4 @@
 import React, { useMemo, useCallback, useState } from 'react'
-import { useAuthUser } from '@react-query-firebase/auth'
 
 import EmptyContent from '../EmptyContent'
 import useGetDocs from '../../../../hooks/useGetDoc'
@@ -21,6 +20,7 @@ import { Errors } from './Errors'
 import { PastMilestones } from './PastMilestones'
 import { TableHeader } from './TableHeader'
 import { UpcomingMilestones } from './UpcomingMilestones'
+import useUserLogged from '../../../../hooks/useUserLogged'
 
 const Milestones: React.FunctionComponent<TabElementProps> = ({
     goalID,
@@ -29,7 +29,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     setNewElementAdded,
     activeTab
 }) => {
-    const { data: user } = useAuthUser(['user'], auth)
+    const { user } = useUserLogged()
     const { docs: milestones, errorFetching } = useGetDocs<Milestone>({
         userID: user?.uid ?? '',
         path: MILESTONES

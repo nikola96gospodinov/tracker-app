@@ -1,8 +1,7 @@
-import { useAuthUser } from '@react-query-firebase/auth'
 import React from 'react'
 
-import { auth } from '../../../../firebase/firebase'
 import useGetDocs from '../../../../hooks/useGetDoc'
+import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../../pages/habits/constants'
 import { Habit } from '../../../../pages/habits/types'
 import EmptyContent from '../EmptyContent'
@@ -17,7 +16,7 @@ const DailyHabits: React.FunctionComponent<TabElementProps> = ({
     activeTab,
     goal
 }) => {
-    const { data: user } = useAuthUser(['user'], auth)
+    const { user } = useUserLogged()
     const { docs: allHabits, errorFetching } = useGetDocs<Habit>({
         userID: user?.uid ?? '',
         path: HABITS

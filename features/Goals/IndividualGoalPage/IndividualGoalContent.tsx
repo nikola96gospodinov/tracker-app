@@ -10,20 +10,24 @@ import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../../../pages/goals/types'
 import { GOALS } from '../../../pages/goals/constants'
 import DeleteDoc from '../../../components/DeleteDoc'
+import useUserLogged from '../../../hooks/useUserLogged'
 
-const IndividualGoalContent: React.FunctionComponent<{
-    userID: string
-}> = ({ userID }) => {
+const IndividualGoalContent = () => {
+    const { user } = useUserLogged()
+    const userID = user?.uid
     const router = useRouter()
     const { goalUrl } = router.query
-    const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
+    const { docs: goals } = useGetDocs<Goal>({
+        userID: userID ?? '',
+        path: GOALS
+    })
     const [editForm, setEditForm] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
 
-    if (!goals) {
+    if (!goals || !userID) {
         return (
             <InitialSection>
-                <Spinner />
+                <Spinner size={10} />
             </InitialSection>
         )
     }

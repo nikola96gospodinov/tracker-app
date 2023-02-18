@@ -1,5 +1,6 @@
 import { collection, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
+
 import { db } from '../firebase/firebase'
 
 interface DocData<T> {
@@ -21,7 +22,8 @@ const useGetDocs = <T,>({ userID, path }: Props) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onSnapshot(docsRef,
+        const unsubscribe = onSnapshot(
+            docsRef,
             (docsSnapshot) => {
                 const docsExists = docsSnapshot?.exists()
                 const docsData = docsSnapshot?.data() as DocData<T>

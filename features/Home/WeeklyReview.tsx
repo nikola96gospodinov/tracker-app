@@ -3,11 +3,15 @@ import { GOALS } from '../../pages/goals/constants'
 import { Goal } from '../../pages/goals/types'
 import NoGoals from '../../components/NoGoals'
 import Spinner from '../../components/UIElements/spinner'
+import useUserLogged from '../../hooks/useUserLogged'
 
-const WeeklyReview: React.FunctionComponent<{
-    userID: string
-}> = ({ userID }) => {
-    const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
+const WeeklyReview = () => {
+    const { user } = useUserLogged()
+    const userID = user?.uid
+    const { docs: goals } = useGetDocs<Goal>({
+        userID: userID ?? '',
+        path: GOALS
+    })
 
     if (!goals) {
         return (

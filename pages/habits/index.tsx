@@ -1,17 +1,13 @@
-import { useState } from 'react'
-import { MdAddBox } from 'react-icons/md'
 import { NextPage } from 'next'
+import Head from 'next/head'
 
 import Spinner from '../../components/UIElements/spinner'
 import useUserLogged from '../../hooks/useUserLogged'
-import InitialSection from '../../components/InitialSection'
 import Layout from '../../components/Layout/layout'
-import HabitForm from '../../features/Habits/HabitForm'
-import HabitsList from '../../features/Habits/HabitsList/HabitsList'
+import { HabitsContent } from '../../features/Habits/HabitsContent'
 
 const Habits: NextPage = () => {
     const { user, isLoading } = useUserLogged()
-    const [addHabitsFormOpen, setAddHabitsFormOpen] = useState(false)
 
     if (isLoading || !user) {
         return (
@@ -23,25 +19,13 @@ const Habits: NextPage = () => {
 
     return (
         <>
+            <Head>
+                <title>Habits</title>
+                <meta name='description' content='Dashboard' />
+                <link rel='icon' href='/favicon.ico' />
+            </Head>
             <Layout>
-                <InitialSection>
-                    <div className='header'>
-                        <h1>My Habits</h1>
-                        <MdAddBox onClick={() => setAddHabitsFormOpen(true)} />
-                    </div>
-                    {user && (
-                        <HabitsList
-                            userID={user.uid}
-                            setAddHabitsFormOpen={setAddHabitsFormOpen}
-                        />
-                    )}
-                    {addHabitsFormOpen && (
-                        <HabitForm
-                            setHabitsFormOpen={setAddHabitsFormOpen}
-                            userID={user.uid}
-                        />
-                    )}
-                </InitialSection>
+                <HabitsContent />
             </Layout>
         </>
     )
