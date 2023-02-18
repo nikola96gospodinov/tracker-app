@@ -1,17 +1,16 @@
 import { NextPage } from 'next/types'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useState } from 'react'
 import Link from 'next/link'
 import { MdErrorOutline } from 'react-icons/md'
-import { useAuthSendPasswordResetEmail, useAuthUser } from '@react-query-firebase/auth'
 
 import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
+import useUserLogged from '../../hooks/useUserLogged'
+import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth'
 
 const ResetPassword: NextPage = () => {
-    const { isLoading } = useAuthUser(['user'], auth)
-    const router = useRouter()
+    const { isLoading } = useUserLogged()
 
     const [email, setEmail] = useState('')
     const [errors, setErrors] = useState({
@@ -19,22 +18,13 @@ const ResetPassword: NextPage = () => {
         form: false
     })
     const [isSuccess, setIsSuccess] = useState(false)
-    const passReset = useAuthSendPasswordResetEmail(auth, {
-        onSuccess() {
-            setIsSuccess(true)
-        },
-        onError() {
-            setErrors({
-                ...errors,
-                form: true
-            })
-        }
-    })
+    const [sendPasswordResetEmail, isLoadindReseting, error] =
+        useSendPasswordResetEmail(auth)
 
-    const sendResetEmail = (e: React.FormEvent<HTMLFormElement>): void => {
+    const sendResetEmail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (email.match(validateEmail)) {
-            passReset.mutate({ email })
+            await sendPasswordResetEmail(email)
         } else {
             setErrors({
                 ...errors,
@@ -54,36 +44,39 @@ const ResetPassword: NextPage = () => {
     return (
         <div className='full-screen-centered form-background'>
             <div className='form-container'>
-                {
-                    isSuccess ?
+                {isSuccess ? (
                     <>
                         <span
                             style={{
                                 fontSize: '1.25rem',
                                 textAlign: 'center'
                             }}
-                        >An email with instructions for reseting your password has been sent to your email.</span>
+                        >
+                            An email with instructions for reseting your
+                            password has been sent to your email.
+                        </span>
                         <span
                             style={{
                                 paddingTop: '.5rem',
                                 textAlign: 'center',
                                 paddingBottom: '1rem'
                             }}
-                        >Make sure to check your spam folder if you can{'\''}t find the email.</span>
-                        <span
-                            className='redirect'
                         >
+                            Make sure to check your spam folder if you can{"'"}t
+                            find the email.
+                        </span>
+                        <span className='redirect'>
                             <Link href='/'>
-                                <a className='button button-primary'>Back to homepage</a>
+                                <a className='button button-primary'>
+                                    Back to homepage
+                                </a>
                             </Link>
                         </span>
                     </>
-                    :
+                ) : (
                     <>
                         <h1>Reset Password</h1>
-                        <form
-                            onSubmit={(e) => sendResetEmail(e)}
-                        >
+                        <form onSubmit={(e) => sendResetEmail(e)}>
                             <label htmlFor='email'>Email</label>
                             <input
                                 id='email'
@@ -91,35 +84,36 @@ const ResetPassword: NextPage = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            {
-                                errors.email ?
-                                <span className='field-error'>Please enter a valid email</span> :
+                            {errors.email ? (
+                                <span className='field-error'>
+                                    Please enter a valid email
+                                </span>
+                            ) : (
                                 <></>
-                                
-                            }
+                            )}
                             <input
                                 type='submit'
                                 value='Reset password'
                                 className='button button-primary'
                             />
                         </form>
-                        <span
-                            className='redirect'
-                        >
-                            Don&#39;t have an account?&nbsp; 
+                        <span className='redirect'>
+                            Don&#39;t have an account?&nbsp;
                             <Link href='/register'>
                                 <a className='button button-link'>Sign up</a>
                             </Link>
                         </span>
-                        {
-                            errors.form &&
-                                <div className='form-error'>
-                                    <MdErrorOutline />
-                                    <span>There was an issue with the registration. Please try again</span>
-                                </div> 
-                        }
+                        {errors.form && (
+                            <div className='form-error'>
+                                <MdErrorOutline />
+                                <span>
+                                    There was an issue with the registration.
+                                    Please try again
+                                </span>
+                            </div>
+                        )}
                     </>
-                }
+                )}
             </div>
         </div>
     )

@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { useAuthUser } from '@react-query-firebase/auth'
 import { MdAddBox } from 'react-icons/md'
 import { NextPage } from 'next'
 
 import Spinner from '../../components/spinner'
-import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
 import InitialSection from '../../components/InitialSection'
 import Layout from '../../components/Layout/layout'
@@ -12,8 +10,7 @@ import HabitForm from '../../features/Habits/HabitForm'
 import HabitsList from '../../features/Habits/HabitsList/HabitsList'
 
 const Habits: NextPage = () => {
-    const { data: user } = useAuthUser(['user'], auth)
-    const isLoading = useUserLogged()
+    const { user, isLoading } = useUserLogged()
     const [addHabitsFormOpen, setAddHabitsFormOpen] = useState(false)
 
     if (isLoading || !user) {

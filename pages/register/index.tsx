@@ -3,14 +3,15 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { MdErrorOutline } from 'react-icons/md'
-import { useAuthCreateUserWithEmailAndPassword, useAuthUser } from '@react-query-firebase/auth'
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
 import { auth } from '../../firebase/firebase'
 import Spinner from '../../components/spinner'
 import { validateEmail } from '../../helpers/string-validator-functions'
+import useUserLogged from '../../hooks/useUserLogged'
 
 const Register: NextPage = () => {
-    const { data: user, isLoading } = useAuthUser(["user"], auth)
+    const { user, isLoading } = useUserLogged()
     const router = useRouter()
 
     const [email, setEmail] = useState('')
@@ -27,33 +28,44 @@ const Register: NextPage = () => {
         number: false
     })
     const [triedSubmitting, setTriedSubmitting] = useState(false)
-    const register = useAuthCreateUserWithEmailAndPassword(auth, {
-        onSuccess() {
-            setEmail('')
-            setPassword('')
-            setConfirmPassword('')
-            router.push('/')
-        },
-        onError() {
-            setErrors({
-                ...errors,
-                form: true
-            })
-        }
-    })
+    const [createUserWithEmailAndPassword, _user, isLoadingRegister, error] =
+        useCreateUserWithEmailAndPassword(auth)
 
     useEffect(() => {
         if (user) router.push('/')
     }, [user])
 
     useEffect(() => {
+        if (error) {
+            setErrors({
+                ...errors,
+                form: true
+            })
+        }
+    }, [error])
+
+    useEffect(() => {
         if (triedSubmitting) {
-            if (!errors.email && !errors.confirmPassword && !errors.form && !passwordErrors.minLength && !passwordErrors.letter && !passwordErrors.number) {
-                register.mutate({ email, password })
+            if (
+                !errors.email &&
+                !errors.confirmPassword &&
+                !errors.form &&
+                !passwordErrors.minLength &&
+                !passwordErrors.letter &&
+                !passwordErrors.number
+            ) {
+                createUserWithEmailAndPassword(email, password)
             }
         }
-    }, [errors.email, errors.confirmPassword, errors.form, passwordErrors.minLength, passwordErrors.letter, passwordErrors.number, triedSubmitting])
-
+    }, [
+        errors.email,
+        errors.confirmPassword,
+        errors.form,
+        passwordErrors.minLength,
+        passwordErrors.letter,
+        passwordErrors.number,
+        triedSubmitting
+    ])
 
     const FormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
@@ -79,7 +91,7 @@ const Register: NextPage = () => {
             </div>
         )
     }
- 
+
     return (
         <div className='full-screen-centered form-background'>
             <div className='form-container'>
@@ -92,7 +104,11 @@ const Register: NextPage = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    {errors.email && <span className='field-error'>Please enter a valid email</span>}
+                    {errors.email && (
+                        <span className='field-error'>
+                            Please enter a valid email
+                        </span>
+                    )}
                     <label htmlFor='password'>Password</label>
                     <input
                         id='password'
@@ -100,17 +116,42 @@ const Register: NextPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    {
-                        (passwordErrors.letter || passwordErrors.minLength || passwordErrors.number) &&
+                    {(passwordErrors.letter ||
+                        passwordErrors.minLength ||
+                        passwordErrors.number) && (
                         <span className='error-span'>
                             Your password must:
                             <ul>
-                                <li className={passwordErrors.minLength ? 'field-error' : ''}>be at least 6 characters</li>
-                                <li className={passwordErrors.letter ? 'field-error' : ''}>contain at least one letter</li>
-                                <li className={passwordErrors.number ? 'field-error' : ''}>contain at least on number</li>
+                                <li
+                                    className={
+                                        passwordErrors.minLength
+                                            ? 'field-error'
+                                            : ''
+                                    }
+                                >
+                                    be at least 6 characters
+                                </li>
+                                <li
+                                    className={
+                                        passwordErrors.letter
+                                            ? 'field-error'
+                                            : ''
+                                    }
+                                >
+                                    contain at least one letter
+                                </li>
+                                <li
+                                    className={
+                                        passwordErrors.number
+                                            ? 'field-error'
+                                            : ''
+                                    }
+                                >
+                                    contain at least on number
+                                </li>
                             </ul>
                         </span>
-                    }
+                    )}
                     <label htmlFor='confirm-password'>Confirm Password</label>
                     <input
                         id='confirm-password'
@@ -118,28 +159,32 @@ const Register: NextPage = () => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    {errors.confirmPassword && <span className='field-error'>Passwords must match</span>}
+                    {errors.confirmPassword && (
+                        <span className='field-error'>
+                            Passwords must match
+                        </span>
+                    )}
                     <input
                         type='submit'
                         value='Register'
                         className='button button-primary'
                     />
                 </form>
-                <span
-                    className='redirect'
-                >
-                    Already have an account?&nbsp; 
+                <span className='redirect'>
+                    Already have an account?&nbsp;
                     <Link href='/login'>
                         <a className='button button-link'>Login</a>
                     </Link>
                 </span>
-                {
-                    errors.form &&
-                        <div className='form-error'>
-                            <MdErrorOutline />
-                            <span>There was an issue with the registration. Please try again</span>
-                        </div>
-                }
+                {errors.form && (
+                    <div className='form-error'>
+                        <MdErrorOutline />
+                        <span>
+                            There was an issue with the registration. Please try
+                            again
+                        </span>
+                    </div>
+                )}
             </div>
         </div>
     )

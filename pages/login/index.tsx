@@ -2,35 +2,34 @@ import Link from 'next/link'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useAuthSignInWithEmailAndPassword, useAuthUser } from '@react-query-firebase/auth'
 import { MdErrorOutline } from 'react-icons/md'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
 import { auth } from '../../firebase/firebase'
 import Spinner from '../../components/spinner'
+import useUserLogged from '../../hooks/useUserLogged'
 
 const Login: NextPage = () => {
-    const { data: user, isLoading } = useAuthUser(["user"], auth)
+    const { user, isLoading } = useUserLogged()
     const router = useRouter()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState<string>()
-    const signIn = useAuthSignInWithEmailAndPassword(auth, {
-        onSuccess() {
-            router.push('/')
-        },
-        onError() {
-            setErrorMessage('Wrong email or password')
-        }
-    })
+    const [signInWithEmailAndPassword, _user, isLoadingSignIn, error] =
+        useSignInWithEmailAndPassword(auth)
 
     useEffect(() => {
         if (user) router.push('/')
     }, [user])
 
+    useEffect(() => {
+        if (error) setErrorMessage('There was a problem logging in')
+    }, [error])
+
     const logUser = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
-        signIn.mutate({ email, password })
+        signInWithEmailAndPassword(email, password)
     }
 
     if (isLoading || user) {
@@ -40,7 +39,7 @@ const Login: NextPage = () => {
             </div>
         )
     }
-    
+
     return (
         <div className='full-screen-centered form-background'>
             <div className='form-container'>
@@ -75,18 +74,17 @@ const Login: NextPage = () => {
                         marginBottom: errorMessage ? '1rem' : 0
                     }}
                 >
-                    Don&#39;t have an account?&nbsp; 
+                    Don&#39;t have an account?&nbsp;
                     <Link href='/register'>
                         <a className='button button-link'>Sign up</a>
                     </Link>
                 </span>
-                {
-                    errorMessage &&
-                        <div className='form-error'>
-                            <MdErrorOutline />
-                            <span>{errorMessage}</span>
-                        </div>
-                }
+                {errorMessage && (
+                    <div className='form-error'>
+                        <MdErrorOutline />
+                        <span>{errorMessage}</span>
+                    </div>
+                )}
             </div>
         </div>
     )

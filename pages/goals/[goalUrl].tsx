@@ -1,16 +1,13 @@
-import { useAuthUser } from '@react-query-firebase/auth'
 import Head from 'next/head'
 
 import { NextPage } from 'next/types'
 import Layout from '../../components/Layout/layout'
 import Spinner from '../../components/spinner'
-import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
 import IndividualGoalContent from '../../features/Goals/IndividualGoalPage/IndividualGoalContent'
 
 const IndividualGoal: NextPage = () => {
-    const { data: user } = useAuthUser(['user'], auth)
-    const isLoading = useUserLogged()
+    const { user, isLoading } = useUserLogged()
 
     if (isLoading || !user) {
         return (

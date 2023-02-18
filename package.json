@@ -10,15 +10,13 @@
         "test": "jest"
     },
     "dependencies": {
-        "@react-query-firebase/auth": "^1.0.0-dev.2",
-        "@react-query-firebase/firestore": "^1.0.0-dev.7",
         "firebase": "^9.9.3",
         "moment": "^2.29.4",
         "next": "12.2.5",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "react-firebase-hooks": "^5.1.1",
         "react-icons": "^4.4.0",
-        "react-query": "^3.39.2",
         "react-select": "^5.7.0",
         "sass": "^1.54.5",
         "uuid": "^9.0.0"

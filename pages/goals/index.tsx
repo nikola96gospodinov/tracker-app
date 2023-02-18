@@ -1,19 +1,16 @@
 import { useState } from 'react'
-import { useAuthUser } from '@react-query-firebase/auth'
 import { NextPage } from 'next'
 import { MdAddBox } from 'react-icons/md'
 
 import Layout from '../../components/Layout/layout'
 import Spinner from '../../components/spinner'
-import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
 import GoalsList from '../../features/Goals/GoalsList/GoalsList'
 import GoalForm from '../../features/Goals/GoalForm'
 import InitialSection from '../../components/InitialSection'
 
 const Goals: NextPage = () => {
-    const { data: user } = useAuthUser(['user'], auth)
-    const isLoading = useUserLogged()
+    const { user, isLoading } = useUserLogged()
     const [addGoalsFormOpen, setAddGoalsFormOpen] = useState(false)
 
     if (isLoading || !user) {
