@@ -10,19 +10,17 @@ import {
     toggleMilestone,
     editMilestone
 } from '../../../../pages/goals/helpers/crud-operations-milestones'
-import {
-    Errors,
-    TableHeader,
-    PastMilestones,
-    UpcomingMilestones,
-    AddMilestone,
-    DeleteModal
-} from './components'
 import { MILESTONES_CAPITALIZED } from '../GoalConfiguration'
 import { MILESTONES } from '../../../../pages/goals/constants'
 import { TabElementProps } from '../types'
 
 import styles from '../../goal.module.scss'
+import { AddMilestone } from './AddMilestone'
+import { DeleteModal } from './DeleteModal'
+import { Errors } from './Errors'
+import { PastMilestones } from './PastMilestones'
+import { TableHeader } from './TableHeader'
+import { UpcomingMilestones } from './UpcomingMilestones'
 
 const Milestones: React.FunctionComponent<TabElementProps> = ({
     goalID,

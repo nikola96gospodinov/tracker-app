@@ -2,16 +2,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import Logo from '../../Logo'
+import { menu } from './data'
 
 import styles from './header.module.scss'
-
-const menu = [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Set metrics', path: '/metrics' },
-    { title: 'Goals', path: '/goals' },
-    { title: 'Habits', path: '/habits' },
-    { title: 'Profile', path: '/profile' }
-]
 
 const Header = (): JSX.Element => {
     const router = useRouter()

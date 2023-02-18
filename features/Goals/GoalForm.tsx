@@ -10,6 +10,7 @@ import { GOALS } from '../../pages/goals/constants'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { Dispatch } from '../../typings'
+import { FormModal } from '../../components/Form/FormModal'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
@@ -87,94 +88,84 @@ const GoalForm: React.FunctionComponent<{
     }
 
     return (
-        <div className='backdrop'>
-            <div className='form-container'>
-                <AiFillCloseCircle
-                    className='close'
-                    onClick={() => setGoalsFormOpen(false)}
+        <FormModal setFormOpen={setGoalsFormOpen}>
+            <h1>{goal ? 'Update' : 'Set a'} goal</h1>
+            <form onSubmit={(e) => handleFormSubmit(e)}>
+                <label htmlFor='name'>Name</label>
+                <input
+                    id='name'
+                    type='text'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
-                <h1>{goal ? 'Update' : 'Set a'} goal</h1>
-                <form onSubmit={(e) => handleFormSubmit(e)}>
-                    <label htmlFor='name'>Name</label>
-                    <input
-                        id='name'
-                        type='text'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    {errors.nameErr !== '' && (
-                        <span className='field-error'>{errors.nameErr}</span>
-                    )}
-                    <label htmlFor='category'>Category</label>
-                    <select
-                        id='category'
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                    >
-                        <option
-                            value=''
-                            disabled
-                            selected
-                            style={{ opacity: 0.5 }}
-                        ></option>
-                        <optgroup label='Individual'>
-                            <option value='health'>Health</option>
-                            <option value='career'>Career</option>
-                            <option value='financial'>Financial</option>
-                            <option value='other-personal'>
-                                Other (Individual)
-                            </option>
-                        </optgroup>
-                        <optgroup label='Collective'>
-                            <option value='family'>Family</option>
-                            <option value='partner'>Partner</option>
-                            <option value='comunity'>Community</option>
-                            <option value='other-collective'>
-                                Other (Collective)
-                            </option>
-                        </optgroup>
-                        <option
-                            value=''
-                            disabled
-                            style={{ opacity: 0.5 }}
-                        ></option>
-                    </select>
-                    {errors.categoryErr && (
-                        <span className='field-error'>
-                            Please select a category
-                        </span>
-                    )}
-                    <label htmlFor='deadline'>Deadline (Optional)</label>
-                    <input
-                        id='deadline'
-                        type='date'
-                        value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
-                        min={today}
-                    />
-                    <label htmlFor='description'>Description (Optional)</label>
-                    <textarea
-                        id='description'
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                    <input
-                        type='submit'
-                        value={`${goal ? 'Update' : 'Set'} Goal`}
-                        className='button button-primary'
-                    />
-                </form>
-                {errors.form && (
-                    <div className='form-error'>
-                        <MdErrorOutline />
-                        <span>
-                            There was an issue {goal ? 'updating' : 'setting'}{' '}
-                            your goal. Please try again
-                        </span>
-                    </div>
+                {errors.nameErr !== '' && (
+                    <span className='field-error'>{errors.nameErr}</span>
                 )}
-            </div>
-        </div>
+                <label htmlFor='category'>Category</label>
+                <select
+                    id='category'
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                >
+                    <option
+                        value=''
+                        disabled
+                        selected
+                        style={{ opacity: 0.5 }}
+                    ></option>
+                    <optgroup label='Individual'>
+                        <option value='health'>Health</option>
+                        <option value='career'>Career</option>
+                        <option value='financial'>Financial</option>
+                        <option value='other-personal'>
+                            Other (Individual)
+                        </option>
+                    </optgroup>
+                    <optgroup label='Collective'>
+                        <option value='family'>Family</option>
+                        <option value='partner'>Partner</option>
+                        <option value='comunity'>Community</option>
+                        <option value='other-collective'>
+                            Other (Collective)
+                        </option>
+                    </optgroup>
+                    <option value='' disabled style={{ opacity: 0.5 }}></option>
+                </select>
+                {errors.categoryErr && (
+                    <span className='field-error'>
+                        Please select a category
+                    </span>
+                )}
+                <label htmlFor='deadline'>Deadline (Optional)</label>
+                <input
+                    id='deadline'
+                    type='date'
+                    value={deadline}
+                    onChange={(e) => setDeadline(e.target.value)}
+                    min={today}
+                />
+                <label htmlFor='description'>Description (Optional)</label>
+                <textarea
+                    id='description'
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+                <input
+                    type='submit'
+                    value={`${goal ? 'Update' : 'Set'} Goal`}
+                    className='button button-primary'
+                />
+            </form>
+            {errors.form && (
+                <div className='form-error'>
+                    <MdErrorOutline />
+                    <span>
+                        There was an issue {goal ? 'updating' : 'setting'} your
+                        goal. Please try again
+                    </span>
+                </div>
+            )}
+        </FormModal>
     )
 }
 
