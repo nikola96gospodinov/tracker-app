@@ -1,5 +1,5 @@
 import { FormModal } from '../../../../components/Form/FormModal'
-import { Milestone } from '../../../../pages/goals/types'
+import { Milestone } from '../../types'
 import { Dispatch } from '../../../../typings'
 
 export const DeleteModal: React.FunctionComponent<{

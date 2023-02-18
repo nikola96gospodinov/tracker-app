@@ -1,7 +1,6 @@
 import { Milestone } from '../types'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../../../firebase/firebase'
-import { SetStateOptions } from 'react-query/types/core/query'
 import { Dispatch } from '../../../typings'
 
 const milestonesCollection = collection(db, 'milestones')

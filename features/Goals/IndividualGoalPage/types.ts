@@ -1,4 +1,4 @@
-import { Goal } from '../../../pages/goals/types'
+import { Goal } from '../types'
 import { Dispatch } from '../../../typings'
 
 export interface TabElementProps {

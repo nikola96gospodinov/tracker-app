@@ -7,8 +7,8 @@ import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-do
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDoc'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
-import { HABITS } from '../../pages/habits/constants'
-import { Habit, HabitType } from '../../pages/habits/types'
+import { HABITS } from './constants'
+import { Habit, HabitType } from './types'
 import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
 

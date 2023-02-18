@@ -2,8 +2,8 @@ import useGetDocs from '../../../hooks/useGetDoc'
 import EmptyContentList from '../../../components/EmptyContentList'
 import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from './GoalBox'
-import { Goal } from '../../../pages/goals/types'
-import { GOALS } from '../../../pages/goals/constants'
+import { Goal } from '../types'
+import { GOALS } from '../constants'
 import { Dispatch } from '../../../typings'
 
 const GoalsList: React.FunctionComponent<{

@@ -42,6 +42,3 @@ export const goalsIcons = {
         alt: 'People giving each other high five icon'
     }
 }
-
-export const GOALS = 'goals'
-export const MILESTONES = 'milestones'

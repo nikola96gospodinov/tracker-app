@@ -3,7 +3,7 @@ import { AiTwotoneEdit } from 'react-icons/ai'
 import { ImCheckboxChecked } from 'react-icons/im'
 import { RiSaveFill, RiCloseCircleFill, RiDeleteBin6Fill } from 'react-icons/ri'
 
-import { Milestone } from '../../../../pages/goals/types'
+import { Milestone } from '../../types'
 
 import styles from '../../goal.module.scss'
 

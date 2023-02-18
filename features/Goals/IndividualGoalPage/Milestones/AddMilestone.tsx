@@ -3,8 +3,8 @@ import { ImCheckboxUnchecked } from 'react-icons/im'
 import { RiSaveFill, RiDeleteBin6Fill } from 'react-icons/ri'
 import { v4 as uuidv4 } from 'uuid'
 
-import { addMilestone } from '../../../../pages/goals/helpers/crud-operations-milestones'
-import { Milestone } from '../../../../pages/goals/types'
+import { addMilestone } from '../../helpers/crud-operations-milestones'
+import { Milestone } from '../../types'
 
 import styles from '../../goal.module.scss'
 

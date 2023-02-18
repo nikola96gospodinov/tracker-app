@@ -3,8 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AiTwotoneEdit, AiTwotoneCalendar } from 'react-icons/ai'
 
-import { Goal } from '../../../pages/goals/types'
-import { goalsIcons } from '../../../pages/goals/constants'
+import { Goal } from '../types'
+import { goalsIcons } from '../data'
 import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-functions'
 import { formatDateFromString } from '../../../helpers/date-manipulation-functions'
 

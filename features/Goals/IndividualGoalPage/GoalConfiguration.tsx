@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Goal } from '../../../pages/goals/types'
+import { Goal } from '../types'
 import DailyHabits from './DailyHabits/DailyHabits'
 import Milestones from './Milestones/Milestones'
 import WeeklyTargets from './WeeklyTargets'

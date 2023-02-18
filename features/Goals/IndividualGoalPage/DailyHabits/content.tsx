@@ -1,8 +1,8 @@
 import { ActionMeta } from 'react-select'
 
 import CustomSelect from '../../../../components/Form/CustomSelect'
-import { Habit } from '../../../../pages/habits/types'
-import { Goal } from '../../../../pages/goals/types'
+import { Habit } from '../../../Habits/types'
+import { Goal } from '../../types'
 import NoDailyHabits from './NoDailyHabits'
 
 const DailyHabitsContent: React.FunctionComponent<{

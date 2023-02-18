@@ -1,6 +1,6 @@
 import useGetDocs from '../../hooks/useGetDoc'
-import { GOALS } from '../../pages/goals/constants'
-import { Goal } from '../../pages/goals/types'
+import { GOALS } from '../Goals/constants'
+import { Goal } from '../Goals/types'
 import NoGoals from '../../components/NoGoals'
 import Spinner from '../../components/UIElements/spinner'
 import useUserLogged from '../../hooks/useUserLogged'

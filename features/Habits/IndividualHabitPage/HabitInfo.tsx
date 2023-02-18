@@ -1,7 +1,7 @@
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { RiDeleteBin6Fill } from 'react-icons/ri'
 
-import { Habit } from '../../../pages/habits//types'
+import { Habit } from '../types'
 import { Dispatch } from '../../../typings'
 
 import style from '../habit.module.scss'
