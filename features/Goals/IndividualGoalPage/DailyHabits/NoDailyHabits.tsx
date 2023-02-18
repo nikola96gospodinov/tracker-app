@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import style from '../../goal.module.scss'
 
-const NoDailyHabits: React.FunctionComponent = () => (
+const NoDailyHabits = () => (
     <div className={style.noData}>
         <p>You dont&apos;t have any daily habits added yet</p>
         <Link href='/habits'>

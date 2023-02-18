@@ -24,13 +24,13 @@ import { TabElementProps } from '../types'
 
 import styles from '../../goal.module.scss'
 
-const Milestones = ({
+const Milestones: React.FunctionComponent<TabElementProps> = ({
     goalID,
     shortName,
     newElementAdded,
     setNewElementAdded,
     activeTab
-}: TabElementProps) => {
+}) => {
     const { data: user } = useAuthUser(['user'], auth)
     const { docs: milestones, errorFetching } = useGetDocs<Milestone>({
         userID: user?.uid ?? '',

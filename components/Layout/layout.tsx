@@ -1,7 +1,9 @@
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout: React.FunctionComponent<{
+    children: React.ReactNode
+}> = ({ children }) => {
     return (
         <>
             <Header />

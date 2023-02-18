@@ -9,14 +9,14 @@ import EmptyContent from '../EmptyContent'
 import { TabElementProps } from '../types'
 import DailyHabitsContent from './content'
 
-const DailyHabits = ({
+const DailyHabits: React.FunctionComponent<TabElementProps> = ({
     goalID,
     shortName,
     newElementAdded,
     setNewElementAdded,
     activeTab,
     goal
-}: TabElementProps) => {
+}) => {
     const { data: user } = useAuthUser(['user'], auth)
     const { docs: allHabits, errorFetching } = useGetDocs<Habit>({
         userID: user?.uid ?? '',

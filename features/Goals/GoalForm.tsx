@@ -13,14 +13,11 @@ import { Dispatch } from '../../typings'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
-
-interface Props {
+const GoalForm: React.FunctionComponent<{
     setGoalsFormOpen: Dispatch<boolean>
     userID: string
     goal?: Goal
-}
-
-const GoalForm = ({ setGoalsFormOpen, userID, goal }: Props) => {
+}> = ({ setGoalsFormOpen, userID, goal }) => {
     const [name, setName] = useState(goal?.name ?? '')
     const [description, setDescription] = useState(goal?.description ?? '')
     const [deadline, setDeadline] = useState(goal?.deadline ?? '')

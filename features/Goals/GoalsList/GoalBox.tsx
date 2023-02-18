@@ -10,7 +10,9 @@ import { formatDateFromString } from '../../../helpers/date-manipulation-functio
 
 import styles from '../goal.module.scss'
 
-export const GoalBox = ({ goal }: { goal: Goal }) => {
+export const GoalBox: React.FunctionComponent<{
+    goal: Goal
+}> = ({ goal }) => {
     const [showEditIcon, setShowEditIcon] = useState(false)
 
     const icon = goalsIcons[goal.category as keyof typeof goalsIcons]

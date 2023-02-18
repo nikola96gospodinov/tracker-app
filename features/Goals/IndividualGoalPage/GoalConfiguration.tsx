@@ -29,11 +29,9 @@ const tabs = [
     }
 ]
 
-interface Props {
+const GoalConfiguration: React.FunctionComponent<{
     goal: Goal
-}
-
-const GoalConfiguration = ({ goal }: Props) => {
+}> = ({ goal }) => {
     const [activeTab, setActiveTab] = useState<string>(tabs[0].name)
     const [newElementAdded, setNewElementAdded] = useState(false)
 

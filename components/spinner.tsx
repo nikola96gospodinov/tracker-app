@@ -2,7 +2,7 @@ import styles from './spinner.module.scss'
 
 const Spinner = () => {
     return (
-        <div 
+        <div
             style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -11,7 +11,10 @@ const Spinner = () => {
                 fontSize: '1.25rem'
             }}
         >
-            <div className={styles.ldsRipple}><div></div><div></div></div>
+            <div className={styles.ldsRipple}>
+                <div></div>
+                <div></div>
+            </div>
             <h2>Loading...</h2>
         </div>
     )

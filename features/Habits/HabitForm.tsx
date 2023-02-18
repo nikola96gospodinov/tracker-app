@@ -11,7 +11,7 @@ import { HABITS } from '../../pages/habits/constants'
 import { Habit, HabitType } from '../../pages/habits/types'
 import { Dispatch } from '../../typings'
 
-const HabitForm: React.FC<{
+const HabitForm: React.FunctionComponent<{
     setHabitsFormOpen: Dispatch<boolean>
     userID: string
     habit?: Habit

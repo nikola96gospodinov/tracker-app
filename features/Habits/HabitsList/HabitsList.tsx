@@ -6,12 +6,10 @@ import { Habit } from '../../../pages/habits/types'
 import { Dispatch } from '../../../typings'
 import { HabitBox } from './HabitBox'
 
-interface Props {
+const HabitsList: React.FunctionComponent<{
     userID: string
     setAddHabitsFormOpen: Dispatch<boolean>
-}
-
-const HabitsList = ({ userID, setAddHabitsFormOpen }: Props) => {
+}> = ({ userID, setAddHabitsFormOpen }) => {
     const { docs: habits, errorFetching } = useGetDocs<Habit>({
         userID,
         path: HABITS

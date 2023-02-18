@@ -2,11 +2,9 @@ import React from 'react'
 
 import styles from '../goal.module.scss'
 
-interface Props {
+const EmptyContent: React.FunctionComponent<{
     shortName: string
-}
-
-const EmptyContent = ({ shortName }: Props) => {
+}> = ({ shortName }) => {
     return (
         <div className={styles.noData}>
             <p>

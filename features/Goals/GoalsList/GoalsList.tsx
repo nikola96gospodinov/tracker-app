@@ -6,12 +6,10 @@ import { Goal } from '../../../pages/goals/types'
 import { GOALS } from '../../../pages/goals/constants'
 import { Dispatch } from '../../../typings'
 
-interface Props {
+const GoalsList: React.FunctionComponent<{
     userID: string
     setAddGoalsFormOpen: Dispatch<boolean>
-}
-
-const GoalsList = ({ userID, setAddGoalsFormOpen }: Props) => {
+}> = ({ userID, setAddGoalsFormOpen }) => {
     const { docs: goals, errorFetching } = useGetDocs<Goal>({
         userID,
         path: GOALS

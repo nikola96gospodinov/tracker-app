@@ -4,11 +4,9 @@ import { Goal } from '../../pages/goals/types'
 import NoGoals from '../../components/NoGoals'
 import Spinner from '../../components/spinner'
 
-interface Props {
+const WeeklyReview: React.FunctionComponent<{
     userID: string
-}
-
-const WeeklyReview = ({ userID }: Props) => {
+}> = ({ userID }) => {
     const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
 
     if (!goals) {

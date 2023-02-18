@@ -1,8 +1,8 @@
 import Select from 'react-select'
 
-type SelectProps = React.ComponentProps<typeof Select>
-
-const CustomSelect = (props: SelectProps) => {
+const CustomSelect: React.FunctionComponent<
+    React.ComponentProps<typeof Select>
+> = (props) => {
     return (
         <Select
             {...props}

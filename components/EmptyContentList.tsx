@@ -1,11 +1,9 @@
 import { Dispatch } from '../typings'
 
-interface Props {
+const EmptyContentList: React.FunctionComponent<{
     name: string
     setAddFormOpen: Dispatch<boolean>
-}
-
-const EmptyContentList = ({ name, setAddFormOpen }: Props): JSX.Element => {
+}> = ({ name, setAddFormOpen }) => {
     return (
         <div className='noContent'>
             <p>No {name.toLowerCase()} yet. Let&apos;s add some!</p>
