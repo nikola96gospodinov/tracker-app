@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import React, { useMemo, useState } from 'react'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -8,9 +7,10 @@ import { toKebabCase } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDoc'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { HABITS } from './constants'
-import { Habit, HabitType } from './types'
+import { Habit, HabitType } from './habits.types'
 import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
+import { Button } from '../../components/UIElements/Button'
 
 const HabitForm: React.FunctionComponent<{
     setHabitsFormOpen: Dispatch<boolean>
@@ -28,7 +28,6 @@ const HabitForm: React.FunctionComponent<{
         metricErr: false,
         form: false
     })
-    const [triedSubmitting, setTriedSubmitting] = useState(false)
 
     const { docs: habits } = useGetDocs<Habit>({ userID, path: HABITS })
     const habitsNames = useMemo(() => {
@@ -36,41 +35,6 @@ const HabitForm: React.FunctionComponent<{
             ?.map((habit: Habit) => habit.name)
             .filter((name) => name !== habit?.name)
     }, [habit?.name, habits])
-
-    useEffect(() => {
-        if (triedSubmitting) {
-            if (!errors.nameErr && !errors.form) {
-                submitDoc<Habit>({
-                    path: HABITS,
-                    docs: habits!,
-                    orgDoc: habit,
-                    newDoc: {
-                        id: uuidv4(),
-                        name,
-                        description,
-                        type,
-                        target,
-                        metric,
-                        longestStreak: 0,
-                        currentStreak: 0,
-                        urlPath: toKebabCase(name)
-                    } as Habit,
-                    updatedDoc: {
-                        ...habit,
-                        name,
-                        description,
-                        type,
-                        target,
-                        metric
-                    } as Habit,
-                    userID,
-                    setDocsFormOpen: setHabitsFormOpen,
-                    errors,
-                    setErrors: setErrors as ErrorsDispatch
-                })
-            }
-        }
-    }, [triedSubmitting, errors.nameErr, errors.form])
 
     const handleRadioChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -95,12 +59,45 @@ const HabitForm: React.FunctionComponent<{
             metricErr: !Boolean(metric)
         })
 
-        setTriedSubmitting(true)
+        if (target && metric && nameError() === '') {
+            const fields = {
+                name,
+                description,
+                type,
+                target,
+                metric
+            }
+
+            submitDoc<Habit>({
+                path: HABITS,
+                docs: habits!,
+                orgDoc: habit,
+                newDoc: {
+                    id: uuidv4(),
+                    ...fields,
+                    longestStreak: 0,
+                    currentStreak: 0,
+                    urlPath: toKebabCase(name)
+                } as Habit,
+                updatedDoc: {
+                    ...habit,
+                    ...fields
+                } as Habit,
+                userID,
+                setDocsFormOpen: setHabitsFormOpen,
+                errors,
+                setErrors: setErrors as ErrorsDispatch
+            })
+        }
     }
+
+    const action = habit ? 'Edit' : 'Add'
+    const nameErr = errors.nameErr !== ''
+    const btnText = `${action} Habit`
 
     return (
         <FormModal setFormOpen={setHabitsFormOpen}>
-            <h1>{habit ? 'Edit' : 'Add'} a habit</h1>
+            <h1>{action} a habit</h1>
             <form onSubmit={(e) => handleFormSubmit(e)}>
                 <label htmlFor='name'>Name</label>
                 <input
@@ -109,7 +106,7 @@ const HabitForm: React.FunctionComponent<{
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                {errors.nameErr !== '' && (
+                {nameErr && (
                     <span className='field-error'>{errors.nameErr}</span>
                 )}
                 <div className='radio-holder'>
@@ -165,10 +162,10 @@ const HabitForm: React.FunctionComponent<{
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <input
+                <Button
                     type='submit'
-                    value={`${habit ? 'Edit' : 'Add'} Habit`}
-                    className='button button-primary'
+                    text={btnText}
+                    btnClass='button-primary'
                 />
             </form>
             {errors.form && (

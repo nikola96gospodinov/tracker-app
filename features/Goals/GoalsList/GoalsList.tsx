@@ -2,7 +2,7 @@ import useGetDocs from '../../../hooks/useGetDoc'
 import EmptyContentList from '../../../components/EmptyContentList'
 import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from './GoalBox'
-import { Goal } from '../types'
+import { Goal } from '../goals.types'
 import { GOALS } from '../constants'
 import { Dispatch } from '../../../typings'
 
@@ -23,21 +23,21 @@ const GoalsList: React.FunctionComponent<{
         return <Spinner />
     }
 
+    if (goals.length === 0) {
+        return (
+            <EmptyContentList
+                name={GOALS}
+                setAddFormOpen={setAddGoalsFormOpen}
+            />
+        )
+    }
+
     return (
-        <>
-            {goals.length === 0 ? (
-                <EmptyContentList
-                    name={GOALS}
-                    setAddFormOpen={setAddGoalsFormOpen}
-                />
-            ) : (
-                <div className='triple-grid'>
-                    {goals.map((goal: Goal) => (
-                        <GoalBox key={goal.id} goal={goal} />
-                    ))}
-                </div>
-            )}
-        </>
+        <div className='triple-grid'>
+            {goals.map((goal: Goal) => (
+                <GoalBox key={goal.id} goal={goal} />
+            ))}
+        </div>
     )
 }
 

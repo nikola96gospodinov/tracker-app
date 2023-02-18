@@ -3,7 +3,7 @@ import React, { useMemo, useCallback, useState } from 'react'
 import EmptyContent from '../EmptyContent'
 import useGetDocs from '../../../../hooks/useGetDoc'
 import { auth } from '../../../../firebase/firebase'
-import { Milestone } from '../../types'
+import { Milestone } from '../../goals.types'
 import {
     deleteMilestone,
     toggleMilestone,
@@ -11,7 +11,7 @@ import {
 } from '../../helpers/crud-operations-milestones'
 import { MILESTONES_CAPITALIZED } from '../GoalConfiguration'
 import { MILESTONES } from '../../constants'
-import { TabElementProps } from '../types'
+import { TabElementProps } from '../../goals.types'
 
 import styles from '../../goal.module.scss'
 import { AddMilestone } from './AddMilestone'

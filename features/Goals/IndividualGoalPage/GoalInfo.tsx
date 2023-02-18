@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { formatDateFromString } from '../../../helpers/date-manipulation-functions'
 import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-functions'
 import { goalsIcons } from '../data'
-import { Goal } from '../types'
+import { Goal } from '../goals.types'
 import { Dispatch } from '../../../typings'
 
 import styles from '../goal.module.scss'

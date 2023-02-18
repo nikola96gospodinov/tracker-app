@@ -1,4 +1,4 @@
-import { Milestone } from '../types'
+import { Milestone } from '../goals.types'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../../../firebase/firebase'
 import { Dispatch } from '../../../typings'

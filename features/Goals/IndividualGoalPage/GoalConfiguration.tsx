@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Goal } from '../types'
+import { Goal } from '../goals.types'
 import DailyHabits from './DailyHabits/DailyHabits'
 import Milestones from './Milestones/Milestones'
 import WeeklyTargets from './WeeklyTargets'
@@ -34,6 +34,7 @@ const GoalConfiguration: React.FunctionComponent<{
 }> = ({ goal }) => {
     const [activeTab, setActiveTab] = useState<string>(tabs[0].name)
     const [newElementAdded, setNewElementAdded] = useState(false)
+    const addButtonClasses = `button button-primary ${styles.addButton}`
 
     return (
         <div className={styles.goalConfiguration}>
@@ -59,7 +60,7 @@ const GoalConfiguration: React.FunctionComponent<{
                 </div>
                 <div>
                     <button
-                        className={`button button-primary ${styles.addButton}`}
+                        className={addButtonClasses}
                         onClick={() => setNewElementAdded(true)}
                     >
                         Add +

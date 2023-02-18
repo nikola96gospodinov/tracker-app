@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { AiTwotoneEdit } from 'react-icons/ai'
 
-import { Habit } from '../types'
+import { Habit } from '../habits.types'
 import style from '../habit.module.scss'
 
 export const HabitBox: React.FunctionComponent<{

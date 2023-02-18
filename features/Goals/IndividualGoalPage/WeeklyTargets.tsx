@@ -1,7 +1,7 @@
 import React from 'react'
 
 import EmptyContent from './EmptyContent'
-import { TabElementProps } from './types'
+import { TabElementProps } from '../goals.types'
 
 const WeeklyTargets: React.FunctionComponent<TabElementProps> = ({
     goalID,

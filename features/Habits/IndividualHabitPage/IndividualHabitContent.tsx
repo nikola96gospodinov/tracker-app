@@ -7,7 +7,7 @@ import Spinner from '../../../components/UIElements/spinner'
 import useGetDocs from '../../../hooks/useGetDoc'
 import useUserLogged from '../../../hooks/useUserLogged'
 import { HABITS } from '../constants'
-import { Habit } from '../types'
+import { Habit } from '../habits.types'
 import HabitForm from '../HabitForm'
 import HabitInfo from './HabitInfo'
 

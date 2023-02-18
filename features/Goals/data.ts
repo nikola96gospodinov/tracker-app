@@ -42,3 +42,41 @@ export const goalsIcons = {
         alt: 'People giving each other high five icon'
     }
 }
+
+export const personalGoalOptions = [
+    {
+        value: 'health',
+        label: 'Health'
+    },
+    {
+        value: 'career',
+        label: 'Carrer'
+    },
+    {
+        value: 'financial',
+        label: 'Financial'
+    },
+    {
+        value: 'other-personal',
+        label: 'Other (Personal)'
+    }
+]
+
+export const collectiveGoalOptions = [
+    {
+        value: 'family',
+        label: 'Family'
+    },
+    {
+        value: 'love',
+        label: 'Love'
+    },
+    {
+        value: 'community',
+        label: 'Community'
+    },
+    {
+        value: 'other-collective',
+        label: 'Other (Collective)'
+    }
+]

@@ -1,3 +1,5 @@
+import { Dispatch } from '../../typings'
+
 type Category =
     | 'health'
     | 'career'
@@ -25,4 +27,13 @@ export interface Goal {
     deadline?: string
     habits?: string[]
     targets?: string[]
+}
+
+export interface TabElementProps {
+    goalID: string
+    shortName: string
+    newElementAdded: boolean
+    setNewElementAdded: Dispatch<boolean>
+    activeTab: string
+    goal?: Goal
 }

@@ -3,7 +3,7 @@ import { AiTwotoneEdit } from 'react-icons/ai'
 import { ImCheckboxUnchecked } from 'react-icons/im'
 import { RiSaveFill, RiCloseCircleFill, RiDeleteBin6Fill } from 'react-icons/ri'
 
-import { Milestone } from '../../types'
+import { Milestone } from '../../goals.types'
 
 import styles from '../../goal.module.scss'
 
@@ -47,17 +47,12 @@ export const UpcomingMilestones: React.FunctionComponent<{
         <>
             {upcomingMilestones?.map((milestone) => {
                 const isActiveMilestone = milestone.id == activeMilestone?.id
-                console.log(milestone)
+                const trClass = isActiveMilestone
+                    ? styles.newMilestone
+                    : styles.upcomingMilestones
 
                 return (
-                    <tr
-                        key={milestone.id}
-                        className={
-                            isActiveMilestone
-                                ? styles.newMilestone
-                                : styles.upcomingMilestones
-                        }
-                    >
+                    <tr key={milestone.id} className={trClass}>
                         <td>
                             <ImCheckboxUnchecked
                                 onClick={() => handleToggle(milestone)}

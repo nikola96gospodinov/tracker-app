@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AiTwotoneEdit, AiTwotoneCalendar } from 'react-icons/ai'
 
-import { Goal } from '../types'
+import { Goal } from '../goals.types'
 import { goalsIcons } from '../data'
 import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-functions'
 import { formatDateFromString } from '../../../helpers/date-manipulation-functions'
@@ -16,6 +16,8 @@ export const GoalBox: React.FunctionComponent<{
     const [showEditIcon, setShowEditIcon] = useState(false)
 
     const icon = goalsIcons[goal.category as keyof typeof goalsIcons]
+    const deadline = goal.deadline ? formatDateFromString(goal.deadline) : 'N/A'
+    const category = capitalizeFirstLetter(goal.category)
 
     return (
         <Link href={`/goals/${goal.urlPath}`}>
@@ -28,7 +30,7 @@ export const GoalBox: React.FunctionComponent<{
                 <div className={styles.categoryPill}>
                     <div>
                         <Image src={icon.src} alt={icon.alt} />
-                        <span>{capitalizeFirstLetter(goal.category)}</span>
+                        <span>{category}</span>
                     </div>
                 </div>
                 <div className={styles.textHolder}>
@@ -36,9 +38,7 @@ export const GoalBox: React.FunctionComponent<{
                     <p>{goal.description}</p>
                     <p className={styles.dueDate}>
                         <AiTwotoneCalendar />
-                        {goal.deadline
-                            ? formatDateFromString(goal.deadline)
-                            : 'N/A'}
+                        {deadline}
                     </p>
                 </div>
             </a>

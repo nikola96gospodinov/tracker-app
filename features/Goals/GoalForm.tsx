@@ -1,16 +1,17 @@
-import { useEffect, useMemo, useState } from 'react'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import { useMemo, useState } from 'react'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDoc'
-import { Goal } from './types'
+import { Goal } from './goals.types'
 import { GOALS } from './constants'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
+import { Button } from '../../components/UIElements/Button'
+import { collectiveGoalOptions, personalGoalOptions } from './data'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
@@ -28,7 +29,6 @@ const GoalForm: React.FunctionComponent<{
         categoryErr: false,
         form: false
     })
-    const [triedSubmitting, setTriedSubmitting] = useState(false)
 
     const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
     const goalsNames = useMemo(() => {
@@ -36,37 +36,6 @@ const GoalForm: React.FunctionComponent<{
             ?.map((goal: Goal) => goal.name)
             .filter((name) => name !== goal?.name)
     }, [goals, goal?.name])
-
-    useEffect(() => {
-        if (triedSubmitting) {
-            if (!errors.nameErr && !errors.categoryErr && !errors.form) {
-                submitDoc<Goal>({
-                    path: GOALS,
-                    docs: goals!,
-                    orgDoc: goal,
-                    updatedDoc: {
-                        ...goal,
-                        name,
-                        description,
-                        deadline,
-                        category
-                    } as Goal,
-                    newDoc: {
-                        id: uuidv4(),
-                        name,
-                        category,
-                        deadline,
-                        description,
-                        urlPath: toKebabCase(name)
-                    } as Goal,
-                    userID,
-                    setDocsFormOpen: setGoalsFormOpen,
-                    errors,
-                    setErrors: setErrors as ErrorsDispatch
-                })
-            }
-        }
-    }, [triedSubmitting, errors.nameErr, errors.categoryErr, errors.form])
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
@@ -84,12 +53,46 @@ const GoalForm: React.FunctionComponent<{
             categoryErr: !Boolean(category)
         })
 
-        setTriedSubmitting(true)
+        if (nameError() === '' && category) {
+            const fields = {
+                name,
+                description,
+                deadline,
+                category
+            }
+
+            submitDoc<Goal>({
+                path: GOALS,
+                docs: goals!,
+                orgDoc: goal,
+                updatedDoc: {
+                    ...goal,
+                    ...fields
+                } as Goal,
+                newDoc: {
+                    id: uuidv4(),
+                    ...fields,
+                    urlPath: toKebabCase(name)
+                } as Goal,
+                userID,
+                setDocsFormOpen: setGoalsFormOpen,
+                errors,
+                setErrors: setErrors as ErrorsDispatch
+            })
+        }
     }
+
+    const formTitle = goal ? 'Update' : 'Set a'
+    const isNameErr = errors.nameErr !== ''
+    const isCategoryErr = errors.categoryErr
+    const btnText = `${goal ? 'Update' : 'Set'} Goal`
+    const isFormErr = errors.form
+    const formError = `There was an issue ${goal ? 'updating' : 'setting'} your
+    goal. Please try again`
 
     return (
         <FormModal setFormOpen={setGoalsFormOpen}>
-            <h1>{goal ? 'Update' : 'Set a'} goal</h1>
+            <h1>{formTitle} goal</h1>
             <form onSubmit={(e) => handleFormSubmit(e)}>
                 <label htmlFor='name'>Name</label>
                 <input
@@ -98,7 +101,7 @@ const GoalForm: React.FunctionComponent<{
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                {errors.nameErr !== '' && (
+                {isNameErr && (
                     <span className='field-error'>{errors.nameErr}</span>
                 )}
                 <label htmlFor='category'>Category</label>
@@ -113,25 +116,23 @@ const GoalForm: React.FunctionComponent<{
                         selected
                         style={{ opacity: 0.5 }}
                     ></option>
-                    <optgroup label='Individual'>
-                        <option value='health'>Health</option>
-                        <option value='career'>Career</option>
-                        <option value='financial'>Financial</option>
-                        <option value='other-personal'>
-                            Other (Individual)
-                        </option>
+                    <optgroup label='Personal'>
+                        {personalGoalOptions.map(({ value, label }) => (
+                            <option key={value} value={value}>
+                                {label}
+                            </option>
+                        ))}
                     </optgroup>
                     <optgroup label='Collective'>
-                        <option value='family'>Family</option>
-                        <option value='partner'>Partner</option>
-                        <option value='comunity'>Community</option>
-                        <option value='other-collective'>
-                            Other (Collective)
-                        </option>
+                        {collectiveGoalOptions.map(({ value, label }) => (
+                            <option key={value} value={value}>
+                                {label}
+                            </option>
+                        ))}
                     </optgroup>
                     <option value='' disabled style={{ opacity: 0.5 }}></option>
                 </select>
-                {errors.categoryErr && (
+                {isCategoryErr && (
                     <span className='field-error'>
                         Please select a category
                     </span>
@@ -150,19 +151,16 @@ const GoalForm: React.FunctionComponent<{
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <input
+                <Button
                     type='submit'
-                    value={`${goal ? 'Update' : 'Set'} Goal`}
-                    className='button button-primary'
+                    text={btnText}
+                    btnClass='button-primary'
                 />
             </form>
-            {errors.form && (
+            {isFormErr && (
                 <div className='form-error'>
                     <MdErrorOutline />
-                    <span>
-                        There was an issue {goal ? 'updating' : 'setting'} your
-                        goal. Please try again
-                    </span>
+                    <span>{formError}</span>
                 </div>
             )}
         </FormModal>

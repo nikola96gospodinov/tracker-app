@@ -4,7 +4,7 @@ import { RiSaveFill, RiDeleteBin6Fill } from 'react-icons/ri'
 import { v4 as uuidv4 } from 'uuid'
 
 import { addMilestone } from '../../helpers/crud-operations-milestones'
-import { Milestone } from '../../types'
+import { Milestone } from '../../goals.types'
 
 import styles from '../../goal.module.scss'
 
