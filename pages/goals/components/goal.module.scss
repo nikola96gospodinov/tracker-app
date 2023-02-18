@@ -3,20 +3,20 @@
 // Common
 .categoryPill {
     background: linear-gradient(to left, transparent, $primary-10);
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 2rem;
     display: inline-flex;
     grid-gap: 3rem;
 
     div {
         display: flex;
-        grid-gap: .5rem;
+        grid-gap: 0.5rem;
 
         img {
-            max-width: 1.25rem!important;
-            min-width: 1.25rem!important;
-            max-height: 1.25rem!important;
-            min-height: 1.25rem!important;
+            max-width: 1.25rem !important;
+            min-width: 1.25rem !important;
+            max-height: 1.25rem !important;
+            min-height: 1.25rem !important;
         }
 
         svg {
@@ -33,42 +33,42 @@
     color: $primary-5;
     padding: 1.5rem;
     border-radius: 1rem;
-    transition: .2s ease;
+    transition: 0.2s ease;
     position: relative;
     box-shadow: $shadow-inset;
 
     &:hover {
-        border-top: .25rem solid;
+        border-top: 0.25rem solid;
         box-shadow: $shadow-inset;
-        transform: translateY(.1rem);
+        transform: translateY(0.1rem);
     }
 
     .editIcon {
         position: absolute;
-        top: .75rem;
-        right: .75rem;
+        top: 0.75rem;
+        right: 0.75rem;
         font-size: 1.25rem;
-        transition: .1s ease;
+        transition: 0.1s ease;
 
         &:hover {
-            transform: scale(.9);
+            transform: scale(0.9);
         }
     }
 
     .textHolder {
         color: $neutral-1;
-        margin-top: .5rem;
+        margin-top: 0.5rem;
 
         h3 {
             font-size: 1.25rem;
-            margin-bottom: .25rem;
+            margin-bottom: 0.25rem;
         }
 
         .dueDate {
             display: flex;
             align-items: center;
-            grid-gap: .25rem;
-            margin-top: .5rem;
+            grid-gap: 0.25rem;
+            margin-top: 0.5rem;
         }
     }
 }
@@ -82,7 +82,7 @@
 
         svg {
             font-size: 1.5rem;
-            transition: .2s ease;
+            transition: 0.2s ease;
             cursor: pointer;
 
             &:hover {
@@ -101,7 +101,7 @@
         .deleteIcon {
             font-size: 1.25rem;
             color: $neutral-3;
-            margin-left: .75rem;
+            margin-left: 0.75rem;
 
             &:hover {
                 color: $red-5;
@@ -111,7 +111,7 @@
 
     h1 {
         margin-top: 1.5rem;
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
     }
 
     p {
@@ -123,7 +123,7 @@
     margin-top: 2rem;
 
     .controls {
-        border-bottom: .1rem solid $neutral-7;
+        border-bottom: 0.1rem solid $neutral-7;
         display: flex;
         justify-content: space-between;
 
@@ -133,22 +133,22 @@
             gap: 1rem;
 
             > div {
-                padding: .5rem;
+                padding: 0.5rem;
                 cursor: pointer;
-                transition: .1s ease;
+                transition: 0.1s ease;
             }
 
             .active {
-                border-bottom: .2rem solid $primary-4;
-                transform: translateY(.1rem);
+                border-bottom: 0.2rem solid $primary-4;
+                transform: translateY(0.1rem);
             }
         }
 
         .addButton {
-            padding: .5rem 1rem;
+            padding: 0.5rem 1rem;
             box-shadow: none;
             font-size: 1rem;
-            margin: .5rem;
+            margin: 0.5rem;
         }
     }
 }
@@ -157,8 +157,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     height: 12rem;
     font-size: 1.25rem;
+    gap: 1rem;
 }
 
 // Milestones
@@ -171,13 +173,13 @@
 
         span {
             display: block;
-            margin-bottom: .25rem;
+            margin-bottom: 0.25rem;
         }
     }
 
     th {
-        border-bottom: .1rem solid $neutral-9;
-        padding: .5rem;
+        border-bottom: 0.1rem solid $neutral-9;
+        padding: 0.5rem;
 
         &:first-child {
             text-align: center;
@@ -185,9 +187,9 @@
     }
 
     td {
-        padding: .5rem;
-        border-bottom: .1rem solid $neutral-9;
-        border-right: .1rem solid $neutral-9;
+        padding: 0.5rem;
+        border-bottom: 0.1rem solid $neutral-9;
+        border-right: 0.1rem solid $neutral-9;
 
         &:first-child {
             text-align: center;
@@ -201,8 +203,8 @@
         svg {
             color: $neutral-3;
             font-size: 1.125rem;
-            margin-right: .5rem;
-            transition: .2s ease;
+            margin-right: 0.5rem;
+            transition: 0.2s ease;
             cursor: pointer;
             vertical-align: middle;
 
@@ -222,14 +224,14 @@
     input {
         border: none;
         box-shadow: $shadow-inset;
-        border-bottom: .1rem transparent;
-        padding: .25rem .5rem;
+        border-bottom: 0.1rem transparent;
+        padding: 0.25rem 0.5rem;
         min-width: 10rem;
 
         &:focus {
             outline: none;
             box-shadow: none;
-            border-bottom: .1rem solid $primary-5;
+            border-bottom: 0.1rem solid $primary-5;
         }
     }
 
@@ -244,7 +246,7 @@
     }
 
     .pastMilestone {
-        opacity: .7;
+        opacity: 0.7;
 
         &:hover {
             opacity: 1;

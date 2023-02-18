@@ -1,14 +1,14 @@
 import { useAuthUser } from '@react-query-firebase/auth'
 import Head from 'next/head'
 
-import { NextPage } from 'next/types'
+import { NextPage } from 'next'
 import Layout from '../../components/layout'
 import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
-import IndividualGoalContent from './components/IndividualGoalPage/IndividualGoalContent'
+import IndividualHabitContent from './components/IndividualHabitPage/IndividualHabitContent'
 
-const IndividualGoal: NextPage = () => {
+const IndividuaHait: NextPage = () => {
     const { data: user } = useAuthUser(['user'], auth)
     const isLoading = useUserLogged()
 
@@ -23,15 +23,15 @@ const IndividualGoal: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Goal</title>
+                <title>Habit</title>
                 <meta name='description' content='Dashboard' />
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <Layout>
-                {user && <IndividualGoalContent userID={user.uid} />}
+                {user && <IndividualHabitContent userID={user.uid} />}
             </Layout>
         </>
     )
 }
 
-export default IndividualGoal
+export default IndividuaHait

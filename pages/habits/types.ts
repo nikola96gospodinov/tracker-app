@@ -7,6 +7,8 @@ export interface Habit {
     target: number
     metric: string
     longestStreak: number
+    currentStreak: number
+    urlPath: string
     description?: string
     attachedGoals?: string[]
     lastCompleted?: string

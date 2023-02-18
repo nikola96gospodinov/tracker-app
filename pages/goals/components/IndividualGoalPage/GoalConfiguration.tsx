@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Goal } from '../../types'
-import DailyHabits from './DailyHabits'
+import DailyHabits from './DailyHabits/DailyHabits'
 import Milestones from './Milestones/Milestones'
 import WeeklyTargets from './WeeklyTargets'
 
@@ -64,7 +64,7 @@ const GoalConfiguration = ({ goal }: Props) => {
                         className={`button button-primary ${styles.addButton}`}
                         onClick={() => setNewElementAdded(true)}
                     >
-                        New +
+                        Add +
                     </button>
                 </div>
             </div>
@@ -80,6 +80,7 @@ const GoalConfiguration = ({ goal }: Props) => {
                                 newElementAdded={newElementAdded}
                                 setNewElementAdded={setNewElementAdded}
                                 activeTab={activeTab}
+                                goal={goal}
                             />
                         )
                     } else {

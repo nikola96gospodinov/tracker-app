@@ -1,26 +1,25 @@
-import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
-import InitialSection from '../../../../components/InitialSection'
-import GoalInfo from './GoalInfo'
-import Spinner from '../../../../components/spinner'
-import GoalForm from '../GoalForm'
-import useGetDocs from '../../../../hooks/useGetDoc'
-import GoalConfiguration from './GoalConfiguration'
-import { Goal } from '../../types'
-import { GOALS } from '../../constants'
 import DeleteDoc from '../../../../components/DeleteDoc'
+import InitialSection from '../../../../components/InitialSection'
+import Spinner from '../../../../components/spinner'
+import useGetDocs from '../../../../hooks/useGetDoc'
+import { HABITS } from '../../constants'
+import { Habit } from '../../types'
+import HabitForm from '../HabitForm'
+import HabitInfo from './HabitInfo'
 
-const IndividualGoalContent: React.FunctionComponent<{
+const IndividualHabitContent: React.FunctionComponent<{
     userID: string
 }> = ({ userID }) => {
     const router = useRouter()
-    const { goalUrl } = router.query
-    const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
+    const { habitUrl } = router.query
+    const { docs: habits } = useGetDocs<Habit>({ userID, path: HABITS })
     const [editForm, setEditForm] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
 
-    if (!goals) {
+    if (!habits) {
         return (
             <InitialSection>
                 <Spinner />
@@ -28,42 +27,41 @@ const IndividualGoalContent: React.FunctionComponent<{
         )
     }
 
-    const goal = goals?.find((goal) => goal.urlPath === goalUrl)
+    const habit = habits?.find((habit) => habit.urlPath === habitUrl)
 
-    if (!goal) {
+    if (!habit) {
         return (
             <InitialSection>
-                <p>Goal doesn&apos;t exist</p>
+                <p>Habit doesn&apos;t exist</p>
             </InitialSection>
         )
     }
 
     return (
         <InitialSection>
-            <GoalInfo
-                goal={goal}
-                setDeleteWarning={setDeleteWarning}
+            <HabitInfo
+                habit={habit}
                 setEditForm={setEditForm}
+                setDeleteWarning={setDeleteWarning}
             />
             {editForm && (
-                <GoalForm
-                    setGoalsFormOpen={setEditForm}
+                <HabitForm
+                    setHabitsFormOpen={setEditForm}
                     userID={userID}
-                    goal={goal}
+                    habit={habit}
                 />
             )}
             {deleteWarning && (
                 <DeleteDoc
                     setDeleteWarning={setDeleteWarning}
                     userID={userID}
-                    docs={goals}
-                    doc={goal}
-                    path={GOALS}
+                    docs={habits}
+                    doc={habit}
+                    path={HABITS}
                 />
             )}
-            <GoalConfiguration goal={goal} />
         </InitialSection>
     )
 }
 
-export default IndividualGoalContent
+export default IndividualHabitContent

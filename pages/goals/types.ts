@@ -16,12 +16,6 @@ export interface Milestone {
     deadline?: string
 }
 
-export interface AttachedHabit {
-    id: string
-    target: number
-    metric: string
-}
-
 export interface Goal {
     id: string
     name: string
@@ -29,6 +23,6 @@ export interface Goal {
     urlPath: string
     description?: string
     deadline?: string
-    habits?: AttachedHabit[]
+    habits?: string[]
     targets?: string[]
 }

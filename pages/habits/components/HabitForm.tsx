@@ -4,6 +4,7 @@ import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
+import { toKebabCase } from '../../../helpers/string-manipulation-functions'
 import useGetDocs from '../../../hooks/useGetDoc'
 import { ErrorsDispatch } from '../../../types/crud-opearations.types'
 import { HABITS } from '../constants'
@@ -48,7 +49,9 @@ const HabitForm: React.FC<{
                         type,
                         target,
                         metric,
-                        longestStreak: 0
+                        longestStreak: 0,
+                        currentStreak: 0,
+                        urlPath: toKebabCase(name)
                     } as Habit,
                     updatedDoc: {
                         ...habit,

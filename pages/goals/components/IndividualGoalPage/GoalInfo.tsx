@@ -8,16 +8,15 @@ import { formatDateFromString } from '../../../../helpers/date-manipulation-func
 import { capitalizeFirstLetter } from '../../../../helpers/string-manipulation-functions'
 import { goalsIcons } from '../../constants'
 import { Goal } from '../../types'
+import { Dispatch } from '../../../../types/types'
 
 import styles from '../goal.module.scss'
 
-interface Props {
+const GoalInfo: React.FunctionComponent<{
     goal: Goal
-    setEditForm: React.Dispatch<React.SetStateAction<boolean>>
-    setDeleteWarning: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const GoalInfo = ({ goal, setEditForm, setDeleteWarning }: Props) => {
+    setEditForm: Dispatch<boolean>
+    setDeleteWarning: Dispatch<boolean>
+}> = ({ goal, setEditForm, setDeleteWarning }) => {
     const icon = goalsIcons[goal.category as keyof typeof goalsIcons]
 
     return (

@@ -7,11 +7,14 @@ interface Props {
 }
 
 const EmptyContent = ({ shortName }: Props) => {
-  return (
-    <div className={styles.noData}>
-      No {shortName}... You can add some by pressing &apos;<b>New</b>&apos;!
-    </div>
-  )
+    return (
+        <div className={styles.noData}>
+            <p>
+                No {shortName}... You can add some by pressing &apos;<b>Add</b>
+                &apos;!
+            </p>
+        </div>
+    )
 }
 
 export default EmptyContent
