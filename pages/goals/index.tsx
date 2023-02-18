@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import { MdAddBox } from 'react-icons/md'
 
 import Layout from '../../components/Layout/layout'
-import Spinner from '../../components/spinner'
+import Spinner from '../../components/UIElements/spinner'
 import useUserLogged from '../../hooks/useUserLogged'
 import GoalsList from '../../features/Goals/GoalsList/GoalsList'
 import GoalForm from '../../features/Goals/GoalForm'

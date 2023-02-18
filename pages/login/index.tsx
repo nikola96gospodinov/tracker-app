@@ -1,20 +1,23 @@
 import Link from 'next/link'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MdErrorOutline } from 'react-icons/md'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import {
+    useAuthState,
+    useSignInWithEmailAndPassword
+} from 'react-firebase-hooks/auth'
 
 import { auth } from '../../firebase/firebase'
-import Spinner from '../../components/spinner'
-import useUserLogged from '../../hooks/useUserLogged'
+import Spinner from '../../components/UIElements/spinner'
+import { Button } from '../../components/UIElements/Button'
 
 const Login: NextPage = () => {
-    const { user, isLoading } = useUserLogged()
+    const [user, isLoading] = useAuthState(auth)
     const router = useRouter()
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const emailRef = useRef<HTMLInputElement>(null)
+    const passwordRef = useRef<HTMLInputElement>(null)
     const [errorMessage, setErrorMessage] = useState<string>()
     const [signInWithEmailAndPassword, _user, isLoadingSignIn, error] =
         useSignInWithEmailAndPassword(auth)
@@ -24,12 +27,17 @@ const Login: NextPage = () => {
     }, [user])
 
     useEffect(() => {
-        if (error) setErrorMessage('There was a problem logging in')
+        if (error) setErrorMessage('Wrong email or password')
     }, [error])
 
     const logUser = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
-        signInWithEmailAndPassword(email, password)
+        if (emailRef.current?.value && passwordRef.current?.value) {
+            signInWithEmailAndPassword(
+                emailRef.current?.value,
+                passwordRef.current?.value
+            )
+        }
     }
 
     if (isLoading || user) {
@@ -46,23 +54,14 @@ const Login: NextPage = () => {
                 <h1>Login</h1>
                 <form onSubmit={(e) => logUser(e)}>
                     <label htmlFor='email'>Email</label>
-                    <input
-                        id='email'
-                        type='email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <input ref={emailRef} id='email' type='email' />
                     <label htmlFor='password'>Password</label>
-                    <input
-                        id='password'
-                        type='password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <input
+                    <input ref={passwordRef} id='password' type='password' />
+                    <Button
                         type='submit'
-                        value='Login'
-                        className='button button-primary'
+                        text='Login'
+                        btnClass='button-primary'
+                        isLoading={isLoadingSignIn}
                     />
                 </form>
                 <Link href='/reset-password'>

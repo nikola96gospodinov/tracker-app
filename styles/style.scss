@@ -18,7 +18,12 @@ body {
     color: $neutral-1;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
 }
@@ -40,17 +45,17 @@ span {
     color: $neutral-10;
     font-size: 2.5rem;
     font-weight: 600;
-    border-left: .5rem solid $primary-1;
-    padding-left: .5rem;
-    border-radius: .5rem;
+    border-left: 0.5rem solid $primary-1;
+    padding-left: 0.5rem;
+    border-radius: 0.5rem;
 }
 
 .button {
     display: block;
     font-size: 1.125rem;
-    border-radius: .5rem;
-    transition: .3s;
-    padding: .5rem 2.5rem;
+    border-radius: 0.5rem;
+    transition: 0.3s;
+    padding: 0.5rem 2.5rem;
     cursor: pointer;
 }
 
@@ -62,7 +67,7 @@ span {
 
     &:hover {
         box-shadow: $shadow-hover;
-        transform: translateY(.1rem);
+        transform: translateY(0.1rem);
         background: $primary-3;
     }
 }
@@ -76,7 +81,7 @@ span {
 
     &:hover {
         background: $primary-6;
-        transform: translateY(.1rem);
+        transform: translateY(0.1rem);
         color: $neutral-10;
     }
 }
@@ -86,14 +91,21 @@ span {
     font-size: 1.125rem;
     font-weight: 600;
     color: $primary-4;
-    border: .1rem solid $primary-4;
-    padding: .4rem 2.4rem;
+    border: 0.1rem solid $primary-4;
+    padding: 0.4rem 2.4rem;
 
     &:hover {
         background: $primary-4;
         color: $neutral-10;
         font-weight: 500;
     }
+}
+
+.button-disabled {
+    background-color: $primary-10;
+    color: $primary-5;
+    border: none;
+    box-shadow: none;
 }
 
 .button-delete {
@@ -104,7 +116,7 @@ span {
 
     &:hover {
         box-shadow: $shadow-hover;
-        transform: translateY(.1rem);
+        transform: translateY(0.1rem);
         background: $red-3;
     }
 }
@@ -157,7 +169,7 @@ span {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    background: rgba($neutral-1, .8);
+    background: rgba($neutral-1, 0.8);
     z-index: 10;
     display: flex;
     align-items: center;
@@ -181,7 +193,8 @@ span {
         width: 550px;
     }
 
-    .double-grid-t, .triple-grid {
+    .double-grid-t,
+    .triple-grid {
         grid-template-columns: 1fr;
     }
 
@@ -195,7 +208,8 @@ span {
         width: 90%;
     }
 
-    .double-grid, .quadruple-grid {
+    .double-grid,
+    .quadruple-grid {
         grid-template-columns: 1fr;
         grid-gap: 5vw;
     }
@@ -207,7 +221,7 @@ span {
 
 @media (max-width: 320px) {
     .cta {
-        padding: .5rem 1.25rem;
+        padding: 0.5rem 1.25rem;
     }
 }
 
@@ -218,7 +232,7 @@ span {
 
     .sub-heading {
         font-size: 3rem;
-        border-left: .75rem solid $primary-1;
-        padding-left: .75rem;
+        border-left: 0.75rem solid $primary-1;
+        padding-left: 0.75rem;
     }
 }

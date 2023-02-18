@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { MdAddBox } from 'react-icons/md'
 import { NextPage } from 'next'
 
-import Spinner from '../../components/spinner'
+import Spinner from '../../components/UIElements/spinner'
 import useUserLogged from '../../hooks/useUserLogged'
 import InitialSection from '../../components/InitialSection'
 import Layout from '../../components/Layout/layout'

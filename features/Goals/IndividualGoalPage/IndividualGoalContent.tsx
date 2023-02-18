@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import InitialSection from '../../../components/InitialSection'
 import GoalInfo from './GoalInfo'
-import Spinner from '../../../components/spinner'
+import Spinner from '../../../components/UIElements/spinner'
 import GoalForm from '../GoalForm'
 import useGetDocs from '../../../hooks/useGetDoc'
 import GoalConfiguration from './GoalConfiguration'

@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import DeleteDoc from '../../../components/DeleteDoc'
 import InitialSection from '../../../components/InitialSection'
-import Spinner from '../../../components/spinner'
+import Spinner from '../../../components/UIElements/spinner'
 import useGetDocs from '../../../hooks/useGetDoc'
 import { HABITS } from '../../../pages/habits//constants'
 import { Habit } from '../../../pages/habits//types'

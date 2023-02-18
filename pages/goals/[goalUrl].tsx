@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import { NextPage } from 'next/types'
 import Layout from '../../components/Layout/layout'
-import Spinner from '../../components/spinner'
+import Spinner from '../../components/UIElements/spinner'
 import useUserLogged from '../../hooks/useUserLogged'
 import IndividualGoalContent from '../../features/Goals/IndividualGoalPage/IndividualGoalContent'
 

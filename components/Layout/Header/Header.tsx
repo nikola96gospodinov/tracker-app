@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import Logo from '../../Logo'
+import Logo from '../../UIElements/Logo'
 import { menu } from './data'
 
 import styles from './header.module.scss'

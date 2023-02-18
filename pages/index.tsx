@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import Spinner from '../components/spinner'
+import Spinner from '../components/UIElements/spinner'
 import Layout from '../components/Layout/layout'
 import useUserLogged from '../hooks/useUserLogged'
 

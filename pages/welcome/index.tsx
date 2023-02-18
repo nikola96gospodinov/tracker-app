@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 
-import Logo from '../../components/Logo'
+import Logo from '../../components/UIElements/Logo'
 
 import styles from './welcome.module.scss'
 
@@ -25,12 +25,16 @@ const Welcome: NextPage = () => {
                             <h1>Welcome</h1>
                             <h2>Some secondary headline</h2>
                             <div className={styles.btnHolder}>
-                            <Link href='/register'>
-                                <a className='button button-primary'>Register</a>
-                            </Link>
-                            <Link href='/login'>
-                                <a className='button button-tertiary'>Login</a>
-                            </Link>
+                                <Link href='/register'>
+                                    <a className='button button-primary'>
+                                        Register
+                                    </a>
+                                </Link>
+                                <Link href='/login'>
+                                    <a className='button button-tertiary'>
+                                        Login
+                                    </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

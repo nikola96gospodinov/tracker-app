@@ -1,5 +1,5 @@
 import EmptyContentList from '../../../components/EmptyContentList'
-import Spinner from '../../../components/spinner'
+import Spinner from '../../../components/UIElements/spinner'
 import useGetDocs from '../../../hooks/useGetDoc'
 import { HABITS } from '../../../pages/habits/constants'
 import { Habit } from '../../../pages/habits/types'

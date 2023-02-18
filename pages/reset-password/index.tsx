@@ -1,16 +1,19 @@
 import { NextPage } from 'next/types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { MdErrorOutline } from 'react-icons/md'
+import {
+    useAuthState,
+    useSendPasswordResetEmail
+} from 'react-firebase-hooks/auth'
 
-import Spinner from '../../components/spinner'
+import Spinner from '../../components/UIElements/spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
-import useUserLogged from '../../hooks/useUserLogged'
-import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth'
+import { Button } from '../../components/UIElements/Button'
 
 const ResetPassword: NextPage = () => {
-    const { isLoading } = useUserLogged()
+    const [user, isLoading] = useAuthState(auth)
 
     const [email, setEmail] = useState('')
     const [errors, setErrors] = useState({
@@ -24,7 +27,14 @@ const ResetPassword: NextPage = () => {
     const sendResetEmail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (email.match(validateEmail)) {
-            await sendPasswordResetEmail(email)
+            const success = await sendPasswordResetEmail(email)
+            if (success) {
+                setIsSuccess(true)
+                setErrors({
+                    ...errors,
+                    form: false
+                })
+            }
         } else {
             setErrors({
                 ...errors,
@@ -33,7 +43,16 @@ const ResetPassword: NextPage = () => {
         }
     }
 
-    if (isLoading) {
+    useEffect(() => {
+        if (error) {
+            setErrors({
+                ...errors,
+                form: true
+            })
+        }
+    }, [error])
+
+    if (isLoading || user) {
         return (
             <div className='full-screen-centered'>
                 <Spinner />
@@ -84,17 +103,16 @@ const ResetPassword: NextPage = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            {errors.email ? (
+                            {errors.email && (
                                 <span className='field-error'>
                                     Please enter a valid email
                                 </span>
-                            ) : (
-                                <></>
                             )}
-                            <input
+                            <Button
                                 type='submit'
-                                value='Reset password'
-                                className='button button-primary'
+                                text='Reset Password'
+                                btnClass='button-primary'
+                                isLoading={isLoadindReseting}
                             />
                         </form>
                         <span className='redirect'>
@@ -107,7 +125,7 @@ const ResetPassword: NextPage = () => {
                             <div className='form-error'>
                                 <MdErrorOutline />
                                 <span>
-                                    There was an issue with the registration.
+                                    There was an issue with the password reset.
                                     Please try again
                                 </span>
                             </div>

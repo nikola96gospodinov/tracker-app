@@ -1,6 +1,6 @@
 import useGetDocs from '../../../hooks/useGetDoc'
 import EmptyContentList from '../../../components/EmptyContentList'
-import Spinner from '../../../components/spinner'
+import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from './GoalBox'
 import { Goal } from '../../../pages/goals/types'
 import { GOALS } from '../../../pages/goals/constants'

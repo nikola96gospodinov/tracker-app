@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import { doc, getDoc } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { signOut } from 'firebase/auth'
-import useUserLogged from '../hooks/useUserLogged'
 
+import useUserLogged from '../hooks/useUserLogged'
 import { auth, db } from '../firebase/firebase'
 
 const Profile: NextPage = () => {
