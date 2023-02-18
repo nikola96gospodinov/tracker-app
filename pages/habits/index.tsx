@@ -7,9 +7,9 @@ import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
 import InitialSection from '../../components/InitialSection'
-import Layout from '../../components/layout'
-import HabitForm from './components/HabitForm'
-import HabitsList from './components/HabitsList/HabitsList'
+import Layout from '../../components/Layout/layout'
+import HabitForm from '../../features/Habits/HabitForm'
+import HabitsList from '../../features/Habits/HabitsList/HabitsList'
 
 const Habits: NextPage = () => {
     const { data: user } = useAuthUser(['user'], auth)
@@ -32,8 +32,18 @@ const Habits: NextPage = () => {
                         <h1>My Habits</h1>
                         <MdAddBox onClick={() => setAddHabitsFormOpen(true)} />
                     </div>
-                    {user && <HabitsList userID={user.uid} setAddHabitsFormOpen={setAddHabitsFormOpen} />}
-                    {addHabitsFormOpen && <HabitForm setHabitsFormOpen={setAddHabitsFormOpen} userID={user.uid}/>}
+                    {user && (
+                        <HabitsList
+                            userID={user.uid}
+                            setAddHabitsFormOpen={setAddHabitsFormOpen}
+                        />
+                    )}
+                    {addHabitsFormOpen && (
+                        <HabitForm
+                            setHabitsFormOpen={setAddHabitsFormOpen}
+                            userID={user.uid}
+                        />
+                    )}
                 </InitialSection>
             </Layout>
         </>

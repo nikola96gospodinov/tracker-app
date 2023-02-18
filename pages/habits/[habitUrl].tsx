@@ -2,11 +2,11 @@ import { useAuthUser } from '@react-query-firebase/auth'
 import Head from 'next/head'
 
 import { NextPage } from 'next'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout/layout'
 import Spinner from '../../components/spinner'
 import { auth } from '../../firebase/firebase'
 import useUserLogged from '../../hooks/useUserLogged'
-import IndividualHabitContent from './components/IndividualHabitPage/IndividualHabitContent'
+import IndividualHabitContent from '../../features/Habits/IndividualHabitPage/IndividualHabitContent'
 
 const IndividuaHait: NextPage = () => {
     const { data: user } = useAuthUser(['user'], auth)
