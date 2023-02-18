@@ -1,5 +1,6 @@
 import { Goal } from '../pages/goals/types'
 import { Habit } from '../pages/habits/types'
+import { Dispatch } from '../typings'
 
 export type Doc = Goal | Habit
 export interface Errors {
@@ -7,4 +8,4 @@ export interface Errors {
     form: boolean
     [k: string]: any
 }
-export type ErrorsDispatch = React.Dispatch<React.SetStateAction<Errors>>
+export type ErrorsDispatch = Dispatch<Errors>

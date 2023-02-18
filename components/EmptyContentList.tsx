@@ -1,6 +1,8 @@
+import { Dispatch } from '../typings'
+
 interface Props {
     name: string
-    setAddFormOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setAddFormOpen: Dispatch<boolean>
 }
 
 const EmptyContentList = ({ name, setAddFormOpen }: Props): JSX.Element => {
@@ -10,7 +12,9 @@ const EmptyContentList = ({ name, setAddFormOpen }: Props): JSX.Element => {
             <button
                 className='button button-primary'
                 onClick={() => setAddFormOpen(true)}
-            >Add {name.toLowerCase()}</button>
+            >
+                Add {name.toLowerCase()}
+            </button>
         </div>
     )
 }

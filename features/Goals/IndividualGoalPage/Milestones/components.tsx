@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { addMilestone } from '../../../../pages/goals/helpers/crud-operations-milestones'
 import { Milestone } from '../../../../pages/goals/types'
+import { Dispatch } from '../../../../typings'
 
 import styles from '../../goal.module.scss'
 
@@ -305,7 +306,7 @@ export const UpcomingMilestones: React.FunctionComponent<{
 }
 
 export const AddMilestone: React.FunctionComponent<{
-    setNewElementAdded: React.Dispatch<React.SetStateAction<boolean>>
+    setNewElementAdded: Dispatch<boolean>
     goalID: string
     userID: string
     milestones: Milestone[]
@@ -381,11 +382,9 @@ export const AddMilestone: React.FunctionComponent<{
 
 export const DeleteModal: React.FunctionComponent<{
     handleDelete: () => void
-    setDeleteWarning: React.Dispatch<React.SetStateAction<boolean>>
+    setDeleteWarning: Dispatch<boolean>
     errorDeleting: boolean
-    setActiveMilestone: React.Dispatch<
-        React.SetStateAction<Milestone | undefined>
-    >
+    setActiveMilestone: Dispatch<Milestone | undefined>
 }> = ({
     handleDelete,
     setDeleteWarning,

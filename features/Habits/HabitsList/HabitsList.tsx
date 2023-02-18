@@ -3,11 +3,12 @@ import Spinner from '../../../components/spinner'
 import useGetDocs from '../../../hooks/useGetDoc'
 import { HABITS } from '../../../pages/habits/constants'
 import { Habit } from '../../../pages/habits/types'
+import { Dispatch } from '../../../typings'
 import { HabitBox } from './HabitBox'
 
 interface Props {
     userID: string
-    setAddHabitsFormOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setAddHabitsFormOpen: Dispatch<boolean>
 }
 
 const HabitsList = ({ userID, setAddHabitsFormOpen }: Props) => {

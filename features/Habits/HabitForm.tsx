@@ -9,9 +9,10 @@ import useGetDocs from '../../hooks/useGetDoc'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { HABITS } from '../../pages/habits/constants'
 import { Habit, HabitType } from '../../pages/habits/types'
+import { Dispatch } from '../../typings'
 
 const HabitForm: React.FC<{
-    setHabitsFormOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setHabitsFormOpen: Dispatch<boolean>
     userID: string
     habit?: Habit
 }> = ({ setHabitsFormOpen, userID, habit }) => {

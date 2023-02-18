@@ -4,10 +4,11 @@ import Spinner from '../../../components/spinner'
 import { GoalBox } from './GoalBox'
 import { Goal } from '../../../pages/goals/types'
 import { GOALS } from '../../../pages/goals/constants'
+import { Dispatch } from '../../../typings'
 
 interface Props {
     userID: string
-    setAddGoalsFormOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setAddGoalsFormOpen: Dispatch<boolean>
 }
 
 const GoalsList = ({ userID, setAddGoalsFormOpen }: Props) => {

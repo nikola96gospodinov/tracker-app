@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
-import { Dispatch, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { removeDoc } from '../helpers/crud-operations/crud-operations-main-docs'
 import { removeLastCharacter } from '../helpers/string-manipulation-functions'
 import { Doc } from '../types/crud-opearations.types'
+import { Dispatch } from '../typings'
 
 interface Props<T> {
     setDeleteWarning: Dispatch<boolean>

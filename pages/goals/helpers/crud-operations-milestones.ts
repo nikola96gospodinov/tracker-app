@@ -2,6 +2,7 @@ import { Milestone } from '../types'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../../../firebase/firebase'
 import { SetStateOptions } from 'react-query/types/core/query'
+import { Dispatch } from '../../../typings'
 
 const milestonesCollection = collection(db, 'milestones')
 
@@ -9,7 +10,7 @@ interface AddMilestoneProps {
     userID: string
     milestones: Milestone[]
     newMilestone: Milestone
-    setSubmitError: React.Dispatch<React.SetStateAction<boolean>>
+    setSubmitError: Dispatch<boolean>
 }
 
 export const addMilestone = async ({
@@ -37,7 +38,7 @@ interface DeleteMilestoneProps {
     userID: string
     milestones: Milestone[]
     milestone: Milestone
-    setErrorDeleting: React.Dispatch<React.SetStateAction<boolean>>
+    setErrorDeleting: Dispatch<boolean>
 }
 
 export const deleteMilestone = async ({
@@ -63,7 +64,7 @@ interface ToggleMilestoneProps {
     userID: string
     milestones: Milestone[]
     milestone: Milestone
-    setErrorToggling: React.Dispatch<React.SetStateAction<boolean>>
+    setErrorToggling: Dispatch<boolean>
 }
 
 export const toggleMilestone = async ({
@@ -97,10 +98,8 @@ interface EditMilestoneProps {
     userID: string
     milestones: Milestone[]
     updatedMilestone: Milestone
-    setActiveMilestone: React.Dispatch<
-        React.SetStateAction<Milestone | undefined>
-    >
-    setErrorUpdating: React.Dispatch<React.SetStateAction<boolean>>
+    setActiveMilestone: Dispatch<Milestone | undefined>
+    setErrorUpdating: Dispatch<boolean>
 }
 
 export const editMilestone = async ({

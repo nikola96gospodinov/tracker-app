@@ -8,7 +8,7 @@ import { formatDateFromString } from '../../../helpers/date-manipulation-functio
 import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-functions'
 import { goalsIcons } from '../../../pages/goals/constants'
 import { Goal } from '../../../pages/goals/types'
-import { Dispatch } from '../../../types/types'
+import { Dispatch } from '../../../typings'
 
 import styles from '../goal.module.scss'
 

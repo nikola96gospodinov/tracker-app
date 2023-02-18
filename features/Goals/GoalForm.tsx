@@ -9,12 +9,13 @@ import { Goal } from '../../pages/goals/types'
 import { GOALS } from '../../pages/goals/constants'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
+import { Dispatch } from '../../typings'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
 
 interface Props {
-    setGoalsFormOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setGoalsFormOpen: Dispatch<boolean>
     userID: string
     goal?: Goal
 }

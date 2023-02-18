@@ -9,7 +9,7 @@ import { NextRouter } from 'next/router'
 
 import { db } from '../../firebase/firebase'
 import { Doc, Errors, ErrorsDispatch } from '../../types/crud-opearations.types'
-import { Dispatch } from './../../types/types'
+import { Dispatch } from '../../typings'
 
 interface DocProps<T> {
     docsRef: DocumentReference<DocumentData>
