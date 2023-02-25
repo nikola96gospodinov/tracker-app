@@ -8,12 +8,16 @@ import useUserLogged from '../../hooks/useUserLogged'
 const WeeklyReview = () => {
     const { user } = useUserLogged()
     const userID = user?.uid
-    const { docs: goals } = useGetDocs<Goal>({
+    const {
+        docs: goals,
+        loading,
+        errorFetching
+    } = useGetDocs<Goal>({
         userID: userID ?? '',
         path: GOALS
     })
 
-    if (!goals) {
+    if (!goals || loading) {
         return (
             <div className='initial-section'>
                 <div className='container'>
@@ -23,6 +27,10 @@ const WeeklyReview = () => {
                 </div>
             </div>
         )
+    }
+
+    if (errorFetching) {
+        // TODO: Add an Error component
     }
 
     return (

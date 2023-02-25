@@ -7,19 +7,13 @@ import {
     useAuthState,
     useCreateUserWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
+import { User } from 'firebase/auth'
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
 
 import { auth, db } from '../../firebase/firebase'
 import Spinner from '../../components/UIElements/spinner'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { Button } from '../../components/UIElements/Button'
-import { User } from 'firebase/auth'
-import {
-    addDoc,
-    collection,
-    doc,
-    serverTimestamp,
-    setDoc
-} from 'firebase/firestore'
 
 const Register: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)

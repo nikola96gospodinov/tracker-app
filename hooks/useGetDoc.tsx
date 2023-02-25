@@ -1,4 +1,10 @@
-import { collection, doc, onSnapshot, setDoc } from 'firebase/firestore'
+import {
+    collection,
+    doc,
+    getDocs,
+    onSnapshot,
+    setDoc
+} from 'firebase/firestore'
 import { useState, useEffect } from 'react'
 
 import { db } from '../firebase/firebase'
@@ -13,40 +19,29 @@ interface Props {
 }
 
 const useGetDocs = <T,>({ userID, path }: Props) => {
-    const [allDocs, setAllDocs] = useState<DocData<T>>()
+    const fullPath = `users/${userID}/${path}`
+    const [allDocs, setAllDocs] = useState<T[]>()
+    const [loading, setLoading] = useState(false)
     const [errorFetching, setErrorFetching] = useState(false)
-    const docsCollectionRef = collection(db, path)
-    const docsRef = doc(db, path, userID)
-    const emptyDocsArray = {
-        data: [] as T[]
+    const docsCollection = collection(db, fullPath)
+
+    const fetchDocs = async () => {
+        setLoading(true)
+        try {
+            const documents = await getDocs(docsCollection)
+            const docs = documents.docs.map((doc) => ({ ...doc.data() })) as T[]
+            setAllDocs(docs)
+        } catch {
+            setErrorFetching(true)
+        }
+        setLoading(false)
     }
 
     useEffect(() => {
-        const unsubscribe = onSnapshot(
-            docsRef,
-            (docsSnapshot) => {
-                const docsExists = docsSnapshot?.exists()
-                const docsData = docsSnapshot?.data() as DocData<T>
-
-                if (docsExists === false) {
-                    setDoc(doc(docsCollectionRef, userID), emptyDocsArray)
-                    setAllDocs(emptyDocsArray)
-                } else {
-                    setAllDocs(docsData)
-                }
-            },
-            (error) => {
-                console.log(error)
-                setErrorFetching(true)
-            }
-        )
-
-        return () => unsubscribe()
+        fetchDocs()
     }, [])
 
-    const docs = allDocs?.data
-
-    return { docs, errorFetching }
+    return { docs: allDocs, loading, errorFetching }
 }
 
 export default useGetDocs
