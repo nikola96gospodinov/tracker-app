@@ -8,10 +8,18 @@ import {
     useCreateUserWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
 
-import { auth } from '../../firebase/firebase'
+import { auth, db } from '../../firebase/firebase'
 import Spinner from '../../components/UIElements/spinner'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { Button } from '../../components/UIElements/Button'
+import { User } from 'firebase/auth'
+import {
+    addDoc,
+    collection,
+    doc,
+    serverTimestamp,
+    setDoc
+} from 'firebase/firestore'
 
 const Register: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -30,7 +38,7 @@ const Register: NextPage = () => {
         letter: false,
         number: false
     })
-    const [createUserWithEmailAndPassword, _user, isLoadingRegister, error] =
+    const [createUserWithEmailAndPassword, userCred, isLoadingRegister, error] =
         useCreateUserWithEmailAndPassword(auth)
 
     useEffect(() => {
@@ -79,6 +87,20 @@ const Register: NextPage = () => {
             )
         }
     }
+
+    const createUserDocument = async (user: User) => {
+        const { uid } = user
+        await setDoc(doc(db, 'users', uid), {
+            uid,
+            createdAt: serverTimestamp()
+        })
+    }
+
+    useEffect(() => {
+        if (userCred) {
+            createUserDocument(userCred.user)
+        }
+    }, [userCred])
 
     if (isLoading || user) {
         return (
