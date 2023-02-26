@@ -9,7 +9,6 @@ import { Dispatch } from '../typings'
 interface Props<T> {
     setDeleteWarning: Dispatch<boolean>
     userID: string
-    docs: T[]
     doc: T
     path: string
 }
@@ -17,7 +16,6 @@ interface Props<T> {
 const DeleteDoc = <T extends Doc>({
     setDeleteWarning,
     userID,
-    docs,
     doc,
     path
 }: Props<T>) => {
@@ -28,7 +26,6 @@ const DeleteDoc = <T extends Doc>({
     const handleDelete = useCallback(() => {
         removeDoc({
             path,
-            docs,
             orgDoc: doc,
             userID,
             router,

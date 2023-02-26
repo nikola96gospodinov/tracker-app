@@ -1,6 +1,6 @@
 import EmptyContentList from '../../../components/EmptyContentList'
 import Spinner from '../../../components/UIElements/spinner'
-import useGetDocs from '../../../hooks/useGetDoc'
+import useGetDocs from '../../../hooks/useGetDocs'
 import { HABITS } from '../constants'
 import { Habit } from '../habits.types'
 import { Dispatch } from '../../../typings'

@@ -1,4 +1,4 @@
-import useGetDocs from '../../hooks/useGetDoc'
+import useGetDocs from '../../hooks/useGetDocs'
 import { GOALS } from '../Goals/constants'
 import { Goal } from '../Goals/goals.types'
 import NoGoals from '../../components/NoGoals'

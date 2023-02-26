@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback, useState } from 'react'
 
 import EmptyContent from '../EmptyContent'
-import useGetDocs from '../../../../hooks/useGetDoc'
+import useGetDocs from '../../../../hooks/useGetDocs'
 import { auth } from '../../../../firebase/firebase'
 import { Milestone } from '../../goals.types'
 import {
@@ -55,7 +55,6 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     const handleDelete = useCallback(() => {
         deleteMilestone({
             userID: user?.uid ?? '',
-            milestones: milestones ?? [],
             milestone: activeMilestone!,
             setErrorDeleting
         })
@@ -66,7 +65,6 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
         (milestone: Milestone) => {
             toggleMilestone({
                 userID: user?.uid ?? '',
-                milestones: milestones ?? [],
                 milestone,
                 setErrorToggling
             })
@@ -88,7 +86,6 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
 
             editMilestone({
                 userID: user?.uid ?? '',
-                milestones: milestones ?? [],
                 updatedMilestone,
                 setActiveMilestone,
                 setErrorUpdating
@@ -153,7 +150,6 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
                                 setNewElementAdded={setNewElementAdded}
                                 goalID={goalID}
                                 userID={user?.uid ?? ''}
-                                milestones={relevantMilestones}
                             />
                         )}
                     </table>

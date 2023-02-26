@@ -1,29 +1,29 @@
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
+import { collection, onSnapshot } from 'firebase/firestore'
+import { useState, useEffect } from 'react'
 
 import { db } from '../firebase/firebase'
 
 interface Props {
     userID: string
     path: string
-    url: string
 }
 
-const useGetDoc = <T,>({ userID, path, url }: Props) => {
+const useGetDocs = <T,>({ userID, path }: Props) => {
     const fullPath = `users/${userID}/${path}`
-    const [doc, setDoc] = useState<T>()
+    const [allDocs, setAllDocs] = useState<T[]>()
     const [loading, setLoading] = useState(false)
     const [errorFetching, setErrorFetching] = useState(false)
     const docsCollection = collection(db, fullPath)
-    const docQuery = query(docsCollection, where('urlPath', '==', url))
 
     useEffect(() => {
         setLoading(true)
         const unsubscribe = onSnapshot(
-            docQuery,
-            (docSnapshot) => {
-                const firstDoc = docSnapshot.docs[0].data() as T
-                setDoc(firstDoc)
+            docsCollection,
+            (docsSnapshot) => {
+                const docs = docsSnapshot.docs.map((doc) => ({
+                    ...doc.data()
+                })) as T[]
+                setAllDocs(docs)
                 setLoading(false)
             },
             (error) => {
@@ -36,7 +36,7 @@ const useGetDoc = <T,>({ userID, path, url }: Props) => {
         return () => unsubscribe()
     }, [])
 
-    return { doc, loading, errorFetching }
+    return { docs: allDocs, loading, errorFetching }
 }
 
-export default useGetDoc
+export default useGetDocs

@@ -13,6 +13,7 @@ import styles from '../goal.module.scss'
 export const GoalBox: React.FunctionComponent<{
     goal: Goal
 }> = ({ goal }) => {
+    console.log(goal)
     const [showEditIcon, setShowEditIcon] = useState(false)
 
     const icon = goalsIcons[goal.category as keyof typeof goalsIcons]

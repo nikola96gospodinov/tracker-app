@@ -12,8 +12,7 @@ export const AddMilestone: React.FunctionComponent<{
     setNewElementAdded: Dispatch<boolean>
     goalID: string
     userID: string
-    milestones: Milestone[]
-}> = ({ setNewElementAdded, goalID, userID, milestones }) => {
+}> = ({ setNewElementAdded, goalID, userID }) => {
     const nameRef = useRef<HTMLInputElement>(null)
     const deadlineRef = useRef<HTMLInputElement>(null)
     const [error, setError] = useState(false)
@@ -39,7 +38,6 @@ export const AddMilestone: React.FunctionComponent<{
             addMilestone({
                 newMilestone,
                 userID,
-                milestones,
                 setSubmitError
             })
             if (!submitError) {

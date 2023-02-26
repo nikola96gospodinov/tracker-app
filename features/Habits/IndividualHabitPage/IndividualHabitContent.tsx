@@ -4,7 +4,7 @@ import { useState } from 'react'
 import DeleteDoc from '../../../components/DeleteDoc'
 import InitialSection from '../../../components/InitialSection'
 import Spinner from '../../../components/UIElements/spinner'
-import useGetDocs from '../../../hooks/useGetDoc'
+import useGetDoc from '../../../hooks/useGetDoc'
 import useUserLogged from '../../../hooks/useUserLogged'
 import { HABITS } from '../constants'
 import { Habit } from '../habits.types'
@@ -16,14 +16,19 @@ const IndividualHabitContent = () => {
     const userID = user?.uid
     const router = useRouter()
     const { habitUrl } = router.query
-    const { docs: habits } = useGetDocs<Habit>({
+    const {
+        doc: habit,
+        loading,
+        errorFetching
+    } = useGetDoc<Habit>({
         userID: userID ?? '',
-        path: HABITS
+        path: HABITS,
+        url: habitUrl as string
     })
     const [editForm, setEditForm] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
 
-    if (!habits || !userID) {
+    if (loading || !userID) {
         return (
             <InitialSection>
                 <Spinner />
@@ -31,9 +36,7 @@ const IndividualHabitContent = () => {
         )
     }
 
-    const habit = habits?.find((habit) => habit.urlPath === habitUrl)
-
-    if (!habit) {
+    if (!habit || errorFetching) {
         return (
             <InitialSection>
                 <p>Habit doesn&apos;t exist</p>
@@ -59,7 +62,6 @@ const IndividualHabitContent = () => {
                 <DeleteDoc
                     setDeleteWarning={setDeleteWarning}
                     userID={userID}
-                    docs={habits}
                     doc={habit}
                     path={HABITS}
                 />

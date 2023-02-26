@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useGetDocs from '../../../../hooks/useGetDoc'
+import useGetDocs from '../../../../hooks/useGetDocs'
 import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../Habits/constants'
 import { Habit } from '../../../Habits/habits.types'

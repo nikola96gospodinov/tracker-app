@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
+import { useRouter } from 'next/router'
 
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
-import useGetDocs from '../../hooks/useGetDoc'
+import useGetDocs from '../../hooks/useGetDocs'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { HABITS } from './constants'
 import { Habit, HabitType } from './habits.types'
@@ -17,6 +18,7 @@ const HabitForm: React.FunctionComponent<{
     userID: string
     habit?: Habit
 }> = ({ setHabitsFormOpen, userID, habit }) => {
+    const router = useRouter()
     const [name, setName] = useState(habit?.name ?? '')
     const [description, setDescription] = useState(habit?.description ?? '')
     const [type, setType] = useState(habit?.type ?? 'daily')
@@ -61,32 +63,24 @@ const HabitForm: React.FunctionComponent<{
 
         if (target && metric && nameError() === '') {
             const fields = {
+                id: habit?.id ?? uuidv4(),
                 name,
                 description,
                 type,
                 target,
-                metric
+                metric,
+                urlPath: toKebabCase(name) as string,
+                longestStreak: habit?.longestStreak ?? 0,
+                currentStreak: habit?.currentStreak ?? 0
             }
 
             submitDoc<Habit>({
                 path: HABITS,
-                docs: habits!,
-                orgDoc: habit,
-                newDoc: {
-                    id: uuidv4(),
-                    ...fields,
-                    longestStreak: 0,
-                    currentStreak: 0,
-                    urlPath: toKebabCase(name)
-                } as Habit,
-                updatedDoc: {
-                    ...habit,
-                    ...fields
-                } as Habit,
+                orgDoc: fields,
                 userID,
                 setDocsFormOpen: setHabitsFormOpen,
-                errors,
-                setErrors: setErrors as ErrorsDispatch
+                setErrors: setErrors as ErrorsDispatch,
+                router
             })
         }
     }

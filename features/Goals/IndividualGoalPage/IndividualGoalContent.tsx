@@ -5,26 +5,31 @@ import InitialSection from '../../../components/InitialSection'
 import GoalInfo from './GoalInfo'
 import Spinner from '../../../components/UIElements/spinner'
 import GoalForm from '../GoalForm'
-import useGetDocs from '../../../hooks/useGetDoc'
 import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../goals.types'
 import { GOALS } from '../constants'
 import DeleteDoc from '../../../components/DeleteDoc'
 import useUserLogged from '../../../hooks/useUserLogged'
+import useGetDoc from '../../../hooks/useGetDoc'
 
 const IndividualGoalContent = () => {
     const { user } = useUserLogged()
     const userID = user?.uid
     const router = useRouter()
     const { goalUrl } = router.query
-    const { docs: goals } = useGetDocs<Goal>({
+    const {
+        doc: goal,
+        loading,
+        errorFetching
+    } = useGetDoc<Goal>({
         userID: userID ?? '',
-        path: GOALS
+        path: GOALS,
+        url: goalUrl as string
     })
     const [editForm, setEditForm] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
 
-    if (!goals || !userID) {
+    if (!userID || loading) {
         return (
             <InitialSection>
                 <Spinner size={10} />
@@ -32,9 +37,7 @@ const IndividualGoalContent = () => {
         )
     }
 
-    const goal = goals?.find((goal) => goal.urlPath === goalUrl)
-
-    if (!goal) {
+    if (errorFetching || !goal) {
         return (
             <InitialSection>
                 <p>Goal doesn&apos;t exist</p>
@@ -60,7 +63,6 @@ const IndividualGoalContent = () => {
                 <DeleteDoc
                     setDeleteWarning={setDeleteWarning}
                     userID={userID}
-                    docs={goals}
                     doc={goal}
                     path={GOALS}
                 />

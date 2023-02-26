@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react'
 import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
+import { useRouter } from 'next/router'
 
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
-import useGetDocs from '../../hooks/useGetDoc'
+import useGetDocs from '../../hooks/useGetDocs'
 import { Goal } from './goals.types'
 import { GOALS } from './constants'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
@@ -20,6 +21,7 @@ const GoalForm: React.FunctionComponent<{
     userID: string
     goal?: Goal
 }> = ({ setGoalsFormOpen, userID, goal }) => {
+    const router = useRouter()
     const [name, setName] = useState(goal?.name ?? '')
     const [description, setDescription] = useState(goal?.description ?? '')
     const [deadline, setDeadline] = useState(goal?.deadline ?? '')
@@ -58,26 +60,18 @@ const GoalForm: React.FunctionComponent<{
                 name,
                 description,
                 deadline,
-                category
+                category,
+                id: goal?.id ?? uuidv4(),
+                urlPath: toKebabCase(name)
             }
 
             submitDoc<Goal>({
                 path: GOALS,
-                docs: goals!,
-                orgDoc: goal,
-                updatedDoc: {
-                    ...goal,
-                    ...fields
-                } as Goal,
-                newDoc: {
-                    id: uuidv4(),
-                    ...fields,
-                    urlPath: toKebabCase(name)
-                } as Goal,
+                orgDoc: fields as Goal,
                 userID,
                 setDocsFormOpen: setGoalsFormOpen,
-                errors,
-                setErrors: setErrors as ErrorsDispatch
+                setErrors: setErrors as ErrorsDispatch,
+                router
             })
         }
     }

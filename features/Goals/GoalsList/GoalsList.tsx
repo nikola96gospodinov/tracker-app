@@ -1,4 +1,4 @@
-import useGetDocs from '../../../hooks/useGetDoc'
+import useGetDocs from '../../../hooks/useGetDocs'
 import EmptyContentList from '../../../components/EmptyContentList'
 import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from './GoalBox'
