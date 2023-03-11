@@ -60,12 +60,6 @@ export const AddMilestone: React.FunctionComponent<{
                         Please fill in this field
                     </span>
                 )}
-                {submitError && (
-                    <span style={{ marginBottom: '0' }} className='field-error'>
-                        There was an error adding the milestone. Please try
-                        again
-                    </span>
-                )}
             </td>
             <td>
                 <input type='date' ref={deadlineRef} />

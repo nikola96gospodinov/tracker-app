@@ -15,10 +15,11 @@ import { Dispatch } from '../../typings'
 interface SubmitDocProps<T> {
     path: string
     userID: string
-    setErrors: ErrorsDispatch
     orgDoc: T
-    setDocsFormOpen: Dispatch<boolean>
-    router: NextRouter
+    setError?: Dispatch<boolean>
+    setErrors?: ErrorsDispatch
+    setDocsFormOpen?: Dispatch<boolean>
+    router?: NextRouter
 }
 
 export const submitDoc = async <T extends Doc>({
@@ -26,6 +27,7 @@ export const submitDoc = async <T extends Doc>({
     orgDoc,
     userID,
     setDocsFormOpen,
+    setError,
     setErrors,
     router
 }: SubmitDocProps<T>) => {
@@ -42,14 +44,19 @@ export const submitDoc = async <T extends Doc>({
         } else {
             await setDoc(docsRef, orgDoc)
         }
-        setDocsFormOpen(false)
-        router.push(`/${path}/${orgDoc.urlPath}`)
+        if (setDocsFormOpen && router) {
+            setDocsFormOpen(false)
+            router.push(`/${path}/${orgDoc.urlPath}`)
+        }
     } catch (e) {
         console.log(e)
-        setErrors((prev) => ({
-            ...prev,
-            form: true
-        }))
+        if (setErrors) {
+            setErrors((prev) => ({
+                ...prev,
+                form: true
+            }))
+        }
+        if (setError) setError(true)
     }
 }
 

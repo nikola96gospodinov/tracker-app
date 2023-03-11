@@ -1,5 +1,3 @@
-import { MILESTONES } from './../constants'
-import { Milestone } from '../goals.types'
 import {
     collection,
     deleteDoc,
@@ -7,8 +5,12 @@ import {
     updateDoc,
     setDoc
 } from 'firebase/firestore'
+
+import { MILESTONES } from './../constants'
+import { Milestone } from '../goals.types'
 import { db } from '../../../firebase/firebase'
 import { Dispatch } from '../../../typings'
+import { customToast } from '../../../helpers/customToast'
 
 const getMilestonesCollection = (userID: string) => {
     return collection(db, `users/${userID}/${MILESTONES}`)
@@ -31,45 +33,57 @@ export const addMilestone = async ({
     try {
         await setDoc(milestonesRef, newMilestone)
         setSubmitError(false)
+        customToast({
+            message: 'Milestone successfully added',
+            type: 'success'
+        })
     } catch (e) {
         console.log(e)
         setSubmitError(true)
+        customToast({
+            message:
+                'There was an error creating your milestone. Please refresh and try again',
+            type: 'error'
+        })
     }
 }
 
 interface DeleteMilestoneProps {
     userID: string
     milestone: Milestone
-    setErrorDeleting: Dispatch<boolean>
 }
 
 export const deleteMilestone = async ({
     userID,
-    milestone,
-    setErrorDeleting
+    milestone
 }: DeleteMilestoneProps) => {
     const milestonesCollection = getMilestonesCollection(userID)
     const milestoneRef = doc(milestonesCollection, milestone.id)
 
     try {
         await deleteDoc(milestoneRef)
-        setErrorDeleting(false)
+        customToast({
+            message: 'Milestone successfully deleted',
+            type: 'success'
+        })
     } catch (e) {
-        setErrorDeleting(true)
         console.log(e)
+        customToast({
+            message:
+                'There was an error deleting your milestone. Please refresh and try again',
+            type: 'error'
+        })
     }
 }
 
 interface ToggleMilestoneProps {
     userID: string
     milestone: Milestone
-    setErrorToggling: Dispatch<boolean>
 }
 
 export const toggleMilestone = async ({
     userID,
-    milestone,
-    setErrorToggling
+    milestone
 }: ToggleMilestoneProps) => {
     const milestonesCollection = getMilestonesCollection(userID)
     const milestonesRef = doc(milestonesCollection, milestone.id)
@@ -78,10 +92,13 @@ export const toggleMilestone = async ({
         updateDoc(milestonesRef, {
             completed: !milestone.completed
         })
-        setErrorToggling(false)
     } catch (e) {
-        setErrorToggling(true)
         console.log(e)
+        customToast({
+            message:
+                'There was an error updating your milestone. Please refresh and try again',
+            type: 'error'
+        })
     }
 }
 
@@ -89,14 +106,12 @@ interface EditMilestoneProps {
     userID: string
     updatedMilestone: Milestone
     setActiveMilestone: Dispatch<Milestone | undefined>
-    setErrorUpdating: Dispatch<boolean>
 }
 
 export const editMilestone = async ({
     userID,
     updatedMilestone,
-    setActiveMilestone,
-    setErrorUpdating
+    setActiveMilestone
 }: EditMilestoneProps) => {
     const milestonesCollection = getMilestonesCollection(userID)
     const milestonesRef = doc(milestonesCollection, updatedMilestone.id)
@@ -110,8 +125,16 @@ export const editMilestone = async ({
             { merge: true }
         )
         setActiveMilestone(undefined)
+        customToast({
+            message: 'Milestone successfully updated',
+            type: 'success'
+        })
     } catch (e) {
         console.log(e)
-        setErrorUpdating(true)
+        customToast({
+            message:
+                'There was an error updating your milestone. Please refresh and try again',
+            type: 'error'
+        })
     }
 }

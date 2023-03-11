@@ -57,6 +57,7 @@ const GoalForm: React.FunctionComponent<{
 
         if (nameError() === '' && category) {
             const fields = {
+                ...goal,
                 name,
                 description,
                 deadline,

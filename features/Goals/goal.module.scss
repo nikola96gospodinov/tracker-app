@@ -257,3 +257,13 @@
         background: $neutral-11;
     }
 }
+
+// Update Habits
+.updateHabits {
+    display: flex;
+    gap: 2rem;
+
+    > div {
+        flex-grow: 1;
+    }
+}

@@ -2,6 +2,7 @@ import Header from './Header/Header'
 import Footer from './Footer/Footer'
 import useUserLogged from '../../hooks/useUserLogged'
 import Spinner from '../UIElements/spinner'
+import { ToasterConfigured } from '../ToasterConfigured'
 
 const Layout: React.FunctionComponent<{
     children: React.ReactNode
@@ -20,6 +21,7 @@ const Layout: React.FunctionComponent<{
         <>
             <Header />
             <main>{children}</main>
+            <ToasterConfigured />
             <Footer />
         </>
     )

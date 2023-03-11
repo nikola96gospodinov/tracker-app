@@ -16,26 +16,10 @@ const DailyHabits: React.FunctionComponent<TabElementProps> = ({
     activeTab,
     goal
 }) => {
-    const { user } = useUserLogged()
-    const { docs: allHabits, errorFetching } = useGetDocs<Habit>({
-        userID: user?.uid ?? '',
-        path: HABITS
-    })
-
-    if (errorFetching) {
-        return (
-            <p>
-                We had a problem getting your habits... Please refresh the page
-            </p>
-        )
-    }
-
     return (
         <>
             {!newElementAdded && <EmptyContent shortName={shortName} />}
-            {newElementAdded && (
-                <DailyHabitsContent goal={goal} allHabits={allHabits} />
-            )}
+            {newElementAdded && <DailyHabitsContent goal={goal} />}
         </>
     )
 }

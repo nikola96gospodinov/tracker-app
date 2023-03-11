@@ -5,6 +5,7 @@
 // Other files
 @import './forms/form.scss';
 @import './reusables.scss';
+@import './toasts.scss';
 
 * {
     margin: 0;
@@ -106,6 +107,7 @@ span {
     color: $primary-5;
     border: none;
     box-shadow: none;
+    cursor: not-allowed;
 }
 
 .button-delete {

@@ -1,8 +1,6 @@
-import React, { useMemo, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import EmptyContent from '../EmptyContent'
-import useGetDocs from '../../../../hooks/useGetDocs'
-import { auth } from '../../../../firebase/firebase'
 import { Milestone } from '../../goals.types'
 import {
     deleteMilestone,
@@ -21,6 +19,7 @@ import { PastMilestones } from './PastMilestones'
 import { TableHeader } from './TableHeader'
 import { UpcomingMilestones } from './UpcomingMilestones'
 import useUserLogged from '../../../../hooks/useUserLogged'
+import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
 
 const Milestones: React.FunctionComponent<TabElementProps> = ({
     goalID,
@@ -30,22 +29,15 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     activeTab
 }) => {
     const { user } = useUserLogged()
-    const { docs: milestones, errorFetching } = useGetDocs<Milestone>({
+    const { docs: milestones, errorFetching } = useGetFilteredDocs<Milestone>({
         userID: user?.uid ?? '',
-        path: MILESTONES
+        path: MILESTONES,
+        fieldPath: 'goalID',
+        opStr: '==',
+        value: goalID
     })
     const [activeMilestone, setActiveMilestone] = useState<Milestone>()
-    const [errorDeleting, setErrorDeleting] = useState(false)
-    const [errorToggling, setErrorToggling] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
-    const [errorUpdating, setErrorUpdating] = useState(false)
-
-    const relevantMilestones = useMemo(
-        () =>
-            milestones?.filter((milestone) => milestone.goalID === goalID) ??
-            [],
-        [milestones, goalID]
-    )
 
     const handleDeleteWarning = useCallback((milestone: Milestone) => {
         setActiveMilestone(milestone)
@@ -55,8 +47,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     const handleDelete = useCallback(() => {
         deleteMilestone({
             userID: user?.uid ?? '',
-            milestone: activeMilestone!,
-            setErrorDeleting
+            milestone: activeMilestone!
         })
         setDeleteWarning(false)
     }, [milestones, user?.uid, activeMilestone])
@@ -65,8 +56,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
         (milestone: Milestone) => {
             toggleMilestone({
                 userID: user?.uid ?? '',
-                milestone,
-                setErrorToggling
+                milestone
             })
         },
         [milestones, user?.uid]
@@ -87,8 +77,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
             editMilestone({
                 userID: user?.uid ?? '',
                 updatedMilestone,
-                setActiveMilestone,
-                setErrorUpdating
+                setActiveMilestone
             })
         },
         [activeMilestone, milestones, user?.uid]
@@ -101,16 +90,15 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     if (errorFetching) {
         return (
             <p>
-                We had problem getting your milestones... Please refresh the
+                We had a problem getting your milestones... Please refresh the
                 page
             </p>
         )
     }
 
-    const displayEmptyContent =
-        relevantMilestones?.length === 0 && !newElementAdded
+    const displayEmptyContent = milestones?.length === 0 && !newElementAdded
     const displayContent =
-        (relevantMilestones?.length ?? 0) > 0 || newElementAdded
+        (milestones && milestones?.length > 0) || newElementAdded
     const displayAddMilestone =
         newElementAdded && activeTab === MILESTONES_CAPITALIZED
 
@@ -120,15 +108,10 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
 
             {displayContent && (
                 <>
-                    <Errors
-                        errorDeleting={errorDeleting}
-                        errorToggling={errorToggling}
-                        errorUpdating={errorUpdating}
-                    />
                     <table className={styles.milestonesTable}>
                         <TableHeader />
                         <PastMilestones
-                            relevantMilestones={relevantMilestones}
+                            relevantMilestones={milestones ?? []}
                             handleToggle={handleToggle}
                             handleDeleteWarning={handleDeleteWarning}
                             handleEditClick={handleEditClick}
@@ -137,7 +120,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
                             handleEdit={handleEdit}
                         />
                         <UpcomingMilestones
-                            relevantMilestones={relevantMilestones}
+                            relevantMilestones={milestones ?? []}
                             handleToggle={handleToggle}
                             handleDeleteWarning={handleDeleteWarning}
                             handleEditClick={handleEditClick}
@@ -160,7 +143,6 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
                 <DeleteModal
                     handleDelete={handleDelete}
                     setDeleteWarning={setDeleteWarning}
-                    errorDeleting={errorDeleting}
                     setActiveMilestone={setActiveMilestone}
                 />
             )}

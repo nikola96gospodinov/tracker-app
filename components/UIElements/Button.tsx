@@ -6,6 +6,7 @@ type BtnClass =
     | 'button-tertiary'
     | 'button-delete'
     | 'button-link'
+    | 'button-disabled'
 
 export const Button: React.FunctionComponent<
     React.HTMLProps<HTMLButtonElement> & {
