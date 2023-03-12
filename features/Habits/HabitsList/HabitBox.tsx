@@ -14,7 +14,9 @@ export const HabitBox: React.FunctionComponent<{
     return (
         <Link href={href}>
             <a className={style.habitBox}>
-                <div className={style.streak}>{`🔥${currentStreak}`}</div>
+                <div
+                    className={style.streak}
+                >{`🔥${currentStreak.streak}`}</div>
                 <h3>{name}</h3>
                 <p>{description}</p>
                 <p>

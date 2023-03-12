@@ -70,8 +70,12 @@ const HabitForm: React.FunctionComponent<{
                 target,
                 metric,
                 urlPath: toKebabCase(name) as string,
-                longestStreak: habit?.longestStreak ?? 0,
-                currentStreak: habit?.currentStreak ?? 0
+                longestStreak: habit?.longestStreak ?? {
+                    streak: 0
+                },
+                currentStreak: habit?.currentStreak ?? {
+                    streak: 0
+                }
             }
 
             submitDoc<Habit>({

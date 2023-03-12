@@ -18,7 +18,7 @@ const HabitInfo: React.FunctionComponent<{
                     {habit.target} {habit.metric} {habit.type}
                 </div>
                 <div>
-                    🔥<strong>{habit.currentStreak}</strong>
+                    🔥<strong>{habit.currentStreak.streak}</strong>
                 </div>
             </div>
             <div>
@@ -35,10 +35,11 @@ const HabitInfo: React.FunctionComponent<{
         <h1>{habit.name}</h1>
         <p>{habit.description}</p>
         <p>
-            <strong>Longest Streak:</strong> {habit.longestStreak}
+            <strong>Longest Streak:</strong> {habit.longestStreak.streak}
         </p>
         <p>
-            <strong>Last Completed:</strong> {habit.lastCompleted ?? 'Never'}
+            <strong>Last Completed:</strong>{' '}
+            {habit.currentStreak?.start ?? 'Never'}
         </p>
 
         <h2>Linked Goals</h2>

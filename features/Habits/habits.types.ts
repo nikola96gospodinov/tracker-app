@@ -1,15 +1,19 @@
 export type HabitType = 'daily' | 'weekly'
 
+interface Streak {
+    streak: number
+    start?: string | null
+    end?: string | null
+}
+
 export interface Habit {
     id: string
     name: string
     type: HabitType
     target: number
     metric: string
-    longestStreak: number
-    currentStreak: number
+    longestStreak: Streak
+    currentStreak: Streak
     urlPath: string
     description?: string
-    attachedGoals?: string[]
-    lastCompleted?: string
 }

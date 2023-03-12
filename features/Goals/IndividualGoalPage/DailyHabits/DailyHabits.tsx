@@ -1,12 +1,9 @@
 import React from 'react'
 
-import useGetDocs from '../../../../hooks/useGetDocs'
-import useUserLogged from '../../../../hooks/useUserLogged'
-import { HABITS } from '../../../Habits/constants'
-import { Habit } from '../../../Habits/habits.types'
 import EmptyContent from '../EmptyContent'
 import { TabElementProps } from '../../goals.types'
 import DailyHabitsContent from './content'
+import { isEmpty } from 'lodash'
 
 const DailyHabits: React.FunctionComponent<TabElementProps> = ({
     goalID,
@@ -16,10 +13,18 @@ const DailyHabits: React.FunctionComponent<TabElementProps> = ({
     activeTab,
     goal
 }) => {
+    const showEmptyContent = !newElementAdded && isEmpty(goal?.habits)
+    const showDailyHabitsContent = !isEmpty(goal?.habits) || newElementAdded
+
     return (
         <>
-            {!newElementAdded && <EmptyContent shortName={shortName} />}
-            {newElementAdded && <DailyHabitsContent goal={goal} />}
+            {showEmptyContent && <EmptyContent shortName={shortName} />}
+            {showDailyHabitsContent && (
+                <DailyHabitsContent
+                    goal={goal}
+                    newElementAdded={newElementAdded}
+                />
+            )}
         </>
     )
 }
