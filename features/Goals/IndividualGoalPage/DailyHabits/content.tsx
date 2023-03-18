@@ -1,3 +1,4 @@
+import Spinner from '../../../../components/UIElements/spinner'
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
 import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../Habits/constants'
@@ -12,13 +13,30 @@ const DailyHabitsContent: React.FunctionComponent<{
     newElementAdded: boolean
 }> = ({ goal, newElementAdded }) => {
     const { user } = useUserLogged()
-    const { docs: dailyHabits } = useGetFilteredDocs<Habit>({
+    const {
+        docs: dailyHabits,
+        loading,
+        errorFetching
+    } = useGetFilteredDocs<Habit>({
         userID: user?.uid ?? '',
         path: HABITS,
         fieldPath: 'type',
         opStr: '==',
         value: 'daily'
     })
+
+    if (loading) {
+        return <Spinner size={7.5} isText={false} />
+    }
+
+    if (errorFetching) {
+        return (
+            <p>
+                There was an error fetching your goals. Please refresh the page
+                and try again.
+            </p>
+        )
+    }
 
     const noDailyHabits = dailyHabits?.length === 0 || !dailyHabits
     const showUpdateHabitsList = newElementAdded

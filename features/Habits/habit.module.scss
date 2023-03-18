@@ -9,15 +9,19 @@
     cursor: pointer;
     color: $neutral-1;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     &:hover {
         border-top: solid $primary-5 0.25rem;
+        transform: translateY(0.25rem);
     }
 
     .streak {
         position: absolute;
-        top: 0.75rem;
-        right: 0.75rem;
+        top: 1.25rem;
+        right: 1.25rem;
         z-index: 1;
     }
 
@@ -28,21 +32,39 @@
 
     p {
         font-size: 1.125rem;
-        margin-bottom: 0.5rem;
+        margin-top: 0.75rem;
     }
 
-    svg {
-        font-size: 1.125rem;
-        transition: 0.2s ease;
-        cursor: pointer;
-        position: absolute;
-        bottom: 1rem;
-        right: 1rem;
+    .bottomContainer {
+        display: flex;
+        justify-content: space-between;
 
-        &:hover {
-            scale: 1.1;
-            color: $primary-5;
+        svg {
+            margin-top: 1rem;
+            font-size: 1.125rem;
+            transition: 0.2s ease;
+            cursor: pointer;
+
+            &:hover {
+                scale: 1.1;
+            }
         }
+    }
+}
+
+.habitBoxCompleted {
+    border-top: 0.25rem solid $green-5;
+
+    svg {
+        color: $green-5;
+    }
+}
+
+.habitBoxIncompleted {
+    border-top: 0.25rem solid $red-5;
+
+    svg {
+        color: $red-5;
     }
 }
 

@@ -1,19 +1,21 @@
-import moment from 'moment'
 import { CgDanger } from 'react-icons/cg'
 import { BsCheck2Circle } from 'react-icons/bs'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import Link from 'next/link'
 
 import { Habit } from '../../../Habits/habits.types'
-import styles from '../../goal.module.scss'
 import ToggleSwitch from '../../../../components/UIElements/ToggleSwitch'
 import { submitDoc } from '../../../../helpers/crud-operations/crud-operations-main-docs'
 import { HABITS } from '../../../Habits/constants'
 import { auth } from '../../../../firebase/firebase'
 import { getUpdatedStreaks } from './helpers'
-import { formatDate } from '../../../../helpers/date-manipulation-functions'
 
-const today = formatDate(moment())
-const yesterday = formatDate(moment().subtract(1, 'day'))
+import styles from '../../goal.module.scss'
+import {
+    getCurrentStreak,
+    getHabitCompletionIcon,
+    isHabitCompletedToday
+} from '../../../Habits/helpers'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
@@ -21,15 +23,16 @@ const HabitCell: React.FunctionComponent<{
     const [user] = useAuthState(auth)
 
     const lastCompletedDate = habit.currentStreak?.end
-    const completedToday = lastCompletedDate === today
-    const completedYesterday = lastCompletedDate === yesterday
-    const currentStreak =
-        completedToday || completedYesterday ? habit.currentStreak.streak : 0
+    const completedToday = isHabitCompletedToday(lastCompletedDate)
     const completedClass = completedToday
         ? styles.completedHabitCell
         : styles.incompletedHabitCell
-    const Icon = completedToday ? BsCheck2Circle : CgDanger
+    const Icon = getHabitCompletionIcon(completedToday)
     const toggleText = completedToday ? '' : 'Completed?'
+    const currentStreak = getCurrentStreak({
+        lastCompletedDate,
+        currentStreak: habit.currentStreak.streak
+    })
 
     const toggleHabitCompletion = () => {
         const updatedStreaks = getUpdatedStreaks(habit, completedToday)
@@ -49,7 +52,11 @@ const HabitCell: React.FunctionComponent<{
                 <span>🔥{currentStreak}</span>
                 <Icon />
             </div>
-            <h3>{habit.name}</h3>
+            <Link href={`/habits/${habit.urlPath}`}>
+                <a className={styles.habitLink}>
+                    <h3>{habit.name}</h3>
+                </a>
+            </Link>
             <ToggleSwitch
                 text={toggleText}
                 onToggle={toggleHabitCompletion}

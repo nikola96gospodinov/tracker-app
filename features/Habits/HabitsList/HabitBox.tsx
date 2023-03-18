@@ -1,8 +1,12 @@
 import Link from 'next/link'
-import { AiTwotoneEdit } from 'react-icons/ai'
 
 import { Habit } from '../habits.types'
 import style from '../habit.module.scss'
+import {
+    getCurrentStreak,
+    getHabitCompletionIcon,
+    isHabitCompletedToday
+} from '../helpers'
 
 export const HabitBox: React.FunctionComponent<{
     habit: Habit
@@ -10,38 +14,31 @@ export const HabitBox: React.FunctionComponent<{
     habit: { urlPath, type, name, description, currentStreak, target, metric }
 }) => {
     const href = `/habits/${urlPath}`
+    const streak = getCurrentStreak({
+        lastCompletedDate: currentStreak.end,
+        currentStreak: currentStreak.streak
+    })
+    const completedToday = isHabitCompletedToday(currentStreak.end)
+    const Icon = getHabitCompletionIcon(completedToday)
+    const boxStyle = completedToday
+        ? style.habitBoxCompleted
+        : style.habitBoxIncompleted
 
     return (
         <Link href={href}>
-            <a className={style.habitBox}>
-                <div
-                    className={style.streak}
-                >{`🔥${currentStreak.streak}`}</div>
-                <h3>{name}</h3>
-                <p>{description}</p>
-                <p>
-                    <strong>Target:</strong> {target} {metric} {type}
-                </p>
-                <AiTwotoneEdit className={style.editIcon} />
+            <a className={`${style.habitBox} ${boxStyle}`}>
+                <div className={style.streak}>{`🔥${streak}`}</div>
+                <div>
+                    <h3>{name}</h3>
+                    <p>{description}</p>
+                </div>
+                <div className={style.bottomContainer}>
+                    <p>
+                        🎯 {target} {metric} {type}
+                    </p>
+                    <Icon />
+                </div>
             </a>
         </Link>
     )
 }
-
-// TODO: For later
-// {editFormOpen && (
-//     <HabitForm
-//         setHabitsFormOpen={setEditFormOpen}
-//         userID={userID}
-//         habit={habit}
-//     />
-// )}
-// {deleteWarning && (
-//     <DeleteDoc
-//         setDeleteWarning={setDeleteWarning}
-//         userID={userID}
-//         doc={habit}
-//         docs={habits}
-//         path={HABITS}
-//     />
-// )}
