@@ -43,12 +43,6 @@ const HabitInfo: React.FunctionComponent<{
         </p>
 
         <h2>Linked Goals</h2>
-        {(!habit.attachedGoals || habit.attachedGoals.length === 0) && (
-            <p>No goals linked currently</p>
-        )}
-        {habit.attachedGoals &&
-            habit.attachedGoals?.length > 0 &&
-            habit.attachedGoals.map((goal) => <p key={goal}>{goal}</p>)}
     </div>
 )
 
