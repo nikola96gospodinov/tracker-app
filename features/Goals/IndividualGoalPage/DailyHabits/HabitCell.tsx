@@ -13,6 +13,7 @@ import { getUpdatedStreaks } from './helpers'
 import { formatDate } from '../../../../helpers/date-manipulation-functions'
 
 const today = formatDate(moment())
+const yesterday = formatDate(moment().subtract(1, 'day'))
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
@@ -21,6 +22,9 @@ const HabitCell: React.FunctionComponent<{
 
     const lastCompletedDate = habit.currentStreak?.end
     const completedToday = lastCompletedDate === today
+    const completedYesterday = lastCompletedDate === yesterday
+    const currentStreak =
+        completedToday || completedYesterday ? habit.currentStreak.streak : 0
     const completedClass = completedToday
         ? styles.completedHabitCell
         : styles.incompletedHabitCell
@@ -42,7 +46,7 @@ const HabitCell: React.FunctionComponent<{
     return (
         <div className={`${styles.habitCell} ${completedClass}`}>
             <div className={styles.iconsWrapper}>
-                <span>🔥{habit.currentStreak.streak}</span>
+                <span>🔥{currentStreak}</span>
                 <Icon />
             </div>
             <h3>{habit.name}</h3>
