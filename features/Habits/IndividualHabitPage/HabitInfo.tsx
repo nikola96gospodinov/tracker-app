@@ -3,47 +3,82 @@ import { RiDeleteBin6Fill } from 'react-icons/ri'
 
 import { Habit } from '../habits.types'
 import { Dispatch } from '../../../typings'
+import {
+    getLastCompletedFormatted,
+    isHabitCompletedToday,
+    toggleHabitCompletion
+} from '../helpers'
 
 import style from '../habit.module.scss'
+import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
+import Spinner from '../../../components/UIElements/spinner'
+import { GoalBox } from '../../Goals/GoalsList/GoalBox'
+import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../../../firebase/firebase'
 
 const HabitInfo: React.FunctionComponent<{
     habit: Habit
     setEditForm: Dispatch<boolean>
     setDeleteWarning: Dispatch<boolean>
-}> = ({ habit, setEditForm, setDeleteWarning }) => (
-    <div className={style.habitsPage}>
-        <div className={style.headerSection}>
-            <div>
+}> = ({ habit, setEditForm, setDeleteWarning }) => {
+    const [user] = useAuthState(auth)
+
+    const lastCompleted = getLastCompletedFormatted(habit.currentStreak?.end)
+    const { isGoals, relevantGoals, loading } = useGetRelevantGoals(habit.id)
+
+    const lastCompletedDate = habit.currentStreak?.end
+    const completedToday = isHabitCompletedToday(lastCompletedDate)
+    const toggleText = completedToday ? '' : 'Completed?'
+
+    return (
+        <div className={style.habitsPage}>
+            <div className={style.headerSection}>
                 <div>
-                    {habit.target} {habit.metric} {habit.type}
+                    🎯 {habit.target} {habit.metric} {habit.type}
+                    <span>🔥{habit.currentStreak.streak}</span>
+                    <ToggleSwitch
+                        text={toggleText}
+                        onToggle={toggleHabitCompletion({
+                            habit,
+                            completedToday,
+                            userID: user?.uid
+                        })}
+                        checked={completedToday}
+                    />
                 </div>
                 <div>
-                    🔥<strong>{habit.currentStreak.streak}</strong>
+                    <AiTwotoneEdit
+                        className={style.editIcon}
+                        onClick={() => setEditForm(true)}
+                    />
+                    <RiDeleteBin6Fill
+                        className={style.deleteIcon}
+                        onClick={() => setDeleteWarning(true)}
+                    />
                 </div>
             </div>
-            <div>
-                <AiTwotoneEdit
-                    className={style.editIcon}
-                    onClick={() => setEditForm(true)}
-                />
-                <RiDeleteBin6Fill
-                    className={style.deleteIcon}
-                    onClick={() => setDeleteWarning(true)}
-                />
+            <h1>{habit.name}</h1>
+            <p className={style.description}>{habit.description}</p>
+            <p>
+                <strong>Longest Streak:</strong> 🔥{habit.longestStreak.streak}
+            </p>
+            <p>
+                <strong>Last Completed:</strong> {lastCompleted}
+            </p>
+
+            <h2>Linked Goals</h2>
+            {loading && <Spinner size={7.5} />}
+            {isGoals && (
+                <p>You haven&apos;t attached this habit to any of your goals</p>
+            )}
+            <div className='triple-grid'>
+                {relevantGoals?.map((goal) => (
+                    <GoalBox goal={goal} key={goal.id} />
+                ))}
             </div>
         </div>
-        <h1>{habit.name}</h1>
-        <p>{habit.description}</p>
-        <p>
-            <strong>Longest Streak:</strong> {habit.longestStreak.streak}
-        </p>
-        <p>
-            <strong>Last Completed:</strong>{' '}
-            {habit.currentStreak?.start ?? 'Never'}
-        </p>
-
-        <h2>Linked Goals</h2>
-    </div>
-)
+    )
+}
 
 export default HabitInfo

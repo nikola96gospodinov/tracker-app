@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
+import { HABITS } from '../features/Habits/constants'
+import { removeHabitFromGoalsOnDelete } from '../features/Habits/helpers'
 
 import { removeDoc } from '../helpers/crud-operations/crud-operations-main-docs'
 import { removeLastCharacter } from '../helpers/string-manipulation-functions'
+import { useGetRelevantGoals } from '../hooks/useGetRelevantGoals'
 import { Doc } from '../types/crud-opearations.types'
 import { Dispatch } from '../typings'
 
@@ -22,6 +25,7 @@ const DeleteDoc = <T extends Doc>({
     const router = useRouter()
     const [error, setError] = useState(false)
     const singularPath = removeLastCharacter(path)
+    const { relevantGoals } = useGetRelevantGoals(doc.id)
 
     const handleDelete = useCallback(() => {
         removeDoc({
@@ -31,7 +35,15 @@ const DeleteDoc = <T extends Doc>({
             router,
             setError
         })
-    }, [])
+
+        if (path === HABITS) {
+            removeHabitFromGoalsOnDelete({
+                userID,
+                relevantGoals,
+                habitID: doc.id
+            })
+        }
+    }, [doc, path, userID])
 
     return (
         <div className='backdrop'>

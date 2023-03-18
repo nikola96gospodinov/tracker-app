@@ -64,6 +64,11 @@
             margin-bottom: 0.25rem;
         }
 
+        p {
+            font-size: 1rem;
+            color: $neutral-1;
+        }
+
         .dueDate {
             display: flex;
             align-items: center;

@@ -1,20 +1,16 @@
-import { CgDanger } from 'react-icons/cg'
-import { BsCheck2Circle } from 'react-icons/bs'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Link from 'next/link'
 
 import { Habit } from '../../../Habits/habits.types'
 import ToggleSwitch from '../../../../components/UIElements/ToggleSwitch'
-import { submitDoc } from '../../../../helpers/crud-operations/crud-operations-main-docs'
-import { HABITS } from '../../../Habits/constants'
 import { auth } from '../../../../firebase/firebase'
-import { getUpdatedStreaks } from './helpers'
 
 import styles from '../../goal.module.scss'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
-    isHabitCompletedToday
+    isHabitCompletedToday,
+    toggleHabitCompletion
 } from '../../../Habits/helpers'
 
 const HabitCell: React.FunctionComponent<{
@@ -34,18 +30,6 @@ const HabitCell: React.FunctionComponent<{
         currentStreak: habit.currentStreak.streak
     })
 
-    const toggleHabitCompletion = () => {
-        const updatedStreaks = getUpdatedStreaks(habit, completedToday)
-        submitDoc<Habit>({
-            path: HABITS,
-            userID: user?.uid ?? '',
-            orgDoc: {
-                id: habit.id,
-                ...updatedStreaks
-            } as Habit
-        })
-    }
-
     return (
         <div className={`${styles.habitCell} ${completedClass}`}>
             <div className={styles.iconsWrapper}>
@@ -59,7 +43,11 @@ const HabitCell: React.FunctionComponent<{
             </Link>
             <ToggleSwitch
                 text={toggleText}
-                onToggle={toggleHabitCompletion}
+                onToggle={toggleHabitCompletion({
+                    habit,
+                    completedToday,
+                    userID: user?.uid
+                })}
                 checked={completedToday}
             />
         </div>

@@ -1,8 +1,83 @@
 import moment from 'moment'
 import { BsCheck2Circle } from 'react-icons/bs'
 import { CgDanger } from 'react-icons/cg'
+import { collection, doc, updateDoc } from 'firebase/firestore'
 
-import { formatDate } from '../../helpers/date-manipulation-functions'
+import {
+    formatDate,
+    goOneDayBack,
+    goOneDayForward
+} from '../../helpers/date-manipulation-functions'
+import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
+import { HABITS } from './constants'
+import { Habit } from './habits.types'
+import { db } from '../../firebase/firebase'
+import { GOALS } from '../Goals/constants'
+import { Goal } from './../Goals/goals.types'
+
+const today = formatDate(moment())
+
+export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
+    const longestStreak = habit.longestStreak
+    const currentStreak = habit.currentStreak
+    const completedYesterday =
+        moment(habit.currentStreak?.end) === moment().subtract(1, 'days')
+
+    let newStreak = currentStreak
+
+    if (completedYesterday) {
+        if (completedToday) {
+            newStreak = {
+                streak: newStreak.streak--,
+                start: newStreak?.start,
+                end: goOneDayBack(newStreak?.end)
+            }
+        } else {
+            newStreak = {
+                streak: newStreak.streak++,
+                start: newStreak?.start,
+                end: goOneDayForward(newStreak?.end)
+            }
+        }
+    } else {
+        if (completedToday) {
+            if (newStreak?.start === newStreak?.end) {
+                newStreak = {
+                    streak: 0,
+                    start: null,
+                    end: null
+                }
+            } else {
+                newStreak = {
+                    streak: newStreak.streak--,
+                    start: newStreak?.start,
+                    end: goOneDayBack(newStreak?.end)
+                }
+            }
+        } else {
+            newStreak = {
+                streak: 1,
+                start: today,
+                end: today
+            }
+        }
+    }
+
+    if (
+        longestStreak.streak < newStreak.streak ||
+        longestStreak.streak === currentStreak.streak
+    ) {
+        return {
+            longestStreak: newStreak,
+            currentStreak: newStreak
+        }
+    } else {
+        return {
+            longestStreak,
+            currentStreak: newStreak
+        }
+    }
+}
 
 interface GetCurrentStreakProps {
     lastCompletedDate: string | undefined | null
@@ -13,7 +88,6 @@ export const getCurrentStreak = ({
     lastCompletedDate,
     currentStreak
 }: GetCurrentStreakProps): number => {
-    const today = formatDate(moment())
     const yesterday = formatDate(moment().subtract(1, 'day'))
     const completedToday = lastCompletedDate === today
     const completedYesterday = lastCompletedDate === yesterday
@@ -28,9 +102,68 @@ export const getCurrentStreak = ({
 export const isHabitCompletedToday = (
     lastCompletedDate: string | undefined | null
 ): boolean => {
-    const today = formatDate(moment())
     return lastCompletedDate === today
 }
 
 export const getHabitCompletionIcon = (completedToday: boolean) =>
     completedToday ? BsCheck2Circle : CgDanger
+
+export const getLastCompletedFormatted = (
+    lastCompleted: string | undefined | null
+): string => {
+    return lastCompleted
+        ? moment(lastCompleted).diff(moment(), 'days') === 0
+            ? 'Today'
+            : `${moment(lastCompleted).diff(today, 'days')} days ago`
+        : 'Never'
+}
+
+interface ToggleHabitCompletionProps {
+    habit: Habit
+    completedToday: boolean
+    userID: string | undefined
+}
+
+export const toggleHabitCompletion = ({
+    habit,
+    completedToday,
+    userID
+}: ToggleHabitCompletionProps): (() => void) => {
+    return () => {
+        const updatedStreaks = getUpdatedStreaks(habit, completedToday)
+        submitDoc<Habit>({
+            path: HABITS,
+            userID: userID ?? '',
+            orgDoc: {
+                id: habit.id,
+                ...updatedStreaks
+            } as Habit
+        })
+    }
+}
+
+interface RemoveHabitFromGoalsOnDeleteProps {
+    userID: string
+    relevantGoals: Goal[] | undefined
+    habitID: string
+}
+
+export const removeHabitFromGoalsOnDelete = async ({
+    userID,
+    relevantGoals,
+    habitID
+}: RemoveHabitFromGoalsOnDeleteProps) => {
+    const fullPath = `users/${userID}/${GOALS}`
+    const docsCollection = collection(db, fullPath)
+
+    for (const goal of relevantGoals ?? []) {
+        const docsRef = doc(docsCollection, goal.id)
+        try {
+            await updateDoc(docsRef, {
+                habits: goal.habits?.filter((habit) => habit !== habitID)
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}

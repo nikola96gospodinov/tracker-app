@@ -14,7 +14,6 @@
     justify-content: space-between;
 
     &:hover {
-        border-top: solid $primary-5 0.25rem;
         transform: translateY(0.25rem);
     }
 
@@ -75,13 +74,15 @@
         justify-content: space-between;
 
         div:first-child {
-            display: inline-flex;
+            font-size: 1.25rem;
+            color: $neutral-3;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(to left, transparent, $primary-10 50%);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-size: 1.125rem;
+            gap: 1rem;
+
+            span {
+                color: $neutral-4;
+            }
         }
 
         div:last-child {
@@ -121,15 +122,27 @@
     h1 {
         margin-top: 1.5rem;
         margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        span {
+            font-size: 1rem;
+        }
+    }
+
+    .description {
+        margin-bottom: 1rem;
     }
 
     p {
+        color: $neutral-2;
         font-size: 1.25rem;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.5rem;
     }
 
     h2 {
-        margin-top: 1.5rem;
-        margin-bottom: 0.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
     }
 }

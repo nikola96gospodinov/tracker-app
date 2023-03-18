@@ -44,6 +44,7 @@ export const submitDoc = async <T extends Doc>({
         } else {
             await setDoc(docsRef, orgDoc)
         }
+
         if (setDocsFormOpen && router) {
             setDocsFormOpen(false)
             router.push(`/${path}/${orgDoc.urlPath}`)
