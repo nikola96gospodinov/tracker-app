@@ -5,12 +5,13 @@ import { collection, doc, updateDoc } from 'firebase/firestore'
 
 import {
     formatDate,
+    formatDateForUI,
     goOneDayBack,
     goOneDayForward
 } from '../../helpers/date-manipulation-functions'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { HABITS } from './constants'
-import { Habit } from './habits.types'
+import { Habit, Streak } from './habits.types'
 import { db } from '../../firebase/firebase'
 import { GOALS } from '../Goals/constants'
 import { Goal } from './../Goals/goals.types'
@@ -21,7 +22,7 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
     const longestStreak = habit.longestStreak
     const currentStreak = habit.currentStreak
     const completedYesterday =
-        moment(habit.currentStreak?.end) === moment().subtract(1, 'days')
+        habit.currentStreak?.end === formatDate(moment().subtract(1, 'days'))
 
     let newStreak = currentStreak
 
@@ -45,7 +46,8 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
                 newStreak = {
                     streak: 0,
                     start: null,
-                    end: null
+                    end: newStreak?.lastEnd,
+                    lastEnd: null
                 }
             } else {
                 newStreak = {
@@ -58,7 +60,8 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
             newStreak = {
                 streak: 1,
                 start: today,
-                end: today
+                end: today,
+                lastEnd: newStreak?.end
             }
         }
     }
@@ -111,11 +114,13 @@ export const getHabitCompletionIcon = (completedToday: boolean) =>
 export const getLastCompletedFormatted = (
     lastCompleted: string | undefined | null
 ): string => {
-    return lastCompleted
-        ? moment(lastCompleted).diff(moment(), 'days') === 0
-            ? 'Today'
-            : `${moment(lastCompleted).diff(today, 'days')} days ago`
-        : 'Never'
+    const daysAgo = Math.abs(moment(lastCompleted).diff(today, 'days'))
+
+    if (daysAgo === 0) return 'Today'
+    if (daysAgo === 1) return 'Yesterday'
+    if (daysAgo > 1) return `${daysAgo} days ago`
+
+    return 'Never'
 }
 
 interface ToggleHabitCompletionProps {
@@ -166,4 +171,17 @@ export const removeHabitFromGoalsOnDelete = async ({
             console.log(e)
         }
     }
+}
+
+export const getLongestStreakRange = (longestStreak: Streak): string => {
+    if (
+        longestStreak.start &&
+        longestStreak.end &&
+        longestStreak.start !== longestStreak.end
+    )
+        return `(${formatDateForUI(longestStreak.start)} - ${formatDateForUI(
+            longestStreak.end
+        )})`
+
+    return ''
 }

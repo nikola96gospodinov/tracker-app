@@ -14,7 +14,7 @@ export const useGetRelevantGoals = (habitID: string) => {
 
     useEffect(() => {
         if (!loading) {
-            if (!goals || goals.length === 0) {
+            if (!relevantGoals || relevantGoals.length === 0) {
                 setIsGoals(false)
             } else {
                 setIsGoals(true)

@@ -1,10 +1,13 @@
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { RiDeleteBin6Fill } from 'react-icons/ri'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Habit } from '../habits.types'
 import { Dispatch } from '../../../typings'
 import {
+    getCurrentStreak,
     getLastCompletedFormatted,
+    getLongestStreakRange,
     isHabitCompletedToday,
     toggleHabitCompletion
 } from '../helpers'
@@ -14,7 +17,6 @@ import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
 import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from '../../Goals/GoalsList/GoalBox'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../../firebase/firebase'
 
 const HabitInfo: React.FunctionComponent<{
@@ -24,19 +26,25 @@ const HabitInfo: React.FunctionComponent<{
 }> = ({ habit, setEditForm, setDeleteWarning }) => {
     const [user] = useAuthState(auth)
 
-    const lastCompleted = getLastCompletedFormatted(habit.currentStreak?.end)
+    const lastCompletedDate =
+        habit.currentStreak?.end ?? habit.longestStreak.end
+    const lastCompleted = getLastCompletedFormatted(lastCompletedDate)
     const { isGoals, relevantGoals, loading } = useGetRelevantGoals(habit.id)
 
-    const lastCompletedDate = habit.currentStreak?.end
     const completedToday = isHabitCompletedToday(lastCompletedDate)
     const toggleText = completedToday ? '' : 'Completed?'
+
+    const currentStreak = getCurrentStreak({
+        lastCompletedDate: habit.currentStreak.end,
+        currentStreak: habit.currentStreak.streak
+    })
 
     return (
         <div className={style.habitsPage}>
             <div className={style.headerSection}>
                 <div>
                     🎯 {habit.target} {habit.metric} {habit.type}
-                    <span>🔥{habit.currentStreak.streak}</span>
+                    <span>🔥{currentStreak}</span>
                     <ToggleSwitch
                         text={toggleText}
                         onToggle={toggleHabitCompletion({
@@ -61,7 +69,10 @@ const HabitInfo: React.FunctionComponent<{
             <h1>{habit.name}</h1>
             <p className={style.description}>{habit.description}</p>
             <p>
-                <strong>Longest Streak:</strong> 🔥{habit.longestStreak.streak}
+                <strong>Longest Streak:</strong> 🔥{habit.longestStreak.streak}{' '}
+                <span className={style.longestStreakRange}>
+                    {getLongestStreakRange(habit.longestStreak)}
+                </span>
             </p>
             <p>
                 <strong>Last Completed:</strong> {lastCompleted}
@@ -69,7 +80,7 @@ const HabitInfo: React.FunctionComponent<{
 
             <h2>Linked Goals</h2>
             {loading && <Spinner size={7.5} />}
-            {isGoals && (
+            {!isGoals && (
                 <p>You haven&apos;t attached this habit to any of your goals</p>
             )}
             <div className='triple-grid'>
