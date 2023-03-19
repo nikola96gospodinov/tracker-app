@@ -32,24 +32,29 @@ const HabitCell: React.FunctionComponent<{
 
     return (
         <div className={`${styles.habitCell} ${completedClass}`}>
-            <div className={styles.iconsWrapper}>
+            <div className={styles.wrapper}>
+                <Link href={`/habits/${habit.urlPath}`}>
+                    <a className={styles.habitLink}>
+                        <h3>{habit.name}</h3>
+                    </a>
+                </Link>
                 <span>🔥{currentStreak}</span>
+            </div>
+            <p>
+                🎯 {habit.target} {habit.metric} {habit.type}
+            </p>
+            <div className={styles.wrapper}>
+                <ToggleSwitch
+                    text={toggleText}
+                    onToggle={toggleHabitCompletion({
+                        habit,
+                        completedToday,
+                        userID: user?.uid
+                    })}
+                    checked={completedToday}
+                />
                 <Icon />
             </div>
-            <Link href={`/habits/${habit.urlPath}`}>
-                <a className={styles.habitLink}>
-                    <h3>{habit.name}</h3>
-                </a>
-            </Link>
-            <ToggleSwitch
-                text={toggleText}
-                onToggle={toggleHabitCompletion({
-                    habit,
-                    completedToday,
-                    userID: user?.uid
-                })}
-                checked={completedToday}
-            />
         </div>
     )
 }

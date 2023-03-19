@@ -22,7 +22,7 @@ const useGetDoc = <T,>({ userID, path, url }: Props) => {
         const unsubscribe = onSnapshot(
             docQuery,
             (docSnapshot) => {
-                const firstDoc = docSnapshot.docs[0].data() as T
+                const firstDoc = docSnapshot.docs[0]?.data() as T
                 setDoc(firstDoc)
                 setLoading(false)
             },
