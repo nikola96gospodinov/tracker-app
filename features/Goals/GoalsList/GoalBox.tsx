@@ -6,18 +6,17 @@ import { AiTwotoneEdit, AiTwotoneCalendar } from 'react-icons/ai'
 import { Goal } from '../goals.types'
 import { goalsIcons } from '../data'
 import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-functions'
-import { formatDateFromString } from '../../../helpers/date-manipulation-functions'
+import { formatDateForUI } from '../../../helpers/date-manipulation-functions'
 
 import styles from '../goal.module.scss'
 
 export const GoalBox: React.FunctionComponent<{
     goal: Goal
 }> = ({ goal }) => {
-    console.log(goal)
     const [showEditIcon, setShowEditIcon] = useState(false)
 
     const icon = goalsIcons[goal.category as keyof typeof goalsIcons]
-    const deadline = goal.deadline ? formatDateFromString(goal.deadline) : 'N/A'
+    const deadline = goal.deadline ? formatDateForUI(goal.deadline) : 'N/A'
     const category = capitalizeFirstLetter(goal.category)
 
     return (

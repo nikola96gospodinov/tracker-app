@@ -6,6 +6,7 @@ import { RiSaveFill, RiCloseCircleFill, RiDeleteBin6Fill } from 'react-icons/ri'
 import { Milestone } from '../../goals.types'
 
 import styles from '../../goal.module.scss'
+import { formatDateForUI } from '../../../../helpers/date-manipulation-functions'
 
 export const PastMilestones: React.FunctionComponent<{
     relevantMilestones: Milestone[]
@@ -39,6 +40,10 @@ export const PastMilestones: React.FunctionComponent<{
                 const trClass = isActiveMilestone
                     ? styles.newMilestone
                     : styles.pastMilestone
+                const formattedDeadline =
+                    milestone.deadline === ''
+                        ? 'N/A'
+                        : formatDateForUI(milestone.deadline)
 
                 return (
                     <tr key={milestone.id} className={trClass}>
@@ -71,11 +76,7 @@ export const PastMilestones: React.FunctionComponent<{
                                     }}
                                 />
                             ) : (
-                                <span>
-                                    {milestone.deadline === ''
-                                        ? 'N/A'
-                                        : milestone.deadline}
-                                </span>
+                                <span>{formattedDeadline}</span>
                             )}
                         </td>
                         <td>

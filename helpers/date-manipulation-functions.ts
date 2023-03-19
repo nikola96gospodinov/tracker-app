@@ -29,5 +29,6 @@ export const goOneDayBack = (date: string | undefined | null): string =>
     moment(date).subtract(1, 'day').format('YYYY-MM-DD')
 export const goOneDayForward = (date: string | undefined | null): string =>
     moment(date).add(1, 'day').format('YYYY-MM-DD')
-export const formatDateForUI = (date: Moment | string | Date): string =>
-    moment(date).format('Do MMM YYYY')
+export const formatDateForUI = (
+    date: Moment | string | Date | undefined
+): string => moment(date).format('Do MMM YYYY')

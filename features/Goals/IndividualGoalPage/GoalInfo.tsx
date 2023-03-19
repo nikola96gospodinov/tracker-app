@@ -4,7 +4,7 @@ import { BsFillCalendar2CheckFill } from 'react-icons/bs'
 import { RiDeleteBin6Fill } from 'react-icons/ri'
 import Image from 'next/image'
 
-import { formatDateFromString } from '../../../helpers/date-manipulation-functions'
+import { formatDateForUI } from '../../../helpers/date-manipulation-functions'
 import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-functions'
 import { goalsIcons } from '../data'
 import { Goal } from '../goals.types'
@@ -18,6 +18,7 @@ const GoalInfo: React.FunctionComponent<{
     setDeleteWarning: Dispatch<boolean>
 }> = ({ goal, setEditForm, setDeleteWarning }) => {
     const icon = goalsIcons[goal.category as keyof typeof goalsIcons]
+    const deadline = goal.deadline ? formatDateForUI(goal.deadline) : 'N/A'
 
     return (
         <div className={styles.goalsPage}>
@@ -29,11 +30,7 @@ const GoalInfo: React.FunctionComponent<{
                     </div>
                     <div>
                         <BsFillCalendar2CheckFill />
-                        <span>
-                            {goal.deadline
-                                ? formatDateFromString(goal.deadline)
-                                : 'N/A'}
-                        </span>
+                        <span>{deadline}</span>
                     </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
