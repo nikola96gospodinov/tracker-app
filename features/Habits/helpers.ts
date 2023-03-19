@@ -61,7 +61,7 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
                 streak: 1,
                 start: today,
                 end: today,
-                lastEnd: newStreak?.end
+                lastEnd: newStreak?.end || null
             }
         }
     }
@@ -116,7 +116,7 @@ export const getLastCompletedFormatted = (
 ): string => {
     const daysAgo = Math.abs(moment(lastCompleted).diff(today, 'days'))
 
-    if (daysAgo === 0) return 'Today'
+    if (daysAgo === 0 && lastCompleted) return 'Today'
     if (daysAgo === 1) return 'Yesterday'
     if (daysAgo > 1) return `${daysAgo} days ago`
 

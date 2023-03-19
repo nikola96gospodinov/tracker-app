@@ -3,28 +3,32 @@ import React, { useState } from 'react'
 import { Goal } from '../goals.types'
 import DailyHabits from './DailyHabits/DailyHabits'
 import Milestones from './Milestones/Milestones'
-import WeeklyTargets from './WeeklyTargets'
+import WeeklyTargets from './WeeklyTargets/WeeklyTargets'
 
 import styles from '../goal.module.scss'
-
-const DAILY_HABITS_CAPITALIZED = 'Daily Habis'
-const WEEKLY_TARGETS_CAPITALIZED = 'Weekly Targets'
-export const MILESTONES_CAPITALIZED = 'Milestones'
+import {
+    DAILY_HABITS_CAPITALIZED,
+    WEEKLY_TARGETS_CAPITALIZED,
+    MILESTONES_CAPITALIZED,
+    TARGETS,
+    MILESTONES
+} from '../constants'
+import { HABITS } from '../../Habits/constants'
 
 const tabs = [
     {
         name: DAILY_HABITS_CAPITALIZED,
-        shortName: 'habits',
+        shortName: HABITS,
         Component: DailyHabits
     },
     {
         name: WEEKLY_TARGETS_CAPITALIZED,
-        shortName: 'targets',
+        shortName: TARGETS,
         Component: WeeklyTargets
     },
     {
         name: MILESTONES_CAPITALIZED,
-        shortName: 'milestones',
+        shortName: MILESTONES,
         Component: Milestones
     }
 ]

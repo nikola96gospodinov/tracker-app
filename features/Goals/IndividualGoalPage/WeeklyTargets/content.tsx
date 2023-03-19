@@ -4,9 +4,8 @@ import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../Habits/constants'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
-import DailyHabitsList from './DailyHabitsList'
+import UpdateHabitsList from '../DailyHabits/UpdateHabitsList'
 import NoHabits from '../NoHabits'
-import UpdateHabitsList from './UpdateHabitsList'
 
 const DailyHabitsContent: React.FunctionComponent<{
     goal: Goal | undefined
@@ -15,7 +14,7 @@ const DailyHabitsContent: React.FunctionComponent<{
 }> = ({ goal, newElementAdded, shortName }) => {
     const { user } = useUserLogged()
     const {
-        docs: dailyHabits,
+        docs: weeklyTargets,
         loading,
         errorFetching
     } = useGetFilteredDocs<Habit>({
@@ -23,7 +22,7 @@ const DailyHabitsContent: React.FunctionComponent<{
         path: HABITS,
         fieldPath: 'type',
         opStr: '==',
-        value: 'daily'
+        value: 'weekly'
     })
 
     if (loading) {
@@ -33,28 +32,28 @@ const DailyHabitsContent: React.FunctionComponent<{
     if (errorFetching) {
         return (
             <p>
-                There was an error fetching your habits. Please refresh the page
-                and try again.
+                There was an error fetching your targets. Please refresh the
+                page and try again.
             </p>
         )
     }
 
-    const noDailyHabits = dailyHabits?.length === 0 || !dailyHabits
-    const showUpdateHabitsList = newElementAdded
+    const noWeeklyTargets = weeklyTargets?.length === 0 || !weeklyTargets
+    const showUpdateTargetsList = newElementAdded
 
+    // TODO: display the added targets
     return (
         <div style={{ marginTop: '2rem' }}>
-            {noDailyHabits && <NoHabits shortName={shortName} />}
-            {showUpdateHabitsList && (
+            {noWeeklyTargets && <NoHabits shortName={shortName} />}
+            {showUpdateTargetsList && (
                 <UpdateHabitsList
-                    allHabits={dailyHabits}
-                    attachedHabits={goal?.habits}
+                    allHabits={weeklyTargets}
+                    attachedHabits={goal?.targets}
                     goal={goal}
                     userID={user?.uid}
                     shortName={shortName}
                 />
             )}
-            {goal && <DailyHabitsList goal={goal} dailyHabits={dailyHabits} />}
         </div>
     )
 }

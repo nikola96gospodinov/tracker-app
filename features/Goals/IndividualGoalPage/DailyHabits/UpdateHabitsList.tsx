@@ -6,19 +6,20 @@ import { Button } from '../../../../components/UIElements/Button'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
 import { submitDoc } from '../../../../helpers/crud-operations/crud-operations-main-docs'
-import { GOALS } from '../../constants'
+import { GOALS, TARGETS } from '../../constants'
 
 import styles from '../../goal.module.scss'
+import { HABITS } from '../../../Habits/constants'
 
-interface Props {
-    dailyHabits: Habit[] | undefined
+const UpdateHabitsList: React.FunctionComponent<{
+    allHabits: Habit[] | undefined
+    attachedHabits: string[] | undefined
     goal: Goal | undefined
     userID: string | undefined
-}
-
-const UpdateHabitsList = ({ dailyHabits, goal, userID }: Props) => {
-    const defaultValue = goal?.habits?.map((id) => {
-        const habit = dailyHabits?.find((habit) => habit.id === id)
+    shortName: string
+}> = ({ allHabits, attachedHabits, goal, userID, shortName }) => {
+    const defaultValue = attachedHabits?.map((id) => {
+        const habit = allHabits?.find((habit) => habit.id === id)
         return {
             value: habit?.id,
             label: habit?.name
@@ -30,7 +31,7 @@ const UpdateHabitsList = ({ dailyHabits, goal, userID }: Props) => {
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const dailyHabitsOptions = dailyHabits?.map((habit) => ({
+    const habitsOptions = allHabits?.map((habit) => ({
         value: habit.id,
         label: habit.name
     }))
@@ -44,15 +45,32 @@ const UpdateHabitsList = ({ dailyHabits, goal, userID }: Props) => {
 
     const onSubmit = async () => {
         setLoading(true)
+
+        let orgDoc = {
+            id: goal?.id
+        } as Goal // no ideal but not the end of the world either
+
+        if (shortName === HABITS) {
+            orgDoc = {
+                ...orgDoc,
+                habits: habitIds as string[]
+            }
+        }
+
+        if (shortName === TARGETS) {
+            orgDoc = {
+                ...orgDoc,
+                targets: habitIds as string[]
+            }
+        }
+
         await submitDoc<Goal>({
             path: GOALS,
-            orgDoc: {
-                id: goal?.id,
-                habits: habitIds
-            } as Goal, // no ideal but not the end of the world either
+            orgDoc,
             userID: userID ?? '',
             setError: setError
         })
+
         setLoading(false)
     }
 
@@ -64,7 +82,7 @@ const UpdateHabitsList = ({ dailyHabits, goal, userID }: Props) => {
     return (
         <div className={styles.updateHabits}>
             <CustomSelect
-                options={dailyHabitsOptions}
+                options={habitsOptions}
                 isMulti
                 defaultValue={defaultValue}
                 onChange={onChange}

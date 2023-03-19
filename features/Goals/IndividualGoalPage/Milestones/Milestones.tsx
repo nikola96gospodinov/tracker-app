@@ -7,8 +7,7 @@ import {
     toggleMilestone,
     editMilestone
 } from '../../helpers/crud-operations-milestones'
-import { MILESTONES_CAPITALIZED } from '../GoalConfiguration'
-import { MILESTONES } from '../../constants'
+import { MILESTONES, MILESTONES_CAPITALIZED } from '../../constants'
 import { TabElementProps } from '../../goals.types'
 
 import styles from '../../goal.module.scss'
