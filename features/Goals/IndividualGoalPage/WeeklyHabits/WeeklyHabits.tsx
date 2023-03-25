@@ -3,9 +3,9 @@ import { isEmpty } from 'lodash'
 
 import EmptyContent from '../EmptyContent'
 import { TabElementProps } from '../../goals.types'
-import WeeklyTargetsContent from './content'
+import WeeklyHabitsContent from './content'
 
-const WeeklyTargets: React.FunctionComponent<TabElementProps> = ({
+const WeeklyHabits: React.FunctionComponent<TabElementProps> = ({
     shortName,
     newElementAdded,
     goal
@@ -17,7 +17,7 @@ const WeeklyTargets: React.FunctionComponent<TabElementProps> = ({
         <>
             {showEmptyContent && <EmptyContent shortName={shortName} />}
             {showWeeklyTargetsContent && (
-                <WeeklyTargetsContent
+                <WeeklyHabitsContent
                     goal={goal}
                     newElementAdded={newElementAdded}
                     shortName={shortName}
@@ -27,4 +27,4 @@ const WeeklyTargets: React.FunctionComponent<TabElementProps> = ({
     )
 }
 
-export default WeeklyTargets
+export default WeeklyHabits

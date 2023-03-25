@@ -8,6 +8,18 @@ import PartnerIcon from '../../assets/images/heart-lock.png'
 import CommunityIcon from '../../assets/images/group.png'
 import OtherCollectiveIcon from '../../assets/images/high-five.png'
 
+import {
+    DAILY_HABITS_CAPITALIZED,
+    DAILY_HABITS,
+    WEEKLY_HABITS_CAPITALIZED,
+    WEEKLY_HABITS,
+    MILESTONES_CAPITALIZED,
+    MILESTONES
+} from './constants'
+import DailyHabits from './IndividualGoalPage/DailyHabits/DailyHabits'
+import Milestones from './IndividualGoalPage/Milestones/Milestones'
+import WeeklyTargets from './IndividualGoalPage/WeeklyHabits/WeeklyHabits'
+
 export const goalsIcons = {
     health: {
         src: HealthIcon,
@@ -78,5 +90,23 @@ export const collectiveGoalOptions = [
     {
         value: 'other-collective',
         label: 'Other (Collective)'
+    }
+]
+
+export const tabs = [
+    {
+        name: DAILY_HABITS_CAPITALIZED,
+        shortName: DAILY_HABITS,
+        Component: DailyHabits
+    },
+    {
+        name: WEEKLY_HABITS_CAPITALIZED,
+        shortName: WEEKLY_HABITS,
+        Component: WeeklyTargets
+    },
+    {
+        name: MILESTONES_CAPITALIZED,
+        shortName: MILESTONES,
+        Component: Milestones
     }
 ]

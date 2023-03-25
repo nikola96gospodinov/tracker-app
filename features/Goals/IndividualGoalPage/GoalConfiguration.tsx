@@ -1,37 +1,9 @@
 import React, { useState } from 'react'
 
 import { Goal } from '../goals.types'
-import DailyHabits from './DailyHabits/DailyHabits'
-import Milestones from './Milestones/Milestones'
-import WeeklyTargets from './WeeklyTargets/WeeklyTargets'
+import { tabs } from '../data'
 
 import styles from '../goal.module.scss'
-import {
-    DAILY_HABITS_CAPITALIZED,
-    WEEKLY_TARGETS_CAPITALIZED,
-    MILESTONES_CAPITALIZED,
-    TARGETS,
-    MILESTONES
-} from '../constants'
-import { HABITS } from '../../Habits/constants'
-
-const tabs = [
-    {
-        name: DAILY_HABITS_CAPITALIZED,
-        shortName: HABITS,
-        Component: DailyHabits
-    },
-    {
-        name: WEEKLY_TARGETS_CAPITALIZED,
-        shortName: TARGETS,
-        Component: WeeklyTargets
-    },
-    {
-        name: MILESTONES_CAPITALIZED,
-        shortName: MILESTONES,
-        Component: Milestones
-    }
-]
 
 const GoalConfiguration: React.FunctionComponent<{
     goal: Goal

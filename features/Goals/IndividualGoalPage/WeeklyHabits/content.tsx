@@ -4,10 +4,11 @@ import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../Habits/constants'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
-import UpdateHabitsList from '../DailyHabits/UpdateHabitsList'
+import UpdateHabitsList from '../DailyHabits/UpdateHabitList'
 import NoHabits from '../NoHabits'
+import WeeklyHabitsList from './WeeklyHabitsList'
 
-const DailyHabitsContent: React.FunctionComponent<{
+const WeeklyHabitsContent: React.FunctionComponent<{
     goal: Goal | undefined
     newElementAdded: boolean
     shortName: string
@@ -41,7 +42,6 @@ const DailyHabitsContent: React.FunctionComponent<{
     const noWeeklyTargets = weeklyTargets?.length === 0 || !weeklyTargets
     const showUpdateTargetsList = newElementAdded
 
-    // TODO: display the added targets
     return (
         <div style={{ marginTop: '2rem' }}>
             {noWeeklyTargets && <NoHabits shortName={shortName} />}
@@ -54,8 +54,11 @@ const DailyHabitsContent: React.FunctionComponent<{
                     shortName={shortName}
                 />
             )}
+            {goal && (
+                <WeeklyHabitsList goal={goal} weeklyTargets={weeklyTargets} />
+            )}
         </div>
     )
 }
 
-export default DailyHabitsContent
+export default WeeklyHabitsContent

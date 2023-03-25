@@ -6,10 +6,9 @@ import { Button } from '../../../../components/UIElements/Button'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
 import { submitDoc } from '../../../../helpers/crud-operations/crud-operations-main-docs'
-import { GOALS, TARGETS } from '../../constants'
+import { GOALS, DAILY_HABITS, WEEKLY_HABITS } from '../../constants'
 
 import styles from '../../goal.module.scss'
-import { HABITS } from '../../../Habits/constants'
 
 const UpdateHabitsList: React.FunctionComponent<{
     allHabits: Habit[] | undefined
@@ -48,16 +47,16 @@ const UpdateHabitsList: React.FunctionComponent<{
 
         let orgDoc = {
             id: goal?.id
-        } as Goal // no ideal but not the end of the world either
+        } as Goal // not ideal but not the end of the world either
 
-        if (shortName === HABITS) {
+        if (shortName === DAILY_HABITS) {
             orgDoc = {
                 ...orgDoc,
                 habits: habitIds as string[]
             }
         }
 
-        if (shortName === TARGETS) {
+        if (shortName === WEEKLY_HABITS) {
             orgDoc = {
                 ...orgDoc,
                 targets: habitIds as string[]
