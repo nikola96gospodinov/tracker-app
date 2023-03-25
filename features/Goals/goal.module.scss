@@ -226,7 +226,8 @@
         }
     }
 
-    input {
+    input[type='text'],
+    input[type='date'] {
         border: none;
         box-shadow: $shadow-inset;
         border-bottom: 0.1rem transparent;

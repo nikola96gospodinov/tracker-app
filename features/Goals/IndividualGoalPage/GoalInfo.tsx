@@ -1,7 +1,4 @@
 import React from 'react'
-import { AiTwotoneEdit } from 'react-icons/ai'
-import { BsFillCalendar2CheckFill } from 'react-icons/bs'
-import { RiDeleteBin6Fill } from 'react-icons/ri'
 import Image from 'next/image'
 
 import { formatDateForUI } from '../../../helpers/date-manipulation-functions'
@@ -11,6 +8,9 @@ import { Goal } from '../goals.types'
 import { Dispatch } from '../../../typings'
 
 import styles from '../goal.module.scss'
+import EditIcon from '../../../components/Icons/EditIcon'
+import DeleteIcon from '../../../components/Icons/DeleteIcon'
+import CalendarIcon from '../../../components/Icons/CalendarIcon'
 
 const GoalInfo: React.FunctionComponent<{
     goal: Goal
@@ -29,16 +29,16 @@ const GoalInfo: React.FunctionComponent<{
                         <span>{capitalizeFirstLetter(goal.category)}</span>
                     </div>
                     <div>
-                        <BsFillCalendar2CheckFill />
+                        <CalendarIcon />
                         <span>{deadline}</span>
                     </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <AiTwotoneEdit
+                    <EditIcon
                         className={styles.editIcon}
                         onClick={() => setEditForm(true)}
                     />
-                    <RiDeleteBin6Fill
+                    <DeleteIcon
                         className={styles.deleteIcon}
                         onClick={() => setDeleteWarning(true)}
                     />

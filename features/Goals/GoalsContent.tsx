@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { MdAddBox } from 'react-icons/md'
 
+import AddIcon from '../../components/Icons/AddIcon'
 import InitialSection from '../../components/InitialSection'
 import useUserLogged from '../../hooks/useUserLogged'
 import GoalForm from './GoalForm'
@@ -15,7 +15,7 @@ export const GoalsContent = () => {
             <InitialSection>
                 <div className='header'>
                     <h1>My Goals</h1>
-                    <MdAddBox onClick={() => setAddGoalsFormOpen(true)} />
+                    <AddIcon onClick={() => setAddGoalsFormOpen(true)} />
                 </div>
                 {user && (
                     <GoalsList

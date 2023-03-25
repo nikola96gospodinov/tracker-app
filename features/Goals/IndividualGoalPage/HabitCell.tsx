@@ -1,17 +1,18 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Link from 'next/link'
 
-import { Habit } from '../../../Habits/habits.types'
-import ToggleSwitch from '../../../../components/UIElements/ToggleSwitch'
-import { auth } from '../../../../firebase/firebase'
+import { Habit } from '../../Habits/habits.types'
+import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
+import { auth } from '../../../firebase/firebase'
 
-import styles from '../../goal.module.scss'
+import styles from '../goal.module.scss'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
     isHabitCompletedToday,
     toggleHabitCompletion
-} from '../../../Habits/helpers'
+} from '../../Habits/helpers'
+import SetProgressOnHabit from '../../../components/SetProgressOnHabit'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
@@ -44,15 +45,19 @@ const HabitCell: React.FunctionComponent<{
                 🎯 {habit.target} {habit.metric} {habit.type}
             </p>
             <div className={styles.wrapper}>
-                <ToggleSwitch
-                    text={toggleText}
-                    onToggle={toggleHabitCompletion({
-                        habit,
-                        completedToday,
-                        userID: user?.uid
-                    })}
-                    checked={completedToday}
-                />
+                {habit.target === 1 ? (
+                    <ToggleSwitch
+                        text={toggleText}
+                        onChange={toggleHabitCompletion({
+                            habit,
+                            completedToday,
+                            userID: user?.uid
+                        })}
+                        checked={completedToday}
+                    />
+                ) : (
+                    <SetProgressOnHabit habit={habit} />
+                )}
                 <Icon />
             </div>
         </div>

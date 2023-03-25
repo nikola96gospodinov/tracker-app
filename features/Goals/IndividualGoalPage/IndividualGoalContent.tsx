@@ -11,6 +11,7 @@ import { GOALS } from '../constants'
 import DeleteDoc from '../../../components/DeleteDoc'
 import useUserLogged from '../../../hooks/useUserLogged'
 import useGetDoc from '../../../hooks/useGetDoc'
+import Checkbox from '../../../components/Form/Checkbox'
 
 const IndividualGoalContent = () => {
     const { user } = useUserLogged()

@@ -1,16 +1,16 @@
 import toast, { Toast } from 'react-hot-toast'
-import { BsCheckCircleFill } from 'react-icons/bs'
-import { IoClose } from 'react-icons/io5'
-import { MdError } from 'react-icons/md'
+import CheckIcon from '../components/Icons/CheckIcon'
+import CloseIcon from '../components/Icons/CloseIcon'
+import DangerIcon from '../components/Icons/DangerIcon'
 
 const data = {
     success: {
         className: 'success-toast',
-        icon: BsCheckCircleFill
+        icon: CheckIcon
     },
     error: {
         className: 'error-toast',
-        icon: MdError
+        icon: DangerIcon
     }
 }
 
@@ -36,7 +36,7 @@ const SuccessToast = ({ t, message, type }: ToastElementProps) => {
         <div className={`toast ${extraClass} ${animationClass}`}>
             <Icon />
             <p>{message}</p>
-            <IoClose className='close' onClick={onClose} />
+            <CloseIcon className='close' onClick={onClose} />
         </div>
     )
 }

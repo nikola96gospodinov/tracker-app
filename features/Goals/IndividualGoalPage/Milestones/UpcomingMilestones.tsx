@@ -1,12 +1,14 @@
 import { useState, useMemo } from 'react'
-import { AiTwotoneEdit } from 'react-icons/ai'
-import { ImCheckboxUnchecked } from 'react-icons/im'
-import { RiSaveFill, RiCloseCircleFill, RiDeleteBin6Fill } from 'react-icons/ri'
 
 import { Milestone } from '../../goals.types'
 
 import styles from '../../goal.module.scss'
 import { formatDateForUI } from '../../../../helpers/date-manipulation-functions'
+import EditIcon from '../../../../components/Icons/EditIcon'
+import DeleteIcon from '../../../../components/Icons/DeleteIcon'
+import Checkbox from '../../../../components/Form/Checkbox'
+import SaveIcon from '../../../../components/Icons/SaveIcon'
+import CloseIcon from '../../../../components/Icons/CloseIcon'
 
 export const UpcomingMilestones: React.FunctionComponent<{
     relevantMilestones: Milestone[]
@@ -59,10 +61,7 @@ export const UpcomingMilestones: React.FunctionComponent<{
                 return (
                     <tr key={milestone.id} className={trClass}>
                         <td>
-                            <ImCheckboxUnchecked
-                                onClick={() => handleToggle(milestone)}
-                                style={{ marginRight: 0 }}
-                            />
+                            <Checkbox onClick={() => handleToggle(milestone)} />
                         </td>
                         <td>
                             {isActiveMilestone ? (
@@ -93,7 +92,7 @@ export const UpcomingMilestones: React.FunctionComponent<{
                         <td>
                             {isActiveMilestone ? (
                                 <>
-                                    <RiSaveFill
+                                    <SaveIcon
                                         onClick={() =>
                                             handleEdit(
                                                 name ?? milestone.name,
@@ -101,18 +100,16 @@ export const UpcomingMilestones: React.FunctionComponent<{
                                             )
                                         }
                                     />
-                                    <RiCloseCircleFill
-                                        onClick={handleCancelClick}
-                                    />
+                                    <CloseIcon onClick={handleCancelClick} />
                                 </>
                             ) : (
                                 <>
-                                    <AiTwotoneEdit
+                                    <EditIcon
                                         onClick={() =>
                                             handleEditClick(milestone)
                                         }
                                     />
-                                    <RiDeleteBin6Fill
+                                    <DeleteIcon
                                         className={styles.delete}
                                         onClick={() =>
                                             handleDeleteWarning(milestone)

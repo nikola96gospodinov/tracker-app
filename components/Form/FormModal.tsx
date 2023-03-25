@@ -1,6 +1,5 @@
-import { AiFillCloseCircle } from 'react-icons/ai'
-
 import { Dispatch } from '../../typings'
+import CloseIcon from '../Icons/CloseIcon'
 
 export const FormModal: React.FunctionComponent<{
     children: React.ReactNode
@@ -8,10 +7,7 @@ export const FormModal: React.FunctionComponent<{
 }> = ({ children, setFormOpen }) => (
     <div className='backdrop'>
         <div className='form-container'>
-            <AiFillCloseCircle
-                className='close'
-                onClick={() => setFormOpen(false)}
-            />
+            <CloseIcon className='close' onClick={() => setFormOpen(false)} />
             {children}
         </div>
     </div>

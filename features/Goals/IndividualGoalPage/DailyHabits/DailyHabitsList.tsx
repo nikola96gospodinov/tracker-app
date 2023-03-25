@@ -1,6 +1,6 @@
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
-import HabitCell from './HabitCell'
+import HabitCell from '../HabitCell'
 
 const DailyHabitsList: React.FunctionComponent<{
     goal: Goal

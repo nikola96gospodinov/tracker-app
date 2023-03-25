@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { AiTwotoneEdit, AiTwotoneCalendar } from 'react-icons/ai'
 
 import { Goal } from '../goals.types'
 import { goalsIcons } from '../data'
@@ -9,6 +8,8 @@ import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-func
 import { formatDateForUI } from '../../../helpers/date-manipulation-functions'
 
 import styles from '../goal.module.scss'
+import EditIcon from '../../../components/Icons/EditIcon'
+import CalendarIcon from '../../../components/Icons/CalendarIcon'
 
 export const GoalBox: React.FunctionComponent<{
     goal: Goal
@@ -26,7 +27,7 @@ export const GoalBox: React.FunctionComponent<{
                 onMouseEnter={() => setShowEditIcon(true)}
                 onMouseLeave={() => setShowEditIcon(false)}
             >
-                {showEditIcon && <AiTwotoneEdit className={styles.editIcon} />}
+                {showEditIcon && <EditIcon className={styles.editIcon} />}
                 <div className={styles.categoryPill}>
                     <div>
                         <Image src={icon.src} alt={icon.alt} />
@@ -37,7 +38,7 @@ export const GoalBox: React.FunctionComponent<{
                     <h3>{goal.name}</h3>
                     <p>{goal.description}</p>
                     <p className={styles.dueDate}>
-                        <AiTwotoneCalendar />
+                        <CalendarIcon />
                         {deadline}
                     </p>
                 </div>

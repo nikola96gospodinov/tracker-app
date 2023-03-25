@@ -1,16 +1,17 @@
+import { HTMLInputWithoutTypeAndName } from '../../typings'
 import styles from './toggleSwitch.module.scss'
 
-const ToggleSwitch: React.FunctionComponent<{
-    onToggle: () => void
-    checked: boolean
-    text?: string
-}> = ({ text, checked, onToggle }) => (
+const ToggleSwitch: React.FunctionComponent<
+    {
+        text?: string
+    } & HTMLInputWithoutTypeAndName
+> = ({ text, ...args }) => (
     <div className={styles.toggleWrapper}>
         <label className={styles.toggle}>
-            <input type='checkbox' onChange={onToggle} checked={checked} />
+            <input type='checkbox' name='complete' {...args} />
             <span></span>
         </label>
-        <span>{text}</span>
+        <label htmlFor='complete'>{text}</label>
     </div>
 )
 

@@ -1,7 +1,6 @@
 import { NextPage } from 'next/types'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { MdErrorOutline } from 'react-icons/md'
 import {
     useAuthState,
     useSendPasswordResetEmail
@@ -11,6 +10,7 @@ import Spinner from '../../components/UIElements/spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { Button } from '../../components/UIElements/Button'
+import ErrorIcon from '../../components/Icons/ErrorIcon'
 
 const ResetPassword: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -123,7 +123,7 @@ const ResetPassword: NextPage = () => {
                         </span>
                         {errors.form && (
                             <div className='form-error'>
-                                <MdErrorOutline />
+                                <ErrorIcon />
                                 <span>
                                     There was an issue with the password reset.
                                     Please try again

@@ -1,6 +1,4 @@
 import moment from 'moment'
-import { BsCheck2Circle } from 'react-icons/bs'
-import { CgDanger } from 'react-icons/cg'
 import { collection, doc, updateDoc } from 'firebase/firestore'
 
 import {
@@ -15,6 +13,8 @@ import { Habit, Streak } from './habits.types'
 import { db } from '../../firebase/firebase'
 import { GOALS } from '../Goals/constants'
 import { Goal } from './../Goals/goals.types'
+import CheckIcon from '../../components/Icons/CheckIcon'
+import DangerIcon from '../../components/Icons/DangerIcon'
 
 const today = formatDate(moment())
 
@@ -109,7 +109,7 @@ export const isHabitCompletedToday = (
 }
 
 export const getHabitCompletionIcon = (completedToday: boolean) =>
-    completedToday ? BsCheck2Circle : CgDanger
+    completedToday ? CheckIcon : DangerIcon
 
 export const getLastCompletedFormatted = (
     lastCompleted: string | undefined | null

@@ -2,7 +2,6 @@ import Link from 'next/link'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
-import { MdErrorOutline } from 'react-icons/md'
 import {
     useAuthState,
     useSignInWithEmailAndPassword
@@ -11,6 +10,7 @@ import {
 import { auth } from '../../firebase/firebase'
 import Spinner from '../../components/UIElements/spinner'
 import { Button } from '../../components/UIElements/Button'
+import ErrorIcon from '../../components/Icons/ErrorIcon'
 
 const Login: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -80,7 +80,7 @@ const Login: NextPage = () => {
                 </span>
                 {errorMessage && (
                     <div className='form-error'>
-                        <MdErrorOutline />
+                        <ErrorIcon />
                         <span>{errorMessage}</span>
                     </div>
                 )}

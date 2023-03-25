@@ -6,11 +6,11 @@ import {
     setDoc
 } from 'firebase/firestore'
 
-import { MILESTONES } from './../constants'
-import { Milestone } from '../goals.types'
-import { db } from '../../../firebase/firebase'
-import { Dispatch } from '../../../typings'
-import { customToast } from '../../../helpers/customToast'
+import { MILESTONES } from '../../../constants'
+import { Milestone } from '../../../goals.types'
+import { db } from '../../../../../firebase/firebase'
+import { Dispatch } from '../../../../../typings'
+import { customToast } from '../../../../../helpers/customToast'
 
 const getMilestonesCollection = (userID: string) => {
     return collection(db, `users/${userID}/${MILESTONES}`)

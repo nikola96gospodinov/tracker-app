@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react'
-import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
 
@@ -12,6 +11,7 @@ import { Habit, HabitType } from './habits.types'
 import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
 import { Button } from '../../components/UIElements/Button'
+import ErrorIcon from '../../components/Icons/ErrorIcon'
 
 const HabitForm: React.FunctionComponent<{
     setHabitsFormOpen: Dispatch<boolean>
@@ -168,7 +168,7 @@ const HabitForm: React.FunctionComponent<{
             </form>
             {errors.form && (
                 <div className='form-error'>
-                    <MdErrorOutline />
+                    <ErrorIcon />
                     <span>
                         There was an issue adding your habit. Please try again
                     </span>

@@ -1,0 +1,22 @@
+@import '../styles/variables.scss';
+
+.progressInputWrapper {
+    display: flex;
+    gap: 0.5rem;
+
+    .progressInput {
+        max-width: 60%;
+        border: none;
+        border-bottom: 0.1rem solid transparent;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: 0.2s ease;
+        cursor: pointer;
+
+        &:focus,
+        &:hover {
+            border-bottom: 0.1rem solid $primary-5;
+            outline: none;
+        }
+    }
+}

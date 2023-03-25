@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
-import { MdErrorOutline } from 'react-icons/md'
 import {
     useAuthState,
     useCreateUserWithEmailAndPassword
@@ -14,6 +13,7 @@ import { auth, db } from '../../firebase/firebase'
 import Spinner from '../../components/UIElements/spinner'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { Button } from '../../components/UIElements/Button'
+import ErrorIcon from '../../components/Icons/ErrorIcon'
 
 const Register: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -180,7 +180,7 @@ const Register: NextPage = () => {
                 </span>
                 {errors.form && (
                     <div className='form-error'>
-                        <MdErrorOutline />
+                        <ErrorIcon />
                         <span>
                             There was an issue with the registration. Please try
                             again

@@ -1,4 +1,4 @@
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import LoadingIcon from '../../../../components/Icons/LoadingIcon'
 
 export const TableHeader = () => (
     <>
@@ -10,7 +10,7 @@ export const TableHeader = () => (
         </colgroup>
         <tr>
             <th>
-                <AiOutlineLoading3Quarters />
+                <LoadingIcon />
             </th>
             <th>
                 <span>Name</span>

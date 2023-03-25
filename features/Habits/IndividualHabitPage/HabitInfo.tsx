@@ -1,5 +1,3 @@
-import { AiTwotoneEdit } from 'react-icons/ai'
-import { RiDeleteBin6Fill } from 'react-icons/ri'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Habit } from '../habits.types'
@@ -18,6 +16,8 @@ import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from '../../Goals/GoalsList/GoalBox'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
 import { auth } from '../../../firebase/firebase'
+import EditIcon from '../../../components/Icons/EditIcon'
+import DeleteIcon from '../../../components/Icons/DeleteIcon'
 
 const HabitInfo: React.FunctionComponent<{
     habit: Habit
@@ -50,7 +50,7 @@ const HabitInfo: React.FunctionComponent<{
                     <span>🔥{currentStreak}</span>
                     <ToggleSwitch
                         text={toggleText}
-                        onToggle={toggleHabitCompletion({
+                        onChange={toggleHabitCompletion({
                             habit,
                             completedToday,
                             userID: user?.uid
@@ -59,11 +59,11 @@ const HabitInfo: React.FunctionComponent<{
                     />
                 </div>
                 <div>
-                    <AiTwotoneEdit
+                    <EditIcon
                         className={style.editIcon}
                         onClick={() => setEditForm(true)}
                     />
-                    <RiDeleteBin6Fill
+                    <DeleteIcon
                         className={style.deleteIcon}
                         onClick={() => setDeleteWarning(true)}
                     />

@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { MdErrorOutline } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
 
@@ -13,6 +12,7 @@ import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
 import { Button } from '../../components/UIElements/Button'
 import { collectiveGoalOptions, personalGoalOptions } from './data'
+import ErrorIcon from '../../components/Icons/ErrorIcon'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
@@ -154,7 +154,7 @@ const GoalForm: React.FunctionComponent<{
             </form>
             {isFormErr && (
                 <div className='form-error'>
-                    <MdErrorOutline />
+                    <ErrorIcon />
                     <span>{formError}</span>
                 </div>
             )}

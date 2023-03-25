@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { MdAddBox } from 'react-icons/md'
 
 import InitialSection from '../../components/InitialSection'
 import useUserLogged from '../../hooks/useUserLogged'
 import HabitForm from './HabitForm'
 import HabitsList from './HabitsList/HabitsList'
+import AddIcon from '../../components/Icons/AddIcon'
 
 export const HabitsContent = () => {
     const [addHabitsFormOpen, setAddHabitsFormOpen] = useState(false)
@@ -15,7 +15,7 @@ export const HabitsContent = () => {
             <InitialSection>
                 <div className='header'>
                     <h1>My Habits</h1>
-                    <MdAddBox onClick={() => setAddHabitsFormOpen(true)} />
+                    <AddIcon onClick={() => setAddHabitsFormOpen(true)} />
                 </div>
                 {user && (
                     <HabitsList

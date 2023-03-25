@@ -1,12 +1,13 @@
 import { Dispatch, useRef, useState, useCallback } from 'react'
-import { ImCheckboxUnchecked } from 'react-icons/im'
-import { RiSaveFill, RiDeleteBin6Fill } from 'react-icons/ri'
 import { v4 as uuidv4 } from 'uuid'
 
-import { addMilestone } from '../../helpers/crud-operations-milestones'
+import { addMilestone } from './helpers/crud-operations-milestones'
 import { Milestone } from '../../goals.types'
+import DeleteIcon from '../../../../components/Icons/DeleteIcon'
+import Checkbox from '../../../../components/Form/Checkbox'
 
 import styles from '../../goal.module.scss'
+import SaveIcon from '../../../../components/Icons/SaveIcon'
 
 export const AddMilestone: React.FunctionComponent<{
     setNewElementAdded: Dispatch<boolean>
@@ -51,7 +52,7 @@ export const AddMilestone: React.FunctionComponent<{
     return (
         <tr className={styles.newMilestone}>
             <td>
-                <ImCheckboxUnchecked style={{ marginRight: 0 }} />
+                <Checkbox disabled />
             </td>
             <td style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
                 <input type='text' ref={nameRef} />
@@ -65,11 +66,8 @@ export const AddMilestone: React.FunctionComponent<{
                 <input type='date' ref={deadlineRef} />
             </td>
             <td>
-                <RiSaveFill className={styles.save} onClick={onSave} />{' '}
-                <RiDeleteBin6Fill
-                    className={styles.delete}
-                    onClick={onDelete}
-                />
+                <SaveIcon className={styles.save} onClick={onSave} />{' '}
+                <DeleteIcon className={styles.delete} onClick={onDelete} />
             </td>
         </tr>
     )

@@ -6,7 +6,7 @@ import {
     deleteMilestone,
     toggleMilestone,
     editMilestone
-} from '../../helpers/crud-operations-milestones'
+} from './helpers/crud-operations-milestones'
 import { MILESTONES, MILESTONES_CAPITALIZED } from '../../constants'
 import { TabElementProps } from '../../goals.types'
 
