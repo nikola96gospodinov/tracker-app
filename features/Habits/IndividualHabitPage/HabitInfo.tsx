@@ -29,7 +29,10 @@ const HabitInfo: React.FunctionComponent<{
     const lastCompletedDate =
         habit.currentStreak?.end ?? habit.longestStreak.end
     const lastCompleted = getLastCompletedFormatted(lastCompletedDate)
-    const { isGoals, relevantGoals, loading } = useGetRelevantGoals(habit.id)
+    const { isGoals, relevantGoals, loading } = useGetRelevantGoals({
+        habitID: habit.id,
+        habitType: habit.type
+    })
 
     const completedToday = isHabitCompletedToday(lastCompletedDate)
     const toggleText = completedToday ? '' : 'Completed?'

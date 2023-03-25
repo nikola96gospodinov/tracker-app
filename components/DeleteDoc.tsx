@@ -25,7 +25,11 @@ const DeleteDoc = <T extends Doc>({
     const router = useRouter()
     const [error, setError] = useState(false)
     const singularPath = removeLastCharacter(path)
-    const { relevantGoals } = useGetRelevantGoals(doc.id)
+    const { relevantGoals } = useGetRelevantGoals({
+        habitID: doc.id,
+        // @ts-ignore
+        habitType: doc?.type ?? 'daily'
+    })
 
     const handleDelete = useCallback(() => {
         removeDoc({
