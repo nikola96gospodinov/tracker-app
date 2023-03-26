@@ -52,14 +52,14 @@ const UpdateHabitsList: React.FunctionComponent<{
         if (shortName === DAILY_HABITS) {
             orgDoc = {
                 ...orgDoc,
-                habits: habitIds as string[]
+                dailyHabits: habitIds as string[]
             }
         }
 
         if (shortName === WEEKLY_HABITS) {
             orgDoc = {
                 ...orgDoc,
-                targets: habitIds as string[]
+                weeklyHabits: habitIds as string[]
             }
         }
 

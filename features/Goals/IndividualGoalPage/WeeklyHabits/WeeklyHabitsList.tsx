@@ -7,7 +7,7 @@ const WeeklyHabitsList: React.FunctionComponent<{
     weeklyTargets?: Habit[]
 }> = ({ goal, weeklyTargets }) => {
     const attachedTargets = weeklyTargets?.filter(({ id }) =>
-        goal.targets?.includes(id)
+        goal.weeklyHabits?.includes(id)
     )
 
     return (

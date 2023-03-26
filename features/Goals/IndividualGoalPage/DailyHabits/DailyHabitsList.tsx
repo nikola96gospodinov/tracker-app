@@ -7,7 +7,7 @@ const DailyHabitsList: React.FunctionComponent<{
     dailyHabits?: Habit[]
 }> = ({ goal, dailyHabits }) => {
     const attachedHabits = dailyHabits?.filter(({ id }) =>
-        goal.habits?.includes(id)
+        goal.dailyHabits?.includes(id)
     )
 
     return (

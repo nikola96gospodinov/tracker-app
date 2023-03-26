@@ -25,8 +25,8 @@ export interface Goal {
     urlPath: string
     description?: string
     deadline?: string
-    habits?: string[]
-    targets?: string[]
+    dailyHabits?: string[]
+    weeklyHabits?: string[]
 }
 
 export interface TabElementProps {

@@ -10,8 +10,9 @@ const WeeklyHabits: React.FunctionComponent<TabElementProps> = ({
     newElementAdded,
     goal
 }) => {
-    const showEmptyContent = !newElementAdded && isEmpty(goal?.targets)
-    const showWeeklyTargetsContent = !isEmpty(goal?.targets) || newElementAdded
+    const showEmptyContent = !newElementAdded && isEmpty(goal?.weeklyHabits)
+    const showWeeklyTargetsContent =
+        !isEmpty(goal?.weeklyHabits) || newElementAdded
 
     return (
         <>

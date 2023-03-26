@@ -165,7 +165,12 @@ export const removeHabitFromGoalsOnDelete = async ({
         const docsRef = doc(docsCollection, goal.id)
         try {
             await updateDoc(docsRef, {
-                habits: goal.habits?.filter((habit) => habit !== habitID)
+                dailyHabits: goal.dailyHabits?.filter(
+                    (habit) => habit !== habitID
+                ),
+                weeklyHabits: goal.weeklyHabits?.filter(
+                    (habit) => habit !== habitID
+                )
             })
         } catch (e) {
             console.log(e)

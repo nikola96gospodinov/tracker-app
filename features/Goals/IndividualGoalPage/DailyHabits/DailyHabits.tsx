@@ -10,8 +10,9 @@ const DailyHabits: React.FunctionComponent<TabElementProps> = ({
     newElementAdded,
     goal
 }) => {
-    const showEmptyContent = !newElementAdded && isEmpty(goal?.habits)
-    const showDailyHabitsContent = !isEmpty(goal?.habits) || newElementAdded
+    const showEmptyContent = !newElementAdded && isEmpty(goal?.dailyHabits)
+    const showDailyHabitsContent =
+        !isEmpty(goal?.dailyHabits) || newElementAdded
 
     return (
         <>

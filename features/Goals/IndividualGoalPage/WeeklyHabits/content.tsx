@@ -48,7 +48,7 @@ const WeeklyHabitsContent: React.FunctionComponent<{
             {showUpdateTargetsList && (
                 <UpdateHabitsList
                     allHabits={weeklyTargets}
-                    attachedHabits={goal?.targets}
+                    attachedHabits={goal?.weeklyHabits}
                     goal={goal}
                     userID={user?.uid}
                     shortName={shortName}
