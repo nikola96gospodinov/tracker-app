@@ -29,11 +29,11 @@ export const useGetRelevantGoals = ({ habitID, habitType }: Props) => {
         }
     }, [loading])
 
-    const relevantGoals = goals?.filter(({ habits, targets }) => {
+    const relevantGoals = goals?.filter(({ dailyHabits, weeklyHabits }) => {
         if (habitType === 'daily') {
-            return habits?.includes(habitID)
+            return dailyHabits?.includes(habitID)
         } else {
-            return targets?.includes(habitID)
+            return weeklyHabits?.includes(habitID)
         }
     })
 

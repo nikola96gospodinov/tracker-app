@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { HABITS } from '../features/Habits/constants'
+import { Habit } from '../features/Habits/habits.types'
 import { removeHabitFromGoalsOnDelete } from '../features/Habits/helpers'
 
 import { removeDoc } from '../helpers/crud-operations/crud-operations-main-docs'
@@ -27,8 +28,7 @@ const DeleteDoc = <T extends Doc>({
     const singularPath = removeLastCharacter(path)
     const { relevantGoals } = useGetRelevantGoals({
         habitID: doc.id,
-        // @ts-ignore
-        habitType: doc?.type ?? 'daily'
+        habitType: doc.hasOwnProperty('type') ? (doc as Habit).type : 'daily'
     })
 
     const handleDelete = useCallback(() => {
