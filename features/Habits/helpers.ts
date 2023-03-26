@@ -66,10 +66,6 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
         }
     }
 
-    console.log(currentStreak.streak)
-    console.log(longestStreak.streak)
-    console.log(newStreak.streak)
-
     if (
         longestStreak.streak < newStreak.streak ||
         longestStreak.streak === currentStreak.streak
