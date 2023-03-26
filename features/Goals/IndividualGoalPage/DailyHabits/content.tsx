@@ -6,7 +6,7 @@ import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
 import DailyHabitsList from './DailyHabitsList'
 import NoHabits from '../NoHabits'
-import UpdateHabitList from './UpdateHabitList'
+import UpdateHabitList from '../UpdateHabitList'
 
 const DailyHabitsContent: React.FunctionComponent<{
     goal: Goal | undefined

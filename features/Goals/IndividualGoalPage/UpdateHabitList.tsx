@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { isEqual } from 'lodash'
 
-import CustomSelect from '../../../../components/Form/CustomSelect'
-import { Button } from '../../../../components/UIElements/Button'
-import { Habit } from '../../../Habits/habits.types'
-import { Goal } from '../../goals.types'
-import { submitDoc } from '../../../../helpers/crud-operations/crud-operations-main-docs'
-import { GOALS, DAILY_HABITS, WEEKLY_HABITS } from '../../constants'
+import CustomSelect from '../../../components/Form/CustomSelect'
+import { Button } from '../../../components/UIElements/Button'
+import { Habit } from '../../Habits/habits.types'
+import { Goal } from '../goals.types'
+import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
+import { GOALS, DAILY_HABITS, WEEKLY_HABITS } from '../constants'
 
 import styles from '../../goal.module.scss'
 

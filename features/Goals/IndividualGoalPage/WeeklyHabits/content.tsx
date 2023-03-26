@@ -4,7 +4,7 @@ import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../Habits/constants'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
-import UpdateHabitsList from '../DailyHabits/UpdateHabitList'
+import UpdateHabitsList from '../UpdateHabitList'
 import NoHabits from '../NoHabits'
 import WeeklyHabitsList from './WeeklyHabitsList'
 
