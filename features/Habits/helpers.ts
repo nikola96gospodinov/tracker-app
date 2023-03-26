@@ -24,18 +24,18 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
     const completedYesterday =
         habit.currentStreak?.end === formatDate(moment().subtract(1, 'days'))
 
-    let newStreak = currentStreak
+    let newStreak = { ...currentStreak }
 
     if (completedYesterday) {
         if (completedToday) {
             newStreak = {
-                streak: newStreak.streak--,
+                streak: --newStreak.streak,
                 start: newStreak?.start,
                 end: goOneDayBack(newStreak?.end)
             }
         } else {
             newStreak = {
-                streak: newStreak.streak++,
+                streak: ++newStreak.streak,
                 start: newStreak?.start,
                 end: goOneDayForward(newStreak?.end)
             }
@@ -51,7 +51,7 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
                 }
             } else {
                 newStreak = {
-                    streak: newStreak.streak--,
+                    streak: --newStreak.streak,
                     start: newStreak?.start,
                     end: goOneDayBack(newStreak?.end)
                 }
@@ -65,6 +65,10 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
             }
         }
     }
+
+    console.log(currentStreak.streak)
+    console.log(longestStreak.streak)
+    console.log(newStreak.streak)
 
     if (
         longestStreak.streak < newStreak.streak ||

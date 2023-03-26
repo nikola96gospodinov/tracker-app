@@ -23,7 +23,7 @@ interface ToastElementProps extends Props {
     t: Toast
 }
 
-const SuccessToast = ({ t, message, type }: ToastElementProps) => {
+const Toast = ({ t, message, type }: ToastElementProps) => {
     const Icon = data[type].icon
     const extraClass = data[type].className
     const animationClass = t.visible ? 'enter-toast' : 'leave-toast'
@@ -42,5 +42,5 @@ const SuccessToast = ({ t, message, type }: ToastElementProps) => {
 }
 
 export const customToast = ({ message, type }: Props) => {
-    toast.custom((t) => <SuccessToast t={t} message={message} type={type} />)
+    toast.custom((t) => <Toast t={t} message={message} type={type} />)
 }
