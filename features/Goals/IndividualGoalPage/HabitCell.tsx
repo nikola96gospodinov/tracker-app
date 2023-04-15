@@ -10,7 +10,7 @@ import {
     isHabitCompletedToday,
     toggleHabitCompletion
 } from '../../Habits/helpers'
-import SetProgressOnHabit from '../../../components/SetProgressOnHabit'
+import SetProgressOnHabit from '../../Habits/SetProgressOnHabit/SetProgressOnHabit'
 
 import styles from '../goal.module.scss'
 

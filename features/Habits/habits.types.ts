@@ -12,6 +12,7 @@ export interface Habit {
     name: string
     type: HabitType
     target: number
+    progress?: number
     metric: string
     longestStreak: Streak
     currentStreak: Streak
