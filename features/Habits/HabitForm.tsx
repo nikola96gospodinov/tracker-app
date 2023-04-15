@@ -11,7 +11,9 @@ import { Habit, HabitType } from './habits.types'
 import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
 import { Button } from '../../components/UIElements/Button'
-import ErrorIcon from '../../components/Icons/ErrorIcon'
+import { Input } from '../../components/Form/Input'
+import { RadioGroup } from '../../components/Form/Radio/RadioGroup'
+import { habitTypes } from './data'
 
 const HabitForm: React.FunctionComponent<{
     setHabitsFormOpen: Dispatch<boolean>
@@ -89,91 +91,64 @@ const HabitForm: React.FunctionComponent<{
         }
     }
 
-    const action = habit ? 'Edit' : 'Add'
+    const action = habit ? 'Edit' : 'Add a'
+    const title = `${action} habit`
     const nameErr = errors.nameErr !== ''
     const btnText = `${action} Habit`
+    const formErrorText =
+        'There was an issue adding your habit. Please try again'
 
     return (
-        <FormModal setFormOpen={setHabitsFormOpen}>
-            <h1>{action} a habit</h1>
-            <form onSubmit={(e) => handleFormSubmit(e)}>
-                <label htmlFor='name'>Name</label>
-                <input
-                    id='name'
-                    type='text'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                {nameErr && (
-                    <span className='field-error'>{errors.nameErr}</span>
-                )}
-                <div className='radio-holder'>
-                    <p>Measured: </p>
-                    <label>
-                        <input
-                            type='radio'
-                            id='daily'
-                            name='type'
-                            value='daily'
-                            onChange={handleRadioChange}
-                            checked={type === 'daily'}
-                        />
-                        Daily
-                    </label>
-                    <label>
-                        <input
-                            type='radio'
-                            id='weekly'
-                            name='type'
-                            value='weekly'
-                            onChange={handleRadioChange}
-                            checked={type === 'weekly'}
-                        />
-                        Weekly
-                    </label>
-                </div>
-                <label htmlFor='target'>Target</label>
-                <input
-                    id='target'
-                    type='number'
-                    value={target}
-                    onChange={(e) => setTarget(+e.target.value)}
-                    min={1}
-                />
-                {errors.targetErr && (
-                    <span className='field-error'>Please select a target</span>
-                )}
-                <label htmlFor='metric'>Metric</label>
-                <input
-                    id='metric'
-                    type='text'
-                    value={metric}
-                    onChange={(e) => setMetric(e.target.value)}
-                />
-                {errors.metricErr && (
-                    <span className='field-error'>Please select a metric</span>
-                )}
-                <label htmlFor='description'>Description (Optional)</label>
-                <input
-                    id='description'
-                    type='text'
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <Button
-                    type='submit'
-                    text={btnText}
-                    btnClass='button-primary'
-                />
-            </form>
-            {errors.form && (
-                <div className='form-error'>
-                    <ErrorIcon />
-                    <span>
-                        There was an issue adding your habit. Please try again
-                    </span>
-                </div>
-            )}
+        <FormModal
+            setFormOpen={setHabitsFormOpen}
+            title={title}
+            onSubmit={handleFormSubmit}
+            isFormError={errors.form}
+            formError={formErrorText}
+        >
+            <Input
+                labelText='Name'
+                name='name'
+                value={name}
+                type='text'
+                onChange={(e) => setName(e.target.value)}
+                isError={nameErr}
+                error={errors.nameErr}
+            />
+            <RadioGroup
+                options={habitTypes}
+                currentValue={type}
+                onChange={handleRadioChange}
+                name='type'
+                description='Measured:'
+            />
+            <Input
+                labelText='Target'
+                name='target'
+                value={target}
+                type='target'
+                onChange={(e) => setTarget(+e.target.value)}
+                min={1}
+                isError={errors.targetErr}
+                error='Please select a target'
+            />
+            <Input
+                labelText='Metric'
+                name='metric'
+                value={metric}
+                type='text'
+                onChange={(e) => setMetric(e.target.value)}
+                isError={errors.metricErr}
+                error='Please select a metric'
+            />
+            <Input
+                labelText='Description'
+                name='description'
+                value={description}
+                type='text'
+                onChange={(e) => setDescription(e.target.value)}
+            />
+            <Button type='submit' text={btnText} btnClass='button-primary' />
         </FormModal>
     )
 }

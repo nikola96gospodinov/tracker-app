@@ -55,7 +55,7 @@ export const goalsIcons = {
     }
 }
 
-export const personalGoalOptions = [
+const personalGoalOptions = [
     {
         value: 'health',
         label: 'Health'
@@ -74,7 +74,7 @@ export const personalGoalOptions = [
     }
 ]
 
-export const collectiveGoalOptions = [
+const collectiveGoalOptions = [
     {
         value: 'family',
         label: 'Family'
@@ -92,6 +92,11 @@ export const collectiveGoalOptions = [
         label: 'Other (Collective)'
     }
 ]
+
+export const goalOptions = {
+    personal: personalGoalOptions,
+    collective: collectiveGoalOptions
+}
 
 export const tabs = [
     {

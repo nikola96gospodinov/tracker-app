@@ -11,8 +11,10 @@ import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
 import { Button } from '../../components/UIElements/Button'
-import { collectiveGoalOptions, personalGoalOptions } from './data'
-import ErrorIcon from '../../components/Icons/ErrorIcon'
+import { goalOptions } from './data'
+import { Input } from '../../components/Form/Input'
+import { Textarea } from '../../components/Form/Textarea'
+import { Select } from '../../components/Form/Select'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
@@ -77,7 +79,7 @@ const GoalForm: React.FunctionComponent<{
         }
     }
 
-    const formTitle = goal ? 'Update' : 'Set a'
+    const formTitle = goal ? 'Update goal' : 'Set a goal'
     const isNameErr = errors.nameErr !== ''
     const isCategoryErr = errors.categoryErr
     const btnText = `${goal ? 'Update' : 'Set'} Goal`
@@ -86,78 +88,46 @@ const GoalForm: React.FunctionComponent<{
     goal. Please try again`
 
     return (
-        <FormModal setFormOpen={setGoalsFormOpen}>
-            <h1>{formTitle} goal</h1>
-            <form onSubmit={(e) => handleFormSubmit(e)}>
-                <label htmlFor='name'>Name</label>
-                <input
-                    id='name'
-                    type='text'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                {isNameErr && (
-                    <span className='field-error'>{errors.nameErr}</span>
-                )}
-                <label htmlFor='category'>Category</label>
-                <select
-                    id='category'
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                >
-                    <option
-                        value=''
-                        disabled
-                        selected
-                        style={{ opacity: 0.5 }}
-                    ></option>
-                    <optgroup label='Personal'>
-                        {personalGoalOptions.map(({ value, label }) => (
-                            <option key={value} value={value}>
-                                {label}
-                            </option>
-                        ))}
-                    </optgroup>
-                    <optgroup label='Collective'>
-                        {collectiveGoalOptions.map(({ value, label }) => (
-                            <option key={value} value={value}>
-                                {label}
-                            </option>
-                        ))}
-                    </optgroup>
-                    <option value='' disabled style={{ opacity: 0.5 }}></option>
-                </select>
-                {isCategoryErr && (
-                    <span className='field-error'>
-                        Please select a category
-                    </span>
-                )}
-                <label htmlFor='deadline'>Deadline (Optional)</label>
-                <input
-                    id='deadline'
-                    type='date'
-                    value={deadline}
-                    onChange={(e) => setDeadline(e.target.value)}
-                    min={today}
-                />
-                <label htmlFor='description'>Description (Optional)</label>
-                <textarea
-                    id='description'
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <Button
-                    type='submit'
-                    text={btnText}
-                    btnClass='button-primary'
-                />
-            </form>
-            {isFormErr && (
-                <div className='form-error'>
-                    <ErrorIcon />
-                    <span>{formError}</span>
-                </div>
-            )}
+        <FormModal
+            setFormOpen={setGoalsFormOpen}
+            title={formTitle}
+            onSubmit={handleFormSubmit}
+            isFormError={isFormErr}
+            formError={formError}
+        >
+            <Input
+                labelText='Name'
+                name='name'
+                value={name}
+                type='text'
+                onChange={(e) => setName(e.target.value)}
+                isError={isNameErr}
+                error={errors.nameErr}
+            />
+            <Select
+                labelText='Category'
+                name='category'
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                isError={isCategoryErr}
+                error='Please select a category'
+                options={goalOptions}
+            />
+            <Input
+                labelText='Deadline (Optional)'
+                name='deadline'
+                value={deadline}
+                type='date'
+                onChange={(e) => setDeadline(e.target.value)}
+                min={today}
+            />
+            <Textarea
+                labelText='Description (Optional)'
+                name='description'
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+            />
+            <Button type='submit' text={btnText} btnClass='button-primary' />
         </FormModal>
     )
 }
