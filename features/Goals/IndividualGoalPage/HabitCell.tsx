@@ -4,8 +4,6 @@ import Link from 'next/link'
 import { Habit } from '../../Habits/habits.types'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
 import { auth } from '../../../firebase/firebase'
-
-import styles from '../goal.module.scss'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
@@ -13,6 +11,8 @@ import {
     toggleHabitCompletion
 } from '../../Habits/helpers'
 import SetProgressOnHabit from '../../../components/SetProgressOnHabit'
+
+import styles from '../goal.module.scss'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
@@ -58,7 +58,7 @@ const HabitCell: React.FunctionComponent<{
                 ) : (
                     <SetProgressOnHabit habit={habit} />
                 )}
-                <Icon />
+                <Icon className={styles.habitCellIcon} />
             </div>
         </div>
     )

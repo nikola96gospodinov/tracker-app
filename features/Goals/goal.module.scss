@@ -309,7 +309,7 @@
 .completedHabitCell {
     border-color: $green-5;
 
-    svg {
+    .habitCellIcon {
         color: $green-5;
     }
 }
@@ -317,7 +317,7 @@
 .incompletedHabitCell {
     border-color: $yellow-5;
 
-    svg {
+    .habitCellIcon {
         color: $yellow-4;
     }
 }
