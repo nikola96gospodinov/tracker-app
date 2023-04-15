@@ -8,7 +8,7 @@ import { Goal } from '../goals.types'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
 import { GOALS, DAILY_HABITS, WEEKLY_HABITS } from '../constants'
 
-import styles from '../../goal.module.scss'
+import styles from '../goal.module.scss'
 
 const UpdateHabitsList: React.FunctionComponent<{
     allHabits: Habit[] | undefined

@@ -1,6 +1,7 @@
 import { FormModal } from '../../../../components/Form/FormModal'
 import { Milestone } from '../../goals.types'
 import { Dispatch } from '../../../../typings'
+import { Button } from '../../../../components/UIElements/Button'
 
 export const DeleteModal: React.FunctionComponent<{
     handleDelete: () => void
@@ -19,18 +20,21 @@ export const DeleteModal: React.FunctionComponent<{
                 marginTop: '2rem'
             }}
         >
-            <button className='button button-delete' onClick={handleDelete}>
-                Delete
-            </button>
-            <button
-                className='button button-tertiary'
+            <Button
+                type='button'
+                btnClass='button-delete'
+                onClick={handleDelete}
+                text='Delete'
+            />
+            <Button
+                type='button'
+                btnClass='button-tertiary'
                 onClick={() => {
                     setDeleteWarning(false)
                     setActiveMilestone(undefined)
                 }}
-            >
-                Cancel
-            </button>
+                text='Cancel'
+            />
         </div>
     </FormModal>
 )

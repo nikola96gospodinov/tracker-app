@@ -4,13 +4,13 @@ import { Goal } from '../goals.types'
 import { tabs } from '../data'
 
 import styles from '../goal.module.scss'
+import { Button } from '../../../components/UIElements/Button'
 
 const GoalConfiguration: React.FunctionComponent<{
     goal: Goal
 }> = ({ goal }) => {
     const [activeTab, setActiveTab] = useState<string>(tabs[0].name)
     const [newElementAdded, setNewElementAdded] = useState(false)
-    const addButtonClasses = `button button-primary ${styles.addButton}`
 
     return (
         <div className={styles.goalConfiguration}>
@@ -35,12 +35,13 @@ const GoalConfiguration: React.FunctionComponent<{
                     ))}
                 </div>
                 <div>
-                    <button
-                        className={addButtonClasses}
+                    <Button
+                        text='Add +'
+                        btnClass='button-primary'
+                        type='button'
                         onClick={() => setNewElementAdded(true)}
-                    >
-                        Add +
-                    </button>
+                        className={styles.addButton}
+                    />
                 </div>
             </div>
 

@@ -15,7 +15,7 @@ export const Button: React.FunctionComponent<
         type: 'button' | 'submit' | 'reset' | undefined
         isLoading?: boolean
     }
-> = ({ text, btnClass, isLoading, ...props }) => {
+> = ({ text, btnClass, isLoading, ...args }) => {
     const buttonContent = isLoading ? (
         <Spinner size={1.5} isText={false} />
     ) : (
@@ -25,7 +25,10 @@ export const Button: React.FunctionComponent<
     const buttonSecondClass = isLoading ? 'button-disabled' : btnClass
 
     return (
-        <button className={`button ${buttonSecondClass}`} {...props}>
+        <button
+            {...args}
+            className={`button ${buttonSecondClass} ${args.className}`}
+        >
             {buttonContent}
         </button>
     )
