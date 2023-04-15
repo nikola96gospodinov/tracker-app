@@ -1,3 +1,7 @@
+# About this project
+
+This a multi user app for tracking habits and goals. It is still unfinished.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
