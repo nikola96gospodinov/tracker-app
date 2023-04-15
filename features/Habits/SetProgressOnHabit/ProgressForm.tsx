@@ -9,7 +9,10 @@ export const ProgressForm: React.FunctionComponent<{
     return (
         <>
             {progressFormOpen && (
-                <FormModal setFormOpen={setProgressFormOpen}>
+                <FormModal
+                    setFormOpen={setProgressFormOpen}
+                    onSubmit={() => {}}
+                >
                     <></>
                 </FormModal>
             )}
