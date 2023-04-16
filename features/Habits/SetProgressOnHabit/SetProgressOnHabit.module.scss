@@ -19,3 +19,39 @@
         margin-top: 0.1rem;
     }
 }
+
+.progressFormInputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+.valueChangesHolder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+
+    input,
+    label {
+        margin: 0;
+    }
+
+    .btnHolders {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+
+        button {
+            box-shadow: none;
+            border: 0.1rem solid $primary-5;
+            font-size: 1rem;
+            padding: 0.25rem 1rem;
+            margin-top: 0;
+        }
+    }
+}

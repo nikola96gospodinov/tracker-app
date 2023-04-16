@@ -1,7 +1,7 @@
 export const Input: React.FunctionComponent<
     // For some reason there is a type problem with the onChange event
     Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> & {
-        labelText: string
+        labelText?: string
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
         isError?: boolean
         error?: string
@@ -19,9 +19,11 @@ export const Input: React.FunctionComponent<
     ...otherInputProps
 }) => (
     <>
-        <label htmlFor={name} {...otherLabelProps}>
-            {labelText}
-        </label>
+        {labelText && (
+            <label htmlFor={name} {...otherLabelProps}>
+                {labelText}
+            </label>
+        )}
         <input
             id={name}
             name={name}

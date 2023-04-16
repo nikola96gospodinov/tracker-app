@@ -147,6 +147,27 @@ export const toggleHabitCompletion = ({
     }
 }
 
+interface UpdateHabitProgressProps {
+    habitID: string
+    userID: string
+    progress: number
+}
+
+export const updateHabitProgress = ({
+    habitID,
+    userID,
+    progress
+}: UpdateHabitProgressProps) => {
+    submitDoc<Habit>({
+        path: HABITS,
+        userID: userID ?? '',
+        orgDoc: {
+            id: habitID,
+            progress
+        } as Habit
+    })
+}
+
 interface RemoveHabitFromGoalsOnDeleteProps {
     userID: string
     relevantGoals: Goal[] | undefined

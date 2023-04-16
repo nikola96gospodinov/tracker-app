@@ -33,6 +33,8 @@ const SetProgressOnHabit: React.FunctionComponent<{
                 progressFormOpen={progressFormOpen}
                 setProgressFormOpen={setProgressFormOpen}
                 progress={progress}
+                target={habit.target}
+                habitID={habit.id}
             />
         </>
     )
