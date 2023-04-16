@@ -21,10 +21,12 @@ const HabitCell: React.FunctionComponent<{
 
     const lastCompletedDate = habit.currentStreak?.end
     const completedToday = isHabitCompletedToday(lastCompletedDate)
-    const completedClass = completedToday
+    const weeklyTargetCompleted = (habit.progress ?? 0) >= habit.target
+    const completed = completedToday || weeklyTargetCompleted
+    const completedClass = completed
         ? styles.completedHabitCell
         : styles.incompletedHabitCell
-    const Icon = getHabitCompletionIcon(completedToday)
+    const Icon = getHabitCompletionIcon(completed)
     const toggleText = completedToday ? '' : 'Completed?'
     const currentStreak = getCurrentStreak({
         lastCompletedDate,
