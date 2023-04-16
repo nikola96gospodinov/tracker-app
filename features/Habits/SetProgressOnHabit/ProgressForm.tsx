@@ -27,7 +27,7 @@ export const ProgressForm: React.FunctionComponent<{
         if (e.target.checked) {
             setProgressValue(target)
         } else {
-            setProgressValue(progress)
+            setProgressValue(progress === target ? 0 : progress)
         }
     }
 

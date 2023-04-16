@@ -1,6 +1,6 @@
 import { useState } from 'react'
+
 import { Habit } from '../habits.types'
-import { FormModal } from '../../../components/Form/FormModal'
 import BatteryIcon from '../../../components/Icons/Battery'
 import EditIcon from '../../../components/Icons/EditIcon'
 

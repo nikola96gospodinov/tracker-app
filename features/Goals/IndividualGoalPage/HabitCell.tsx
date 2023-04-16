@@ -1,24 +1,18 @@
-import { useAuthState } from 'react-firebase-hooks/auth'
 import Link from 'next/link'
 
 import { Habit } from '../../Habits/habits.types'
-import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
-import { auth } from '../../../firebase/firebase'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
-    isHabitCompletedToday,
-    toggleHabitCompletion
+    isHabitCompletedToday
 } from '../../Habits/helpers'
-import SetProgressOnHabit from '../../Habits/SetProgressOnHabit/SetProgressOnHabit'
 
 import styles from '../goal.module.scss'
+import { UpdateHabitMetrics } from '../../Habits/UpdateHabitMetrics'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
-    const [user] = useAuthState(auth)
-
     const lastCompletedDate = habit.currentStreak?.end
     const completedToday = isHabitCompletedToday(lastCompletedDate)
     const weeklyTargetCompleted = (habit.progress ?? 0) >= habit.target
@@ -27,7 +21,6 @@ const HabitCell: React.FunctionComponent<{
         ? styles.completedHabitCell
         : styles.incompletedHabitCell
     const Icon = getHabitCompletionIcon(completed)
-    const toggleText = completedToday ? '' : 'Completed?'
     const currentStreak = getCurrentStreak({
         lastCompletedDate,
         currentStreak: habit.currentStreak.streak
@@ -47,19 +40,7 @@ const HabitCell: React.FunctionComponent<{
                 🎯 {habit.target} {habit.metric} {habit.type}
             </p>
             <div className={styles.wrapper}>
-                {habit.target === 1 ? (
-                    <ToggleSwitch
-                        text={toggleText}
-                        onChange={toggleHabitCompletion({
-                            habit,
-                            completedToday,
-                            userID: user?.uid
-                        })}
-                        checked={completedToday}
-                    />
-                ) : (
-                    <SetProgressOnHabit habit={habit} />
-                )}
+                <UpdateHabitMetrics habit={habit} />
                 <Icon className={styles.habitCellIcon} />
             </div>
         </div>

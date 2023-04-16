@@ -1,31 +1,24 @@
-import { useAuthState } from 'react-firebase-hooks/auth'
-
 import { Habit } from '../habits.types'
 import { Dispatch } from '../../../typings'
 import {
     getCurrentStreak,
     getLastCompletedFormatted,
-    getLongestStreakRange,
-    isHabitCompletedToday,
-    toggleHabitCompletion
+    getLongestStreakRange
 } from '../helpers'
-
-import style from '../habit.module.scss'
 import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
 import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from '../../Goals/GoalsList/GoalBox'
-import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
-import { auth } from '../../../firebase/firebase'
 import EditIcon from '../../../components/Icons/EditIcon'
 import DeleteIcon from '../../../components/Icons/DeleteIcon'
+import { UpdateHabitMetrics } from '../UpdateHabitMetrics'
+
+import style from '../habit.module.scss'
 
 const HabitInfo: React.FunctionComponent<{
     habit: Habit
     setEditForm: Dispatch<boolean>
     setDeleteWarning: Dispatch<boolean>
 }> = ({ habit, setEditForm, setDeleteWarning }) => {
-    const [user] = useAuthState(auth)
-
     const lastCompletedDate =
         habit.currentStreak?.end ?? habit.longestStreak.end
     const lastCompleted = getLastCompletedFormatted(lastCompletedDate)
@@ -33,9 +26,6 @@ const HabitInfo: React.FunctionComponent<{
         habitID: habit.id,
         habitType: habit.type
     })
-
-    const completedToday = isHabitCompletedToday(lastCompletedDate)
-    const toggleText = completedToday ? '' : 'Completed?'
 
     const currentStreak = getCurrentStreak({
         lastCompletedDate: habit.currentStreak.end,
@@ -48,15 +38,7 @@ const HabitInfo: React.FunctionComponent<{
                 <div>
                     🎯 {habit.target} {habit.metric} {habit.type}
                     <span>🔥{currentStreak}</span>
-                    <ToggleSwitch
-                        text={toggleText}
-                        onChange={toggleHabitCompletion({
-                            habit,
-                            completedToday,
-                            userID: user?.uid
-                        })}
-                        checked={completedToday}
-                    />
+                    <UpdateHabitMetrics habit={habit} />
                 </div>
                 <div>
                     <EditIcon
