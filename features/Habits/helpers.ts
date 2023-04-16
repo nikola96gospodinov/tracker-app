@@ -9,7 +9,7 @@ import {
 } from '../../helpers/date-manipulation-functions'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { HABITS } from './constants'
-import { Habit, Streak } from './habits.types'
+import { Habit, Progress, Streak } from './habits.types'
 import { db } from '../../firebase/firebase'
 import { GOALS } from '../Goals/constants'
 import { Goal } from './../Goals/goals.types'
@@ -148,22 +148,26 @@ export const toggleHabitCompletion = ({
 }
 
 interface UpdateHabitProgressProps {
-    habitID: string
+    habit: Habit
     userID: string
-    progress: number
+    progress: Progress
+    completed: boolean
 }
 
 export const updateHabitProgress = ({
-    habitID,
+    habit,
     userID,
-    progress
+    progress,
+    completed
 }: UpdateHabitProgressProps) => {
+    const updatedStreaks = getUpdatedStreaks(habit, !completed)
     submitDoc<Habit>({
         path: HABITS,
         userID: userID ?? '',
         orgDoc: {
-            id: habitID,
-            progress
+            id: habit.id,
+            progress,
+            ...updatedStreaks
         } as Habit
     })
 }
@@ -210,4 +214,9 @@ export const getLongestStreakRange = (longestStreak: Streak): string => {
         )})`
 
     return ''
+}
+
+export const getCurrentProgress = (progress?: Progress): number => {
+    if (progress?.dateOfProgress === today) return progress.progress
+    return 0
 }

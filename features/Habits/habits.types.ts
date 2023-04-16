@@ -7,12 +7,17 @@ export interface Streak {
     lastEnd?: string | null
 }
 
+export interface Progress {
+    progress: number
+    dateOfProgress: string | undefined
+}
+
 export interface Habit {
     id: string
     name: string
     type: HabitType
     target: number
-    progress?: number
+    progress?: Progress
     metric: string
     longestStreak: Streak
     currentStreak: Streak

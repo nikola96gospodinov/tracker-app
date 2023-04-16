@@ -126,7 +126,7 @@ const HabitForm: React.FunctionComponent<{
                 labelText='Target'
                 name='target'
                 value={target}
-                type='target'
+                type='number'
                 onChange={(e) => setTarget(+e.target.value)}
                 min={1}
                 isError={errors.targetErr}

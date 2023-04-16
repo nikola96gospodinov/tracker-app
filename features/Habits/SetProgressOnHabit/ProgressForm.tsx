@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import moment from 'moment'
 
 import { FormModal } from '../../../components/Form/FormModal'
 import { Button } from '../../../components/UIElements/Button'
@@ -8,43 +9,46 @@ import { Input } from '../../../components/Form/Input'
 
 import styles from './SetProgressOnHabit.module.scss'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
-import { updateHabitProgress } from '../helpers'
+import { getCurrentProgress, updateHabitProgress } from '../helpers'
 import { auth } from '../../../firebase/firebase'
+import { Habit, Progress } from '../habits.types'
+import { formatDate } from '../../../helpers/date-manipulation-functions'
 
 export const ProgressForm: React.FunctionComponent<{
     progressFormOpen: boolean
     setProgressFormOpen: Dispatch<boolean>
-    progress: number
-    target: number
-    habitID: string
-}> = ({ progressFormOpen, setProgressFormOpen, progress, target, habitID }) => {
-    const [progressValue, setProgressValue] = useState<number>(progress)
+    habit: Habit
+}> = ({ progressFormOpen, setProgressFormOpen, habit }) => {
+    const currentProgress = getCurrentProgress(habit.progress)
+    const [progressValue, setProgressValue] = useState<number>(currentProgress)
     const [user] = useAuthState(auth)
+    const completed = progressValue >= habit.target
 
     const handleToggleSwitchChange = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
         if (e.target.checked) {
-            setProgressValue(target)
+            setProgressValue(habit.target)
         } else {
-            setProgressValue(progress === target ? 0 : progress)
+            setProgressValue(
+                currentProgress === habit.target ? 0 : currentProgress
+            )
         }
     }
 
-    const handleSubmit = useCallback(
-        (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault()
-            updateHabitProgress({
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        updateHabitProgress({
+            progress: {
                 progress: progressValue,
-                habitID,
-                userID: user?.uid ?? ''
-            })
-            setProgressFormOpen(false)
-        },
-        [habitID, progressValue, setProgressFormOpen, user?.uid]
-    )
-
-    const completed = progressValue >= target
+                dateOfProgress: formatDate(moment())
+            },
+            habit,
+            userID: user?.uid ?? '',
+            completed
+        })
+        setProgressFormOpen(false)
+    }
     const toggleText = completed ? 'Completed!' : 'Set as completed'
 
     return (

@@ -1,17 +1,17 @@
 import { useState } from 'react'
-
 import { Habit } from '../habits.types'
 import BatteryIcon from '../../../components/Icons/Battery'
 import EditIcon from '../../../components/Icons/EditIcon'
 
 import style from './SetProgressOnHabit.module.scss'
 import { ProgressForm } from './ProgressForm'
+import { getCurrentProgress } from '../helpers'
 
 const SetProgressOnHabit: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
     const [progressFormOpen, setProgressFormOpen] = useState(false)
-    const progress = habit.progress ?? 0
+    const progress = getCurrentProgress(habit.progress)
 
     return (
         <>
@@ -32,9 +32,7 @@ const SetProgressOnHabit: React.FunctionComponent<{
             <ProgressForm
                 progressFormOpen={progressFormOpen}
                 setProgressFormOpen={setProgressFormOpen}
-                progress={progress}
-                target={habit.target}
-                habitID={habit.id}
+                habit={habit}
             />
         </>
     )
