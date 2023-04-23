@@ -5,7 +5,7 @@ import {
     getLastCompletedFormatted,
     getLongestStreakRange
 } from '../helpers'
-import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
+import { useGetRelevantGoal } from '../../../hooks/useGetRelevantGoals'
 import Spinner from '../../../components/UIElements/spinner'
 import { GoalBox } from '../../Goals/GoalsList/GoalBox'
 import EditIcon from '../../../components/Icons/EditIcon'
