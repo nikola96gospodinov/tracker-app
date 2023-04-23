@@ -8,6 +8,7 @@
         "start": "next start",
         "lint": "next lint",
         "test": "jest",
+        "prettier:commit": "prettier -w -u",
         "prettier:fix": "prettier --config ./prettier.config.cjs --write ./**/*.{css,scss,ts,tsx} ",
         "prettier:check": "prettier --config ./prettier.config.cjs --check ./**/*.{css,scss,ts,tsx}",
         "prepare": "husky install"
