@@ -13,17 +13,19 @@ import { UpdateHabitMetrics } from '../../Habits/UpdateHabitMetrics'
 const HabitCell: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
-    const lastCompletedDate = habit.currentStreak?.end
-    const completedToday = isHabitCompletedToday(lastCompletedDate)
-    const weeklyTargetCompleted = (habit.progress ?? 0) >= habit.target
+    const lastCompleted = habit.currentStreak?.end
+    const completedToday = isHabitCompletedToday(lastCompleted)
+    const weeklyTargetCompleted =
+        (habit.progress?.progress ?? 0) >= habit.target
     const completed = completedToday || weeklyTargetCompleted
     const completedClass = completed
         ? styles.completedHabitCell
         : styles.incompletedHabitCell
     const Icon = getHabitCompletionIcon(completed)
     const currentStreak = getCurrentStreak({
-        lastCompletedDate,
-        currentStreak: habit.currentStreak.streak
+        lastCompleted,
+        currentStreak: habit.currentStreak.streak,
+        type: habit.type
     })
 
     return (

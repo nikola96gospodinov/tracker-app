@@ -24,11 +24,12 @@ export const HabitBox: React.FunctionComponent<{
 }) => {
     const href = `/habits/${urlPath}`
     const streak = getCurrentStreak({
-        lastCompletedDate: currentStreak.end,
-        currentStreak: currentStreak.streak
+        lastCompleted: currentStreak.end,
+        currentStreak: currentStreak.streak,
+        type
     })
     const completedToday = isHabitCompletedToday(currentStreak.end)
-    const weeklyTargetCompleted = (progress ?? 0) >= target
+    const weeklyTargetCompleted = (progress?.progress ?? 0) >= target
     const completed = completedToday || weeklyTargetCompleted
     const Icon = getHabitCompletionIcon(completed)
     const boxStyle = completed

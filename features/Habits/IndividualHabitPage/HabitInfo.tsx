@@ -19,17 +19,17 @@ const HabitInfo: React.FunctionComponent<{
     setEditForm: Dispatch<boolean>
     setDeleteWarning: Dispatch<boolean>
 }> = ({ habit, setEditForm, setDeleteWarning }) => {
-    const lastCompletedDate =
-        habit.currentStreak?.end ?? habit.longestStreak.end
-    const lastCompleted = getLastCompletedFormatted(lastCompletedDate)
+    const lastCompleted = habit.currentStreak?.end ?? habit.longestStreak.end
+    const lastCompletedFormatted = getLastCompletedFormatted(lastCompleted)
     const { isGoals, relevantGoals, loading } = useGetRelevantGoals({
         habitID: habit.id,
         habitType: habit.type
     })
 
     const currentStreak = getCurrentStreak({
-        lastCompletedDate: habit.currentStreak.end,
-        currentStreak: habit.currentStreak.streak
+        lastCompleted,
+        currentStreak: habit.currentStreak.streak,
+        type: habit.type
     })
 
     return (
@@ -56,11 +56,11 @@ const HabitInfo: React.FunctionComponent<{
             <p>
                 <strong>Longest Streak:</strong> 🔥{habit.longestStreak.streak}{' '}
                 <span className={style.longestStreakRange}>
-                    {getLongestStreakRange(habit.longestStreak)}
+                    {getLongestStreakRange(habit.longestStreak, habit.type)}
                 </span>
             </p>
             <p>
-                <strong>Last Completed:</strong> {lastCompleted}
+                <strong>Last Completed:</strong> {lastCompletedFormatted}
             </p>
 
             <h2>Linked Goals</h2>

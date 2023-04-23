@@ -32,3 +32,10 @@ export const goOneDayForward = (date: string | undefined | null): string =>
 export const formatDateForUI = (
     date: Moment | string | Date | undefined
 ): string => moment(date).format('Do MMM YYYY')
+export const formatWeek = (
+    date: Moment | string | Date | undefined
+): string => {
+    const week = moment(date).isoWeek()
+    const year = moment(date).year()
+    return `Week ${week}, ${year}`
+}

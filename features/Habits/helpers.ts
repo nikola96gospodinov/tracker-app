@@ -4,12 +4,13 @@ import { collection, doc, updateDoc } from 'firebase/firestore'
 import {
     formatDate,
     formatDateForUI,
+    formatWeek,
     goOneDayBack,
     goOneDayForward
 } from '../../helpers/date-manipulation-functions'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { HABITS } from './constants'
-import { Habit, Progress, Streak } from './habits.types'
+import { Habit, HabitType, Progress, Streak } from './habits.types'
 import { db } from '../../firebase/firebase'
 import { GOALS } from '../Goals/constants'
 import { Goal } from './../Goals/goals.types'
@@ -17,12 +18,17 @@ import CheckIcon from '../../components/Icons/CheckIcon'
 import DangerIcon from '../../components/Icons/DangerIcon'
 
 const today = formatDate(moment())
+const yesterday = formatDate(moment().subtract(1, 'days'))
+const thisWeek = formatWeek(moment())
+const lastWeek = formatWeek(moment().subtract(7, 'days'))
 
-export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
+export const getUpdatedStreaksForDailyHabits = (
+    habit: Habit,
+    completedToday: boolean
+) => {
     const longestStreak = habit.longestStreak
     const currentStreak = habit.currentStreak
-    const completedYesterday =
-        habit.currentStreak?.end === formatDate(moment().subtract(1, 'days'))
+    const completedYesterday = habit.currentStreak?.end === yesterday
 
     let newStreak = { ...currentStreak }
 
@@ -82,15 +88,81 @@ export const getUpdatedStreaks = (habit: Habit, completedToday: boolean) => {
     }
 }
 
-interface GetCurrentStreakProps {
+export const getUpdatedStreaksForWeeklyHabits = (habit: Habit) => {
+    const longestStreak = habit.longestStreak
+    const currentStreak = habit.currentStreak
+    const completedThisWeek =
+        habit.progress?.progress === habit.target &&
+        formatWeek(moment(habit.progress.dateOfProgress)) === thisWeek
+    const completedLastWeek = habit.currentStreak?.end === lastWeek
+
+    let newStreak = { ...currentStreak }
+
+    if (completedLastWeek) {
+        if (completedThisWeek) {
+            newStreak = {
+                streak: --newStreak.streak,
+                start: newStreak?.start,
+                end: lastWeek
+            }
+        } else {
+            newStreak = {
+                streak: ++newStreak.streak,
+                start: newStreak?.start,
+                end: thisWeek
+            }
+        }
+    } else {
+        if (completedThisWeek) {
+            if (newStreak?.start === newStreak?.end) {
+                newStreak = {
+                    streak: 0,
+                    start: null,
+                    end: newStreak?.lastEnd,
+                    lastEnd: null
+                }
+            } else {
+                newStreak = {
+                    streak: --newStreak.streak,
+                    start: newStreak?.start,
+                    end: lastWeek
+                }
+            }
+        } else {
+            newStreak = {
+                streak: 1,
+                start: thisWeek,
+                end: thisWeek,
+                lastEnd: newStreak?.end || null
+            }
+        }
+    }
+
+    if (
+        longestStreak.streak < newStreak.streak ||
+        longestStreak.streak === currentStreak.streak
+    ) {
+        return {
+            longestStreak: newStreak,
+            currentStreak: newStreak
+        }
+    } else {
+        return {
+            longestStreak,
+            currentStreak: newStreak
+        }
+    }
+}
+
+interface GetCurrentDailyStreakProps {
     lastCompletedDate: string | undefined | null
     currentStreak: number
 }
 
-export const getCurrentStreak = ({
+export const getCurrentDailyStreak = ({
     lastCompletedDate,
     currentStreak
-}: GetCurrentStreakProps): number => {
+}: GetCurrentDailyStreakProps): number => {
     const yesterday = formatDate(moment().subtract(1, 'day'))
     const completedToday = lastCompletedDate === today
     const completedYesterday = lastCompletedDate === yesterday
@@ -100,6 +172,49 @@ export const getCurrentStreak = ({
     }
 
     return 0
+}
+
+interface GetCurrentWeeklyStreakProps {
+    currentStreak: number
+    lastCompletedWeek: string | undefined | null
+}
+
+export const getCurrentWeeklyStreak = ({
+    currentStreak,
+    lastCompletedWeek
+}: GetCurrentWeeklyStreakProps) => {
+    const thisWeek = formatWeek(moment())
+    const lastWeek = formatWeek(moment().subtract(7, 'day'))
+    const completedThisWeek = lastCompletedWeek === thisWeek
+    const completedLastWeek = lastCompletedWeek === lastWeek
+
+    if (completedThisWeek || completedLastWeek) {
+        return currentStreak
+    }
+
+    return 0
+}
+
+interface GetCurrentStreakProps {
+    currentStreak: number
+    lastCompleted: string | undefined | null
+    type: HabitType
+}
+
+export const getCurrentStreak = ({
+    currentStreak,
+    lastCompleted,
+    type
+}: GetCurrentStreakProps) => {
+    return type === 'daily'
+        ? getCurrentDailyStreak({
+              lastCompletedDate: lastCompleted,
+              currentStreak
+          })
+        : getCurrentWeeklyStreak({
+              currentStreak,
+              lastCompletedWeek: lastCompleted
+          })
 }
 
 export const isHabitCompletedToday = (
@@ -135,7 +250,11 @@ export const toggleHabitCompletion = ({
     userID
 }: ToggleHabitCompletionProps): (() => void) => {
     return () => {
-        const updatedStreaks = getUpdatedStreaks(habit, completedToday)
+        const updatedStreaks =
+            habit.type === 'daily'
+                ? getUpdatedStreaksForDailyHabits(habit, completedToday)
+                : getUpdatedStreaksForWeeklyHabits(habit)
+
         submitDoc<Habit>({
             path: HABITS,
             userID: userID ?? '',
@@ -160,7 +279,11 @@ export const updateHabitProgress = ({
     progress,
     completed
 }: UpdateHabitProgressProps) => {
-    const updatedStreaks = getUpdatedStreaks(habit, !completed)
+    const updatedStreaks =
+        habit.type === 'daily'
+            ? getUpdatedStreaksForDailyHabits(habit, !completed)
+            : getUpdatedStreaksForWeeklyHabits(habit)
+
     submitDoc<Habit>({
         path: HABITS,
         userID: userID ?? '',
@@ -203,15 +326,20 @@ export const removeHabitFromGoalsOnDelete = async ({
     }
 }
 
-export const getLongestStreakRange = (longestStreak: Streak): string => {
+export const getLongestStreakRange = (
+    longestStreak: Streak,
+    habitType: HabitType
+): string => {
     if (
         longestStreak.start &&
         longestStreak.end &&
         longestStreak.start !== longestStreak.end
     )
-        return `(${formatDateForUI(longestStreak.start)} - ${formatDateForUI(
-            longestStreak.end
-        )})`
+        if (habitType === 'daily')
+            return `(${formatDateForUI(
+                longestStreak.start
+            )} - ${formatDateForUI(longestStreak.end)})`
+        else return `(${longestStreak.start} - ${longestStreak.end})`
 
     return ''
 }

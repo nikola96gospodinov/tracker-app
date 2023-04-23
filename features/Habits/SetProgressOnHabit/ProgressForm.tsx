@@ -6,13 +6,13 @@ import { FormModal } from '../../../components/Form/FormModal'
 import { Button } from '../../../components/UIElements/Button'
 import { Dispatch } from '../../../typings'
 import { Input } from '../../../components/Form/Input'
-
-import styles from './SetProgressOnHabit.module.scss'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
 import { getCurrentProgress, updateHabitProgress } from '../helpers'
 import { auth } from '../../../firebase/firebase'
 import { Habit } from '../habits.types'
 import { formatDate } from '../../../helpers/date-manipulation-functions'
+
+import styles from './SetProgressOnHabit.module.scss'
 
 export const ProgressForm: React.FunctionComponent<{
     progressFormOpen: boolean
