@@ -1,59 +1,59 @@
 // Colors - Palette 16
 $primary-1: #240754;
-$primary-2: #34126F;
+$primary-2: #34126f;
 $primary-3: #421987;
-$primary-4: #51279B;
-$primary-5: #653CAD;
-$primary-6: #724BB7;
-$primary-7: #8662C7;
-$primary-8: #A081D9;
-$primary-9: #CFBCF2;
-$primary-10:#EAE2F8;
+$primary-4: #51279b;
+$primary-5: #653cad;
+$primary-6: #724bb7;
+$primary-7: #8662c7;
+$primary-8: #a081d9;
+$primary-9: #cfbcf2;
+$primary-10: #eae2f8;
 
-$neutral-1: #102A43;
-$neutral-2: #243B53;
-$neutral-3: #334E68;
+$neutral-1: #102a43;
+$neutral-2: #243b53;
+$neutral-3: #334e68;
 $neutral-4: #486581;
-$neutral-5: #627D98;
-$neutral-6: #829AB1;
-$neutral-7: #9FB3C8;
-$neutral-8: #BCCCDC;
-$neutral-9: #D9E2EC;
-$neutral-10:#F0F4F8;
-$neutral-11:#FFFFFF;
+$neutral-5: #627d98;
+$neutral-6: #829ab1;
+$neutral-7: #9fb3c8;
+$neutral-8: #bcccdc;
+$neutral-9: #d9e2ec;
+$neutral-10: #f0f4f8;
+$neutral-11: #ffffff;
 
 $red-1: #610316;
-$red-2: #8A041A;
-$red-3: #AB091E;
-$red-4: #CF1124;
-$red-5: #E12D39;
-$red-6: #EF4E4E;
-$red-7: #F86A6A;
-$red-8: #FF9B9B;
-$red-9: #FFBDBD;
-$red-10:#FFE3E3;
+$red-2: #8a041a;
+$red-3: #ab091e;
+$red-4: #cf1124;
+$red-5: #e12d39;
+$red-6: #ef4e4e;
+$red-7: #f86a6a;
+$red-8: #ff9b9b;
+$red-9: #ffbdbd;
+$red-10: #ffe3e3;
 
-$yellow-1: #8D2B0B;
-$yellow-2: #B44D12;
-$yellow-3: #CB6E17;
-$yellow-4: #DE911D;
-$yellow-5: #F0B429;
-$yellow-6: #F7C948;
-$yellow-7: #FADB5F;
-$yellow-8: #FCE588;
-$yellow-9: #FFF3C4;
-$yellow-10: #FFFBEA;
+$yellow-1: #8d2b0b;
+$yellow-2: #b44d12;
+$yellow-3: #cb6e17;
+$yellow-4: #de911d;
+$yellow-5: #f0b429;
+$yellow-6: #f7c948;
+$yellow-7: #fadb5f;
+$yellow-8: #fce588;
+$yellow-9: #fff3c4;
+$yellow-10: #fffbea;
 
-$green-1: #014D40;
-$green-2: #0C6B58;
-$green-3: #147D64;
+$green-1: #014d40;
+$green-2: #0c6b58;
+$green-3: #147d64;
 $green-4: #199473;
-$green-5: #27AB83;
-$green-6: #3EBD93;
-$green-7: #65D6AD;
-$green-8: #8EEDC7;
-$green-9: #C6F7E2;
-$green-10:#EFFCF6;
+$green-5: #27ab83;
+$green-6: #3ebd93;
+$green-7: #65d6ad;
+$green-8: #8eedc7;
+$green-9: #c6f7e2;
+$green-10: #effcf6;
 
 // Sizes
 $mobileGap: 3rem;
@@ -62,9 +62,7 @@ $desktopGap: 6rem;
 $bigDesktopGap: 8rem;
 
 // Shadows
-$shadow-main: 0 10px 10px 0 rgba(0, 0, 0, 0.19),
-            0 4px 6px 0 rgba(0, 0, 0, 0.23);
-$shadow-hover: 0 4px 4px 0 rgba(0, 0, 0, 0.19),
-            0 1px 2px 0 rgba(0, 0, 0, 0.23);
-$shadow-inset: inset 0 3px 3px 0 rgba(0, 0, 0, .16),
-            inset 0 1px 2px 0 rgba(0, 0, 0, .23);
+$shadow-main: 0 10px 10px 0 rgba(0, 0, 0, 0.19), 0 4px 6px 0 rgba(0, 0, 0, 0.23);
+$shadow-hover: 0 4px 4px 0 rgba(0, 0, 0, 0.19), 0 1px 2px 0 rgba(0, 0, 0, 0.23);
+$shadow-inset: inset 0 3px 3px 0 rgba(0, 0, 0, 0.16),
+    inset 0 1px 2px 0 rgba(0, 0, 0, 0.23);
