@@ -11,7 +11,7 @@ import styles from './SetProgressOnHabit.module.scss'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
 import { getCurrentProgress, updateHabitProgress } from '../helpers'
 import { auth } from '../../../firebase/firebase'
-import { Habit, Progress } from '../habits.types'
+import { Habit } from '../habits.types'
 import { formatDate } from '../../../helpers/date-manipulation-functions'
 
 export const ProgressForm: React.FunctionComponent<{
