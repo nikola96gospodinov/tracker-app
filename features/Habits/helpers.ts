@@ -223,6 +223,29 @@ export const isHabitCompletedToday = (
     return lastCompletedDate === today
 }
 
+interface IsHabitCompletedThisWeekProps {
+    progress?: Progress
+    target: number
+}
+
+export const isHabitCompletedThisWeek = ({
+    progress,
+    target
+}: IsHabitCompletedThisWeekProps): boolean =>
+    progress?.progress === target &&
+    moment(progress.dateOfProgress).isSame(moment(), 'isoWeek')
+
+export const isHabitCompleted = (habit: Habit): boolean => {
+    if (habit.type === 'daily') {
+        return isHabitCompletedToday(habit.currentStreak.end)
+    }
+
+    return isHabitCompletedThisWeek({
+        progress: habit.progress,
+        target: habit.target
+    })
+}
+
 export const getHabitCompletionIcon = (completedToday: boolean) =>
     completedToday ? CheckIcon : DangerIcon
 

@@ -4,7 +4,7 @@ import { Habit } from '../../Habits/habits.types'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
-    isHabitCompletedToday
+    isHabitCompleted
 } from '../../Habits/helpers'
 
 import styles from '../goal.module.scss'
@@ -14,10 +14,7 @@ const HabitCell: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
     const lastCompleted = habit.currentStreak?.end
-    const completedToday = isHabitCompletedToday(lastCompleted)
-    const weeklyTargetCompleted =
-        (habit.progress?.progress ?? 0) >= habit.target
-    const completed = completedToday || weeklyTargetCompleted
+    const completed = isHabitCompleted(habit)
     const completedClass = completed
         ? styles.completedHabitCell
         : styles.incompletedHabitCell
