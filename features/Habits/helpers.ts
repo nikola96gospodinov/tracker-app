@@ -88,56 +88,65 @@ export const getUpdatedStreaksForDailyHabits = (
     }
 }
 
-export const getUpdatedStreaksForWeeklyHabits = (habit: Habit) => {
+export const getUpdatedStreaksForWeeklyHabits = (
+    habit: Habit,
+    newProgress: Progress
+) => {
     const longestStreak = habit.longestStreak
     const currentStreak = habit.currentStreak
+    const isPreviousTargetHit = habit.progress?.progress === habit.target
+    const isTargetHit = newProgress.progress === habit.target
     const completedThisWeek =
-        habit.progress?.progress === habit.target &&
-        formatWeek(moment(habit.progress.dateOfProgress)) === thisWeek
+        isTargetHit &&
+        currentStreak.end &&
+        formatWeek(moment(currentStreak.end)) === thisWeek
     const completedLastWeek = habit.currentStreak?.end === lastWeek
 
     let newStreak = { ...currentStreak }
 
-    if (completedLastWeek) {
-        if (completedThisWeek) {
+    if (completedLastWeek && isTargetHit) {
+        newStreak = {
+            streak: ++newStreak.streak,
+            start: newStreak?.start,
+            end: thisWeek
+        }
+    }
+
+    if (completedThisWeek) {
+        if (newStreak?.start === newStreak?.end) {
+            newStreak = {
+                streak: 0,
+                start: null,
+                end: newStreak?.lastEnd,
+                lastEnd: null
+            }
+        } else {
             newStreak = {
                 streak: --newStreak.streak,
                 start: newStreak?.start,
                 end: lastWeek
             }
-        } else {
-            newStreak = {
-                streak: ++newStreak.streak,
-                start: newStreak?.start,
-                end: thisWeek
-            }
-        }
-    } else {
-        if (completedThisWeek) {
-            if (newStreak?.start === newStreak?.end) {
-                newStreak = {
-                    streak: 0,
-                    start: null,
-                    end: newStreak?.lastEnd,
-                    lastEnd: null
-                }
-            } else {
-                newStreak = {
-                    streak: --newStreak.streak,
-                    start: newStreak?.start,
-                    end: lastWeek
-                }
-            }
-        } else {
-            newStreak = {
-                streak: 1,
-                start: thisWeek,
-                end: thisWeek,
-                lastEnd: newStreak?.end || null
-            }
         }
     }
 
+    if (!completedThisWeek && !completedLastWeek && isTargetHit) {
+        newStreak = {
+            streak: 1,
+            start: thisWeek,
+            end: thisWeek,
+            lastEnd: newStreak?.end || null
+        }
+    }
+
+    if ((isPreviousTargetHit || habit.target === 1) && !isTargetHit) {
+        newStreak = {
+            streak: --newStreak.streak,
+            start: newStreak?.start,
+            end: lastWeek
+        }
+    }
+
+    // Returns
     if (
         longestStreak.streak < newStreak.streak ||
         longestStreak.streak === currentStreak.streak
@@ -224,16 +233,25 @@ export const isHabitCompletedToday = (
 }
 
 interface IsHabitCompletedThisWeekProps {
-    progress?: Progress
     target: number
+    progress?: Progress
+    streakEnd?: string | null
 }
 
 export const isHabitCompletedThisWeek = ({
     progress,
-    target
-}: IsHabitCompletedThisWeekProps): boolean =>
-    progress?.progress === target &&
-    moment(progress.dateOfProgress).isSame(moment(), 'isoWeek')
+    target,
+    streakEnd
+}: IsHabitCompletedThisWeekProps): boolean => {
+    if (target === 1) {
+        return streakEnd === thisWeek
+    }
+
+    return (
+        progress?.progress === target &&
+        moment(progress.dateOfProgress).isSame(moment(), 'isoWeek')
+    )
+}
 
 export const isHabitCompleted = (habit: Habit): boolean => {
     if (habit.type === 'daily') {
@@ -242,7 +260,8 @@ export const isHabitCompleted = (habit: Habit): boolean => {
 
     return isHabitCompletedThisWeek({
         progress: habit.progress,
-        target: habit.target
+        target: habit.target,
+        streakEnd: habit.currentStreak.end
     })
 }
 
@@ -276,7 +295,10 @@ export const toggleHabitCompletion = ({
         const updatedStreaks =
             habit.type === 'daily'
                 ? getUpdatedStreaksForDailyHabits(habit, completedToday)
-                : getUpdatedStreaksForWeeklyHabits(habit)
+                : getUpdatedStreaksForWeeklyHabits(habit, {
+                      progress: completedToday ? 0 : 1,
+                      dateOfProgress: completedToday ? today : undefined
+                  })
 
         submitDoc<Habit>({
             path: HABITS,
@@ -305,7 +327,7 @@ export const updateHabitProgress = ({
     const updatedStreaks =
         habit.type === 'daily'
             ? getUpdatedStreaksForDailyHabits(habit, !completed)
-            : getUpdatedStreaksForWeeklyHabits(habit)
+            : getUpdatedStreaksForWeeklyHabits(habit, progress)
 
     submitDoc<Habit>({
         path: HABITS,
@@ -367,7 +389,16 @@ export const getLongestStreakRange = (
     return ''
 }
 
-export const getCurrentProgress = (progress?: Progress): number => {
-    if (progress?.dateOfProgress === today) return progress.progress
+export const getCurrentProgress = (habit: Habit): number => {
+    if (habit.type === 'daily' && habit.progress?.dateOfProgress === today)
+        return habit.progress.progress
+
+    if (
+        habit.type === 'weekly' &&
+        habit.progress?.dateOfProgress &&
+        formatWeek(moment(habit.progress?.dateOfProgress)) === thisWeek
+    )
+        return habit.progress.progress
+
     return 0
 }

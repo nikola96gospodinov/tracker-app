@@ -5,30 +5,30 @@ import style from '../habit.module.scss'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
+    isHabitCompleted,
     isHabitCompletedToday
 } from '../helpers'
 
 export const HabitBox: React.FunctionComponent<{
     habit: Habit
-}> = ({
-    habit: {
-        urlPath,
-        type,
+}> = ({ habit }) => {
+    const {
         name,
         description,
-        currentStreak,
         target,
         metric,
+        type,
+        urlPath,
+        currentStreak,
         progress
-    }
-}) => {
+    } = habit
     const href = `/habits/${urlPath}`
     const streak = getCurrentStreak({
         lastCompleted: currentStreak.end,
         currentStreak: currentStreak.streak,
         type
     })
-    const completedToday = isHabitCompletedToday(currentStreak.end)
+    const completedToday = isHabitCompleted(habit)
     const weeklyTargetCompleted = (progress?.progress ?? 0) >= target
     const completed = completedToday || weeklyTargetCompleted
     const Icon = getHabitCompletionIcon(completed)

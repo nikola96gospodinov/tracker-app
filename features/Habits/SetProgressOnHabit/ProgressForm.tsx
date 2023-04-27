@@ -19,7 +19,7 @@ export const ProgressForm: React.FunctionComponent<{
     setProgressFormOpen: Dispatch<boolean>
     habit: Habit
 }> = ({ progressFormOpen, setProgressFormOpen, habit }) => {
-    const currentProgress = getCurrentProgress(habit.progress)
+    const currentProgress = getCurrentProgress(habit)
     const [progressValue, setProgressValue] = useState<number>(currentProgress)
     const [user] = useAuthState(auth)
     const completed = progressValue >= habit.target

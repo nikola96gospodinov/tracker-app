@@ -11,7 +11,7 @@ const SetProgressOnHabit: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
     const [progressFormOpen, setProgressFormOpen] = useState(false)
-    const progress = getCurrentProgress(habit.progress)
+    const progress = getCurrentProgress(habit)
 
     return (
         <>
