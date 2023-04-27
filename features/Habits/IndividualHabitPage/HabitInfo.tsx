@@ -2,7 +2,7 @@ import { Habit } from '../habits.types'
 import { Dispatch } from '../../../typings'
 import {
     getCurrentStreak,
-    getLastCompletedFormatted,
+    getLastCompleted,
     getLongestStreakRange
 } from '../helpers'
 import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
@@ -20,7 +20,7 @@ const HabitInfo: React.FunctionComponent<{
     setDeleteWarning: Dispatch<boolean>
 }> = ({ habit, setEditForm, setDeleteWarning }) => {
     const lastCompleted = habit.currentStreak?.end ?? habit.longestStreak.end
-    const lastCompletedFormatted = getLastCompletedFormatted(lastCompleted)
+    const lastCompletedFormatted = getLastCompleted(lastCompleted, habit.type)
     const { isGoals, relevantGoals, loading } = useGetRelevantGoals({
         habitID: habit.id,
         habitType: habit.type

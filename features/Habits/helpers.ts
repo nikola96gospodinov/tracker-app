@@ -268,14 +268,29 @@ export const isHabitCompleted = (habit: Habit): boolean => {
 export const getHabitCompletionIcon = (completedToday: boolean) =>
     completedToday ? CheckIcon : DangerIcon
 
-export const getLastCompletedFormatted = (
-    lastCompleted: string | undefined | null
+export const getLastCompleted = (
+    lastCompleted: string | undefined | null,
+    type: HabitType
 ): string => {
-    const daysAgo = Math.abs(moment(lastCompleted).diff(today, 'days'))
+    if (type === 'daily') {
+        const daysAgo = Math.abs(moment(lastCompleted).diff(today, 'days'))
 
-    if (daysAgo === 0 && lastCompleted) return 'Today'
-    if (daysAgo === 1) return 'Yesterday'
-    if (daysAgo > 1) return `${daysAgo} days ago`
+        if (daysAgo === 0 && lastCompleted) return 'Today'
+        if (daysAgo === 1) return 'Yesterday'
+        if (daysAgo > 1) return `${daysAgo} days ago`
+    }
+
+    if (type === 'weekly' && lastCompleted) {
+        const week = lastCompleted.slice(5, 7)
+        const year = lastCompleted.slice(-4)
+        const weeksAgo = Math.abs(
+            moment().isoWeekYear(+year).isoWeek(+week).diff(moment(), 'weeks')
+        )
+
+        if (weeksAgo === 0 && lastCompleted) return 'This Week'
+        if (weeksAgo === 1) return 'Last Week'
+        if (weeksAgo > 1) return `${weeksAgo} weeks ago`
+    }
 
     return 'Never'
 }
