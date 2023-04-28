@@ -4,7 +4,6 @@ import { Goal } from '../Goals/goals.types'
 import NoGoals from '../../components/NoGoals'
 import Spinner from '../../components/UIElements/spinner'
 import useUserLogged from '../../hooks/useUserLogged'
-import { Flex } from '@chakra-ui/react'
 
 const WeeklyReview = () => {
     const { user } = useUserLogged()
