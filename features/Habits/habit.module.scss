@@ -12,6 +12,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-left: 0.2rem solid $primary-5;
 
     &:hover {
         transform: translateY(0.25rem);
@@ -52,16 +53,12 @@
 }
 
 .habitBoxCompleted {
-    border-top: 0.25rem solid $green-5;
-
     svg {
         color: $green-5;
     }
 }
 
 .habitBoxIncompleted {
-    border-top: 0.25rem solid $red-5;
-
     svg {
         color: $red-5;
     }
