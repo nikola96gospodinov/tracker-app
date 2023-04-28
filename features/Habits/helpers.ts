@@ -94,13 +94,9 @@ export const getUpdatedStreaksForWeeklyHabits = (
 ) => {
     const longestStreak = habit.longestStreak
     const currentStreak = habit.currentStreak
-    const isPreviousTargetHit = habit.progress?.progress === habit.target
-    const isTargetHit = newProgress.progress === habit.target
-    const completedThisWeek =
-        isTargetHit &&
-        currentStreak.end &&
-        formatWeek(moment(currentStreak.end)) === thisWeek
-    const completedLastWeek = habit.currentStreak?.end === lastWeek
+    const isTargetHit = newProgress.progress >= habit.target
+    const completedThisWeek = currentStreak.end === thisWeek
+    const completedLastWeek = currentStreak.end === lastWeek
 
     let newStreak = { ...currentStreak }
 
@@ -112,7 +108,7 @@ export const getUpdatedStreaksForWeeklyHabits = (
         }
     }
 
-    if (completedThisWeek) {
+    if (completedThisWeek && !isTargetHit) {
         if (newStreak?.start === newStreak?.end) {
             newStreak = {
                 streak: 0,
@@ -135,14 +131,6 @@ export const getUpdatedStreaksForWeeklyHabits = (
             start: thisWeek,
             end: thisWeek,
             lastEnd: newStreak?.end || null
-        }
-    }
-
-    if ((isPreviousTargetHit || habit.target === 1) && !isTargetHit) {
-        newStreak = {
-            streak: --newStreak.streak,
-            start: newStreak?.start,
-            end: lastWeek
         }
     }
 
