@@ -1,14 +1,15 @@
 export const Button = {
     baseStyle: {
-        display: 'block',
-        fontSize: 'xl',
         borderRadius: 'lg',
         transition: '0.3s',
         px: 2,
-        py: 10,
+        py: 6,
         cursor: 'pointer'
     },
     sizes: {
+        md: {
+            fontSize: 'lg'
+        },
         xsm: {
             px: 2,
             py: 5
@@ -40,7 +41,7 @@ export const Button = {
         },
         tertiary: {
             display: 'block',
-            fontSize: 5,
+            fontSize: 'xl',
             fontWeight: 600,
             color: 'purple.600',
             border: '0.1rem solid',

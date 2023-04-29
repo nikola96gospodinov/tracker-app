@@ -5,12 +5,13 @@ import {
     useAuthState,
     useSendPasswordResetEmail
 } from 'react-firebase-hooks/auth'
+import { Button } from '@chakra-ui/react'
 
 import Spinner from '../../components/UIElements/spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
-import { Button } from '../../components/UIElements/Button'
 import ErrorIcon from '../../components/Icons/ErrorIcon'
+// import { Button } from '../../components/UIElements/button'
 
 const ResetPassword: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -108,12 +109,15 @@ const ResetPassword: NextPage = () => {
                                     Please enter a valid email
                                 </span>
                             )}
-                            <Button
+                            {/* <Button
                                 type='submit'
                                 text='Reset Password'
                                 btnClass='button-primary'
                                 isLoading={isLoadindReseting}
-                            />
+                            /> */}
+                            <Button type='submit' isLoading={isLoadindReseting}>
+                                Reset Password
+                            </Button>
                         </form>
                         <span className='redirect'>
                             Don&#39;t have an account?&nbsp;
