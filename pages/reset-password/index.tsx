@@ -1,27 +1,68 @@
 import { NextPage } from 'next/types'
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import Link from 'next/link'
 import {
     useAuthState,
     useSendPasswordResetEmail
 } from 'react-firebase-hooks/auth'
-import { Button } from '@chakra-ui/react'
+import { Button, Heading } from '@chakra-ui/react'
 
 import Spinner from '../../components/UIElements/spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import ErrorIcon from '../../components/Icons/ErrorIcon'
-// import { Button } from '../../components/UIElements/button'
+import { Input } from '../../components/Form/ChakraInput'
+
+type ActionType =
+    | {
+          type: 'SET_EMAIL'
+          payload: string
+      }
+    | {
+          type: 'SET_IS_SUCCESS' | 'SET_FORM_ERROR' | 'SET_EMAIL_ERROR'
+          payload: boolean
+      }
+
+const initialState = {
+    email: '',
+    emailError: false,
+    formError: false,
+    isSuccess: false
+}
+
+const reducer = (state: typeof initialState, action: ActionType) => {
+    switch (action.type) {
+        case 'SET_EMAIL':
+            return {
+                ...state,
+                email: action.payload
+            }
+        case 'SET_EMAIL_ERROR':
+            return {
+                ...state,
+                emailError: action.payload
+            }
+        case 'SET_FORM_ERROR':
+            return {
+                ...state,
+                formError: action.payload
+            }
+        case 'SET_IS_SUCCESS':
+            return {
+                ...state,
+                isSuccess: action.payload
+            }
+        default:
+            return state
+    }
+}
 
 const ResetPassword: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
-
-    const [email, setEmail] = useState('')
-    const [errors, setErrors] = useState({
-        email: false,
-        form: false
-    })
-    const [isSuccess, setIsSuccess] = useState(false)
+    const [{ email, emailError, formError, isSuccess }, dispatch] = useReducer(
+        reducer,
+        initialState
+    )
     const [sendPasswordResetEmail, isLoadindReseting, error] =
         useSendPasswordResetEmail(auth)
 
@@ -30,25 +71,28 @@ const ResetPassword: NextPage = () => {
         if (email.match(validateEmail)) {
             const success = await sendPasswordResetEmail(email)
             if (success) {
-                setIsSuccess(true)
-                setErrors({
-                    ...errors,
-                    form: false
+                dispatch({
+                    type: 'SET_IS_SUCCESS',
+                    payload: true
+                })
+                dispatch({
+                    type: 'SET_FORM_ERROR',
+                    payload: false
                 })
             }
         } else {
-            setErrors({
-                ...errors,
-                email: true
+            dispatch({
+                type: 'SET_EMAIL_ERROR',
+                payload: true
             })
         }
     }
 
     useEffect(() => {
         if (error) {
-            setErrors({
-                ...errors,
-                form: true
+            dispatch({
+                type: 'SET_FORM_ERROR',
+                payload: true
             })
         }
     }, [error])
@@ -95,26 +139,24 @@ const ResetPassword: NextPage = () => {
                     </>
                 ) : (
                     <>
-                        <h1>Reset Password</h1>
+                        <Heading as='h1' fontSize='2xl' fontWeight={600}>
+                            Reset Password
+                        </Heading>
                         <form onSubmit={(e) => sendResetEmail(e)}>
-                            <label htmlFor='email'>Email</label>
-                            <input
-                                id='email'
+                            <Input
                                 type='email'
+                                id='email'
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) =>
+                                    dispatch({
+                                        type: 'SET_EMAIL',
+                                        payload: e.target.value
+                                    })
+                                }
+                                label='Email'
+                                errorText='Please enter a valid email'
+                                isError={emailError}
                             />
-                            {errors.email && (
-                                <span className='field-error'>
-                                    Please enter a valid email
-                                </span>
-                            )}
-                            {/* <Button
-                                type='submit'
-                                text='Reset Password'
-                                btnClass='button-primary'
-                                isLoading={isLoadindReseting}
-                            /> */}
                             <Button type='submit' isLoading={isLoadindReseting}>
                                 Reset Password
                             </Button>
@@ -125,7 +167,7 @@ const ResetPassword: NextPage = () => {
                                 <a className='button button-link'>Sign up</a>
                             </Link>
                         </span>
-                        {errors.form && (
+                        {formError && (
                             <div className='form-error'>
                                 <ErrorIcon />
                                 <span>
