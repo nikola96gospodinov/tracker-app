@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 
-import Spinner from '../../components/UIElements/spinner'
+import { Spinner } from '../../components/UIElements/Spinner'
 import useUserLogged from '../../hooks/useUserLogged'
 import Layout from '../../components/Layout/layout'
 import { HabitsContent } from '../../features/Habits/HabitsContent'

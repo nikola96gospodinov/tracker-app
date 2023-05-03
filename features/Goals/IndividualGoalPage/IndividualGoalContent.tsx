@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import InitialSection from '../../../components/InitialSection'
 import GoalInfo from './GoalInfo'
-import Spinner from '../../../components/UIElements/spinner'
+import { Spinner } from '../../../components/UIElements/Spinner'
 import GoalForm from '../GoalForm'
 import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../goals.types'
@@ -11,7 +11,6 @@ import { GOALS } from '../constants'
 import DeleteDoc from '../../../components/DeleteDoc'
 import useUserLogged from '../../../hooks/useUserLogged'
 import useGetDoc from '../../../hooks/useGetDoc'
-import Checkbox from '../../../components/Form/Checkbox'
 
 const IndividualGoalContent = () => {
     const { user } = useUserLogged()
@@ -33,7 +32,7 @@ const IndividualGoalContent = () => {
     if (!userID || loading) {
         return (
             <InitialSection>
-                <Spinner size={10} />
+                <Spinner />
             </InitialSection>
         )
     }

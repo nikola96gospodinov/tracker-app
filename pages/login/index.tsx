@@ -9,7 +9,7 @@ import {
 import { Button } from '@chakra-ui/react'
 
 import { auth } from '../../firebase/firebase'
-import Spinner from '../../components/UIElements/spinner'
+import { Spinner } from '../../components/UIElements/Spinner'
 import { Input } from '../../components/Form/ChakraInput'
 import { FormError } from '../../components/Form/FormError'
 import { FormHeading } from '../../components/Form/FormHeading'

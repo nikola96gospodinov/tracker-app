@@ -6,7 +6,7 @@ import {
     getLongestStreakRange
 } from '../helpers'
 import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
-import Spinner from '../../../components/UIElements/spinner'
+import { Spinner } from '../../../components/UIElements/Spinner'
 import { GoalBox } from '../../Goals/GoalsList/GoalBox'
 import EditIcon from '../../../components/Icons/EditIcon'
 import DeleteIcon from '../../../components/Icons/DeleteIcon'
@@ -64,7 +64,7 @@ const HabitInfo: React.FunctionComponent<{
             </p>
 
             <h2>Linked Goals</h2>
-            {loading && <Spinner size={7.5} />}
+            {loading && <Spinner />}
             {!isGoals && (
                 <p>You haven&apos;t attached this habit to any of your goals</p>
             )}

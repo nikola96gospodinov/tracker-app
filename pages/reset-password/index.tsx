@@ -7,7 +7,7 @@ import {
 } from 'react-firebase-hooks/auth'
 import { Button, Heading } from '@chakra-ui/react'
 
-import Spinner from '../../components/UIElements/spinner'
+import { Spinner } from '../../components/UIElements/Spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { Input } from '../../components/Form/ChakraInput'

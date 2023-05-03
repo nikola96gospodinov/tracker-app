@@ -7,10 +7,15 @@ import {
     useCreateUserWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
-import { Button, ListItem, Text, UnorderedList } from '@chakra-ui/react'
+import {
+    Button,
+    ListItem,
+    Spinner,
+    Text,
+    UnorderedList
+} from '@chakra-ui/react'
 
 import { auth, db } from '../../firebase/firebase'
-import Spinner from '../../components/UIElements/spinner'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { FormError } from '../../components/Form/FormError'
 import { Input } from '../../components/Form/ChakraInput'

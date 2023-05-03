@@ -1,8 +1,8 @@
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
 import useUserLogged from '../../hooks/useUserLogged'
-import Spinner from '../UIElements/spinner'
 import { ToasterConfigured } from '../ToasterConfigured'
+import { Spinner } from '../UIElements/Spinner'
 
 const Layout: React.FunctionComponent<{
     children: React.ReactNode
@@ -12,7 +12,7 @@ const Layout: React.FunctionComponent<{
     if (isLoading || !user) {
         return (
             <div className='full-screen-centered'>
-                <Spinner size={10} />
+                <Spinner />
             </div>
         )
     }

@@ -2,7 +2,7 @@ import useGetDocs from '../../hooks/useGetDocs'
 import { GOALS } from '../Goals/constants'
 import { Goal } from '../Goals/goals.types'
 import NoGoals from '../../components/NoGoals'
-import Spinner from '../../components/UIElements/spinner'
+import { Spinner } from '../../components/UIElements/Spinner'
 import useUserLogged from '../../hooks/useUserLogged'
 
 const WeeklyReview = () => {

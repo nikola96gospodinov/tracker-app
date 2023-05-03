@@ -1,5 +1,3 @@
-import Spinner from './spinner'
-
 type BtnClass =
     | 'button-primary'
     | 'button-secondary'
@@ -16,12 +14,6 @@ export const Button: React.FunctionComponent<
         isLoading?: boolean
     }
 > = ({ text, btnClass, isLoading, ...args }) => {
-    const buttonContent = isLoading ? (
-        <Spinner size={1.5} isText={false} />
-    ) : (
-        text
-    )
-
     const buttonSecondClass = isLoading ? 'button-disabled' : btnClass
 
     return (
@@ -29,7 +21,7 @@ export const Button: React.FunctionComponent<
             {...args}
             className={`button ${buttonSecondClass} ${args.className}`}
         >
-            {buttonContent}
+            {text}
         </button>
     )
 }

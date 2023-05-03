@@ -1,4 +1,4 @@
-import Spinner from '../../../../components/UIElements/spinner'
+import { Spinner } from '../../../../components/UIElements/Spinner'
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
 import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../Habits/constants'
@@ -27,7 +27,7 @@ const DailyHabitsContent: React.FunctionComponent<{
     })
 
     if (loading) {
-        return <Spinner size={7.5} isText={false} />
+        return <Spinner />
     }
 
     if (errorFetching) {
