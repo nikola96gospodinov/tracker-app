@@ -5,7 +5,7 @@ import {
     useAuthState,
     useSendPasswordResetEmail
 } from 'react-firebase-hooks/auth'
-import { Button, Heading } from '@chakra-ui/react'
+import { Button, Text } from '@chakra-ui/react'
 
 import { Spinner } from '../../components/UIElements/Spinner'
 import { auth } from '../../firebase/firebase'
@@ -68,25 +68,14 @@ const ResetPassword: NextPage = () => {
             <div className='form-container'>
                 {isSuccess ? (
                     <>
-                        <span
-                            style={{
-                                fontSize: '1.25rem',
-                                textAlign: 'center'
-                            }}
-                        >
+                        <Text fontSize={5} textAlign='center'>
                             An email with instructions for reseting your
                             password has been sent to your email.
-                        </span>
-                        <span
-                            style={{
-                                paddingTop: '.5rem',
-                                textAlign: 'center',
-                                paddingBottom: '1rem'
-                            }}
-                        >
+                        </Text>
+                        <Text pt={2} textAlign='center' pb={4}>
                             Make sure to check your spam folder if you can{"'"}t
                             find the email.
-                        </span>
+                        </Text>
                         <span className='redirect'>
                             <Link href='/'>
                                 <a className='button button-primary'>
