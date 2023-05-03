@@ -4,35 +4,53 @@ import {
     FormLabel,
     FormHelperText,
     FormErrorMessage,
-    InputProps
+    InputProps,
+    forwardRef
 } from '@chakra-ui/react'
+import { RefObject, ReactNode } from 'react'
 
 export const Input: React.FunctionComponent<
     {
         label?: string
         helperText?: string
         isError?: boolean
-        errorText?: string
+        errorContent?: ReactNode
+        isLast?: boolean
+        ref?: RefObject<HTMLInputElement> // Chakra is using a different ref type
     } & InputProps
-> = ({ label, helperText, isError, errorText, ...inputProps }) => {
-    const showHelperText = helperText && !isError
-    const showErrorText = errorText && isError
+> = forwardRef(
+    (
+        { label, helperText, isError, errorContent, isLast, ...inputProps },
+        ref
+    ) => {
+        const showHelperText = helperText && !isError
+        const error = errorContent ?? 'This field is not valid'
 
-    return (
-        <FormControl>
-            {label && <FormLabel htmlFor={inputProps.id}>{label}</FormLabel>}
-            <ChakraInput
-                bg='neutral.100'
-                boxShadow='inset'
-                borderRadius='lg'
-                border='none'
-                _focus={{
-                    boxShadow: 'inset'
-                }}
-                {...inputProps}
-            />
-            {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
-            {showErrorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
-        </FormControl>
-    )
-}
+        return (
+            <FormControl isInvalid={isError} mb={isLast ? 0 : 4}>
+                {label && (
+                    <FormLabel htmlFor={inputProps.id}>{label}</FormLabel>
+                )}
+                <ChakraInput
+                    bg='neutral.100'
+                    boxShadow='inset'
+                    borderRadius='lg'
+                    border='none'
+                    _focus={{
+                        boxShadow: 'inset'
+                    }}
+                    ref={ref}
+                    {...inputProps}
+                />
+                {showHelperText && (
+                    <FormHelperText>{helperText}</FormHelperText>
+                )}
+                {isError && (
+                    <FormErrorMessage fontSize='sm' color='red.600'>
+                        {error}
+                    </FormErrorMessage>
+                )}
+            </FormControl>
+        )
+    }
+)

@@ -6,11 +6,13 @@ import {
     useAuthState,
     useSignInWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
+import { Button } from '@chakra-ui/react'
 
 import { auth } from '../../firebase/firebase'
 import Spinner from '../../components/UIElements/spinner'
-import { Button } from '../../components/UIElements/Button'
-import ErrorIcon from '../../components/Icons/ErrorIcon'
+import { Input } from '../../components/Form/ChakraInput'
+import { FormError } from '../../components/Form/FormError'
+import { FormHeading } from '../../components/Form/FormHeading'
 
 const Login: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -23,8 +25,8 @@ const Login: NextPage = () => {
         useSignInWithEmailAndPassword(auth)
 
     useEffect(() => {
-        if (user) router.push('/')
-    }, [user])
+        if (user?.uid) router.push('/')
+    }, [user?.uid])
 
     useEffect(() => {
         if (error) setErrorMessage('Wrong email or password')
@@ -32,6 +34,7 @@ const Login: NextPage = () => {
 
     const logUser = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
+        console.log('Logging in...')
         if (emailRef.current?.value && passwordRef.current?.value) {
             signInWithEmailAndPassword(
                 emailRef.current?.value,
@@ -51,18 +54,24 @@ const Login: NextPage = () => {
     return (
         <div className='full-screen-centered form-background'>
             <div className='form-container'>
-                <h1>Login</h1>
+                <FormHeading text='Login' />
                 <form onSubmit={(e) => logUser(e)}>
-                    <label htmlFor='email'>Email</label>
-                    <input ref={emailRef} id='email' type='email' />
-                    <label htmlFor='password'>Password</label>
-                    <input ref={passwordRef} id='password' type='password' />
-                    <Button
-                        type='submit'
-                        text='Login'
-                        btnClass='button-primary'
-                        isLoading={isLoadingSignIn}
+                    <Input
+                        ref={emailRef}
+                        id='email'
+                        type='email'
+                        label='Email'
                     />
+                    <Input
+                        ref={passwordRef}
+                        id='password'
+                        type='password'
+                        label='Password'
+                        isLast
+                    />
+                    <Button type='submit' isLoading={isLoadingSignIn}>
+                        Login
+                    </Button>
                 </form>
                 <Link href='/reset-password'>
                     <a className='button button-link'>Forgot your password?</a>
@@ -78,12 +87,10 @@ const Login: NextPage = () => {
                         <a className='button button-link'>Sign up</a>
                     </Link>
                 </span>
-                {errorMessage && (
-                    <div className='form-error'>
-                        <ErrorIcon />
-                        <span>{errorMessage}</span>
-                    </div>
-                )}
+                <FormError
+                    formError={!!errorMessage}
+                    errorText={errorMessage}
+                />
             </div>
         </div>
     )

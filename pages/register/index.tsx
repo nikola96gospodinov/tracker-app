@@ -6,14 +6,49 @@ import {
     useAuthState,
     useCreateUserWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
-import { User } from 'firebase/auth'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { Button, ListItem, Text, UnorderedList } from '@chakra-ui/react'
 
 import { auth, db } from '../../firebase/firebase'
 import Spinner from '../../components/UIElements/spinner'
 import { validateEmail } from '../../helpers/string-validator-functions'
-import { Button } from '../../components/UIElements/Button'
-import ErrorIcon from '../../components/Icons/ErrorIcon'
+import { FormError } from '../../components/Form/FormError'
+import { Input } from '../../components/Form/ChakraInput'
+import { FormHeading } from '../../components/Form/FormHeading'
+
+const NameErrors: React.FunctionComponent<{
+    passwordErrors: {
+        minLength: boolean
+        letter: boolean
+        number: boolean
+    }
+}> = ({ passwordErrors }) => {
+    const errors = {
+        minLength: 'be at least 6 characters',
+        letter: 'contain at least one letter',
+        number: 'contain at least one number'
+    }
+
+    return (
+        <Text>
+            Your password must:
+            <UnorderedList>
+                {Object.entries(errors).map(([key, value]) => (
+                    <ListItem
+                        color={
+                            passwordErrors[key as keyof typeof passwordErrors]
+                                ? 'red.600'
+                                : 'neutral.900'
+                        }
+                        key={key}
+                    >
+                        {value}
+                    </ListItem>
+                ))}
+            </UnorderedList>
+        </Text>
+    )
+}
 
 const Register: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -36,16 +71,11 @@ const Register: NextPage = () => {
         useCreateUserWithEmailAndPassword(auth)
 
     useEffect(() => {
-        if (user) router.push('/')
-    }, [user])
+        if (user?.uid) router.push('/')
+    }, [user?.uid])
 
     useEffect(() => {
-        if (error) {
-            setErrors({
-                ...errors,
-                form: true
-            })
-        }
+        if (error) setErrors((prev) => ({ ...prev, form: true }))
     }, [error])
 
     const FormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -82,8 +112,7 @@ const Register: NextPage = () => {
         }
     }
 
-    const createUserDocument = async (user: User) => {
-        const { uid } = user
+    const createUserDocument = async (uid: string) => {
         await setDoc(doc(db, 'users', uid), {
             uid,
             createdAt: serverTimestamp()
@@ -92,7 +121,7 @@ const Register: NextPage = () => {
 
     useEffect(() => {
         if (userCred) {
-            createUserDocument(userCred.user)
+            createUserDocument(userCred.user.uid)
         }
     }, [userCred])
 
@@ -104,73 +133,45 @@ const Register: NextPage = () => {
         )
     }
 
+    const isPasswordError =
+        passwordErrors.letter ||
+        passwordErrors.minLength ||
+        passwordErrors.number
+
     return (
         <div className='full-screen-centered form-background'>
             <div className='form-container'>
-                <h1>Register</h1>
+                <FormHeading text='Register' />
                 <form onSubmit={(e) => FormSubmit(e)}>
-                    <label htmlFor='email'>Email</label>
-                    <input ref={emailRef} id='email' type='email' />
-                    {errors.email && (
-                        <span className='field-error'>
-                            Please enter a valid email
-                        </span>
-                    )}
-                    <label htmlFor='password'>Password</label>
-                    <input ref={passwordRef} id='password' type='password' />
-                    {(passwordErrors.letter ||
-                        passwordErrors.minLength ||
-                        passwordErrors.number) && (
-                        <span className='error-span'>
-                            Your password must:
-                            <ul>
-                                <li
-                                    className={
-                                        passwordErrors.minLength
-                                            ? 'field-error'
-                                            : ''
-                                    }
-                                >
-                                    be at least 6 characters
-                                </li>
-                                <li
-                                    className={
-                                        passwordErrors.letter
-                                            ? 'field-error'
-                                            : ''
-                                    }
-                                >
-                                    contain at least one letter
-                                </li>
-                                <li
-                                    className={
-                                        passwordErrors.number
-                                            ? 'field-error'
-                                            : ''
-                                    }
-                                >
-                                    contain at least one number
-                                </li>
-                            </ul>
-                        </span>
-                    )}
-                    <label htmlFor='confirm-password'>Confirm Password</label>
-                    <input
+                    <Input
+                        label='Email'
+                        ref={emailRef}
+                        id='email'
+                        type='email'
+                        isError={errors.email}
+                        errorContent='Please enter a valid email'
+                    />
+                    <Input
+                        label='Password'
+                        ref={passwordRef}
+                        id='password'
+                        type='password'
+                        isError={isPasswordError}
+                        errorContent={
+                            <NameErrors passwordErrors={passwordErrors} />
+                        }
+                    />
+                    <Input
+                        label='Confirm Password'
                         ref={confirmPasswordRef}
                         id='confirm-password'
                         type='password'
+                        isError={errors.confirmPassword}
+                        errorContent='Passwords must match'
                     />
-                    {errors.confirmPassword && (
-                        <span className='field-error'>
-                            Passwords must match
-                        </span>
-                    )}
-                    <Button
-                        type='submit'
-                        text='Register'
-                        btnClass='button-primary'
-                        isLoading={isLoadingRegister}
-                    />
+                    <Button type='submit' isLoading={isLoadingRegister}>
+                        Register
+                    </Button>
                 </form>
                 <span className='redirect'>
                     Already have an account?&nbsp;
@@ -178,15 +179,11 @@ const Register: NextPage = () => {
                         <a className='button button-link'>Login</a>
                     </Link>
                 </span>
-                {errors.form && (
-                    <div className='form-error'>
-                        <ErrorIcon />
-                        <span>
-                            There was an issue with the registration. Please try
-                            again
-                        </span>
-                    </div>
-                )}
+                <FormError
+                    formError={errors.form}
+                    errorText='There was an issue with the registration. Please try
+                    again'
+                />
             </div>
         </div>
     )

@@ -3,7 +3,6 @@ export const Button = {
         borderRadius: 'lg',
         transition: '0.3s',
         px: 2,
-        py: 6,
         cursor: 'pointer'
     },
     sizes: {
@@ -11,8 +10,7 @@ export const Button = {
             fontSize: 'lg'
         },
         xsm: {
-            px: 2,
-            py: 5
+            px: 2
         }
     },
     variants: {

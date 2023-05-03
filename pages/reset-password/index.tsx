@@ -1,5 +1,5 @@
 import { NextPage } from 'next/types'
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useReducer } from 'react'
 import Link from 'next/link'
 import {
     useAuthState,
@@ -10,52 +10,10 @@ import { Button, Heading } from '@chakra-ui/react'
 import Spinner from '../../components/UIElements/spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
-import ErrorIcon from '../../components/Icons/ErrorIcon'
 import { Input } from '../../components/Form/ChakraInput'
-
-type ActionType =
-    | {
-          type: 'SET_EMAIL'
-          payload: string
-      }
-    | {
-          type: 'SET_IS_SUCCESS' | 'SET_FORM_ERROR' | 'SET_EMAIL_ERROR'
-          payload: boolean
-      }
-
-const initialState = {
-    email: '',
-    emailError: false,
-    formError: false,
-    isSuccess: false
-}
-
-const reducer = (state: typeof initialState, action: ActionType) => {
-    switch (action.type) {
-        case 'SET_EMAIL':
-            return {
-                ...state,
-                email: action.payload
-            }
-        case 'SET_EMAIL_ERROR':
-            return {
-                ...state,
-                emailError: action.payload
-            }
-        case 'SET_FORM_ERROR':
-            return {
-                ...state,
-                formError: action.payload
-            }
-        case 'SET_IS_SUCCESS':
-            return {
-                ...state,
-                isSuccess: action.payload
-            }
-        default:
-            return state
-    }
-}
+import { FormError } from '../../components/Form/FormError'
+import { initialState, reducer } from './reducers'
+import { FormHeading } from '../../components/Form/FormHeading'
 
 const ResetPassword: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -139,9 +97,7 @@ const ResetPassword: NextPage = () => {
                     </>
                 ) : (
                     <>
-                        <Heading as='h1' fontSize='2xl' fontWeight={600}>
-                            Reset Password
-                        </Heading>
+                        <FormHeading text='Reset Password' />
                         <form onSubmit={(e) => sendResetEmail(e)}>
                             <Input
                                 type='email'
@@ -154,8 +110,9 @@ const ResetPassword: NextPage = () => {
                                     })
                                 }
                                 label='Email'
-                                errorText='Please enter a valid email'
+                                errorContent='Please enter a valid email'
                                 isError={emailError}
+                                isLast
                             />
                             <Button type='submit' isLoading={isLoadindReseting}>
                                 Reset Password
@@ -167,15 +124,11 @@ const ResetPassword: NextPage = () => {
                                 <a className='button button-link'>Sign up</a>
                             </Link>
                         </span>
-                        {formError && (
-                            <div className='form-error'>
-                                <ErrorIcon />
-                                <span>
-                                    There was an issue with the password reset.
-                                    Please try again
-                                </span>
-                            </div>
-                        )}
+                        <FormError
+                            formError={formError}
+                            errorText='There was an issue with the password reset.
+                                    Please try again'
+                        />
                     </>
                 )}
             </div>
