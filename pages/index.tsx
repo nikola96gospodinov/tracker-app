@@ -1,23 +1,12 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-
-import Layout from '../components/Layout/layout'
 
 import WeeklyReview from '../features/Home/WeeklyReview'
+import { PageWrapper } from '../components/Layout/PageWrapper'
 
-const Home: NextPage = () => {
-    return (
-        <>
-            <Head>
-                <title>Dashboard</title>
-                <meta name='description' content='Dashboard' />
-                <link rel='icon' href='/favicon.ico' />
-            </Head>
-            <Layout>
-                <WeeklyReview />
-            </Layout>
-        </>
-    )
-}
+const Home: NextPage = () => (
+    <PageWrapper title='Dashboard' description='Home page'>
+        <WeeklyReview />
+    </PageWrapper>
+)
 
 export default Home

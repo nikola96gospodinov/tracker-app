@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import DeleteDoc from '../../../components/DeleteDoc'
 import InitialSection from '../../../components/InitialSection'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import useGetDoc from '../../../hooks/useGetDoc'
-import useUserLogged from '../../../hooks/useUserLogged'
 import { HABITS } from '../constants'
 import { Habit } from '../habits.types'
 import HabitForm from '../HabitForm'
 import HabitInfo from './HabitInfo'
+import { UserContext } from '../../../context/userContext'
 
 const IndividualHabitContent = () => {
-    const { userId } = useUserLogged()
+    const { userId } = useContext(UserContext)
     const router = useRouter()
     const { habitUrl } = router.query
     const {

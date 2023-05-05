@@ -1,12 +1,14 @@
+import { useContext } from 'react'
+
 import useGetDocs from '../../hooks/useGetDocs'
 import { GOALS } from '../Goals/constants'
 import { Goal } from '../Goals/goals.types'
 import NoGoals from '../../components/NoGoals'
 import { Spinner } from '../../components/UIElements/Spinner'
-import useUserLogged from '../../hooks/useUserLogged'
+import { UserContext } from '../../context/userContext'
 
 const WeeklyReview = () => {
-    const { userId } = useUserLogged()
+    const { userId } = useContext(UserContext)
     const {
         docs: goals,
         loading,

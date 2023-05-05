@@ -1,9 +1,10 @@
-import { FunctionComponent, PropsWithChildren } from 'react'
+import { FunctionComponent, PropsWithChildren, useContext } from 'react'
 import Head from 'next/head'
 
 import useUserLogged from '../../hooks/useUserLogged'
 import { FullScreenLoader } from '../FullScreenLoader'
 import Layout from './layout'
+import { UserContext } from '../../context/userContext'
 
 export const PageWrapper: FunctionComponent<
     PropsWithChildren<{
@@ -11,7 +12,8 @@ export const PageWrapper: FunctionComponent<
         description: string
     }>
 > = ({ children, title, description }) => {
-    const { userId, isLoading, error } = useUserLogged()
+    useUserLogged()
+    const { userId, isLoading, error } = useContext(UserContext)
 
     if (isLoading || !userId) return <FullScreenLoader />
 

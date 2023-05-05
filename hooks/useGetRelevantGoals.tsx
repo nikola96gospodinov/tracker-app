@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { GOALS } from '../features/Goals/constants'
 import { Goal } from '../features/Goals/goals.types'
 import { HabitType } from '../features/Habits/habits.types'
 import useGetDocs from './useGetDocs'
-import useUserLogged from './useUserLogged'
+import { UserContext } from '../context/userContext'
 
 interface Props {
     habitID: string
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const useGetRelevantGoals = ({ habitID, habitType }: Props) => {
-    const { userId } = useUserLogged()
+    const { userId } = useContext(UserContext)
     const [isGoals, setIsGoals] = useState<boolean>()
     const { docs: goals, loading } = useGetDocs<Goal>({
         userID: userId,

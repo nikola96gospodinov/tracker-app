@@ -1,19 +1,21 @@
+import { useContext } from 'react'
+
 import { Spinner } from '../../../../components/UIElements/Spinner'
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
-import useUserLogged from '../../../../hooks/useUserLogged'
 import { HABITS } from '../../../Habits/constants'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
 import UpdateHabitsList from '../UpdateHabitList'
 import NoHabits from '../NoHabits'
 import WeeklyHabitsList from './WeeklyHabitsList'
+import { UserContext } from '../../../../context/userContext'
 
 const WeeklyHabitsContent: React.FunctionComponent<{
     goal: Goal | undefined
     newElementAdded: boolean
     shortName: string
 }> = ({ goal, newElementAdded, shortName }) => {
-    const { userId } = useUserLogged()
+    const { userId } = useContext(UserContext)
     const {
         docs: weeklyTargets,
         loading,

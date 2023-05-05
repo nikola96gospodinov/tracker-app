@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 
 import EmptyContent from '../EmptyContent'
 import { Milestone } from '../../goals.types'
@@ -16,8 +16,8 @@ import { DeleteModal } from './DeleteModal'
 import { PastMilestones } from './PastMilestones'
 import { TableHeader } from './TableHeader'
 import { UpcomingMilestones } from './UpcomingMilestones'
-import useUserLogged from '../../../../hooks/useUserLogged'
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
+import { UserContext } from '../../../../context/userContext'
 
 const Milestones: React.FunctionComponent<TabElementProps> = ({
     goalID,
@@ -26,7 +26,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     setNewElementAdded,
     activeTab
 }) => {
-    const { userId } = useUserLogged()
+    const { userId } = useContext(UserContext)
     const { docs: milestones, errorFetching } = useGetFilteredDocs<Milestone>({
         userID: userId,
         path: MILESTONES,

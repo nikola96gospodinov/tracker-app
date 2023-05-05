@@ -4,7 +4,7 @@ import { useEffect, useContext } from 'react'
 import { UserContext } from '../context/userContext'
 
 const useUserLogged = () => {
-    const { userId, isLoading, error } = useContext(UserContext)
+    const { userId, isLoading } = useContext(UserContext)
     const router = useRouter()
 
     useEffect(() => {
@@ -12,12 +12,6 @@ const useUserLogged = () => {
             router.push('/login')
         }
     }, [userId, isLoading])
-
-    return {
-        userId,
-        isLoading,
-        error
-    }
 }
 
 export default useUserLogged

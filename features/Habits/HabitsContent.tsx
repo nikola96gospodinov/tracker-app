@@ -1,14 +1,14 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import InitialSection from '../../components/InitialSection'
-import useUserLogged from '../../hooks/useUserLogged'
 import HabitForm from './HabitForm'
 import HabitsList from './HabitsList/HabitsList'
 import AddIcon from '../../components/Icons/AddIcon'
+import { UserContext } from '../../context/userContext'
 
 export const HabitsContent = () => {
     const [addHabitsFormOpen, setAddHabitsFormOpen] = useState(false)
-    const { userId } = useUserLogged()
+    const { userId } = useContext(UserContext)
 
     return (
         <>

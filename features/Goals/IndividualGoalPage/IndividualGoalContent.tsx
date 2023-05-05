@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import InitialSection from '../../../components/InitialSection'
@@ -9,11 +9,11 @@ import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../goals.types'
 import { GOALS } from '../constants'
 import DeleteDoc from '../../../components/DeleteDoc'
-import useUserLogged from '../../../hooks/useUserLogged'
 import useGetDoc from '../../../hooks/useGetDoc'
+import { UserContext } from '../../../context/userContext'
 
 const IndividualGoalContent = () => {
-    const { userId } = useUserLogged()
+    const { userId } = useContext(UserContext)
     const router = useRouter()
     const { goalUrl } = router.query
     const {

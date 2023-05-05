@@ -10,7 +10,7 @@ interface Props {
 }
 
 const useGetDoc = <T,>({ userID, path, url }: Props) => {
-    const fullPath = `users/${userID ?? '123'}/${path}` // Some random string to avoid errors
+    const fullPath = `users/${userID}/${path}`
     const [doc, setDoc] = useState<T>()
     const [loading, setLoading] = useState(false)
     const [errorFetching, setErrorFetching] = useState(false)
