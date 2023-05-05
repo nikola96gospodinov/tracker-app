@@ -5,6 +5,7 @@ import useUserLogged from '../../hooks/useUserLogged'
 import { FullScreenLoader } from '../FullScreenLoader'
 import Layout from './layout'
 import { UserContext } from '../../context/userContext'
+import { FullScreenError } from '../FullScreenError'
 
 export const PageWrapper: FunctionComponent<
     PropsWithChildren<{
@@ -17,8 +18,7 @@ export const PageWrapper: FunctionComponent<
 
     if (isLoading || !userId) return <FullScreenLoader />
 
-    // TODO: Make this a component
-    if (error) return <div>{error.message}</div>
+    if (error) return <FullScreenError />
 
     return (
         <>
