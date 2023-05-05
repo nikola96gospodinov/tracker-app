@@ -8,7 +8,7 @@ import AddIcon from '../../components/Icons/AddIcon'
 
 export const HabitsContent = () => {
     const [addHabitsFormOpen, setAddHabitsFormOpen] = useState(false)
-    const { user } = useUserLogged()
+    const { userId } = useUserLogged()
 
     return (
         <>
@@ -17,16 +17,16 @@ export const HabitsContent = () => {
                     <h1>My Habits</h1>
                     <AddIcon onClick={() => setAddHabitsFormOpen(true)} />
                 </div>
-                {user && (
+                {userId && (
                     <HabitsList
-                        userID={user.uid}
+                        userID={userId}
                         setAddHabitsFormOpen={setAddHabitsFormOpen}
                     />
                 )}
-                {addHabitsFormOpen && user && (
+                {addHabitsFormOpen && userId && (
                     <HabitForm
                         setHabitsFormOpen={setAddHabitsFormOpen}
-                        userID={user.uid}
+                        userID={userId}
                     />
                 )}
             </InitialSection>

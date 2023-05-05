@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react'
 import { db } from '../firebase/firebase'
 
 interface Props {
-    userID: string
+    userID: string | undefined
     path: string
     fieldPath: string
     opStr: WhereFilterOp

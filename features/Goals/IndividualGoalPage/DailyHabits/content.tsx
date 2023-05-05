@@ -13,13 +13,13 @@ const DailyHabitsContent: React.FunctionComponent<{
     newElementAdded: boolean
     shortName: string
 }> = ({ goal, newElementAdded, shortName }) => {
-    const { user } = useUserLogged()
+    const { userId } = useUserLogged()
     const {
         docs: dailyHabits,
         loading,
         errorFetching
     } = useGetFilteredDocs<Habit>({
-        userID: user?.uid ?? '',
+        userID: userId,
         path: HABITS,
         fieldPath: 'type',
         opStr: '==',
@@ -50,7 +50,7 @@ const DailyHabitsContent: React.FunctionComponent<{
                     allHabits={dailyHabits}
                     attachedHabits={goal?.dailyHabits}
                     goal={goal}
-                    userID={user?.uid}
+                    userID={userId}
                     shortName={shortName}
                 />
             )}

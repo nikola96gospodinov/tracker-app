@@ -26,9 +26,9 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     setNewElementAdded,
     activeTab
 }) => {
-    const { user } = useUserLogged()
+    const { userId } = useUserLogged()
     const { docs: milestones, errorFetching } = useGetFilteredDocs<Milestone>({
-        userID: user?.uid ?? '',
+        userID: userId,
         path: MILESTONES,
         fieldPath: 'goalID',
         opStr: '==',
@@ -44,20 +44,20 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
 
     const handleDelete = useCallback(() => {
         deleteMilestone({
-            userID: user?.uid ?? '',
+            userID: userId ?? '',
             milestone: activeMilestone!
         })
         setDeleteWarning(false)
-    }, [milestones, user?.uid, activeMilestone])
+    }, [milestones, userId, activeMilestone])
 
     const handleToggle = useCallback(
         (milestone: Milestone) => {
             toggleMilestone({
-                userID: user?.uid ?? '',
+                userID: userId ?? '',
                 milestone
             })
         },
-        [milestones, user?.uid]
+        [milestones, userId]
     )
 
     const handleEditClick = useCallback((milestone: Milestone) => {
@@ -73,12 +73,12 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
             } as Milestone
 
             editMilestone({
-                userID: user?.uid ?? '',
+                userID: userId ?? '',
                 updatedMilestone,
                 setActiveMilestone
             })
         },
-        [activeMilestone, milestones, user?.uid]
+        [activeMilestone, milestones, userId]
     )
 
     const handleCancelClick = useCallback(() => {
@@ -130,7 +130,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
                             <AddMilestone
                                 setNewElementAdded={setNewElementAdded}
                                 goalID={goalID}
-                                userID={user?.uid ?? ''}
+                                userID={userId ?? ''}
                             />
                         )}
                     </table>

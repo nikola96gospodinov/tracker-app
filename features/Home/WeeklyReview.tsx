@@ -6,14 +6,13 @@ import { Spinner } from '../../components/UIElements/Spinner'
 import useUserLogged from '../../hooks/useUserLogged'
 
 const WeeklyReview = () => {
-    const { user } = useUserLogged()
-    const userID = user?.uid
+    const { userId } = useUserLogged()
     const {
         docs: goals,
         loading,
         errorFetching
     } = useGetDocs<Goal>({
-        userID: userID ?? '',
+        userID: userId,
         path: GOALS
     })
 

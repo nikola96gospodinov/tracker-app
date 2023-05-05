@@ -21,7 +21,7 @@ const IndividualGoalContent = () => {
         loading,
         errorFetching
     } = useGetDoc<Goal>({
-        userID: userId ?? '',
+        userID: userId,
         path: GOALS,
         url: goalUrl as string
     })

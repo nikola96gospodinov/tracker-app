@@ -13,13 +13,13 @@ const WeeklyHabitsContent: React.FunctionComponent<{
     newElementAdded: boolean
     shortName: string
 }> = ({ goal, newElementAdded, shortName }) => {
-    const { user } = useUserLogged()
+    const { userId } = useUserLogged()
     const {
         docs: weeklyTargets,
         loading,
         errorFetching
     } = useGetFilteredDocs<Habit>({
-        userID: user?.uid ?? '',
+        userID: userId,
         path: HABITS,
         fieldPath: 'type',
         opStr: '==',
@@ -50,7 +50,7 @@ const WeeklyHabitsContent: React.FunctionComponent<{
                     allHabits={weeklyTargets}
                     attachedHabits={goal?.weeklyHabits}
                     goal={goal}
-                    userID={user?.uid}
+                    userID={userId}
                     shortName={shortName}
                 />
             )}
