@@ -136,7 +136,7 @@ const Register: NextPage = () => {
     return (
         <FormHolder>
             <FormHeading>Register</FormHeading>
-            <form onSubmit={(e) => FormSubmit(e)}>
+            <form onSubmit={(e) => FormSubmit(e)} autoComplete='off'>
                 <Input
                     label='Email'
                     ref={emailRef}
@@ -162,9 +162,13 @@ const Register: NextPage = () => {
                     type='password'
                     isError={errors.confirmPassword}
                     errorContent='Passwords must match'
-                    isLast
                 />
-                <Button type='submit' isLoading={isLoadingRegister}>
+                <Button
+                    type='submit'
+                    isLoading={isLoadingRegister}
+                    w='100%'
+                    mt={4}
+                >
                     Register
                 </Button>
             </form>

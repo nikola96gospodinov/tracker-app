@@ -91,9 +91,13 @@ const ResetPassword: NextPage = () => {
                             label='Email'
                             errorContent='Please enter a valid email'
                             isError={emailError}
-                            isLast
                         />
-                        <Button type='submit' isLoading={isLoadindReseting}>
+                        <Button
+                            type='submit'
+                            isLoading={isLoadindReseting}
+                            w='100%'
+                            mt={4}
+                        >
                             Reset Password
                         </Button>
                     </form>
