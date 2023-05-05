@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -6,13 +5,15 @@ import {
     useAuthState,
     useSignInWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
-import { Button } from '@chakra-ui/react'
+import { Box, Button } from '@chakra-ui/react'
 
 import { auth } from '../../firebase/firebase'
-import { Spinner } from '../../components/UIElements/Spinner'
 import { Input } from '../../components/Form/ChakraInput'
 import { FormError } from '../../components/Form/FormError'
 import { FormHeading } from '../../components/Form/FormHeading'
+import { Link } from '../../components/UIElements/Link'
+import { FormHolder } from '../../components/Form/FormHolder'
+import { FullScreenLoader } from '../../components/FullScreenLoader'
 
 const Login: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -34,7 +35,6 @@ const Login: NextPage = () => {
 
     const logUser = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
-        console.log('Logging in...')
         if (emailRef.current?.value && passwordRef.current?.value) {
             signInWithEmailAndPassword(
                 emailRef.current?.value,
@@ -43,56 +43,39 @@ const Login: NextPage = () => {
         }
     }
 
-    if (isLoading || user) {
-        return (
-            <div className='full-screen-centered'>
-                <Spinner />
-            </div>
-        )
-    }
+    if (isLoading || user) return <FullScreenLoader />
 
     return (
-        <div className='full-screen-centered form-background'>
-            <div className='form-container'>
-                <FormHeading text='Login' />
-                <form onSubmit={(e) => logUser(e)}>
-                    <Input
-                        ref={emailRef}
-                        id='email'
-                        type='email'
-                        label='Email'
-                    />
-                    <Input
-                        ref={passwordRef}
-                        id='password'
-                        type='password'
-                        label='Password'
-                        isLast
-                    />
-                    <Button type='submit' isLoading={isLoadingSignIn}>
-                        Login
-                    </Button>
-                </form>
-                <Link href='/reset-password'>
-                    <a className='button button-link'>Forgot your password?</a>
-                </Link>
-                <span
-                    className='redirect'
-                    style={{
-                        marginBottom: errorMessage ? '1rem' : 0
-                    }}
-                >
-                    Don&#39;t have an account?&nbsp;
-                    <Link href='/register'>
-                        <a className='button button-link'>Sign up</a>
-                    </Link>
-                </span>
-                <FormError
-                    formError={!!errorMessage}
-                    errorText={errorMessage}
+        <FormHolder>
+            <FormHeading>Login</FormHeading>
+            <form onSubmit={(e) => logUser(e)}>
+                <Input ref={emailRef} id='email' type='email' label='Email' />
+                <Input
+                    ref={passwordRef}
+                    id='password'
+                    type='password'
+                    label='Password'
                 />
-            </div>
-        </div>
+                <Button
+                    type='submit'
+                    isLoading={isLoadingSignIn}
+                    w='100%'
+                    mt={4}
+                >
+                    Login
+                </Button>
+            </form>
+            <Link href='/reset-password' variant='link' textAlign='center'>
+                Forgot your password?
+            </Link>
+            <Box textAlign='center' mb={errorMessage ? 4 : 0}>
+                Don&#39;t have an account?&nbsp;
+                <Link href='/register' variant='link'>
+                    Sign up
+                </Link>
+            </Box>
+            <FormError formError={!!errorMessage} errorText={errorMessage} />
+        </FormHolder>
     )
 }
 

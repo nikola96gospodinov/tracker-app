@@ -16,7 +16,8 @@ const overrides = {
         global
     },
     components: {
-        Button
+        Button,
+        Link: { ...Button } // Use the same style as Button
     }
 }
 

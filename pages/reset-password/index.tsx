@@ -1,19 +1,20 @@
 import { NextPage } from 'next/types'
 import { useEffect, useReducer } from 'react'
-import Link from 'next/link'
 import {
     useAuthState,
     useSendPasswordResetEmail
 } from 'react-firebase-hooks/auth'
-import { Button, Text } from '@chakra-ui/react'
+import { Box, Button, Text } from '@chakra-ui/react'
 
-import { Spinner } from '../../components/UIElements/Spinner'
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { Input } from '../../components/Form/ChakraInput'
 import { FormError } from '../../components/Form/FormError'
 import { initialState, reducer } from './reducers'
 import { FormHeading } from '../../components/Form/FormHeading'
+import { Link } from '../../components/UIElements/Link'
+import { FormHolder } from '../../components/Form/FormHolder'
+import { FullScreenLoader } from '../../components/FullScreenLoader'
 
 const ResetPassword: NextPage = () => {
     const [user, isLoading] = useAuthState(auth)
@@ -55,73 +56,61 @@ const ResetPassword: NextPage = () => {
         }
     }, [error])
 
-    if (isLoading || user) {
-        return (
-            <div className='full-screen-centered'>
-                <Spinner />
-            </div>
-        )
-    }
+    if (isLoading || user) return <FullScreenLoader />
 
     return (
-        <div className='full-screen-centered form-background'>
-            <div className='form-container'>
-                {isSuccess ? (
-                    <>
-                        <Text fontSize={5} textAlign='center'>
-                            An email with instructions for reseting your
-                            password has been sent to your email.
-                        </Text>
-                        <Text pt={2} textAlign='center' pb={4}>
-                            Make sure to check your spam folder if you can{"'"}t
-                            find the email.
-                        </Text>
-                        <span className='redirect'>
-                            <Link href='/'>
-                                <a className='button button-primary'>
-                                    Back to homepage
-                                </a>
-                            </Link>
-                        </span>
-                    </>
-                ) : (
-                    <>
-                        <FormHeading text='Reset Password' />
-                        <form onSubmit={(e) => sendResetEmail(e)}>
-                            <Input
-                                type='email'
-                                id='email'
-                                value={email}
-                                onChange={(e) =>
-                                    dispatch({
-                                        type: 'SET_EMAIL',
-                                        payload: e.target.value
-                                    })
-                                }
-                                label='Email'
-                                errorContent='Please enter a valid email'
-                                isError={emailError}
-                                isLast
-                            />
-                            <Button type='submit' isLoading={isLoadindReseting}>
-                                Reset Password
-                            </Button>
-                        </form>
-                        <span className='redirect'>
-                            Don&#39;t have an account?&nbsp;
-                            <Link href='/register'>
-                                <a className='button button-link'>Sign up</a>
-                            </Link>
-                        </span>
-                        <FormError
-                            formError={formError}
-                            errorText='There was an issue with the password reset.
-                                    Please try again'
+        <FormHolder>
+            {isSuccess ? (
+                <>
+                    <Text fontSize='xl' textAlign='center' fontWeight={600}>
+                        An email with instructions for reseting your password
+                        has been sent to your email.
+                    </Text>
+                    <Text pt={2} textAlign='center' pb={4}>
+                        Make sure to check your spam folder if you can{"'"}t
+                        find the email.
+                    </Text>
+                    <Box textAlign='center' mt={4}>
+                        <Link href='/login'>Back to Login page</Link>
+                    </Box>
+                </>
+            ) : (
+                <>
+                    <FormHeading>Reset Password</FormHeading>
+                    <form onSubmit={(e) => sendResetEmail(e)}>
+                        <Input
+                            type='email'
+                            id='email'
+                            value={email}
+                            onChange={(e) =>
+                                dispatch({
+                                    type: 'SET_EMAIL',
+                                    payload: e.target.value
+                                })
+                            }
+                            label='Email'
+                            errorContent='Please enter a valid email'
+                            isError={emailError}
+                            isLast
                         />
-                    </>
-                )}
-            </div>
-        </div>
+                        <Button type='submit' isLoading={isLoadindReseting}>
+                            Reset Password
+                        </Button>
+                    </form>
+                    <Box textAlign='center' mt={6}>
+                        Don&#39;t have an account?&nbsp;
+                        <Link href='/register' variant='link'>
+                            Sign up
+                        </Link>
+                    </Box>
+                    <FormError
+                        formError={formError}
+                        errorText='There was an issue with the password reset.
+                                    Please try again'
+                    />
+                </>
+            )}
+        </FormHolder>
     )
 }
 

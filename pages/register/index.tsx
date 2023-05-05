@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import {
@@ -7,19 +6,16 @@ import {
     useCreateUserWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
-import {
-    Button,
-    ListItem,
-    Spinner,
-    Text,
-    UnorderedList
-} from '@chakra-ui/react'
+import { Box, Button, ListItem, Text, UnorderedList } from '@chakra-ui/react'
 
 import { auth, db } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
 import { FormError } from '../../components/Form/FormError'
 import { Input } from '../../components/Form/ChakraInput'
 import { FormHeading } from '../../components/Form/FormHeading'
+import { Link } from '../../components/UIElements/Link'
+import { FormHolder } from '../../components/Form/FormHolder'
+import { FullScreenLoader } from '../../components/FullScreenLoader'
 
 const NameErrors: React.FunctionComponent<{
     passwordErrors: {
@@ -130,13 +126,7 @@ const Register: NextPage = () => {
         }
     }, [userCred])
 
-    if (isLoading || user) {
-        return (
-            <div className='full-screen-centered'>
-                <Spinner />
-            </div>
-        )
-    }
+    if (isLoading || user) return <FullScreenLoader />
 
     const isPasswordError =
         passwordErrors.letter ||
@@ -144,53 +134,52 @@ const Register: NextPage = () => {
         passwordErrors.number
 
     return (
-        <div className='full-screen-centered form-background'>
-            <div className='form-container'>
-                <FormHeading text='Register' />
-                <form onSubmit={(e) => FormSubmit(e)}>
-                    <Input
-                        label='Email'
-                        ref={emailRef}
-                        id='email'
-                        type='email'
-                        isError={errors.email}
-                        errorContent='Please enter a valid email'
-                    />
-                    <Input
-                        label='Password'
-                        ref={passwordRef}
-                        id='password'
-                        type='password'
-                        isError={isPasswordError}
-                        errorContent={
-                            <NameErrors passwordErrors={passwordErrors} />
-                        }
-                    />
-                    <Input
-                        label='Confirm Password'
-                        ref={confirmPasswordRef}
-                        id='confirm-password'
-                        type='password'
-                        isError={errors.confirmPassword}
-                        errorContent='Passwords must match'
-                    />
-                    <Button type='submit' isLoading={isLoadingRegister}>
-                        Register
-                    </Button>
-                </form>
-                <span className='redirect'>
-                    Already have an account?&nbsp;
-                    <Link href='/login'>
-                        <a className='button button-link'>Login</a>
-                    </Link>
-                </span>
-                <FormError
-                    formError={errors.form}
-                    errorText='There was an issue with the registration. Please try
-                    again'
+        <FormHolder>
+            <FormHeading>Register</FormHeading>
+            <form onSubmit={(e) => FormSubmit(e)}>
+                <Input
+                    label='Email'
+                    ref={emailRef}
+                    id='email'
+                    type='email'
+                    isError={errors.email}
+                    errorContent='Please enter a valid email'
                 />
-            </div>
-        </div>
+                <Input
+                    label='Password'
+                    ref={passwordRef}
+                    id='password'
+                    type='password'
+                    isError={isPasswordError}
+                    errorContent={
+                        <NameErrors passwordErrors={passwordErrors} />
+                    }
+                />
+                <Input
+                    label='Confirm Password'
+                    ref={confirmPasswordRef}
+                    id='confirm-password'
+                    type='password'
+                    isError={errors.confirmPassword}
+                    errorContent='Passwords must match'
+                    isLast
+                />
+                <Button type='submit' isLoading={isLoadingRegister}>
+                    Register
+                </Button>
+            </form>
+            <Box textAlign='center' mt={6}>
+                Already have an account?&nbsp;
+                <Link href='/login' variant='link'>
+                    Login
+                </Link>
+            </Box>
+            <FormError
+                formError={errors.form}
+                errorText='There was an issue with the registration. Please try
+                    again'
+            />
+        </FormHolder>
     )
 }
 
