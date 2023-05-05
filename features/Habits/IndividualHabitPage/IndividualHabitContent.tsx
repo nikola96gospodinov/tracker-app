@@ -12,8 +12,7 @@ import HabitForm from '../HabitForm'
 import HabitInfo from './HabitInfo'
 
 const IndividualHabitContent = () => {
-    const { user } = useUserLogged()
-    const userID = user?.uid
+    const { userId } = useUserLogged()
     const router = useRouter()
     const { habitUrl } = router.query
     const {
@@ -21,14 +20,14 @@ const IndividualHabitContent = () => {
         loading,
         errorFetching
     } = useGetDoc<Habit>({
-        userID: userID ?? '',
+        userID: userId,
         path: HABITS,
         url: habitUrl as string
     })
     const [editForm, setEditForm] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
 
-    if (loading || !userID) {
+    if (loading || !userId) {
         return (
             <InitialSection>
                 <Spinner />
@@ -54,14 +53,14 @@ const IndividualHabitContent = () => {
             {editForm && (
                 <HabitForm
                     setHabitsFormOpen={setEditForm}
-                    userID={userID}
+                    userID={userId}
                     habit={habit}
                 />
             )}
             {deleteWarning && (
                 <DeleteDoc
                     setDeleteWarning={setDeleteWarning}
-                    userID={userID}
+                    userID={userId}
                     doc={habit}
                     path={HABITS}
                 />

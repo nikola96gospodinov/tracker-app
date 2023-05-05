@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react'
 import { db } from '../firebase/firebase'
 
 interface Props {
-    userID: string
+    userID: string | undefined
     path: string
 }
 
 const useGetDocs = <T,>({ userID, path }: Props) => {
-    const fullPath = `users/${userID}/${path}`
+    const fullPath = `users/${userID ?? '123'}/${path}` // Some random string to avoid errors
     const [allDocs, setAllDocs] = useState<T[]>()
     const [loading, setLoading] = useState(false)
     const [errorFetching, setErrorFetching] = useState(false)

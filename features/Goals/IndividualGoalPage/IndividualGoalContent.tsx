@@ -13,8 +13,7 @@ import useUserLogged from '../../../hooks/useUserLogged'
 import useGetDoc from '../../../hooks/useGetDoc'
 
 const IndividualGoalContent = () => {
-    const { user } = useUserLogged()
-    const userID = user?.uid
+    const { userId } = useUserLogged()
     const router = useRouter()
     const { goalUrl } = router.query
     const {
@@ -22,14 +21,14 @@ const IndividualGoalContent = () => {
         loading,
         errorFetching
     } = useGetDoc<Goal>({
-        userID: userID ?? '',
+        userID: userId ?? '',
         path: GOALS,
         url: goalUrl as string
     })
     const [editForm, setEditForm] = useState(false)
     const [deleteWarning, setDeleteWarning] = useState(false)
 
-    if (!userID || loading) {
+    if (!userId || loading) {
         return (
             <InitialSection>
                 <Spinner />
@@ -55,14 +54,14 @@ const IndividualGoalContent = () => {
             {editForm && (
                 <GoalForm
                     setGoalsFormOpen={setEditForm}
-                    userID={userID}
+                    userID={userId}
                     goal={goal}
                 />
             )}
             {deleteWarning && (
                 <DeleteDoc
                     setDeleteWarning={setDeleteWarning}
-                    userID={userID}
+                    userID={userId}
                     doc={goal}
                     path={GOALS}
                 />

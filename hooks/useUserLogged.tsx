@@ -1,22 +1,20 @@
-import { User } from 'firebase/auth'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import { useEffect, useContext } from 'react'
 
-import { auth } from '../firebase/firebase'
+import { UserContext } from '../context/userContext'
 
 const useUserLogged = () => {
-    const [user, isLoading, error] = useAuthState(auth)
+    const { userId, isLoading, error } = useContext(UserContext)
     const router = useRouter()
 
     useEffect(() => {
-        if (!user && !isLoading) {
+        if (!userId && !isLoading) {
             router.push('/login')
         }
-    }, [user, isLoading])
+    }, [userId, isLoading])
 
     return {
-        user,
+        userId,
         isLoading,
         error
     }

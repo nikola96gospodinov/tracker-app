@@ -7,7 +7,7 @@ import GoalForm from './GoalForm'
 import GoalsList from './GoalsList/GoalsList'
 
 export const GoalsContent = () => {
-    const { user } = useUserLogged()
+    const { userId } = useUserLogged()
     const [addGoalsFormOpen, setAddGoalsFormOpen] = useState(false)
 
     return (
@@ -17,16 +17,16 @@ export const GoalsContent = () => {
                     <h1>My Goals</h1>
                     <AddIcon onClick={() => setAddGoalsFormOpen(true)} />
                 </div>
-                {user && (
+                {userId && (
                     <GoalsList
-                        userID={user.uid}
+                        userID={userId}
                         setAddGoalsFormOpen={setAddGoalsFormOpen}
                     />
                 )}
-                {addGoalsFormOpen && user && (
+                {addGoalsFormOpen && userId && (
                     <GoalForm
                         setGoalsFormOpen={setAddGoalsFormOpen}
-                        userID={user.uid}
+                        userID={userId}
                     />
                 )}
             </InitialSection>

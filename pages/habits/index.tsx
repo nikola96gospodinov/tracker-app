@@ -1,34 +1,12 @@
 import { NextPage } from 'next'
-import Head from 'next/head'
 
-import { Spinner } from '../../components/UIElements/Spinner'
-import useUserLogged from '../../hooks/useUserLogged'
-import Layout from '../../components/Layout/layout'
 import { HabitsContent } from '../../features/Habits/HabitsContent'
+import { PageWrapper } from '../../components/Layout/PageWrapper'
 
-const Habits: NextPage = () => {
-    const { user, isLoading } = useUserLogged()
-
-    if (isLoading || !user) {
-        return (
-            <div className='full-screen-centered'>
-                <Spinner />
-            </div>
-        )
-    }
-
-    return (
-        <>
-            <Head>
-                <title>Habits</title>
-                <meta name='description' content='Dashboard' />
-                <link rel='icon' href='/favicon.ico' />
-            </Head>
-            <Layout>
-                <HabitsContent />
-            </Layout>
-        </>
-    )
-}
+const Habits: NextPage = () => (
+    <PageWrapper title='Habits' description='This is where your habits live'>
+        <HabitsContent />
+    </PageWrapper>
+)
 
 export default Habits

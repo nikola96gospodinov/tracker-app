@@ -12,10 +12,10 @@ interface Props {
 }
 
 export const useGetRelevantGoals = ({ habitID, habitType }: Props) => {
-    const { user } = useUserLogged()
+    const { userId } = useUserLogged()
     const [isGoals, setIsGoals] = useState<boolean>()
     const { docs: goals, loading } = useGetDocs<Goal>({
-        userID: user?.uid ?? '',
+        userID: userId,
         path: GOALS
     })
 

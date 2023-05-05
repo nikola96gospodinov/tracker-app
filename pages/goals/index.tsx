@@ -1,20 +1,12 @@
 import { NextPage } from 'next'
-import Head from 'next/head'
 
-import Layout from '../../components/Layout/layout'
 import { GoalsContent } from '../../features/Goals/GoalsContent'
+import { PageWrapper } from '../../components/Layout/PageWrapper'
 
 const Goals: NextPage = () => (
-    <>
-        <Head>
-            <title>Goals</title>
-            <meta name='description' content='Dashboard' />
-            <link rel='icon' href='/favicon.ico' />
-        </Head>
-        <Layout>
-            <GoalsContent />
-        </Layout>
-    </>
+    <PageWrapper title='Goals' description='This is where your goals live'>
+        <GoalsContent />
+    </PageWrapper>
 )
 
 export default Goals
