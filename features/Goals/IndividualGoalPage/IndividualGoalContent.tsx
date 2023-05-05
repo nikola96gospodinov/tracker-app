@@ -8,7 +8,7 @@ import GoalForm from '../GoalForm'
 import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../goals.types'
 import { GOALS } from '../constants'
-import DeleteDoc from '../../../components/DeleteDoc'
+import DeleteDoc from '../../../components/Docs/DeleteDoc'
 import useGetDoc from '../../../hooks/useGetDoc'
 import { UserContext } from '../../../context/userContext'
 

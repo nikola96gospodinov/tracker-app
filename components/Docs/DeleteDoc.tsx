@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 
-import { HABITS } from '../features/Habits/constants'
-import { Habit } from '../features/Habits/habits.types'
-import { removeHabitFromGoalsOnDelete } from '../features/Habits/helpers'
-import { removeDoc } from '../helpers/crud-operations/crud-operations-main-docs'
-import { removeLastCharacter } from '../helpers/string-manipulation-functions'
-import { useGetRelevantGoals } from '../hooks/useGetRelevantGoals'
-import { Doc } from '../types/crud-opearations.types'
-import { Dispatch } from '../typings'
+import { HABITS } from '../../features/Habits/constants'
+import { Habit } from '../../features/Habits/habits.types'
+import { removeHabitFromGoalsOnDelete } from '../../features/Habits/helpers'
+import { removeDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
+import { removeLastCharacter } from '../../helpers/string-manipulation-functions'
+import { useGetRelevantGoals } from '../../hooks/useGetRelevantGoals'
+import { Doc } from '../../types/crud-opearations.types'
+import { Dispatch } from '../../typings'
 
 interface Props<T> {
     setDeleteWarning: Dispatch<boolean>

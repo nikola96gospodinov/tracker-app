@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 
-import AddIcon from '../../components/Icons/AddIcon'
 import InitialSection from '../../components/InitialSection'
 import GoalForm from './GoalForm'
 import GoalsList from './GoalsList/GoalsList'
 import { UserContext } from '../../context/userContext'
+import { DocHeader } from '../../components/Docs/DocHeader'
 
 export const GoalsContent = () => {
     const { userId } = useContext(UserContext)
@@ -13,10 +13,10 @@ export const GoalsContent = () => {
     return (
         <>
             <InitialSection>
-                <div className='header'>
-                    <h1>My Goals</h1>
-                    <AddIcon onClick={() => setAddGoalsFormOpen(true)} />
-                </div>
+                <DocHeader
+                    heading='My Goals'
+                    onClick={() => setAddGoalsFormOpen(true)}
+                />
                 {userId && (
                     <GoalsList
                         userID={userId}

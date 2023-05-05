@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 
-import DeleteDoc from '../../../components/DeleteDoc'
+import DeleteDoc from '../../../components/Docs/DeleteDoc'
 import InitialSection from '../../../components/InitialSection'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import useGetDoc from '../../../hooks/useGetDoc'
