@@ -1,4 +1,4 @@
-import EmptyContentList from '../../../components/EmptyContentList'
+import NoDocsYet from '../../../components/Docs/NoDocsYet'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import useGetDocs from '../../../hooks/useGetDocs'
 import { HABITS } from '../constants'
@@ -24,12 +24,7 @@ const HabitsList: React.FunctionComponent<{
     }
 
     if (habits.length === 0) {
-        return (
-            <EmptyContentList
-                name={HABITS}
-                setAddFormOpen={setAddHabitsFormOpen}
-            />
-        )
+        return <NoDocsYet name={HABITS} setAddFormOpen={setAddHabitsFormOpen} />
     }
 
     return (

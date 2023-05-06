@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import { Box, Flex, Heading, Text } from '@chakra-ui/react'
 
 import { Goal } from '../goals.types'
 import { goalsIcons } from '../data'
 import { capitalizeFirstLetter } from '../../../helpers/string-manipulation-functions'
 import { formatDateForUI } from '../../../helpers/date-manipulation-functions'
-
-import styles from '../goal.module.scss'
 import EditIcon from '../../../components/Icons/EditIcon'
 import CalendarIcon from '../../../components/Icons/CalendarIcon'
+import { Link } from '../../../components/UIElements/Link'
+import { CategoryPill } from '../CategoryPill'
 
 export const GoalBox: React.FunctionComponent<{
     goal: Goal
@@ -21,28 +21,55 @@ export const GoalBox: React.FunctionComponent<{
     const category = capitalizeFirstLetter(goal.category)
 
     return (
-        <Link href={`/goals/${goal.urlPath}`}>
-            <a
-                className={styles.goalHolder}
-                onMouseEnter={() => setShowEditIcon(true)}
-                onMouseLeave={() => setShowEditIcon(false)}
-            >
-                {showEditIcon && <EditIcon className={styles.editIcon} />}
-                <div className={styles.categoryPill}>
-                    <div>
-                        <Image src={icon.src} alt={icon.alt} />
-                        <span>{category}</span>
-                    </div>
-                </div>
-                <div className={styles.textHolder}>
-                    <h3>{goal.name}</h3>
-                    <p>{goal.description}</p>
-                    <p className={styles.dueDate}>
-                        <CalendarIcon />
-                        {deadline}
-                    </p>
-                </div>
-            </a>
+        <Link
+            href={`/goals/${goal.urlPath}`}
+            onMouseEnter={() => setShowEditIcon(true)}
+            onMouseLeave={() => setShowEditIcon(false)}
+            bg='white'
+            color='purple.600'
+            p={6}
+            borderRadius='2xl'
+            transition='0.2s ease'
+            position='relative'
+            boxShadow='inset'
+            _hover={{
+                borderTop: 'solid',
+                borderWidth: 4,
+                borderColor: 'purple.600'
+            }}
+        >
+            {showEditIcon && (
+                <EditIcon
+                    position='absolute'
+                    top={4}
+                    right={4}
+                    boxSize={5}
+                    transition='0.1s ease'
+                    _hover={{
+                        transform: 'scale(0.9)'
+                    }}
+                />
+            )}
+            <CategoryPill>
+                <Image
+                    src={icon.src}
+                    alt={icon.alt}
+                    width={24}
+                    height={24}
+                    style={{ scale: '0.833333' }} // Next.js Image being strange
+                />
+                <Text>{category}</Text>
+            </CategoryPill>
+            <Box mt={2} color='neutral.900'>
+                <Heading as='h3' fontWeight={600} fontSize='lg' mb={1}>
+                    {goal.name}
+                </Heading>
+                <Text>{goal.description}</Text>
+                <Flex alignItems='center' gap={1} mt={1}>
+                    <CalendarIcon />
+                    {deadline}
+                </Flex>
+            </Box>
         </Link>
     )
 }

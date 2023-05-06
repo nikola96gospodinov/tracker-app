@@ -1,10 +1,12 @@
 import useGetDocs from '../../../hooks/useGetDocs'
-import EmptyContentList from '../../../components/EmptyContentList'
+import NoDocsYet from '../../../components/Docs/NoDocsYet'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import { GoalBox } from './GoalBox'
 import { Goal } from '../goals.types'
 import { GOALS } from '../constants'
 import { Dispatch } from '../../../typings'
+import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
+import { SimpleGrid } from '@chakra-ui/react'
 
 const GoalsList: React.FunctionComponent<{
     userID: string
@@ -15,29 +17,26 @@ const GoalsList: React.FunctionComponent<{
         path: GOALS
     })
 
-    if (errorFetching) {
-        return <p>There was an error</p>
-    }
+    if (errorFetching) return <ErrorFetchingDocs docType={GOALS} />
 
-    if (!goals) {
-        return <Spinner />
-    }
+    if (!goals) return <Spinner text='Loading...' />
 
-    if (goals.length === 0) {
+    if (goals.length === 0)
         return (
-            <EmptyContentList
-                name={GOALS}
-                setAddFormOpen={setAddGoalsFormOpen}
-            />
+            <NoDocsYet docType={GOALS} setAddFormOpen={setAddGoalsFormOpen} />
         )
-    }
 
     return (
-        <div className='triple-grid'>
+        <SimpleGrid
+            columns={3}
+            spacing={6}
+            minChildWidth='300px'
+            templateColumns='1fr 1fr 1fr'
+        >
             {goals.map((goal: Goal) => (
                 <GoalBox key={goal.id} goal={goal} />
             ))}
-        </div>
+        </SimpleGrid>
     )
 }
 

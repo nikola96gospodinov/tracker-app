@@ -2,16 +2,16 @@ export const Button = {
     baseStyle: {
         borderRadius: 'lg',
         transition: '0.3s',
-        px: 6,
-        py: 2.5,
         cursor: 'pointer',
+        py: 6,
         _hover: {
             textDecoration: 'none'
         }
     },
     sizes: {
         md: {
-            fontSize: 'lg'
+            fontSize: 'xl',
+            px: 10
         },
         xsm: {
             px: 5
