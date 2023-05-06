@@ -5,11 +5,10 @@ import {
     FaBatteryQuarter,
     FaBatteryEmpty
 } from 'react-icons/fa'
+import { Icon } from '@chakra-ui/react'
 
 import { calculateProgressPercentage } from '../../helpers/calculate-functions'
 import { IconProps } from './types.icons'
-
-import styles from './Battery.module.scss'
 
 const EMPTY = 'empty'
 const QUARTER = 'quarter'
@@ -20,23 +19,23 @@ const FULL = 'full'
 const BatteryIcons = {
     [EMPTY]: {
         Icon: FaBatteryEmpty,
-        className: styles.low
+        color: 'red.500'
     },
     [QUARTER]: {
         Icon: FaBatteryQuarter,
-        className: styles.low
+        color: 'red.500'
     },
     [HALF]: {
         Icon: FaBatteryHalf,
-        className: styles.medium
+        color: 'yellow.600'
     },
     [THREE_QUARTERS]: {
         Icon: FaBatteryThreeQuarters,
-        className: styles.medium
+        color: 'yellow.600'
     },
     [FULL]: {
         Icon: FaBatteryFull,
-        className: styles.high
+        color: 'green.500'
     }
 }
 
@@ -45,7 +44,7 @@ const getIconType = (percentageComplete: number): keyof typeof BatteryIcons => {
     // Always adding 12.5% to the limit to make the icon more accurate
     if (percentageComplete < 37.5) return QUARTER
     if (percentageComplete < 62.5) return HALF
-    if (percentageComplete < 87.5) return THREE_QUARTERS
+    if (percentageComplete < 100) return THREE_QUARTERS
 
     return FULL
 }
@@ -60,11 +59,16 @@ const BatteryIcon: React.FunctionComponent<
     )
 
     const iconType = getIconType(percentageComplete)
-    const Icon = BatteryIcons[iconType].Icon
-    const iconClassName = BatteryIcons[iconType].className
+    const BatteryIcon = BatteryIcons[iconType].Icon
+    const iconColor = BatteryIcons[iconType].color
 
     return (
-        <Icon className={`${iconClassName} ${className}`} onClick={onClick} />
+        <Icon
+            as={BatteryIcon}
+            color={iconColor}
+            onClick={onClick}
+            className={className}
+        />
     )
 }
 
