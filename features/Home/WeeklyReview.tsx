@@ -6,6 +6,7 @@ import { Goal } from '../Goals/goals.types'
 import NoGoals from '../../components/NoGoals'
 import { Spinner } from '../../components/UIElements/Spinner'
 import { UserContext } from '../../context/userContext'
+import { ErrorFetchingDocs } from '../../components/Docs/ErrorFetchingDocs'
 
 const WeeklyReview = () => {
     const { userId } = useContext(UserContext)
@@ -18,35 +19,13 @@ const WeeklyReview = () => {
         path: GOALS
     })
 
-    if (!goals || loading) {
-        return (
-            <div className='initial-section'>
-                <div className='container'>
-                    <div className='initial-section-inner'>
-                        <Spinner />
-                    </div>
-                </div>
-            </div>
-        )
-    }
+    if (!goals || loading) return <Spinner text='Loading...' />
 
-    if (errorFetching) {
-        // TODO: Add an Error component
-    }
+    if (errorFetching) return <ErrorFetchingDocs docType={GOALS} />
 
-    return (
-        <div className='initial-section'>
-            <div className='container'>
-                <div className='initial-section-inner'>
-                    {goals.length === 0 ? (
-                        <NoGoals />
-                    ) : (
-                        <>Here are your goals {goals.length}</>
-                    )}
-                </div>
-            </div>
-        </div>
-    )
+    if (goals.length === 0) return <NoGoals />
+
+    return <>Here are your goals {goals.length}</>
 }
 
 export default WeeklyReview

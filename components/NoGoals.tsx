@@ -1,15 +1,23 @@
-import Link from 'next/link'
+import { Stack, Text } from '@chakra-ui/react'
+import Image from 'next/image'
 
-import styles from './NoGoals.module.scss'
+import { Link } from './UIElements/Link'
 
 const NoGoals = (): JSX.Element => (
-    <div className={styles.noGoals}>
-        <img src='/images/no-goals.png' alt='no goals icon' />
-        <p>It seems like you haven&apos;t set any goals yet</p>
-        <Link href='/goals'>
-            <a className='button button-primary'>Set goals</a>
+    <Stack alignItems='center' justifyContent='center'>
+        <Image
+            src='/images/no-goals.png'
+            alt='no goals icon'
+            width={128}
+            height={128}
+        />
+        <Text fontSize='2xl' pb={4}>
+            It seems like you haven&apos;t set any goals yet
+        </Text>
+        <Link size='md' href='/goals'>
+            Set goals
         </Link>
-    </div>
+    </Stack>
 )
 
 export default NoGoals

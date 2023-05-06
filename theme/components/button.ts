@@ -4,6 +4,7 @@ export const Button = {
         transition: '0.3s',
         cursor: 'pointer',
         py: 6,
+        fontWeight: 600,
         _hover: {
             textDecoration: 'none'
         }

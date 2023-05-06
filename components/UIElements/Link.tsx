@@ -10,6 +10,8 @@ export const Link: React.FunctionComponent<
     >
 > = ({ href, children, ...linkProps }) => (
     <NextLink href={href} passHref>
-        <ChakraLink {...linkProps}>{children}</ChakraLink>
+        <ChakraLink py={2} {...linkProps}>
+            {children}
+        </ChakraLink>
     </NextLink>
 )

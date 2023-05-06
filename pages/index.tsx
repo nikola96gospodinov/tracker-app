@@ -2,10 +2,13 @@ import type { NextPage } from 'next'
 
 import WeeklyReview from '../features/Home/WeeklyReview'
 import { PageWrapper } from '../components/Layout/PageWrapper'
+import InitialSection from '../components/InitialSection'
 
 const Home: NextPage = () => (
     <PageWrapper title='Dashboard' description='Home page'>
-        <WeeklyReview />
+        <InitialSection>
+            <WeeklyReview />
+        </InitialSection>
     </PageWrapper>
 )
 
