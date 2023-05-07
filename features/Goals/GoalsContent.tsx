@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
+import { useDisclosure } from '@chakra-ui/react'
 
 import InitialSection from '../../components/InitialSection'
 import GoalForm from './GoalForm'
@@ -8,26 +9,17 @@ import { DocHeader } from '../../components/Docs/DocHeader'
 
 export const GoalsContent = () => {
     const { userId } = useContext(UserContext)
-    const [addGoalsFormOpen, setAddGoalsFormOpen] = useState(false)
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
         <>
             <InitialSection>
-                <DocHeader
-                    heading='My Goals'
-                    onClick={() => setAddGoalsFormOpen(true)}
-                />
+                <DocHeader heading='My Goals' onClick={onOpen} />
                 {userId && (
-                    <GoalsList
-                        userID={userId}
-                        setAddGoalsFormOpen={setAddGoalsFormOpen}
-                    />
+                    <GoalsList userID={userId} setAddGoalsFormOpen={onOpen} />
                 )}
-                {addGoalsFormOpen && userId && (
-                    <GoalForm
-                        setGoalsFormOpen={setAddGoalsFormOpen}
-                        userID={userId}
-                    />
+                {isOpen && userId && (
+                    <GoalForm isFormOpen={isOpen} onFormClose={onClose} />
                 )}
             </InitialSection>
         </>

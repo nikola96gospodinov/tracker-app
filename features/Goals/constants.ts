@@ -1,3 +1,4 @@
+export const GOAL = 'goal'
 export const GOALS = 'goals'
 
 export const MILESTONES = 'milestones'

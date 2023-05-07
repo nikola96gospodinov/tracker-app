@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
+import { Button } from '@chakra-ui/react'
 
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDocs'
@@ -8,22 +9,22 @@ import { Goal } from './goals.types'
 import { GOALS } from './constants'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
-import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
-import { Button } from '../../components/UIElements/Button'
 import { goalOptions } from './data'
-import { Input } from '../../components/Form/Input'
-import { Textarea } from '../../components/Form/Textarea'
-import { Select } from '../../components/Form/Select'
+import { Input } from '../../components/Form/ChakraInput'
+import { Select } from '../../components/Form/ChakraSelect'
+import { Textarea } from '../../components/Form/ChakraTextarea'
+import { UserContext } from '../../context/userContext'
 
 const now = new Date()
 const today = now.toISOString().substring(0, 10)
 const GoalForm: React.FunctionComponent<{
-    setGoalsFormOpen: Dispatch<boolean>
-    userID: string
+    isFormOpen: boolean
+    onFormClose: () => void
     goal?: Goal
-}> = ({ setGoalsFormOpen, userID, goal }) => {
+}> = ({ isFormOpen, onFormClose, goal }) => {
     const router = useRouter()
+    const { userId } = useContext(UserContext)
     const [name, setName] = useState(goal?.name ?? '')
     const [description, setDescription] = useState(goal?.description ?? '')
     const [deadline, setDeadline] = useState(goal?.deadline ?? '')
@@ -34,7 +35,7 @@ const GoalForm: React.FunctionComponent<{
         form: false
     })
 
-    const { docs: goals } = useGetDocs<Goal>({ userID, path: GOALS })
+    const { docs: goals } = useGetDocs<Goal>({ userID: userId, path: GOALS })
     const goalsNames = useMemo(() => {
         return goals
             ?.map((goal: Goal) => goal.name)
@@ -71,8 +72,8 @@ const GoalForm: React.FunctionComponent<{
             submitDoc<Goal>({
                 path: GOALS,
                 orgDoc: fields as Goal,
-                userID,
-                setDocsFormOpen: setGoalsFormOpen,
+                userID: userId,
+                setDocsFormOpen: onFormClose,
                 setErrors: setErrors as ErrorsDispatch,
                 router
             })
@@ -89,45 +90,50 @@ const GoalForm: React.FunctionComponent<{
 
     return (
         <FormModal
-            setFormOpen={setGoalsFormOpen}
+            formOpen={isFormOpen}
+            onFormClose={onFormClose}
             title={formTitle}
             onSubmit={handleFormSubmit}
             isFormError={isFormErr}
             formError={formError}
         >
             <Input
-                labelText='Name'
+                label='Name'
                 name='name'
                 value={name}
                 type='text'
                 onChange={(e) => setName(e.target.value)}
                 isError={isNameErr}
-                error={errors.nameErr}
+                errorContent={errors.nameErr}
             />
             <Select
-                labelText='Category'
+                label='Category'
                 name='category'
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 isError={isCategoryErr}
-                error='Please select a category'
+                errorContent='Please select a category'
                 options={goalOptions}
             />
             <Input
-                labelText='Deadline (Optional)'
+                label='Deadline (Optional)'
                 name='deadline'
                 value={deadline}
                 type='date'
                 onChange={(e) => setDeadline(e.target.value)}
                 min={today}
+                pr={3}
             />
             <Textarea
-                labelText='Description (Optional)'
+                label='Description (Optional)'
                 name='description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                mb={2}
             />
-            <Button type='submit' text={btnText} btnClass='button-primary' />
+            <Button type='submit' width='100%'>
+                {btnText}
+            </Button>
         </FormModal>
     )
 }

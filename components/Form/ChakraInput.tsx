@@ -15,19 +15,15 @@ export const Input: React.FunctionComponent<
         helperText?: string
         isError?: boolean
         errorContent?: ReactNode
-        isLast?: boolean
         ref?: RefObject<HTMLInputElement> // Chakra is using a different ref type
     } & InputProps
 > = forwardRef(
-    (
-        { label, helperText, isError, errorContent, isLast, ...inputProps },
-        ref
-    ) => {
+    ({ label, helperText, isError, errorContent, ...inputProps }, ref) => {
         const showHelperText = helperText && !isError
         const error = errorContent ?? 'This field is not valid'
 
         return (
-            <FormControl isInvalid={isError} mb={isLast ? 0 : 4}>
+            <FormControl isInvalid={isError}>
                 {label && (
                     <FormLabel htmlFor={inputProps.id}>{label}</FormLabel>
                 )}

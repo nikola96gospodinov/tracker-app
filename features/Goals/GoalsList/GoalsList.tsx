@@ -10,7 +10,7 @@ import { SimpleGrid } from '@chakra-ui/react'
 
 const GoalsList: React.FunctionComponent<{
     userID: string
-    setAddGoalsFormOpen: Dispatch<boolean>
+    setAddGoalsFormOpen: () => void
 }> = ({ userID, setAddGoalsFormOpen }) => {
     const { docs: goals, errorFetching } = useGetDocs<Goal>({
         userID,

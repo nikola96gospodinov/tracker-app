@@ -5,7 +5,15 @@ import { IconProps } from './types.icons'
 
 const DeleteIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className
-}) => <Icon as={RiDeleteBin6Fill} className={className} onClick={onClick} />
+    className,
+    ...iconProps
+}) => (
+    <Icon
+        as={RiDeleteBin6Fill}
+        className={className}
+        onClick={onClick}
+        {...iconProps}
+    />
+)
 
 export default DeleteIcon

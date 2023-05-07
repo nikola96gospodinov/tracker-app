@@ -4,7 +4,7 @@ export const Button = {
         transition: '0.3s',
         cursor: 'pointer',
         py: 6,
-        fontWeight: 600,
+        fontWeight: 500,
         _hover: {
             textDecoration: 'none'
         }
@@ -43,18 +43,11 @@ export const Button = {
             }
         },
         tertiary: {
-            display: 'block',
-            fontSize: 'xl',
             fontWeight: 600,
-            color: 'purple.600',
-            border: '0.1rem solid',
-            borderColor: 'purple.600',
-            padding: '0.4rem 2.4rem',
-
+            color: 'neutral.900',
+            bg: 'neutral.100',
             _hover: {
-                background: 'purple.600',
-                color: 'neutral.50',
-                fontWeight: 500
+                background: 'neutral.200'
             }
         },
         disabled: {
@@ -88,6 +81,7 @@ export const Button = {
         }
     },
     defaultProps: {
-        variant: 'primary'
+        variant: 'primary',
+        size: 'md'
     }
 }

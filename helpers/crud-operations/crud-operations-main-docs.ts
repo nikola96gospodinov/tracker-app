@@ -14,7 +14,7 @@ import { Dispatch } from '../../typings'
 
 interface SubmitDocProps<T> {
     path: string
-    userID: string
+    userID: string | undefined
     orgDoc: T
     setError?: Dispatch<boolean>
     setErrors?: ErrorsDispatch
@@ -64,7 +64,7 @@ export const submitDoc = async <T extends Doc>({
 interface RemoveDocProps<T> {
     path: string
     orgDoc: T
-    userID: string
+    userID: string | undefined
     router: NextRouter
     setError: Dispatch<boolean>
 }

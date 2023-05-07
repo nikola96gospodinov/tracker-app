@@ -13,7 +13,9 @@ export const CategoryPill: React.FunctionComponent<PropsWithChildren> = ({
             gap={12}
             display='inline-flex'
         >
-            <Flex gap={2}>{children}</Flex>
+            <Flex gap={2} alignItems='center'>
+                {children}
+            </Flex>
         </Flex>
     )
 }

@@ -8,6 +8,7 @@ import { PageWrapper } from '../../components/Layout/PageWrapper'
 import { UserContext } from '../../context/userContext'
 import { Goal } from '../../features/Goals/goals.types'
 import useGetDoc from '../../hooks/useGetDoc'
+import InitialSection from '../../components/InitialSection'
 
 const IndividualGoal: NextPage = () => {
     const router = useRouter()
@@ -23,7 +24,9 @@ const IndividualGoal: NextPage = () => {
             title={goal?.name ?? 'Goal'}
             description={goal?.description ?? 'Goal'}
         >
-            <IndividualGoalContent />
+            <InitialSection>
+                <IndividualGoalContent />
+            </InitialSection>
         </PageWrapper>
     )
 }

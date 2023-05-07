@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 
 import { HABITS } from '../../features/Habits/constants'
 import { Habit } from '../../features/Habits/habits.types'
@@ -8,21 +8,32 @@ import { removeDoc } from '../../helpers/crud-operations/crud-operations-main-do
 import { removeLastCharacter } from '../../helpers/string-manipulation-functions'
 import { useGetRelevantGoals } from '../../hooks/useGetRelevantGoals'
 import { Doc } from '../../types/crud-opearations.types'
-import { Dispatch } from '../../typings'
+import { UserContext } from '../../context/userContext'
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalOverlay,
+    Text
+} from '@chakra-ui/react'
+import { FormError } from '../Form/FormError'
 
 interface Props<T> {
-    setDeleteWarning: Dispatch<boolean>
-    userID: string
+    isDeleteWarningOpen: boolean
+    onDeleteWarningClose: () => void
     doc: T
     path: string
 }
 
 const DeleteDoc = <T extends Doc>({
-    setDeleteWarning,
-    userID,
+    isDeleteWarningOpen,
+    onDeleteWarningClose,
     doc,
     path
 }: Props<T>) => {
+    const { userId } = useContext(UserContext)
     const router = useRouter()
     const [error, setError] = useState(false)
     const singularPath = removeLastCharacter(path)
@@ -35,55 +46,53 @@ const DeleteDoc = <T extends Doc>({
         removeDoc({
             path,
             orgDoc: doc,
-            userID,
+            userID: userId,
             router,
             setError
         })
 
         if (path === HABITS) {
             removeHabitFromGoalsOnDelete({
-                userID,
+                userID: userId,
                 relevantGoals,
                 habitID: doc.id
             })
         }
-    }, [doc, path, userID])
+    }, [doc, path, userId])
 
     return (
-        <div className='backdrop'>
-            <div className='form-container'>
-                <p style={{ fontSize: '1.125rem', textAlign: 'center' }}>
-                    Are you sure you want to <b>delete</b> the {singularPath}?
-                </p>
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gridGap: '1rem',
-                        marginTop: '2rem'
-                    }}
+        <Modal
+            isOpen={isDeleteWarningOpen}
+            onClose={onDeleteWarningClose}
+            isCentered={true}
+            size='lg'
+        >
+            <ModalOverlay backdropFilter='blur(10px)' />
+            <ModalContent borderRadius='xl' p={12} bg='neutral.50'>
+                <ModalBody>
+                    <Text fontSize='xl' textAlign='center'>
+                        Are you sure you want to <b>delete</b> the{' '}
+                        {singularPath}?
+                    </Text>
+                </ModalBody>
+                <ModalFooter
+                    alignItems='center'
+                    justifyContent='center'
+                    gap={4}
                 >
-                    <button
-                        className='button button-delete'
-                        onClick={handleDelete}
-                    >
+                    <Button onClick={handleDelete} variant='delete'>
                         Delete
-                    </button>
-                    <button
-                        className='button button-tertiary'
-                        onClick={() => setDeleteWarning(false)}
-                    >
+                    </Button>
+                    <Button onClick={onDeleteWarningClose} variant='tertiary'>
                         Cancel
-                    </button>
-                </div>
-                {error && (
-                    <p className='form-error' style={{ marginTop: '1.5rem' }}>
-                        There was an error deleting the {singularPath}. Please
-                        try again
-                    </p>
-                )}
-            </div>
-        </div>
+                    </Button>
+                </ModalFooter>
+                <FormError
+                    formError={error}
+                    errorText={`There was an issue deleting ${singularPath}. Please try again`}
+                />
+            </ModalContent>
+        </Modal>
     )
 }
 

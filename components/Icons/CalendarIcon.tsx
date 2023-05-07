@@ -5,7 +5,15 @@ import { IconProps } from './types.icons'
 
 const CalendarIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className
-}) => <Icon as={AiTwotoneCalendar} className={className} onClick={onClick} />
+    className,
+    ...iconProps
+}) => (
+    <Icon
+        as={AiTwotoneCalendar}
+        className={className}
+        onClick={onClick}
+        {...iconProps}
+    />
+)
 
 export default CalendarIcon

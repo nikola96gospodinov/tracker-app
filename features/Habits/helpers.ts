@@ -344,7 +344,7 @@ export const updateHabitProgress = ({
 }
 
 interface RemoveHabitFromGoalsOnDeleteProps {
-    userID: string
+    userID: string | undefined
     relevantGoals: Goal[] | undefined
     habitID: string
 }

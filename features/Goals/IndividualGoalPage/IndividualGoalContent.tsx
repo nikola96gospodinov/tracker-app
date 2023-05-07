@@ -1,16 +1,18 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { useRouter } from 'next/router'
+import { useDisclosure } from '@chakra-ui/react'
 
-import InitialSection from '../../../components/InitialSection'
 import GoalInfo from './GoalInfo'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import GoalForm from '../GoalForm'
 import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../goals.types'
-import { GOALS } from '../constants'
+import { GOAL, GOALS } from '../constants'
 import DeleteDoc from '../../../components/Docs/DeleteDoc'
 import useGetDoc from '../../../hooks/useGetDoc'
 import { UserContext } from '../../../context/userContext'
+import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
+import { NonExistingDoc } from '../../../components/Docs/NonExistingDoc'
 
 const IndividualGoalContent = () => {
     const { userId } = useContext(UserContext)
@@ -25,49 +27,47 @@ const IndividualGoalContent = () => {
         path: GOALS,
         url: goalUrl as string
     })
-    const [editForm, setEditForm] = useState(false)
-    const [deleteWarning, setDeleteWarning] = useState(false)
+    const {
+        isOpen: isEditFormOpen,
+        onOpen: onEditFormOpen,
+        onClose: onEditFormClose
+    } = useDisclosure()
+    const {
+        isOpen: isDeleteWarningOpen,
+        onOpen: onDeleteWarningOpen,
+        onClose: onDeleteWarningClose
+    } = useDisclosure()
 
-    if (!userId || loading) {
-        return (
-            <InitialSection>
-                <Spinner />
-            </InitialSection>
-        )
-    }
+    if (!userId || loading) return <Spinner text='Loading...' />
 
-    if (errorFetching || !goal) {
-        return (
-            <InitialSection>
-                <p>Goal doesn&apos;t exist</p>
-            </InitialSection>
-        )
-    }
+    if (errorFetching) return <ErrorFetchingDocs docType={GOAL} />
+
+    if (!goal) return <NonExistingDoc docType={GOAL} />
 
     return (
-        <InitialSection>
+        <>
             <GoalInfo
                 goal={goal}
-                setDeleteWarning={setDeleteWarning}
-                setEditForm={setEditForm}
+                onEditFormOpen={onEditFormOpen}
+                onDeleteWarningOpen={onDeleteWarningOpen}
             />
-            {editForm && (
+            {isEditFormOpen && (
                 <GoalForm
-                    setGoalsFormOpen={setEditForm}
-                    userID={userId}
+                    isFormOpen={isEditFormOpen}
+                    onFormClose={onEditFormClose}
                     goal={goal}
                 />
             )}
-            {deleteWarning && (
+            {isDeleteWarningOpen && (
                 <DeleteDoc
-                    setDeleteWarning={setDeleteWarning}
-                    userID={userId}
+                    isDeleteWarningOpen={isDeleteWarningOpen}
+                    onDeleteWarningClose={onDeleteWarningClose}
                     doc={goal}
                     path={GOALS}
                 />
             )}
             <GoalConfiguration goal={goal} />
-        </InitialSection>
+        </>
     )
 }
 

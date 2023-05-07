@@ -32,6 +32,8 @@ export const GoalBox: React.FunctionComponent<{
             transition='0.2s ease'
             position='relative'
             boxShadow='inset'
+            fontWeight={500}
+            fontSize='md'
             _hover={{
                 borderTop: 'solid',
                 borderWidth: 4,
@@ -56,12 +58,12 @@ export const GoalBox: React.FunctionComponent<{
                     alt={icon.alt}
                     width={24}
                     height={24}
-                    style={{ scale: '0.833333' }} // Next.js Image being strange
+                    style={{ scale: '0.75' }} // Next.js Image being strange
                 />
                 <Text>{category}</Text>
             </CategoryPill>
             <Box mt={2} color='neutral.900'>
-                <Heading as='h3' fontWeight={600} fontSize='lg' mb={1}>
+                <Heading as='h3' fontWeight={600} fontSize='xl' mb={1}>
                     {goal.name}
                 </Heading>
                 <Text>{goal.description}</Text>
