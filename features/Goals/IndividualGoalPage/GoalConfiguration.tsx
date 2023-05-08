@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import {
+    Button,
+    Flex,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs
+} from '@chakra-ui/react'
 
 import { Goal } from '../goals.types'
 import { tabs } from '../data'
-
-import styles from '../goal.module.scss'
-import { Button } from '../../../components/UIElements/Button'
 
 const GoalConfiguration: React.FunctionComponent<{
     goal: Goal
@@ -13,42 +19,40 @@ const GoalConfiguration: React.FunctionComponent<{
     const [newElementAdded, setNewElementAdded] = useState(false)
 
     return (
-        <div className={styles.goalConfiguration}>
-            <div className={styles.controls}>
-                <div className={styles.tabs}>
+        <>
+            <Flex justifyContent='flex-end' mb={-9}>
+                <Button
+                    height='auto'
+                    py={2}
+                    px={4}
+                    mt={8}
+                    mr={1}
+                    onClick={() => setNewElementAdded(true)}
+                    boxShadow='none'
+                    fontSize='md'
+                >
+                    Add +
+                </Button>
+            </Flex>
+            <Tabs colorScheme='purple'>
+                <TabList>
                     {tabs.map((tab, key) => (
-                        <div
+                        <Tab
                             key={key}
                             onClick={() => {
                                 setActiveTab(tab.name)
                                 if (tab.name !== activeTab)
                                     setNewElementAdded(false)
                             }}
-                            className={
-                                activeTab === tab.name
-                                    ? styles.active
-                                    : undefined
-                            }
+                            borderBottomWidth={3}
                         >
                             {tab.name}
-                        </div>
+                        </Tab>
                     ))}
-                </div>
-                <div>
-                    <Button
-                        text='Add +'
-                        btnClass='button-primary'
-                        type='button'
-                        onClick={() => setNewElementAdded(true)}
-                        className={styles.addButton}
-                    />
-                </div>
-            </div>
-
-            <div className={styles.content}>
-                {tabs.map(({ Component, shortName, name }, key) => {
-                    if (activeTab === name) {
-                        return (
+                </TabList>
+                <TabPanels mt={-4}>
+                    {tabs.map(({ Component, shortName }, key) => (
+                        <TabPanel key={key}>
                             <Component
                                 key={key}
                                 shortName={shortName}
@@ -58,13 +62,11 @@ const GoalConfiguration: React.FunctionComponent<{
                                 activeTab={activeTab}
                                 goal={goal}
                             />
-                        )
-                    } else {
-                        return null
-                    }
-                })}
-            </div>
-        </div>
+                        </TabPanel>
+                    ))}
+                </TabPanels>
+            </Tabs>
+        </>
     )
 }
 

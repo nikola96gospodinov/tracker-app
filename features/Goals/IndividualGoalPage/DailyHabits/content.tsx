@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { Spinner } from '../../../../components/UIElements/Spinner'
+import { Spinner } from '../../../../components/UIElements/spinner'
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
 import { HABITS } from '../../../Habits/constants'
 import { Habit } from '../../../Habits/habits.types'
@@ -9,6 +9,7 @@ import DailyHabitsList from './DailyHabitsList'
 import NoHabits from '../NoHabits'
 import UpdateHabitList from '../UpdateHabitList'
 import { UserContext } from '../../../../context/userContext'
+import { ErrorFetchingDocs } from '../../../../components/Docs/ErrorFetchingDocs'
 
 const DailyHabitsContent: React.FunctionComponent<{
     goal: Goal | undefined
@@ -28,18 +29,9 @@ const DailyHabitsContent: React.FunctionComponent<{
         value: 'daily'
     })
 
-    if (loading) {
-        return <Spinner />
-    }
+    if (loading) return <Spinner />
 
-    if (errorFetching) {
-        return (
-            <p>
-                There was an error fetching your habits. Please refresh the page
-                and try again.
-            </p>
-        )
-    }
+    if (errorFetching) return <ErrorFetchingDocs docType={HABITS} />
 
     const noDailyHabits = dailyHabits?.length === 0 || !dailyHabits
     const showUpdateHabitsList = newElementAdded
