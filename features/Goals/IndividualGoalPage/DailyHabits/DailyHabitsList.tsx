@@ -1,3 +1,4 @@
+import { SimpleGrid } from '@chakra-ui/react'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
 import HabitCell from '../HabitCell'
@@ -11,11 +12,11 @@ const DailyHabitsList: React.FunctionComponent<{
     )
 
     return (
-        <div className='triple-grid' style={{ marginTop: '1rem' }}>
+        <SimpleGrid columns={3} gap={4} mt={4}>
             {attachedHabits?.map((habit) => (
                 <HabitCell key={habit.id} habit={habit} />
             ))}
-        </div>
+        </SimpleGrid>
     )
 }
 

@@ -50,9 +50,9 @@ const GoalConfiguration: React.FunctionComponent<{
                         </Tab>
                     ))}
                 </TabList>
-                <TabPanels mt={-4}>
+                <TabPanels>
                     {tabs.map(({ Component, shortName }, key) => (
-                        <TabPanel key={key}>
+                        <TabPanel key={key} p={0}>
                             <Component
                                 key={key}
                                 shortName={shortName}

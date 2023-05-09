@@ -24,7 +24,12 @@ const HabitsList: React.FunctionComponent<{
     }
 
     if (habits.length === 0) {
-        return <NoDocsYet name={HABITS} setAddFormOpen={setAddHabitsFormOpen} />
+        return (
+            <NoDocsYet
+                docType={HABITS}
+                onClick={() => setAddHabitsFormOpen(true)}
+            />
+        )
     }
 
     return (

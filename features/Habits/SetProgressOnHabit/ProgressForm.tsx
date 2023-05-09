@@ -1,24 +1,41 @@
 import { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import moment from 'moment'
+import { Flex, Heading, Button } from '@chakra-ui/react'
 
 import { FormModal } from '../../../components/Form/FormModal'
-import { Button } from '../../../components/UIElements/Button'
-import { Dispatch } from '../../../typings'
-import { Input } from '../../../components/Form/Input'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
 import { getCurrentProgress, updateHabitProgress } from '../helpers'
 import { auth } from '../../../firebase/firebase'
 import { Habit } from '../habits.types'
 import { formatDate } from '../../../helpers/date-manipulation-functions'
+import { Input } from '../../../components/Form/ChakraInput'
 
-import styles from './SetProgressOnHabit.module.scss'
+const btnStyle = {
+    h: 'auto',
+    py: 2,
+    px: 4,
+    fontSize: 'md',
+    bg: 'transparent',
+    boxShadow: 'none',
+    color: 'purple.500',
+    border: 'solid',
+    borderWidth: 2,
+    borderColor: 'purple.500',
+    fontWeight: 600,
+    _hover: {
+        transform: 'none',
+        color: 'neutral.50',
+        boxShadow: 'none',
+        backgroundColor: 'purple.500'
+    }
+}
 
 export const ProgressForm: React.FunctionComponent<{
     progressFormOpen: boolean
-    setProgressFormOpen: Dispatch<boolean>
+    onProgressFormClose: () => void
     habit: Habit
-}> = ({ progressFormOpen, setProgressFormOpen, habit }) => {
+}> = ({ progressFormOpen, onProgressFormClose, habit }) => {
     const currentProgress = getCurrentProgress(habit)
     const [progressValue, setProgressValue] = useState<number>(currentProgress)
     const [user] = useAuthState(auth)
@@ -47,7 +64,7 @@ export const ProgressForm: React.FunctionComponent<{
             userID: user?.uid ?? '',
             completed
         })
-        setProgressFormOpen(false)
+        onProgressFormClose()
     }
     const toggleText = completed ? 'Completed!' : 'Set as completed'
 
@@ -55,60 +72,70 @@ export const ProgressForm: React.FunctionComponent<{
         <>
             {progressFormOpen && (
                 <FormModal
-                    setFormOpen={setProgressFormOpen}
+                    formOpen={progressFormOpen}
+                    onFormClose={onProgressFormClose}
                     onSubmit={handleSubmit}
                     title='Set Progress'
                 >
-                    <div className={styles.progressFormInputContainer}>
-                        <h3>Current progress: </h3>
+                    <Flex alignItems='center' justifyContent='space-between'>
+                        <Heading fontSize='lg' fontWeight={600} width='100%'>
+                            Current progress:{' '}
+                        </Heading>
                         <Input
                             type='number'
                             onChange={(e) => setProgressValue(+e.target.value)}
                             value={progressValue}
                             min={0}
                         />
-                    </div>
+                    </Flex>
 
-                    <div className={styles.valueChangesHolder}>
+                    <Flex
+                        alignItems='center'
+                        justifyContent='space-between'
+                        mt={6}
+                    >
                         <ToggleSwitch
                             text={toggleText}
-                            checked={completed}
+                            isChecked={completed}
                             onChange={handleToggleSwitchChange}
                         />
 
-                        <div className={styles.btnHolders}>
+                        <Flex
+                            alignItems='center'
+                            justifyContent='flex-end'
+                            gap={2}
+                        >
                             <Button
                                 type='button'
-                                text='- 1'
-                                btnClass='button-secondary'
                                 onClick={() =>
                                     setProgressValue((prev) =>
                                         prev === 0 ? 0 : prev - 1
                                     )
                                 }
-                            />
+                                {...btnStyle}
+                            >
+                                - 1
+                            </Button>
                             <Button
                                 type='button'
-                                text='Reset'
-                                btnClass='button-secondary'
                                 onClick={() => setProgressValue(0)}
-                            />
+                                {...btnStyle}
+                            >
+                                Reset
+                            </Button>
                             <Button
                                 type='button'
-                                text='+ 1'
-                                btnClass='button-secondary'
                                 onClick={() =>
                                     setProgressValue((prev) => prev + 1)
                                 }
-                            />
-                        </div>
-                    </div>
+                                {...btnStyle}
+                            >
+                                + 1
+                            </Button>
+                        </Flex>
+                    </Flex>
 
-                    <Button
-                        text='Set progress'
-                        btnClass='button-primary'
-                        type='submit'
-                    />
+                    <Button type='submit'>Set progress</Button>
                 </FormModal>
             )}
         </>

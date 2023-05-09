@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { isEqual } from 'lodash'
+import { Flex, Button } from '@chakra-ui/react'
 
 import CustomSelect from '../../../components/Form/CustomSelect'
-import { Button } from '../../../components/UIElements/Button'
 import { Habit } from '../../Habits/habits.types'
 import { Goal } from '../goals.types'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
 import { GOALS, DAILY_HABITS, WEEKLY_HABITS } from '../constants'
-
-import styles from '../goal.module.scss'
+import SaveIcon from '../../../components/Icons/SaveIcon'
 
 const UpdateHabitsList: React.FunctionComponent<{
     allHabits: Habit[] | undefined
@@ -73,13 +72,12 @@ const UpdateHabitsList: React.FunctionComponent<{
         setLoading(false)
     }
 
-    const btnClass = !isEqual(habitIds, existingHabits)
-        ? 'button-primary'
-        : 'button-disabled'
     const disabled = isEqual(habitIds, existingHabits)
+    const btnVariant = disabled ? 'disabled' : 'primary'
+    const btnTextColor = disabled ? 'purple.300' : 'neutral.50'
 
     return (
-        <div className={styles.updateHabits}>
+        <Flex gap={4}>
             <CustomSelect
                 options={habitsOptions}
                 isMulti
@@ -87,14 +85,18 @@ const UpdateHabitsList: React.FunctionComponent<{
                 onChange={onChange}
             />
             <Button
-                text='Save'
-                btnClass={btnClass}
-                type='button'
+                variant={btnVariant}
                 disabled={disabled}
-                onClick={onSubmit}
+                onClick={disabled ? () => {} : onSubmit} // This is necessary since submiting even when disablded was occuring
                 isLoading={loading}
-            />
-        </div>
+                color={btnTextColor}
+                p={4}
+                height='54px'
+                boxShadow='inset'
+            >
+                <SaveIcon />
+            </Button>
+        </Flex>
     )
 }
 

@@ -1,6 +1,8 @@
 import { extendTheme } from '@chakra-ui/react'
 
 import { Button } from './components/button'
+import { Switch } from './components/switch'
+import { Tooltip } from './components/tooltip'
 import { breakpoints } from './breakpoints'
 import { colors } from './colors'
 import { fonts } from './fonts'
@@ -17,7 +19,9 @@ const overrides = {
     },
     components: {
         Button,
-        Link: { ...Button } // Use the same style as Button
+        Link: { ...Button }, // Use the same style as Button
+        Switch,
+        Tooltip
     }
 }
 

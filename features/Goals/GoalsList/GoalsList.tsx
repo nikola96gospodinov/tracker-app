@@ -23,7 +23,7 @@ const GoalsList: React.FunctionComponent<{
 
     if (goals.length === 0)
         return (
-            <NoDocsYet docType={GOALS} setAddFormOpen={setAddGoalsFormOpen} />
+            <NoDocsYet docType={GOALS} onClick={() => setAddGoalsFormOpen()} />
         )
 
     return (

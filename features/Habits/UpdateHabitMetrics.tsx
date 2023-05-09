@@ -23,7 +23,8 @@ export const UpdateHabitMetrics: React.FunctionComponent<{
                         completedToday,
                         userID: user?.uid
                     })}
-                    checked={completedToday}
+                    isChecked={completedToday}
+                    size='sm'
                 />
             ) : (
                 <SetProgressOnHabit habit={habit} />

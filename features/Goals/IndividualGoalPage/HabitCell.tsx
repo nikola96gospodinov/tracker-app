@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Box, Flex, Heading, Text, Tooltip } from '@chakra-ui/react'
 
 import { Habit } from '../../Habits/habits.types'
 import {
@@ -6,18 +6,16 @@ import {
     getHabitCompletionIcon,
     isHabitCompleted
 } from '../../Habits/helpers'
-
-import styles from '../goal.module.scss'
+import { Link } from '../../../components/UIElements/Link'
 import { UpdateHabitMetrics } from '../../Habits/UpdateHabitMetrics'
+import { formatDateForUI } from '../../../helpers/date-manipulation-functions'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
     const lastCompleted = habit.currentStreak?.end
     const completed = isHabitCompleted(habit)
-    const completedClass = completed
-        ? styles.completedHabitCell
-        : styles.incompletedHabitCell
+    const color = completed ? 'green.500' : 'yellow.500'
     const Icon = getHabitCompletionIcon(completed)
     const currentStreak = getCurrentStreak({
         lastCompleted,
@@ -25,24 +23,71 @@ const HabitCell: React.FunctionComponent<{
         type: habit.type
     })
 
+    const getToolTipLabel = (): string => {
+        if (completed && habit.type === 'daily') {
+            return 'Completed today'
+        }
+
+        if (completed && habit.type === 'weekly') {
+            return 'Completed this week'
+        }
+
+        if (!completed && habit.type === 'daily') {
+            return `Not completed today. Last completed ${
+                lastCompleted ? formatDateForUI(lastCompleted) : 'never'
+            }`
+        }
+
+        if (!completed && habit.type === 'weekly') {
+            console.log('lastCompleted', lastCompleted)
+            return `Not completed this week. Last completed ${
+                lastCompleted ? lastCompleted : 'never'
+            }`
+        }
+
+        return ''
+    }
+
     return (
-        <div className={`${styles.habitCell} ${completedClass}`}>
-            <div className={styles.wrapper}>
-                <Link href={`/habits/${habit.urlPath}`}>
-                    <a className={styles.habitLink}>
-                        <h3>{habit.name}</h3>
-                    </a>
+        <Box
+            p={4}
+            boxShadow='inset'
+            bg='white'
+            borderRadius='2xl'
+            borderTop='solid'
+            borderTopWidth={3}
+            borderTopColor={color}
+        >
+            <Flex alignItems='center' justifyContent='space-between'>
+                <Link
+                    variant='link'
+                    href={`/habits/${habit.urlPath}`}
+                    color='neutral.900'
+                    _hover={{ textDecoration: 'none', color: 'purple.600' }}
+                >
+                    <Heading as='h3' fontSize='lg' fontWeight={600}>
+                        {habit.name}
+                    </Heading>
                 </Link>
-                <span>🔥{currentStreak}</span>
-            </div>
-            <p>
+                <Text>🔥{currentStreak}</Text>
+            </Flex>
+            <Text>
                 🎯 {habit.target} {habit.metric} {habit.type}
-            </p>
-            <div className={styles.wrapper}>
+            </Text>
+            <Flex alignItems='center' justifyContent='space-between' mt={4}>
                 <UpdateHabitMetrics habit={habit} />
-                <Icon className={styles.habitCellIcon} />
-            </div>
-        </div>
+                <Tooltip
+                    label={getToolTipLabel()}
+                    aria-label='A tooltip'
+                    placement='right'
+                >
+                    {/* For the tooltip to work the icon needs to be wrapped in a span */}
+                    <Text as='span'>
+                        <Icon boxSize={5} color={color} />
+                    </Text>
+                </Tooltip>
+            </Flex>
+        </Box>
     )
 }
 

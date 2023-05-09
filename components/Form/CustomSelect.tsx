@@ -6,9 +6,13 @@ const CustomSelect: React.FunctionComponent<
     <Select
         {...props}
         styles={{
+            container: (baseStyles) => ({
+                ...baseStyles,
+                flexGrow: 1
+            }),
             control: (baseStyles) => ({
                 ...baseStyles,
-                padding: '0.5rem',
+                padding: '0.5rem .1rem',
                 borderRadius: '0.5rem',
                 border: 'none',
                 background: '#D9E2EC',

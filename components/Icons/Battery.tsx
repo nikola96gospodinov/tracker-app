@@ -51,7 +51,7 @@ const getIconType = (percentageComplete: number): keyof typeof BatteryIcons => {
 
 const BatteryIcon: React.FunctionComponent<
     IconProps & { current?: number; total?: number }
-> = ({ onClick, className, current, total }) => {
+> = ({ onClick, className, current, total, ...iconProps }) => {
     // if no values are provided it's always going to be full
     const percentageComplete = calculateProgressPercentage(
         current ?? 100,
@@ -68,6 +68,7 @@ const BatteryIcon: React.FunctionComponent<
             color={iconColor}
             onClick={onClick}
             className={className}
+            {...iconProps}
         />
     )
 }

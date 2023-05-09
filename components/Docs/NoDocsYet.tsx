@@ -1,10 +1,9 @@
 import { Button, Flex, Text } from '@chakra-ui/react'
-import { Dispatch } from '../../typings'
 
 const NoDocsYet: React.FunctionComponent<{
     docType: string
-    setAddFormOpen: Dispatch<boolean>
-}> = ({ docType, setAddFormOpen }) => (
+    onClick: () => void
+}> = ({ docType, onClick }) => (
     <Flex
         alignItems='center'
         justifyContent='center'
@@ -13,7 +12,7 @@ const NoDocsYet: React.FunctionComponent<{
         py={8}
     >
         <Text fontSize='2xl'>No {docType} yet. 🤔 Let&apos;s add some!</Text>
-        <Button onClick={() => setAddFormOpen(true)}>Add {docType}</Button>
+        <Button onClick={onClick}>Add {docType}</Button>
     </Flex>
 )
 

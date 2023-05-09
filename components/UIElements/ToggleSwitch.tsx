@@ -1,18 +1,14 @@
-import { HTMLInputWithoutTypeAndName } from '../../typings'
-import styles from './toggleSwitch.module.scss'
+import { Flex, Switch, SwitchProps, Text } from '@chakra-ui/react'
 
 const ToggleSwitch: React.FunctionComponent<
     {
         text?: string
-    } & HTMLInputWithoutTypeAndName
+    } & SwitchProps
 > = ({ text, ...args }) => (
-    <div className={styles.toggleWrapper}>
-        <label className={styles.toggle}>
-            <input type='checkbox' name='complete' {...args} />
-            <span></span>
-        </label>
-        <label htmlFor='complete'>{text}</label>
-    </div>
+    <Flex alignItems='center'>
+        <Switch {...args} colorScheme='purple' />
+        <Text ml={2}>{text}</Text>
+    </Flex>
 )
 
 export default ToggleSwitch

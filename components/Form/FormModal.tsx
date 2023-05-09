@@ -27,7 +27,7 @@ export const FormModal: React.FunctionComponent<{
     isFormError,
     formError
 }) => (
-    <Modal isOpen={formOpen} onClose={onFormClose}>
+    <Modal isOpen={formOpen} onClose={onFormClose} isCentered={true}>
         <ModalOverlay backdropFilter='blur(10px)' />
         <ModalContent borderRadius='xl' p={8} bg='neutral.50'>
             {title && (

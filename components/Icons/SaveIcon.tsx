@@ -5,7 +5,15 @@ import { IconProps } from './types.icons'
 
 const SaveIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className
-}) => <Icon as={RiSaveFill} className={className} onClick={onClick} />
+    className,
+    ...iconProps
+}) => (
+    <Icon
+        as={RiSaveFill}
+        className={className}
+        onClick={onClick}
+        {...iconProps}
+    />
+)
 
 export default SaveIcon

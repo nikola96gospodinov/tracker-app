@@ -1,9 +1,19 @@
-import { Flex, Spinner as SpinnerComponent, Text } from '@chakra-ui/react'
+import {
+    Flex,
+    FlexProps,
+    Spinner as SpinnerComponent,
+    Text
+} from '@chakra-ui/react'
 
-export const Spinner: React.FunctionComponent<{ text?: string }> = ({
-    text
-}) => (
-    <Flex flexDir='column' alignItems='center' justifyContent='center'>
+export const Spinner: React.FunctionComponent<
+    { text?: string } & FlexProps
+> = ({ text, ...flexProps }) => (
+    <Flex
+        flexDir='column'
+        alignItems='center'
+        justifyContent='center'
+        {...flexProps}
+    >
         <SpinnerComponent
             thickness='0.25rem'
             speed='1s'

@@ -6,32 +6,30 @@ import EditIcon from '../../../components/Icons/EditIcon'
 import style from './SetProgressOnHabit.module.scss'
 import { ProgressForm } from './ProgressForm'
 import { getCurrentProgress } from '../helpers'
+import { Flex, Text, useDisclosure } from '@chakra-ui/react'
 
 const SetProgressOnHabit: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
-    const [progressFormOpen, setProgressFormOpen] = useState(false)
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const progress = getCurrentProgress(habit)
 
     return (
         <>
-            <div className={style.progressInputWrapper}>
+            <Flex gap={3} alignItems='center'>
                 <BatteryIcon
-                    className={style.progressIcon}
                     current={progress}
                     total={habit.target}
+                    boxSize={6}
                 />
-                <strong>
+                <Text fontWeight={700}>
                     {progress} / {habit.target}
-                </strong>
-                <EditIcon
-                    className={style.editIcon}
-                    onClick={() => setProgressFormOpen(true)}
-                />
-            </div>
+                </Text>
+                <EditIcon onClick={onOpen} cursor='pointer' mt={0.5} />
+            </Flex>
             <ProgressForm
-                progressFormOpen={progressFormOpen}
-                setProgressFormOpen={setProgressFormOpen}
+                progressFormOpen={isOpen}
+                onProgressFormClose={onClose}
                 habit={habit}
             />
         </>

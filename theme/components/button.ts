@@ -51,7 +51,7 @@ export const Button = {
             }
         },
         disabled: {
-            backgroundColor: 'neutral.50',
+            backgroundColor: 'purple.50',
             color: 'purple.500',
             border: 'none',
             boxShadow: 'none',

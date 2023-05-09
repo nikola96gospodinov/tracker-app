@@ -1,7 +1,5 @@
-import { Flex, Heading } from '@chakra-ui/react'
+import { Flex, Heading, Button } from '@chakra-ui/react'
 import { FunctionComponent, ReactNode } from 'react'
-
-import AddIcon from '../Icons/AddIcon'
 
 export const DocHeader: FunctionComponent<{
     heading: ReactNode
@@ -11,11 +9,18 @@ export const DocHeader: FunctionComponent<{
         <Heading as='h1' fontWeight={600} fontSize='3xl'>
             {heading}
         </Heading>
-        <AddIcon
+        <Button
             onClick={onClick}
-            boxSize={8}
-            fill='purple.600'
-            cursor='pointer'
-        />
+            fontSize='4xl'
+            color='green.900'
+            bg='green.100'
+            borderRadius='50%'
+            boxShadow='inset'
+            p={0}
+            fontWeight={900}
+            _hover={{ bg: 'green.50' }}
+        >
+            +
+        </Button>
     </Flex>
 )
