@@ -1,4 +1,6 @@
 import { useContext } from 'react'
+import { Box } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 import { Spinner } from '../../../../components/UIElements/Spinner'
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
@@ -6,15 +8,17 @@ import { HABITS } from '../../../Habits/constants'
 import { Habit } from '../../../Habits/habits.types'
 import { Goal } from '../../goals.types'
 import UpdateHabitsList from '../UpdateHabitList'
-import NoHabits from '../NoHabits'
 import WeeklyHabitsList from './WeeklyHabitsList'
 import { UserContext } from '../../../../context/userContext'
+import { ErrorFetchingDocs } from '../../../../components/Docs/ErrorFetchingDocs'
+import NoDocsYet from '../../../../components/Docs/NoDocsYet'
 
 const WeeklyHabitsContent: React.FunctionComponent<{
     goal: Goal | undefined
     newElementAdded: boolean
     shortName: string
 }> = ({ goal, newElementAdded, shortName }) => {
+    const router = useRouter()
     const { userId } = useContext(UserContext)
     const {
         docs: weeklyTargets,
@@ -28,25 +32,21 @@ const WeeklyHabitsContent: React.FunctionComponent<{
         value: 'weekly'
     })
 
-    if (loading) {
-        return <Spinner />
-    }
+    if (loading) return <Spinner mt={8} />
 
-    if (errorFetching) {
-        return (
-            <p>
-                There was an error fetching your targets. Please refresh the
-                page and try again.
-            </p>
-        )
-    }
+    if (errorFetching) return <ErrorFetchingDocs docType={HABITS} />
 
     const noWeeklyTargets = weeklyTargets?.length === 0 || !weeklyTargets
     const showUpdateTargetsList = newElementAdded
 
     return (
-        <div style={{ marginTop: '2rem' }}>
-            {noWeeklyTargets && <NoHabits shortName={shortName} />}
+        <Box mt={8}>
+            {noWeeklyTargets && (
+                <NoDocsYet
+                    docType={shortName}
+                    onClick={() => router.push('/habits')}
+                />
+            )}
             {showUpdateTargetsList && (
                 <UpdateHabitsList
                     allHabits={weeklyTargets}
@@ -59,7 +59,7 @@ const WeeklyHabitsContent: React.FunctionComponent<{
             {goal && (
                 <WeeklyHabitsList goal={goal} weeklyTargets={weeklyTargets} />
             )}
-        </div>
+        </Box>
     )
 }
 

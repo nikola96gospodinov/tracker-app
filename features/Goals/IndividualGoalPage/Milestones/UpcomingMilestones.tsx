@@ -1,14 +1,16 @@
 import { useState, useMemo } from 'react'
+import { Td, Tr, Checkbox, Flex, Text, Tooltip } from '@chakra-ui/react'
+import moment from 'moment'
 
 import { Milestone } from '../../goals.types'
-
-import styles from '../../goal.module.scss'
 import { formatDateForUI } from '../../../../helpers/date-manipulation-functions'
 import EditIcon from '../../../../components/Icons/EditIcon'
 import DeleteIcon from '../../../../components/Icons/DeleteIcon'
-import Checkbox from '../../../../components/Form/Checkbox'
 import SaveIcon from '../../../../components/Icons/SaveIcon'
 import CloseIcon from '../../../../components/Icons/CloseIcon'
+import { trStyles, inputStyles, iconStyles, iconHoverStyles } from './data'
+import DangerIcon from '../../../../components/Icons/DangerIcon'
+import { Input } from '../../../../components/Form/ChakraInput'
 
 export const UpcomingMilestones: React.FunctionComponent<{
     relevantMilestones: Milestone[]
@@ -50,75 +52,124 @@ export const UpcomingMilestones: React.FunctionComponent<{
         <>
             {upcomingMilestones?.map((milestone) => {
                 const isActiveMilestone = milestone.id == activeMilestone?.id
-                const trClass = isActiveMilestone
-                    ? styles.newMilestone
-                    : styles.upcomingMilestones
                 const formattedDeadline =
                     milestone.deadline === ''
                         ? 'N/A'
                         : formatDateForUI(milestone.deadline)
+                const isPastDeadline = moment(milestone.deadline).isBefore(
+                    moment()
+                )
 
                 return (
-                    <tr key={milestone.id} className={trClass}>
-                        <td>
-                            <Checkbox onClick={() => handleToggle(milestone)} />
-                        </td>
-                        <td>
+                    <Tr
+                        key={milestone.id}
+                        {...trStyles}
+                        bg={isActiveMilestone ? 'white' : 'none'}
+                    >
+                        <Td>
+                            <Flex alignContent='center' justifyContent='center'>
+                                <Checkbox
+                                    onChange={() => handleToggle(milestone)}
+                                    checked
+                                />
+                            </Flex>
+                        </Td>
+                        <Td>
                             {isActiveMilestone ? (
-                                <input
+                                <Input
                                     value={name ?? milestone.name}
                                     type='text'
                                     onChange={(e) => {
                                         setName(e.target.value)
                                     }}
+                                    {...inputStyles}
                                 />
                             ) : (
-                                <span>{milestone.name}</span>
+                                <Text>{milestone.name}</Text>
                             )}
-                        </td>
-                        <td>
+                        </Td>
+                        <Td>
                             {isActiveMilestone ? (
-                                <input
+                                <Input
                                     value={deadline ?? milestone.deadline}
                                     type='date'
                                     onChange={(e) => {
                                         setDeadline(e.target.value)
                                     }}
+                                    {...inputStyles}
                                 />
                             ) : (
-                                <span>{formattedDeadline}</span>
+                                <Text>
+                                    {formattedDeadline}{' '}
+                                    {isPastDeadline && (
+                                        <Tooltip label='Past the deadline'>
+                                            <Text as='span'>
+                                                <DangerIcon
+                                                    ml={1}
+                                                    color='red.600'
+                                                />
+                                            </Text>
+                                        </Tooltip>
+                                    )}
+                                </Text>
                             )}
-                        </td>
-                        <td>
-                            {isActiveMilestone ? (
-                                <>
-                                    <SaveIcon
-                                        onClick={() =>
-                                            handleEdit(
-                                                name ?? milestone.name,
-                                                deadline ?? milestone.deadline
-                                            )
-                                        }
-                                    />
-                                    <CloseIcon onClick={handleCancelClick} />
-                                </>
-                            ) : (
-                                <>
-                                    <EditIcon
-                                        onClick={() =>
-                                            handleEditClick(milestone)
-                                        }
-                                    />
-                                    <DeleteIcon
-                                        className={styles.delete}
-                                        onClick={() =>
-                                            handleDeleteWarning(milestone)
-                                        }
-                                    />
-                                </>
-                            )}
-                        </td>
-                    </tr>
+                        </Td>
+                        <Td>
+                            <Flex justifyContent='flex-end' alignItems='center'>
+                                {isActiveMilestone ? (
+                                    <>
+                                        <SaveIcon
+                                            onClick={() =>
+                                                handleEdit(
+                                                    name ?? milestone.name,
+                                                    deadline ??
+                                                        milestone.deadline
+                                                )
+                                            }
+                                            {...iconStyles}
+                                            mr={2}
+                                            _hover={{
+                                                ...iconHoverStyles,
+                                                color: 'green.500'
+                                            }}
+                                        />
+                                        <CloseIcon
+                                            onClick={handleCancelClick}
+                                            {...iconStyles}
+                                            _hover={{
+                                                ...iconHoverStyles,
+                                                color: 'red.500'
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        <EditIcon
+                                            onClick={() =>
+                                                handleEditClick(milestone)
+                                            }
+                                            {...iconStyles}
+                                            mr={2}
+                                            _hover={{
+                                                ...iconHoverStyles,
+                                                color: 'yellow.700'
+                                            }}
+                                        />
+                                        <DeleteIcon
+                                            onClick={() =>
+                                                handleDeleteWarning(milestone)
+                                            }
+                                            {...iconStyles}
+                                            _hover={{
+                                                ...iconHoverStyles,
+                                                color: 'red.500'
+                                            }}
+                                        />
+                                    </>
+                                )}
+                            </Flex>
+                        </Td>
+                    </Tr>
                 )
             })}
         </>

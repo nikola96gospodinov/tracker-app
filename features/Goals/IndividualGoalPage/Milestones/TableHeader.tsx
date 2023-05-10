@@ -1,3 +1,5 @@
+import { Flex, Th, Thead, Tr } from '@chakra-ui/react'
+
 import LoadingIcon from '../../../../components/Icons/LoadingIcon'
 
 export const TableHeader = () => (
@@ -8,17 +10,17 @@ export const TableHeader = () => (
             <col style={{ width: '40%' }} />
             <col style={{ width: '15%' }} />
         </colgroup>
-        <tr>
-            <th>
-                <LoadingIcon />
-            </th>
-            <th>
-                <span>Name</span>
-            </th>
-            <th>
-                <span>Deadline</span>
-            </th>
-            <th></th>
-        </tr>
+        <Thead bg='neutral.100' boxShadow='inset'>
+            <Tr>
+                <Th>
+                    <Flex alignItems='center' justifyContent='center'>
+                        <LoadingIcon />
+                    </Flex>
+                </Th>
+                <Th>Name</Th>
+                <Th>Deadline</Th>
+                <Th></Th>
+            </Tr>
+        </Thead>
     </>
 )

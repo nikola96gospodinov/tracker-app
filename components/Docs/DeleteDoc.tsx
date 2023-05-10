@@ -1,14 +1,5 @@
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useState } from 'react'
-
-import { HABITS } from '../../features/Habits/constants'
-import { Habit } from '../../features/Habits/habits.types'
-import { removeHabitFromGoalsOnDelete } from '../../features/Habits/helpers'
-import { removeDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
-import { removeLastCharacter } from '../../helpers/string-manipulation-functions'
-import { useGetRelevantGoals } from '../../hooks/useGetRelevantGoals'
-import { Doc } from '../../types/crud-opearations.types'
-import { UserContext } from '../../context/userContext'
 import {
     Button,
     Modal,
@@ -18,34 +9,47 @@ import {
     ModalOverlay,
     Text
 } from '@chakra-ui/react'
+
+import { HABITS } from '../../features/Habits/constants'
+import { Habit } from '../../features/Habits/habits.types'
+import { removeHabitFromGoalsOnDelete } from '../../features/Habits/helpers'
+import { removeDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
+import { removeLastCharacter } from '../../helpers/string-manipulation-functions'
+import { useGetRelevantGoals } from '../../hooks/useGetRelevantGoals'
+import { Doc } from '../../types/crud-opearations.types'
+import { UserContext } from '../../context/userContext'
 import { FormError } from '../Form/FormError'
 
 interface Props<T> {
     isDeleteWarningOpen: boolean
     onDeleteWarningClose: () => void
-    doc: T
     path: string
+    doc?: T
+    customHandleDelete?: () => void
+    customHandleCancel?: () => void
 }
 
 const DeleteDoc = <T extends Doc>({
     isDeleteWarningOpen,
     onDeleteWarningClose,
     doc,
-    path
+    path,
+    customHandleDelete,
+    customHandleCancel
 }: Props<T>) => {
     const { userId } = useContext(UserContext)
     const router = useRouter()
     const [error, setError] = useState(false)
     const singularPath = removeLastCharacter(path)
     const { relevantGoals } = useGetRelevantGoals({
-        habitID: doc.id,
-        habitType: doc.hasOwnProperty('type') ? (doc as Habit).type : 'daily'
+        habitID: doc?.id ?? '',
+        habitType: doc?.hasOwnProperty('type') ? (doc as Habit).type : 'daily'
     })
 
     const handleDelete = useCallback(() => {
         removeDoc({
             path,
-            orgDoc: doc,
+            orgDoc: doc!,
             userID: userId,
             router,
             setError
@@ -55,7 +59,7 @@ const DeleteDoc = <T extends Doc>({
             removeHabitFromGoalsOnDelete({
                 userID: userId,
                 relevantGoals,
-                habitID: doc.id
+                habitID: doc?.id ?? ''
             })
         }
     }, [doc, path, userId])
@@ -80,10 +84,16 @@ const DeleteDoc = <T extends Doc>({
                     justifyContent='center'
                     gap={4}
                 >
-                    <Button onClick={handleDelete} variant='delete'>
+                    <Button
+                        onClick={customHandleDelete ?? handleDelete}
+                        variant='delete'
+                    >
                         Delete
                     </Button>
-                    <Button onClick={onDeleteWarningClose} variant='tertiary'>
+                    <Button
+                        onClick={customHandleCancel ?? onDeleteWarningClose}
+                        variant='tertiary'
+                    >
                         Cancel
                     </Button>
                 </ModalFooter>

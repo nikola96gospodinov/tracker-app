@@ -18,7 +18,7 @@ import {
 } from './constants'
 import DailyHabits from './IndividualGoalPage/DailyHabits/DailyHabits'
 import Milestones from './IndividualGoalPage/Milestones/Milestones'
-import WeeklyTargets from './IndividualGoalPage/WeeklyHabits/WeeklyHabits'
+import WeeklyHabits from './IndividualGoalPage/WeeklyHabits/WeeklyHabits'
 
 export const goalsIcons = {
     health: {
@@ -107,7 +107,7 @@ export const tabs = [
     {
         name: WEEKLY_HABITS_CAPITALIZED,
         shortName: WEEKLY_HABITS,
-        Component: WeeklyTargets
+        Component: WeeklyHabits
     },
     {
         name: MILESTONES_CAPITALIZED,

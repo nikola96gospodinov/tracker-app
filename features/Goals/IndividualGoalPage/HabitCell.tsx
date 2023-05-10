@@ -39,7 +39,6 @@ const HabitCell: React.FunctionComponent<{
         }
 
         if (!completed && habit.type === 'weekly') {
-            console.log('lastCompleted', lastCompleted)
             return `Not completed this week. Last completed ${
                 lastCompleted ? lastCompleted : 'never'
             }`

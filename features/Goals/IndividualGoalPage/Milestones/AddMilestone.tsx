@@ -1,13 +1,15 @@
 import { Dispatch, useRef, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { Td, Tr, Checkbox, Text, Flex, useToast } from '@chakra-ui/react'
 
 import { addMilestone } from './helpers/crud-operations-milestones'
 import { Milestone } from '../../goals.types'
 import DeleteIcon from '../../../../components/Icons/DeleteIcon'
-import Checkbox from '../../../../components/Form/Checkbox'
 
 import styles from '../../goal.module.scss'
 import SaveIcon from '../../../../components/Icons/SaveIcon'
+import { Input } from '../../../../components/Form/ChakraInput'
+import { iconHoverStyles, iconStyles, inputStyles } from './data'
 
 export const AddMilestone: React.FunctionComponent<{
     setNewElementAdded: Dispatch<boolean>
@@ -18,6 +20,8 @@ export const AddMilestone: React.FunctionComponent<{
     const deadlineRef = useRef<HTMLInputElement>(null)
     const [error, setError] = useState(false)
     const [submitError, setSubmitError] = useState(false)
+
+    const toast = useToast()
 
     const onDelete = useCallback(() => {
         if (nameRef.current) nameRef.current.value = ''
@@ -39,7 +43,8 @@ export const AddMilestone: React.FunctionComponent<{
             addMilestone({
                 newMilestone,
                 userID,
-                setSubmitError
+                setSubmitError,
+                toast
             })
             if (!submitError) {
                 setNewElementAdded(false)
@@ -47,28 +52,55 @@ export const AddMilestone: React.FunctionComponent<{
                 deadlineRef.current!.value = ''
             }
         }
-    }, [])
+    }, [goalID, setNewElementAdded, submitError, userID])
 
     return (
-        <tr className={styles.newMilestone}>
-            <td>
-                <Checkbox disabled />
-            </td>
-            <td style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
-                <input type='text' ref={nameRef} />
+        <Tr>
+            <Td>
+                <Checkbox
+                    disabled
+                    border='solid'
+                    opacity={0.5}
+                    borderColor='purple.500'
+                    borderRadius='sm'
+                    borderWidth='2px'
+                    transform='scale(0.85)'
+                />
+            </Td>
+            <Td>
+                <Input type='text' ref={nameRef} {...inputStyles} />
                 {error && (
-                    <span style={{ marginBottom: '0' }} className='field-error'>
+                    <Text fontSize='sm' color='red.600'>
                         Please fill in this field
-                    </span>
+                    </Text>
                 )}
-            </td>
-            <td>
-                <input type='date' ref={deadlineRef} />
-            </td>
-            <td>
-                <SaveIcon className={styles.save} onClick={onSave} />{' '}
-                <DeleteIcon className={styles.delete} onClick={onDelete} />
-            </td>
-        </tr>
+            </Td>
+            <Td>
+                <Input type='date' ref={deadlineRef} {...inputStyles} />
+            </Td>
+            <Td>
+                <Flex justifyContent='flex-end' alignItems='center'>
+                    <SaveIcon
+                        className={styles.save}
+                        onClick={onSave}
+                        {...iconStyles}
+                        _hover={{
+                            ...iconHoverStyles,
+                            color: 'green.500'
+                        }}
+                        mr={2}
+                    />
+                    <DeleteIcon
+                        className={styles.delete}
+                        onClick={onDelete}
+                        {...iconStyles}
+                        _hover={{
+                            ...iconHoverStyles,
+                            color: 'red.500'
+                        }}
+                    />
+                </Flex>
+            </Td>
+        </Tr>
     )
 }

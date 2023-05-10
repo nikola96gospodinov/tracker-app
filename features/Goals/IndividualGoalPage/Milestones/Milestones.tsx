@@ -1,4 +1,10 @@
 import React, { useCallback, useContext, useState } from 'react'
+import {
+    Table,
+    TableContainer,
+    useDisclosure,
+    useToast
+} from '@chakra-ui/react'
 
 import EmptyContent from '../EmptyContent'
 import { Milestone } from '../../goals.types'
@@ -9,15 +15,15 @@ import {
 } from './helpers/crud-operations-milestones'
 import { MILESTONES, MILESTONES_CAPITALIZED } from '../../constants'
 import { TabElementProps } from '../../goals.types'
-
-import styles from '../../goal.module.scss'
 import { AddMilestone } from './AddMilestone'
-import { DeleteModal } from './DeleteModal'
 import { PastMilestones } from './PastMilestones'
 import { TableHeader } from './TableHeader'
 import { UpcomingMilestones } from './UpcomingMilestones'
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
 import { UserContext } from '../../../../context/userContext'
+import { Spinner } from '../../../../components/UIElements/Spinner'
+import { ErrorFetchingDocs } from '../../../../components/Docs/ErrorFetchingDocs'
+import DeleteDoc from '../../../../components/Docs/DeleteDoc'
 
 const Milestones: React.FunctionComponent<TabElementProps> = ({
     goalID,
@@ -27,7 +33,12 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     activeTab
 }) => {
     const { userId } = useContext(UserContext)
-    const { docs: milestones, errorFetching } = useGetFilteredDocs<Milestone>({
+    const toast = useToast()
+    const {
+        docs: milestones,
+        errorFetching,
+        loading
+    } = useGetFilteredDocs<Milestone>({
         userID: userId,
         path: MILESTONES,
         fieldPath: 'goalID',
@@ -35,26 +46,28 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
         value: goalID
     })
     const [activeMilestone, setActiveMilestone] = useState<Milestone>()
-    const [deleteWarning, setDeleteWarning] = useState(false)
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handleDeleteWarning = useCallback((milestone: Milestone) => {
         setActiveMilestone(milestone)
-        setDeleteWarning(true)
+        onOpen()
     }, [])
 
     const handleDelete = useCallback(() => {
         deleteMilestone({
             userID: userId ?? '',
-            milestone: activeMilestone!
+            milestone: activeMilestone!,
+            toast
         })
-        setDeleteWarning(false)
+        onClose()
     }, [milestones, userId, activeMilestone])
 
     const handleToggle = useCallback(
         (milestone: Milestone) => {
             toggleMilestone({
                 userID: userId ?? '',
-                milestone
+                milestone,
+                toast
             })
         },
         [milestones, userId]
@@ -75,7 +88,8 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
             editMilestone({
                 userID: userId ?? '',
                 updatedMilestone,
-                setActiveMilestone
+                setActiveMilestone,
+                toast
             })
         },
         [activeMilestone, milestones, userId]
@@ -85,14 +99,9 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
         setActiveMilestone(undefined)
     }, [])
 
-    if (errorFetching) {
-        return (
-            <p>
-                We had a problem getting your milestones... Please refresh the
-                page
-            </p>
-        )
-    }
+    if (loading) return <Spinner mt={8} />
+
+    if (errorFetching) return <ErrorFetchingDocs docType={MILESTONES} />
 
     const displayEmptyContent = milestones?.length === 0 && !newElementAdded
     const displayContent =
@@ -106,44 +115,49 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
 
             {displayContent && (
                 <>
-                    <table className={styles.milestonesTable}>
-                        <TableHeader />
-                        <PastMilestones
-                            relevantMilestones={milestones ?? []}
-                            handleToggle={handleToggle}
-                            handleDeleteWarning={handleDeleteWarning}
-                            handleEditClick={handleEditClick}
-                            activeMilestone={activeMilestone}
-                            handleCancelClick={handleCancelClick}
-                            handleEdit={handleEdit}
-                        />
-                        <UpcomingMilestones
-                            relevantMilestones={milestones ?? []}
-                            handleToggle={handleToggle}
-                            handleDeleteWarning={handleDeleteWarning}
-                            handleEditClick={handleEditClick}
-                            activeMilestone={activeMilestone}
-                            handleCancelClick={handleCancelClick}
-                            handleEdit={handleEdit}
-                        />
-                        {displayAddMilestone && (
-                            <AddMilestone
-                                setNewElementAdded={setNewElementAdded}
-                                goalID={goalID}
-                                userID={userId ?? ''}
+                    <TableContainer mt={6}>
+                        <Table>
+                            <TableHeader />
+                            <PastMilestones
+                                relevantMilestones={milestones ?? []}
+                                handleToggle={handleToggle}
+                                handleDeleteWarning={handleDeleteWarning}
+                                handleEditClick={handleEditClick}
+                                activeMilestone={activeMilestone}
+                                handleCancelClick={handleCancelClick}
+                                handleEdit={handleEdit}
                             />
-                        )}
-                    </table>
+                            <UpcomingMilestones
+                                relevantMilestones={milestones ?? []}
+                                handleToggle={handleToggle}
+                                handleDeleteWarning={handleDeleteWarning}
+                                handleEditClick={handleEditClick}
+                                activeMilestone={activeMilestone}
+                                handleCancelClick={handleCancelClick}
+                                handleEdit={handleEdit}
+                            />
+                            {displayAddMilestone && (
+                                <AddMilestone
+                                    setNewElementAdded={setNewElementAdded}
+                                    goalID={goalID}
+                                    userID={userId ?? ''}
+                                />
+                            )}
+                        </Table>
+                    </TableContainer>
                 </>
             )}
 
-            {deleteWarning && (
-                <DeleteModal
-                    handleDelete={handleDelete}
-                    setDeleteWarning={setDeleteWarning}
-                    setActiveMilestone={setActiveMilestone}
-                />
-            )}
+            <DeleteDoc
+                path={MILESTONES}
+                isDeleteWarningOpen={isOpen}
+                onDeleteWarningClose={onClose}
+                customHandleDelete={handleDelete}
+                customHandleCancel={() => {
+                    onClose()
+                    setActiveMilestone(undefined)
+                }}
+            />
         </>
     )
 }
