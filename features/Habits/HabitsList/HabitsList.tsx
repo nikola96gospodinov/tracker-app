@@ -1,43 +1,42 @@
+import { SimpleGrid } from '@chakra-ui/react'
+
+import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
 import NoDocsYet from '../../../components/Docs/NoDocsYet'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import useGetDocs from '../../../hooks/useGetDocs'
 import { HABITS } from '../constants'
 import { Habit } from '../habits.types'
-import { Dispatch } from '../../../typings'
 import { HabitBox } from './HabitBox'
 
 const HabitsList: React.FunctionComponent<{
     userID: string
-    setAddHabitsFormOpen: Dispatch<boolean>
-}> = ({ userID, setAddHabitsFormOpen }) => {
+    onAddHabitsFormOpen: () => void
+}> = ({ userID, onAddHabitsFormOpen }) => {
     const { docs: habits, errorFetching } = useGetDocs<Habit>({
         userID,
         path: HABITS
     })
 
-    if (errorFetching) {
-        return <p>There was an error</p>
-    }
+    if (errorFetching) return <ErrorFetchingDocs docType={HABITS} />
 
-    if (!habits) {
-        return <Spinner />
-    }
+    if (!habits) return <Spinner text='Loading...' />
 
-    if (habits.length === 0) {
+    if (habits.length === 0)
         return (
-            <NoDocsYet
-                docType={HABITS}
-                onClick={() => setAddHabitsFormOpen(true)}
-            />
+            <NoDocsYet docType={HABITS} onClick={() => onAddHabitsFormOpen()} />
         )
-    }
 
     return (
-        <div className='triple-grid'>
+        <SimpleGrid
+            columns={3}
+            spacing={6}
+            minChildWidth='300px'
+            templateColumns='1fr 1fr 1fr'
+        >
             {habits.map((habit: Habit) => (
                 <HabitBox key={habit.id} habit={habit} />
             ))}
-        </div>
+        </SimpleGrid>
     )
 }
 

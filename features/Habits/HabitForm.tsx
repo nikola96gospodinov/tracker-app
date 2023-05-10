@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
 
@@ -8,19 +8,20 @@ import useGetDocs from '../../hooks/useGetDocs'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { HABITS } from './constants'
 import { Habit, HabitType } from './habits.types'
-import { Dispatch } from '../../typings'
 import { FormModal } from '../../components/Form/FormModal'
-import { Button } from '../../components/UIElements/Button'
-import { Input } from '../../components/Form/Input'
+import { Input } from '../../components/Form/ChakraInput'
 import { RadioGroup } from '../../components/Form/Radio/RadioGroup'
 import { habitTypes } from './data'
+import { UserContext } from '../../context/userContext'
+import { Button } from '@chakra-ui/react'
 
 const HabitForm: React.FunctionComponent<{
-    setHabitsFormOpen: Dispatch<boolean>
-    userID: string
+    isFormOpen: boolean
+    onFormClose: () => void
     habit?: Habit
-}> = ({ setHabitsFormOpen, userID, habit }) => {
+}> = ({ isFormOpen, onFormClose, habit }) => {
     const router = useRouter()
+    const { userId } = useContext(UserContext)
     const [name, setName] = useState(habit?.name ?? '')
     const [description, setDescription] = useState(habit?.description ?? '')
     const [type, setType] = useState(habit?.type ?? 'daily')
@@ -33,17 +34,15 @@ const HabitForm: React.FunctionComponent<{
         form: false
     })
 
-    const { docs: habits } = useGetDocs<Habit>({ userID, path: HABITS })
+    const { docs: habits } = useGetDocs<Habit>({ userID: userId, path: HABITS })
     const habitsNames = useMemo(() => {
         return habits
             ?.map((habit: Habit) => habit.name)
             .filter((name) => name !== habit?.name)
     }, [habit?.name, habits])
 
-    const handleRadioChange = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ): void => {
-        setType(e.target.value as HabitType)
+    const handleRadioChange = (val: string): void => {
+        setType(val as HabitType)
     }
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -83,8 +82,8 @@ const HabitForm: React.FunctionComponent<{
             submitDoc<Habit>({
                 path: HABITS,
                 orgDoc: fields,
-                userID,
-                setDocsFormOpen: setHabitsFormOpen,
+                userID: userId,
+                setDocsFormOpen: onFormClose,
                 setErrors: setErrors as ErrorsDispatch,
                 router
             })
@@ -100,20 +99,21 @@ const HabitForm: React.FunctionComponent<{
 
     return (
         <FormModal
-            setFormOpen={setHabitsFormOpen}
+            formOpen={isFormOpen}
+            onFormClose={onFormClose}
             title={title}
             onSubmit={handleFormSubmit}
             isFormError={errors.form}
             formError={formErrorText}
         >
             <Input
-                labelText='Name'
+                label='Name'
                 name='name'
                 value={name}
                 type='text'
                 onChange={(e) => setName(e.target.value)}
                 isError={nameErr}
-                error={errors.nameErr}
+                errorContent={errors.nameErr}
             />
             <RadioGroup
                 options={habitTypes}
@@ -123,32 +123,33 @@ const HabitForm: React.FunctionComponent<{
                 description='Measured:'
             />
             <Input
-                labelText='Target'
+                label='Target'
                 name='target'
                 value={target}
                 type='number'
                 onChange={(e) => setTarget(+e.target.value)}
                 min={1}
                 isError={errors.targetErr}
-                error='Please select a target'
+                errorContent='Please select a target'
             />
             <Input
-                labelText='Metric'
+                label='Metric'
                 name='metric'
                 value={metric}
                 type='text'
                 onChange={(e) => setMetric(e.target.value)}
                 isError={errors.metricErr}
-                error='Please select a metric'
+                errorContent='Please select a metric'
             />
             <Input
-                labelText='Description'
+                label='Description'
                 name='description'
                 value={description}
                 type='text'
                 onChange={(e) => setDescription(e.target.value)}
+                mb={4}
             />
-            <Button type='submit' text={btnText} btnClass='button-primary' />
+            <Button type='submit'>{btnText}</Button>
         </FormModal>
     )
 }

@@ -12,13 +12,13 @@ export const DocHeader: FunctionComponent<{
         <Button
             onClick={onClick}
             fontSize='4xl'
-            color='green.900'
-            bg='green.100'
+            color='purple.700'
+            bg='purple.50'
             borderRadius='50%'
             boxShadow='inset'
             p={0}
             fontWeight={900}
-            _hover={{ bg: 'green.50' }}
+            _hover={{ bg: 'purple.100', color: 'purple.900' }}
         >
             +
         </Button>

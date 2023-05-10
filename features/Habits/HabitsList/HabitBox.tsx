@@ -1,13 +1,13 @@
-import Link from 'next/link'
+import { Flex, Heading, Text, Tooltip, VStack } from '@chakra-ui/react'
 
 import { Habit } from '../habits.types'
+import { Link } from '../../../components/UIElements/Link'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
+    getHabitTooltipLabel,
     isHabitCompleted
 } from '../helpers'
-
-import style from '../habit.module.scss'
 
 export const HabitBox: React.FunctionComponent<{
     habit: Habit
@@ -22,25 +22,50 @@ export const HabitBox: React.FunctionComponent<{
     })
     const completed = isHabitCompleted(habit)
     const Icon = getHabitCompletionIcon(completed)
-    const boxStyle = completed
-        ? style.habitBoxCompleted
-        : style.habitBoxIncompleted
+    const iconColor = completed ? 'green.500' : 'red.500'
+    const tooltipLabel = getHabitTooltipLabel({
+        completed,
+        type: habit.type,
+        streak
+    })
 
     return (
-        <Link href={href}>
-            <a className={`${style.habitBox} ${boxStyle}`}>
-                <div className={style.streak}>{`🔥${streak}`}</div>
-                <div>
-                    <h3>{name}</h3>
-                    <p>{description}</p>
-                </div>
-                <div className={style.bottomContainer}>
-                    <p>
+        <Link
+            href={href}
+            variant='link'
+            bg='white'
+            p={6}
+            boxShadow='inset'
+            borderRadius='2xl'
+            color='neutral.900'
+            transition='0.2s ease'
+            cursor='pointer'
+            borderLeft='solid'
+            borderLeftColor='purple.500'
+            borderLeftWidth={4}
+            _hover={{
+                transform: 'translateY(4px)'
+            }}
+        >
+            <VStack align='space-between' justify='space-between' h='100%'>
+                <Flex alignItems='flex-end' justifyContent='space-between'>
+                    <Heading as='h3' fontSize='lg'>
+                        {name}
+                    </Heading>
+                    <Text>🔥{streak}</Text>
+                </Flex>
+                <Text>{description}</Text>
+                <Flex pt={2} alignItems='center' justifyContent='space-between'>
+                    <Text>
                         🎯 {target} {metric} {type}
-                    </p>
-                    <Icon />
-                </div>
-            </a>
+                    </Text>
+                    <Tooltip label={tooltipLabel}>
+                        <Text as='span' display='flex'>
+                            <Icon color={iconColor} />
+                        </Text>
+                    </Tooltip>
+                </Flex>
+            </VStack>
         </Link>
     )
 }

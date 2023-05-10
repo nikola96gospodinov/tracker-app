@@ -1,33 +1,25 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
+import { useDisclosure } from '@chakra-ui/react'
 
 import InitialSection from '../../components/InitialSection'
 import HabitForm from './HabitForm'
 import HabitsList from './HabitsList/HabitsList'
-import AddIcon from '../../components/Icons/AddIcon'
 import { UserContext } from '../../context/userContext'
+import { DocHeader } from '../../components/Docs/DocHeader'
 
 export const HabitsContent = () => {
-    const [addHabitsFormOpen, setAddHabitsFormOpen] = useState(false)
     const { userId } = useContext(UserContext)
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
         <>
             <InitialSection>
-                <div className='header'>
-                    <h1>My Habits</h1>
-                    <AddIcon onClick={() => setAddHabitsFormOpen(true)} />
-                </div>
+                <DocHeader heading='My Habits' onClick={onOpen} />
                 {userId && (
-                    <HabitsList
-                        userID={userId}
-                        setAddHabitsFormOpen={setAddHabitsFormOpen}
-                    />
+                    <HabitsList userID={userId} onAddHabitsFormOpen={onOpen} />
                 )}
-                {addHabitsFormOpen && userId && (
-                    <HabitForm
-                        setHabitsFormOpen={setAddHabitsFormOpen}
-                        userID={userId}
-                    />
+                {isOpen && userId && (
+                    <HabitForm isFormOpen={isOpen} onFormClose={onClose} />
                 )}
             </InitialSection>
         </>

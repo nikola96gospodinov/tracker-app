@@ -405,3 +405,37 @@ export const getCurrentProgress = (habit: Habit): number => {
 
     return 0
 }
+
+interface GetHabitTooltipLabelProps {
+    completed: boolean
+    type: HabitType
+    streak: number
+}
+
+export const getHabitTooltipLabel = ({
+    completed,
+    type,
+    streak
+}: GetHabitTooltipLabelProps): string => {
+    if (completed && type === 'daily') {
+        return 'Completed today'
+    }
+
+    if (completed && type === 'weekly') {
+        return 'Completed this week'
+    }
+
+    if (!completed && type === 'daily') {
+        if (streak > 0)
+            return `Not completed today. Don\'t break your streak of ${streak}!`
+        return 'Not completed today'
+    }
+
+    if (!completed && type === 'weekly') {
+        if (streak > 0)
+            return `Not completed this week. Don\'t break your streak of ${streak}!`
+        return `Not completed this week`
+    }
+
+    return ''
+}

@@ -1,4 +1,10 @@
-import { Radio } from './Radio'
+import {
+    Stack,
+    RadioGroup as ChakraRadioGroup,
+    FormControl,
+    FormLabel,
+    Radio
+} from '@chakra-ui/react'
 
 interface Option {
     value: string
@@ -9,22 +15,25 @@ export const RadioGroup: React.FunctionComponent<{
     options: Option[]
     currentValue: string
     name: string
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (val: string) => void
     description?: string
 }> = ({ description, options, currentValue, name, onChange }) => {
     return (
-        <div className='radio-holder'>
-            {description && <p>{description} </p>}
-            {options.map((option) => (
-                <Radio
-                    key={option.value}
-                    labelText={option.label}
-                    value={option.value}
-                    name={name}
-                    onChange={onChange}
-                    checked={currentValue === option.value}
-                />
-            ))}
-        </div>
+        <FormControl>
+            {description && <FormLabel mb={1}>{description}</FormLabel>}
+            <ChakraRadioGroup
+                name={name}
+                onChange={onChange}
+                value={currentValue}
+            >
+                <Stack direction='row' gap={2}>
+                    {options.map(({ value, label }) => (
+                        <Radio key={value} value={value} colorScheme='purple'>
+                            {label}
+                        </Radio>
+                    ))}
+                </Stack>
+            </ChakraRadioGroup>
+        </FormControl>
     )
 }

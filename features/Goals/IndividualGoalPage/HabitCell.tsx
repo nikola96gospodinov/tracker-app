@@ -4,6 +4,7 @@ import { Habit } from '../../Habits/habits.types'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
+    getHabitTooltipLabel,
     isHabitCompleted
 } from '../../Habits/helpers'
 import { Link } from '../../../components/UIElements/Link'
@@ -23,29 +24,11 @@ const HabitCell: React.FunctionComponent<{
         type: habit.type
     })
 
-    const getToolTipLabel = (): string => {
-        if (completed && habit.type === 'daily') {
-            return 'Completed today'
-        }
-
-        if (completed && habit.type === 'weekly') {
-            return 'Completed this week'
-        }
-
-        if (!completed && habit.type === 'daily') {
-            return `Not completed today. Last completed ${
-                lastCompleted ? formatDateForUI(lastCompleted) : 'never'
-            }`
-        }
-
-        if (!completed && habit.type === 'weekly') {
-            return `Not completed this week. Last completed ${
-                lastCompleted ? lastCompleted : 'never'
-            }`
-        }
-
-        return ''
-    }
+    const tooltipLabel = getHabitTooltipLabel({
+        completed,
+        type: habit.type,
+        streak: currentStreak
+    })
 
     return (
         <Box
@@ -76,8 +59,8 @@ const HabitCell: React.FunctionComponent<{
             <Flex alignItems='center' justifyContent='space-between' mt={4}>
                 <UpdateHabitMetrics habit={habit} />
                 <Tooltip
-                    label={getToolTipLabel()}
-                    aria-label='A tooltip'
+                    label={tooltipLabel}
+                    aria-label='Completion tooltip'
                     placement='right'
                 >
                     {/* For the tooltip to work the icon needs to be wrapped in a span */}
