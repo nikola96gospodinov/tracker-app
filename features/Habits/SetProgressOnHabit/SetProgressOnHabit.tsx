@@ -1,12 +1,9 @@
-import { useState } from 'react'
+import { Flex, Text, useDisclosure } from '@chakra-ui/react'
 import { Habit } from '../habits.types'
 import BatteryIcon from '../../../components/Icons/Battery'
 import EditIcon from '../../../components/Icons/EditIcon'
-
-import style from './SetProgressOnHabit.module.scss'
 import { ProgressForm } from './ProgressForm'
 import { getCurrentProgress } from '../helpers'
-import { Flex, Text, useDisclosure } from '@chakra-ui/react'
 
 const SetProgressOnHabit: React.FunctionComponent<{
     habit: Habit

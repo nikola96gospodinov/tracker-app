@@ -1,5 +1,6 @@
+import { Flex, Heading, SimpleGrid, Text, Tooltip } from '@chakra-ui/react'
+
 import { Habit } from '../habits.types'
-import { Dispatch } from '../../../typings'
 import {
     getCurrentStreak,
     getLastCompleted,
@@ -8,17 +9,16 @@ import {
 import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import { GoalBox } from '../../Goals/GoalsList/GoalBox'
-import EditIcon from '../../../components/Icons/EditIcon'
-import DeleteIcon from '../../../components/Icons/DeleteIcon'
 import { UpdateHabitMetrics } from '../UpdateHabitMetrics'
-
-import style from '../habit.module.scss'
+import { DocActions } from '../../../components/Docs/DocActions'
+import InfoIcon from '../../../components/Icons/InfoIcon'
+import { Goal } from '../../Goals/goals.types'
 
 const HabitInfo: React.FunctionComponent<{
     habit: Habit
-    setEditForm: Dispatch<boolean>
-    setDeleteWarning: Dispatch<boolean>
-}> = ({ habit, setEditForm, setDeleteWarning }) => {
+    onEditFormOpen: () => void
+    onDeleteWarningOpen: () => void
+}> = ({ habit, onEditFormOpen, onDeleteWarningOpen }) => {
     const lastCompleted = habit.currentStreak?.end ?? habit.longestStreak.end
     const lastCompletedFormatted = getLastCompleted(lastCompleted, habit.type)
     const { isGoals, relevantGoals, loading } = useGetRelevantGoals({
@@ -31,49 +31,76 @@ const HabitInfo: React.FunctionComponent<{
         currentStreak: habit.currentStreak.streak,
         type: habit.type
     })
+    const longestStreakRange = getLongestStreakRange(
+        habit.longestStreak,
+        habit.type
+    )
 
     return (
-        <div className={style.habitsPage}>
-            <div className={style.headerSection}>
-                <div>
-                    🎯 {habit.target} {habit.metric} {habit.type}
-                    <span>🔥{currentStreak}</span>
+        <>
+            <Flex align='center' justify='space-between'>
+                <Flex fontSize='lg' color='neutral.700' gap={4}>
+                    <Text>
+                        🎯 {habit.target} {habit.metric} {habit.type}
+                    </Text>
+                    <Text>🔥{currentStreak}</Text>
                     <UpdateHabitMetrics habit={habit} />
-                </div>
-                <div>
-                    <EditIcon
-                        className={style.editIcon}
-                        onClick={() => setEditForm(true)}
-                    />
-                    <DeleteIcon
-                        className={style.deleteIcon}
-                        onClick={() => setDeleteWarning(true)}
-                    />
-                </div>
-            </div>
-            <h1>{habit.name}</h1>
-            <p className={style.description}>{habit.description}</p>
-            <p>
-                <strong>Longest Streak:</strong> 🔥{habit.longestStreak.streak}{' '}
-                <span className={style.longestStreakRange}>
-                    {getLongestStreakRange(habit.longestStreak, habit.type)}
-                </span>
-            </p>
-            <p>
-                <strong>Last Completed:</strong> {lastCompletedFormatted}
-            </p>
+                </Flex>
+                <DocActions
+                    editAction={onEditFormOpen}
+                    deleteAction={onDeleteWarningOpen}
+                />
+            </Flex>
+            <Heading as='h1' fontSize='2xl' mt={6} mb={2}>
+                {habit.name}
+            </Heading>
+            <Text mb={4} fontSize='lg'>
+                {habit.description}
+            </Text>
+            <Flex fontSize='lg' align='center'>
+                <Text as='strong'>Longest Streak:</Text>
+                <Text>🔥{habit.longestStreak.streak}</Text>
+                {longestStreakRange && (
+                    <Tooltip
+                        label={longestStreakRange}
+                        aria-label='Longest streak range'
+                    >
+                        <Text as='span'>
+                            <InfoIcon
+                                ml={1}
+                                color='purple.700'
+                                mb={2}
+                                boxSize={4}
+                            />
+                        </Text>
+                    </Tooltip>
+                )}
+            </Flex>
+            <Flex gap={2} fontSize='lg'>
+                <Text as='strong'>Last Completed:</Text>
+                <Text>{lastCompletedFormatted}</Text>
+            </Flex>
 
-            <h2>Linked Goals</h2>
+            <Heading as='h2' fontSize='xl' mt={8} mb={4}>
+                Linked Goals
+            </Heading>
             {loading && <Spinner />}
             {!isGoals && (
-                <p>You haven&apos;t attached this habit to any of your goals</p>
+                <Text>
+                    You haven&apos;t attached this habit to any of your goals
+                </Text>
             )}
-            <div className='triple-grid'>
-                {relevantGoals?.map((goal) => (
-                    <GoalBox goal={goal} key={goal.id} />
+            <SimpleGrid
+                columns={3}
+                spacing={6}
+                minChildWidth='300px'
+                templateColumns='1fr 1fr 1fr'
+            >
+                {relevantGoals?.map((goal: Goal) => (
+                    <GoalBox key={goal.id} goal={goal} />
                 ))}
-            </div>
-        </div>
+            </SimpleGrid>
+        </>
     )
 }
 

@@ -51,21 +51,17 @@ const IndividualGoalContent = () => {
                 onEditFormOpen={onEditFormOpen}
                 onDeleteWarningOpen={onDeleteWarningOpen}
             />
-            {isEditFormOpen && (
-                <GoalForm
-                    isFormOpen={isEditFormOpen}
-                    onFormClose={onEditFormClose}
-                    goal={goal}
-                />
-            )}
-            {isDeleteWarningOpen && (
-                <DeleteDoc
-                    isDeleteWarningOpen={isDeleteWarningOpen}
-                    onDeleteWarningClose={onDeleteWarningClose}
-                    doc={goal}
-                    path={GOALS}
-                />
-            )}
+            <GoalForm
+                isFormOpen={isEditFormOpen}
+                onFormClose={onEditFormClose}
+                goal={goal}
+            />
+            <DeleteDoc
+                isDeleteWarningOpen={isDeleteWarningOpen}
+                onDeleteWarningClose={onDeleteWarningClose}
+                doc={goal}
+                path={GOALS}
+            />
             <GoalConfiguration goal={goal} />
         </>
     )

@@ -1,15 +1,18 @@
 import { useRouter } from 'next/router'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
+import { useDisclosure } from '@chakra-ui/react'
 
 import DeleteDoc from '../../../components/Docs/DeleteDoc'
 import InitialSection from '../../../components/InitialSection'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import useGetDoc from '../../../hooks/useGetDoc'
-import { HABITS } from '../constants'
+import { HABIT, HABITS } from '../constants'
 import { Habit } from '../habits.types'
 import HabitForm from '../HabitForm'
 import HabitInfo from './HabitInfo'
 import { UserContext } from '../../../context/userContext'
+import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
+import { NonExistingDoc } from '../../../components/Docs/NonExistingDoc'
 
 const IndividualHabitContent = () => {
     const { userId } = useContext(UserContext)
@@ -24,48 +27,42 @@ const IndividualHabitContent = () => {
         path: HABITS,
         url: habitUrl as string
     })
-    const [editForm, setEditForm] = useState(false)
-    const [deleteWarning, setDeleteWarning] = useState(false)
+    const {
+        isOpen: isEditFormOpen,
+        onOpen: onEditFormOpen,
+        onClose: onEditFormClose
+    } = useDisclosure()
+    const {
+        isOpen: isDeleteWarningOpen,
+        onOpen: onDeleteWarningOpen,
+        onClose: onDeleteWarningClose
+    } = useDisclosure()
 
-    if (loading || !userId) {
-        return (
-            <InitialSection>
-                <Spinner />
-            </InitialSection>
-        )
-    }
+    if (loading || !userId) return <Spinner text='Loading...' />
 
-    if (!habit || errorFetching) {
-        return (
-            <InitialSection>
-                <p>Habit doesn&apos;t exist</p>
-            </InitialSection>
-        )
-    }
+    if (errorFetching) return <ErrorFetchingDocs docType={HABIT} />
+
+    if (!habit) return <NonExistingDoc docType={HABIT} />
 
     return (
-        <InitialSection>
+        <>
             <HabitInfo
                 habit={habit}
-                setEditForm={setEditForm}
-                setDeleteWarning={setDeleteWarning}
+                onEditFormOpen={onEditFormOpen}
+                onDeleteWarningOpen={onDeleteWarningOpen}
             />
-            {editForm && (
-                <HabitForm
-                    setHabitsFormOpen={setEditForm}
-                    userID={userId}
-                    habit={habit}
-                />
-            )}
-            {deleteWarning && (
-                <DeleteDoc
-                    setDeleteWarning={setDeleteWarning}
-                    userID={userId}
-                    doc={habit}
-                    path={HABITS}
-                />
-            )}
-        </InitialSection>
+            <HabitForm
+                isFormOpen={isEditFormOpen}
+                onFormClose={onEditFormClose}
+                habit={habit}
+            />
+            <DeleteDoc
+                isDeleteWarningOpen={isDeleteWarningOpen}
+                onDeleteWarningClose={onDeleteWarningClose}
+                doc={habit}
+                path={HABITS}
+            />
+        </>
     )
 }
 

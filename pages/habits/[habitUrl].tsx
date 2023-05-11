@@ -8,6 +8,7 @@ import { UserContext } from '../../context/userContext'
 import { Habit } from '../../features/Habits/habits.types'
 import useGetDoc from '../../hooks/useGetDoc'
 import { HABITS } from '../../features/Habits/constants'
+import InitialSection from '../../components/InitialSection'
 
 const IndividuaHait: NextPage = () => {
     const router = useRouter()
@@ -23,7 +24,9 @@ const IndividuaHait: NextPage = () => {
             title={habit?.name ?? 'Habit'}
             description={habit?.description ?? 'Habit'}
         >
-            <IndividualHabitContent />
+            <InitialSection>
+                <IndividualHabitContent />
+            </InitialSection>
         </PageWrapper>
     )
 }

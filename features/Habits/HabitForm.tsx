@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
+import { Button } from '@chakra-ui/react'
 
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
@@ -13,7 +14,6 @@ import { Input } from '../../components/Form/ChakraInput'
 import { RadioGroup } from '../../components/Form/Radio/RadioGroup'
 import { habitTypes } from './data'
 import { UserContext } from '../../context/userContext'
-import { Button } from '@chakra-ui/react'
 
 const HabitForm: React.FunctionComponent<{
     isFormOpen: boolean

@@ -384,10 +384,10 @@ export const getLongestStreakRange = (
         longestStreak.start !== longestStreak.end
     )
         if (habitType === 'daily')
-            return `(${formatDateForUI(
-                longestStreak.start
-            )} - ${formatDateForUI(longestStreak.end)})`
-        else return `(${longestStreak.start} - ${longestStreak.end})`
+            return `${formatDateForUI(longestStreak.start)} - ${formatDateForUI(
+                longestStreak.end
+            )}`
+        else return `${longestStreak.start} - ${longestStreak.end}`
 
     return ''
 }
