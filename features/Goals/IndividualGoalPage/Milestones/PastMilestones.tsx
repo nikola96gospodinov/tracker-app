@@ -7,7 +7,7 @@ import EditIcon from '../../../../components/Icons/EditIcon'
 import DeleteIcon from '../../../../components/Icons/DeleteIcon'
 import SaveIcon from '../../../../components/Icons/SaveIcon'
 import CloseIcon from '../../../../components/Icons/CloseIcon'
-import { Input } from '../../../../components/Form/ChakraInput'
+import { Input } from '../../../../components/Form/Input'
 import { inputStyles, iconStyles, iconHoverStyles, trStyles } from './data'
 
 export const PastMilestones: React.FunctionComponent<{

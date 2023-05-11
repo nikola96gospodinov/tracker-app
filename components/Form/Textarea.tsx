@@ -1,34 +1,43 @@
+import {
+    Textarea as ChakraTextarea,
+    FormControl,
+    FormLabel,
+    FormHelperText,
+    FormErrorMessage,
+    TextareaProps
+} from '@chakra-ui/react'
+import { ReactNode } from 'react'
+
 export const Textarea: React.FunctionComponent<
-    // For some reason there is a type problem with the onChange event
-    Omit<React.HTMLProps<HTMLTextAreaElement>, 'onChange'> & {
-        labelText: string
-        onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+    {
+        label?: string
+        helperText?: string
         isError?: boolean
-        error?: string
-        otherLabelProps?: React.HTMLProps<HTMLLabelElement>
-    }
-> = ({
-    labelText,
-    name,
-    value,
-    onChange,
-    isError,
-    error,
-    otherLabelProps,
-    ...otherTextareaProps
-}) => (
-    <>
-        <label htmlFor={name} {...otherLabelProps}>
-            {labelText}
-        </label>
-        <textarea
-            id={name}
-            value={value}
-            onChange={onChange}
-            {...otherTextareaProps}
-        />
-        {isError && (
-            <span className='field-error'>{error ?? 'There is a problem'}</span>
-        )}
-    </>
-)
+        errorContent?: ReactNode
+    } & TextareaProps
+> = ({ label, helperText, isError, errorContent, ...textareaProps }) => {
+    const showHelperText = helperText && !isError
+    const error = errorContent ?? 'This field is not valid'
+
+    return (
+        <FormControl isInvalid={isError}>
+            {label && <FormLabel htmlFor={textareaProps.id}>{label}</FormLabel>}
+            <ChakraTextarea
+                bg='neutral.100'
+                boxShadow='inset'
+                borderRadius='lg'
+                border='none'
+                _focus={{
+                    boxShadow: 'inset'
+                }}
+                {...textareaProps}
+            />
+            {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
+            {isError && (
+                <FormErrorMessage fontSize='sm' color='red.600'>
+                    {error}
+                </FormErrorMessage>
+            )}
+        </FormControl>
+    )
+}

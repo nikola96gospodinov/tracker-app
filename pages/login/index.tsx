@@ -8,7 +8,7 @@ import {
 import { Box, Button } from '@chakra-ui/react'
 
 import { auth } from '../../firebase/firebase'
-import { Input } from '../../components/Form/ChakraInput'
+import { Input } from '../../components/Form/Input'
 import { FormError } from '../../components/Form/FormError'
 import { FormHeading } from '../../components/Form/FormHeading'
 import { Link } from '../../components/UIElements/Link'

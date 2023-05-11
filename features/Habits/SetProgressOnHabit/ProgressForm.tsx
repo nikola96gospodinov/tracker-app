@@ -9,7 +9,7 @@ import { getCurrentProgress, updateHabitProgress } from '../helpers'
 import { auth } from '../../../firebase/firebase'
 import { Habit } from '../habits.types'
 import { formatDate } from '../../../helpers/date-manipulation-functions'
-import { Input } from '../../../components/Form/ChakraInput'
+import { Input } from '../../../components/Form/Input'
 
 const btnStyle = {
     h: 'auto',

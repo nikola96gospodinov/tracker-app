@@ -1,3 +1,11 @@
+import {
+    FormControl,
+    FormLabel,
+    Select as ChakraSelect,
+    SelectProps,
+    FormErrorMessage,
+    FormHelperText
+} from '@chakra-ui/react'
 import { capitalizeFirstLetter } from '../../helpers/string-manipulation-functions'
 
 interface Option {
@@ -9,21 +17,32 @@ interface Options {
     [key: string]: Option[]
 }
 
-export const Select: React.FunctionComponent<{
-    labelText: string
-    name: string
-    value: string
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-    isError?: boolean
-    error?: string
-    options: Options | Option[]
-}> = ({ labelText, name, value, onChange, isError, error, options }) => {
+export const Select: React.FunctionComponent<
+    {
+        label?: string
+        helperText?: string
+        isError?: boolean
+        errorContent?: React.ReactNode
+        options: Options | Option[]
+    } & SelectProps
+> = ({ options, label, helperText, isError, errorContent, ...inputProps }) => {
     const noOptGroups = Array.isArray(options)
+    const showHelperText = helperText && !isError
+    const error = errorContent ?? 'This field is not valid'
 
     return (
-        <>
-            <label htmlFor={name}>{labelText}</label>
-            <select id={name} value={value} onChange={onChange}>
+        <FormControl>
+            {label && <FormLabel htmlFor={inputProps.id}>{label}</FormLabel>}
+            <ChakraSelect
+                bg='neutral.100'
+                boxShadow='inset'
+                borderRadius='lg'
+                border='none'
+                _focus={{
+                    boxShadow: 'inset'
+                }}
+                {...inputProps}
+            >
                 <option
                     value=''
                     disabled
@@ -49,12 +68,13 @@ export const Select: React.FunctionComponent<{
                           </optgroup>
                       ))}
                 <option value='' disabled style={{ opacity: 0.5 }}></option>
-            </select>
+            </ChakraSelect>
+            {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
             {isError && (
-                <span className='field-error'>
-                    {error ?? 'There is a problem'}
-                </span>
+                <FormErrorMessage fontSize='sm' color='red.600'>
+                    {error}
+                </FormErrorMessage>
             )}
-        </>
+        </FormControl>
     )
 }

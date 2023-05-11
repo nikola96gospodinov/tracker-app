@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { isEqual } from 'lodash'
 import { Flex, Button } from '@chakra-ui/react'
 
-import CustomSelect from '../../../components/Form/CustomSelect'
+import MultiSelect from '../../../components/Form/MultiSelect'
 import { Habit } from '../../Habits/habits.types'
 import { Goal } from '../goals.types'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
@@ -78,7 +78,7 @@ const UpdateHabitsList: React.FunctionComponent<{
 
     return (
         <Flex gap={4}>
-            <CustomSelect
+            <MultiSelect
                 options={habitsOptions}
                 isMulti
                 defaultValue={defaultValue}

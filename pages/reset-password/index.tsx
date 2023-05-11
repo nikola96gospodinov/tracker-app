@@ -8,7 +8,7 @@ import { Box, Button, Text } from '@chakra-ui/react'
 
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
-import { Input } from '../../components/Form/ChakraInput'
+import { Input } from '../../components/Form/Input'
 import { FormError } from '../../components/Form/FormError'
 import { initialState, reducer } from './reducers'
 import { FormHeading } from '../../components/Form/FormHeading'

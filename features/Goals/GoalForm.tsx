@@ -11,9 +11,9 @@ import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-do
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { FormModal } from '../../components/Form/FormModal'
 import { goalOptions } from './data'
-import { Input } from '../../components/Form/ChakraInput'
-import { Select } from '../../components/Form/ChakraSelect'
-import { Textarea } from '../../components/Form/ChakraTextarea'
+import { Input } from '../../components/Form/Input'
+import { Select } from '../../components/Form/Select'
+import { Textarea } from '../../components/Form/Textarea'
 import { UserContext } from '../../context/userContext'
 
 const now = new Date()

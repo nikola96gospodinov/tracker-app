@@ -10,7 +10,7 @@ import SaveIcon from '../../../../components/Icons/SaveIcon'
 import CloseIcon from '../../../../components/Icons/CloseIcon'
 import { trStyles, inputStyles, iconStyles, iconHoverStyles } from './data'
 import DangerIcon from '../../../../components/Icons/DangerIcon'
-import { Input } from '../../../../components/Form/ChakraInput'
+import { Input } from '../../../../components/Form/Input'
 
 export const UpcomingMilestones: React.FunctionComponent<{
     relevantMilestones: Milestone[]

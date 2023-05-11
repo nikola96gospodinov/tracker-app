@@ -8,7 +8,7 @@ import DeleteIcon from '../../../../components/Icons/DeleteIcon'
 
 import styles from '../../goal.module.scss'
 import SaveIcon from '../../../../components/Icons/SaveIcon'
-import { Input } from '../../../../components/Form/ChakraInput'
+import { Input } from '../../../../components/Form/Input'
 import { iconHoverStyles, iconStyles, inputStyles } from './data'
 
 export const AddMilestone: React.FunctionComponent<{

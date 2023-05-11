@@ -1,6 +1,6 @@
 import Select from 'react-select'
 
-const CustomSelect: React.FunctionComponent<
+const MultiSelect: React.FunctionComponent<
     React.ComponentProps<typeof Select>
 > = (props) => (
     <Select
@@ -46,4 +46,4 @@ const CustomSelect: React.FunctionComponent<
     />
 )
 
-export default CustomSelect
+export default MultiSelect
