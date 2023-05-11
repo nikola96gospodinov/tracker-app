@@ -26,10 +26,10 @@ const Header = (): JSX.Element => {
                     </nav>
                 </div>
             </div>
-            <div>
+            {/* <div>
                 <img src='/images/bg-pattern-1.png' />
                 <img src='/images/bg-pattern-2.png' />
-            </div>
+            </div> */}
         </header>
     )
 }

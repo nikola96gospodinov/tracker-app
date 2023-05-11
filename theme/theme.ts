@@ -11,6 +11,9 @@ import { fonts } from './fonts'
 import { shadows } from './shadows'
 import { global } from './global'
 
+import '@fontsource/source-sans-pro'
+import '@fontsource/montserrat'
+
 const overrides = {
     breakpoints,
     colors,
