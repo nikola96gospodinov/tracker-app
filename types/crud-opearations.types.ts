@@ -1,5 +1,5 @@
-import { Goal } from '../features/Goals/goals.types'
-import { Habit } from '../features/Habits/habits.types'
+import { Goal } from '../pages/goals/goals.types'
+import { Habit } from '../pages/habits/habits.types'
 import { Dispatch } from '../typings'
 
 export type Doc = Goal | Habit

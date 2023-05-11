@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 
-import WeeklyReview from '../features/Home/WeeklyReview'
+import WeeklyReview from './home/WeeklyReview'
 import { PageWrapper } from '../components/Layout/PageWrapper'
 import InitialSection from '../components/InitialSection'
 

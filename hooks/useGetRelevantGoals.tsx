@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 
-import { GOALS } from '../features/Goals/constants'
-import { Goal } from '../features/Goals/goals.types'
-import { HabitType } from '../features/Habits/habits.types'
+import { GOALS } from '../pages/goals/constants'
+import { Goal } from '../pages/goals/goals.types'
+import { HabitType } from '../pages/habits/habits.types'
 import useGetDocs from './useGetDocs'
 import { UserContext } from '../context/userContext'
 

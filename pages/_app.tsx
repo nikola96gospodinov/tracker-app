@@ -4,8 +4,6 @@ import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme/theme'
 import { UserProvider } from '../context/userContext'
 
-import '../styles/style.scss'
-
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <UserProvider>

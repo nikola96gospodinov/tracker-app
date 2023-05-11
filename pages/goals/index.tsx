@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import { GoalsContent } from '../../features/Goals/GoalsContent'
+import { GoalsContent } from './features/GoalsContent'
 import { PageWrapper } from '../../components/Layout/PageWrapper'
 
 const Goals: NextPage = () => (
