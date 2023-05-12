@@ -32,7 +32,8 @@ const HabitCell: React.FunctionComponent<{
 
     return (
         <Box
-            p={4}
+            py={4}
+            px={6}
             boxShadow='inset'
             bg='white'
             borderRadius='2xl'

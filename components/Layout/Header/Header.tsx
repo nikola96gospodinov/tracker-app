@@ -1,36 +1,17 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Box, Flex } from '@chakra-ui/react'
 
-import Logo from '../../UIElements/Logo'
-import { menu } from './data'
+import { Container } from '../Container'
+import { Breadcrumbs } from './Breadcrumbs'
 
 const Header = (): JSX.Element => {
-    const router = useRouter()
-
     return (
-        <header>
-            <div></div>
-            <div>
-                <div>
-                    <div>
-                        <Logo />
-                    </div>
-                    <nav>
-                        {menu.map((item, index) => {
-                            return (
-                                <Link key={index} href={item.path}>
-                                    <a>{item.title}</a>
-                                </Link>
-                            )
-                        })}
-                    </nav>
-                </div>
-            </div>
-            {/* <div>
-                <img src='/images/bg-pattern-1.png' />
-                <img src='/images/bg-pattern-2.png' />
-            </div> */}
-        </header>
+        <Box as='header' h='80px' w='100%'>
+            <Container>
+                <Flex h='80px' align='flex-end' justify='space-between'>
+                    <Breadcrumbs />
+                </Flex>
+            </Container>
+        </Box>
     )
 }
 

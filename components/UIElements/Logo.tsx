@@ -1,13 +1,13 @@
-import { Flex, Link, Text, Box } from '@chakra-ui/react'
+import { Flex, Link, Text } from '@chakra-ui/react'
 
 const Logo = (): JSX.Element => (
-    <Link href='/' variant='link'>
+    <Link href='/' variant='link' _hover={{ textDecoration: 'none' }}>
         <Flex
             flexDir='column'
-            borderRadius={16}
             textTransform='uppercase'
-            height={16}
+            h={16}
             justifyContent='center'
+            position='relative'
         >
             <Text
                 color='neutral.50'
@@ -16,30 +16,27 @@ const Logo = (): JSX.Element => (
                 letterSpacing='0.1rem'
                 mt={1}
                 zIndex={1}
-                ml={5}
                 textTransform='lowercase'
+                bgGradient='linear(to-b, purple.500, transparent 4.5rem)'
+                w='4.5rem'
+                textAlign='center'
+                boxShadow='inset'
+                borderRadius={30}
             >
                 Solve
             </Text>
             <Text
                 fontSize='2xl'
-                color='purple.100'
+                color='purple.900'
                 fontWeight={700}
                 margin={0}
                 letterSpacing='0.25rem'
                 mt='-0.375rem'
-                ml='2.3rem'
+                ml={8}
                 zIndex={1}
             >
                 LIFE
             </Text>
-            <Box
-                w={16}
-                h={16}
-                borderRadius='50%'
-                position='absolute'
-                bgGradient='linear(to-r, purple.300, neutral.900 2.25rem)'
-            />
         </Flex>
     </Link>
 )
