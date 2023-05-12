@@ -9,7 +9,7 @@ export const NavBarItems: FunctionComponent = () => {
     const { pathname } = useRouter()
 
     return (
-        <Flex mt={6} alignItems='flex-start' flexDir='column'>
+        <Flex mt={7} alignItems='flex-start' flexDir='column'>
             {menu.map((item) => {
                 const isActivePath =
                     item.subpath === 'home' && pathname === '/'

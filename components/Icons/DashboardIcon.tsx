@@ -5,15 +5,7 @@ import { IconProps } from './types.icons'
 
 const DashboardIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className,
     ...iconProps
-}) => (
-    <Icon
-        as={MdSpaceDashboard}
-        className={className}
-        onClick={onClick}
-        {...iconProps}
-    />
-)
+}) => <Icon as={MdSpaceDashboard} onClick={onClick} {...iconProps} />
 
 export default DashboardIcon

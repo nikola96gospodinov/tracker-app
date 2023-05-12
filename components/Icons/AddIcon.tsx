@@ -5,15 +5,7 @@ import { IconProps } from './types.icons'
 
 const AddIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className,
     ...iconProps
-}) => (
-    <Icon
-        as={MdAddBox}
-        className={className}
-        onClick={onClick}
-        {...iconProps}
-    />
-)
+}) => <Icon as={MdAddBox} onClick={onClick} {...iconProps} />
 
 export default AddIcon

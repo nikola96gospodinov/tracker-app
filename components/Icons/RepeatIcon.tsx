@@ -5,15 +5,7 @@ import { IconProps } from './types.icons'
 
 const RepeatIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className,
     ...iconProps
-}) => (
-    <Icon
-        as={MdRepeatOn}
-        className={className}
-        onClick={onClick}
-        {...iconProps}
-    />
-)
+}) => <Icon as={MdRepeatOn} onClick={onClick} {...iconProps} />
 
 export default RepeatIcon

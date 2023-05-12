@@ -5,15 +5,7 @@ import { IconProps } from './types.icons'
 
 const CloseIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className,
     ...iconProps
-}) => (
-    <Icon
-        as={AiFillCloseCircle}
-        className={className}
-        onClick={onClick}
-        {...iconProps}
-    />
-)
+}) => <Icon as={AiFillCloseCircle} onClick={onClick} {...iconProps} />
 
 export default CloseIcon

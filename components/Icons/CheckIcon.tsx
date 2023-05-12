@@ -5,15 +5,7 @@ import { IconProps } from './types.icons'
 
 const CheckIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className,
     ...iconProps
-}) => (
-    <Icon
-        as={BsCheck2Circle}
-        className={className}
-        onClick={onClick}
-        {...iconProps}
-    />
-)
+}) => <Icon as={BsCheck2Circle} onClick={onClick} {...iconProps} />
 
 export default CheckIcon

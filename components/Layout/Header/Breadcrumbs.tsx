@@ -37,6 +37,7 @@ export const Breadcrumbs: React.FunctionComponent = () => {
                     color={currentItem ? 'neutral.600' : 'purple.600'}
                     display='inline-flex'
                     alignItems='center'
+                    p={0}
                     gap={2}
                     _hover={{
                         color: 'purple.600',
@@ -54,6 +55,7 @@ export const Breadcrumbs: React.FunctionComponent = () => {
                         href={currentItem!.path}
                         variant='link'
                         color={isSubPath ? 'neutral.600' : 'purple.600'}
+                        p={0}
                         _hover={{
                             color: 'purple.600',
                             textDecoration: 'none'
@@ -69,6 +71,7 @@ export const Breadcrumbs: React.FunctionComponent = () => {
                     <Link
                         href={asPath}
                         variant='link'
+                        p={0}
                         _hover={{
                             textDecoration: 'none'
                         }}

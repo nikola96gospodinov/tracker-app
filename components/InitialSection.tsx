@@ -13,7 +13,7 @@ const InitialSection: React.FunctionComponent<{
             borderRadius='2xl'
             boxShadow='inset'
             p={12}
-            my={7}
+            my={8}
         >
             {children}
         </Box>

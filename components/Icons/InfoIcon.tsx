@@ -5,15 +5,7 @@ import { IconProps } from './types.icons'
 
 const InfoIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className,
     ...iconProps
-}) => (
-    <Icon
-        as={AiOutlineInfoCircle}
-        className={className}
-        onClick={onClick}
-        {...iconProps}
-    />
-)
+}) => <Icon as={AiOutlineInfoCircle} onClick={onClick} {...iconProps} />
 
 export default InfoIcon

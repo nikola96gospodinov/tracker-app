@@ -5,15 +5,7 @@ import { IconProps } from './types.icons'
 
 const TargetIcon: React.FunctionComponent<IconProps> = ({
     onClick,
-    className,
     ...iconProps
-}) => (
-    <Icon
-        as={SiTarget}
-        className={className}
-        onClick={onClick}
-        {...iconProps}
-    />
-)
+}) => <Icon as={SiTarget} onClick={onClick} {...iconProps} />
 
 export default TargetIcon
