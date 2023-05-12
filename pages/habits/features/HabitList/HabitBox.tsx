@@ -1,4 +1,4 @@
-import { Flex, Heading, Text, Tooltip, VStack } from '@chakra-ui/react'
+import { Box, Flex, Heading, Text, Tooltip, VStack } from '@chakra-ui/react'
 
 import { Habit } from '../../habits.types'
 import { Link } from '../../../../components/UIElements/Link'
@@ -48,13 +48,19 @@ export const HabitBox: React.FunctionComponent<{
             }}
         >
             <VStack align='space-between' justify='space-between' h='100%'>
-                <Flex alignItems='flex-end' justifyContent='space-between'>
-                    <Heading as='h3' fontSize='lg'>
-                        {name}
-                    </Heading>
-                    <Text>🔥{streak}</Text>
-                </Flex>
-                <Text>{description}</Text>
+                <Box>
+                    <Flex
+                        alignItems='flex-end'
+                        justifyContent='space-between'
+                        mb={2}
+                    >
+                        <Heading as='h3' fontSize='lg'>
+                            {name}
+                        </Heading>
+                        <Text>🔥{streak}</Text>
+                    </Flex>
+                    <Text>{description}</Text>
+                </Box>
                 <Flex pt={2} alignItems='center' justifyContent='space-between'>
                     <Text>
                         🎯 {target} {metric} {type}

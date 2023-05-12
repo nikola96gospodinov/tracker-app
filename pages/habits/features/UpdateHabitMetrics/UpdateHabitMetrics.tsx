@@ -10,8 +10,10 @@ export const UpdateHabitMetrics: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
     const [user] = useAuthState(auth)
-    const completedToday = isHabitCompleted(habit)
-    const toggleText = completedToday ? 'Completed!' : 'Set as completed'
+    const isCompleted = isHabitCompleted(habit)
+    const toggleText = isCompleted
+        ? `Completed ${habit.type === 'daily' ? 'today' : 'this week'}!`
+        : 'Set as completed'
 
     return (
         <>
@@ -20,10 +22,10 @@ export const UpdateHabitMetrics: React.FunctionComponent<{
                     text={toggleText}
                     onChange={toggleHabitCompletion({
                         habit,
-                        completedToday,
+                        completedToday: isCompleted,
                         userID: user?.uid
                     })}
-                    isChecked={completedToday}
+                    isChecked={isCompleted}
                     size='sm'
                 />
             ) : (

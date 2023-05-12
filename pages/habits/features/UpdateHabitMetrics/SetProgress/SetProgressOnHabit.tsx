@@ -19,7 +19,7 @@ const SetProgressOnHabit: React.FunctionComponent<{
                     total={habit.target}
                     boxSize={6}
                 />
-                <Text fontWeight={700}>
+                <Text fontWeight={600}>
                     {progress} / {habit.target}
                 </Text>
                 <EditIcon onClick={onOpen} cursor='pointer' mt={0.5} />

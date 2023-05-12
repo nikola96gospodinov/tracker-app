@@ -39,7 +39,7 @@ const GoalInfo: React.FunctionComponent<{
                     deleteAction={onDeleteWarningOpen}
                 />
             </Flex>
-            <Heading as='h1' fontWeight={600} fontSize='3xl' pt={6} pb={2}>
+            <Heading as='h1' fontSize='3xl' pt={6} pb={2}>
                 {goal.name}
             </Heading>
             <Text fontSize='xl'>{goal.description}</Text>

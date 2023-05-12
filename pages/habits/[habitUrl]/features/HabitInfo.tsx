@@ -35,15 +35,28 @@ const HabitInfo: React.FunctionComponent<{
         habit.longestStreak,
         habit.type
     )
+    const currentStreakTooltipLabel =
+        currentStreak === 0
+            ? `You're not on an active streak at the momemnt`
+            : `You're on a ${currentStreak} ${
+                  habit.type === 'daily' ? 'day' : 'week'
+              } streak!`
 
     return (
         <>
             <Flex align='center' justify='space-between'>
-                <Flex fontSize='lg' color='neutral.700' gap={4}>
+                <Flex
+                    color='neutral.700'
+                    gap={12}
+                    bgGradient='linear(to-l, transparent, purple.50)'
+                    py={2}
+                    px={4}
+                    borderRadius={20}
+                    align='center'
+                >
                     <Text>
                         🎯 {habit.target} {habit.metric} {habit.type}
                     </Text>
-                    <Text>🔥{currentStreak}</Text>
                     <UpdateHabitMetrics habit={habit} />
                 </Flex>
                 <DocActions
@@ -51,10 +64,13 @@ const HabitInfo: React.FunctionComponent<{
                     deleteAction={onDeleteWarningOpen}
                 />
             </Flex>
-            <Heading as='h1' fontSize='2xl' mt={6} mb={2}>
+            <Heading as='h1' fontSize='3xl' mt={8} mb={4} display='flex'>
                 {habit.name}
+                <Tooltip label={currentStreakTooltipLabel} placement='top'>
+                    <Text fontSize='md'>🔥{currentStreak}</Text>
+                </Tooltip>
             </Heading>
-            <Text mb={4} fontSize='lg'>
+            <Text mb={4} fontSize='xl'>
                 {habit.description}
             </Text>
             <Flex fontSize='lg' align='center'>
