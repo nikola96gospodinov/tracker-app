@@ -13,6 +13,7 @@ import { UpdateHabitMetrics } from '../../features/UpdateHabitMetrics/UpdateHabi
 import { DocActions } from '../../../../components/Docs/DocActions'
 import InfoIcon from '../../../../components/Icons/InfoIcon'
 import { Goal } from '../../../goals/goals.types'
+import { AdditionalHabitInfo } from './AdditionalHabitInfo'
 
 const HabitInfo: React.FunctionComponent<{
     habit: Habit
@@ -116,6 +117,8 @@ const HabitInfo: React.FunctionComponent<{
                     <GoalBox key={goal.id} goal={goal} />
                 ))}
             </SimpleGrid>
+
+            <AdditionalHabitInfo />
         </>
     )
 }
