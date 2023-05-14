@@ -8,6 +8,8 @@ import { Goal } from '../../goals.types'
 import { submitDoc } from '../../../../helpers/crud-operations/crud-operations-main-docs'
 import { GOALS, DAILY_HABITS, WEEKLY_HABITS } from '../../constants'
 import SaveIcon from '../../../../components/Icons/SaveIcon'
+import CloseIcon from '../../../../components/Icons/CloseIcon'
+import { Dispatch } from '../../../../typings'
 
 const UpdateHabitsList: React.FunctionComponent<{
     allHabits: Habit[] | undefined
@@ -15,7 +17,15 @@ const UpdateHabitsList: React.FunctionComponent<{
     goal: Goal | undefined
     userID: string | undefined
     shortName: string
-}> = ({ allHabits, attachedHabits, goal, userID, shortName }) => {
+    setNewElementAdded: Dispatch<boolean>
+}> = ({
+    allHabits,
+    attachedHabits,
+    goal,
+    userID,
+    shortName,
+    setNewElementAdded
+}) => {
     const defaultValue = attachedHabits?.map((id) => {
         const habit = allHabits?.find((habit) => habit.id === id)
         return {
@@ -93,8 +103,24 @@ const UpdateHabitsList: React.FunctionComponent<{
                 p={4}
                 height='54px'
                 boxShadow='inset'
+                ml={4}
             >
                 <SaveIcon />
+            </Button>
+            <Button
+                variant='delete'
+                p={4}
+                height='54px'
+                boxShadow='inset'
+                bg='red.50'
+                color='red.900'
+                _hover={{
+                    bg: 'red.500',
+                    color: 'white'
+                }}
+                onClick={() => setNewElementAdded(false)}
+            >
+                <CloseIcon isFull={false} />
             </Button>
         </Flex>
     )

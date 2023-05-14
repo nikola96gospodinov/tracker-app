@@ -11,6 +11,7 @@ import {
 
 import { Goal } from '../../goals.types'
 import { tabs } from '../../data'
+import GearIcon from '../../../../components/Icons/GearIcon'
 
 const GoalConfiguration: React.FunctionComponent<{
     goal: Goal
@@ -25,8 +26,9 @@ const GoalConfiguration: React.FunctionComponent<{
                     onClick={() => setNewElementAdded(true)}
                     size='sm'
                     boxShadow='none'
+                    variant='tertiary'
                 >
-                    Configure
+                    <GearIcon mr={1} /> Configure
                 </Button>
             </Flex>
             <Tabs colorScheme='purple'>

@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { Box } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
-import { Spinner } from '../../../../../components/UIElements/Spinner'
+import { Spinner } from '../../../../../components/UIElements/spinner'
 import useGetFilteredDocs from '../../../../../hooks/useGetFilteredDocs'
 import { HABITS } from '../../../../habits/constants'
 import { Habit } from '../../../../habits/habits.types'
@@ -12,12 +12,14 @@ import WeeklyHabitsList from './WeeklyHabitsList'
 import { UserContext } from '../../../../../context/userContext'
 import { ErrorFetchingDocs } from '../../../../../components/Docs/ErrorFetchingDocs'
 import NoDocsYet from '../../../../../components/Docs/NoDocsYet'
+import { Dispatch } from '../../../../../typings'
 
 const WeeklyHabitsContent: React.FunctionComponent<{
     goal: Goal | undefined
     newElementAdded: boolean
     shortName: string
-}> = ({ goal, newElementAdded, shortName }) => {
+    setNewElementAdded: Dispatch<boolean>
+}> = ({ goal, newElementAdded, shortName, setNewElementAdded }) => {
     const router = useRouter()
     const { userId } = useContext(UserContext)
     const {
@@ -54,6 +56,7 @@ const WeeklyHabitsContent: React.FunctionComponent<{
                     goal={goal}
                     userID={userId}
                     shortName={shortName}
+                    setNewElementAdded={setNewElementAdded}
                 />
             )}
             {goal && (

@@ -8,7 +8,8 @@ import DailyHabitsContent from './content'
 const DailyHabits: React.FunctionComponent<TabElementProps> = ({
     shortName,
     newElementAdded,
-    goal
+    goal,
+    setNewElementAdded
 }) => {
     const showEmptyContent = !newElementAdded && isEmpty(goal?.dailyHabits)
     const showDailyHabitsContent =
@@ -22,6 +23,7 @@ const DailyHabits: React.FunctionComponent<TabElementProps> = ({
                     goal={goal}
                     newElementAdded={newElementAdded}
                     shortName={shortName}
+                    setNewElementAdded={setNewElementAdded}
                 />
             )}
         </>
