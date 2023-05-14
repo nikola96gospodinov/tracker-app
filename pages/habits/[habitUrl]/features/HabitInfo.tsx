@@ -13,7 +13,7 @@ import { UpdateHabitMetrics } from '../../features/UpdateHabitMetrics/UpdateHabi
 import { DocActions } from '../../../../components/Docs/DocActions'
 import InfoIcon from '../../../../components/Icons/InfoIcon'
 import { Goal } from '../../../goals/goals.types'
-import { AdditionalHabitInfo } from './AdditionalHabitInfo'
+import { AdditionalHabitInfo } from './AdditionalHabitInfo/AdditionalHabitInfo'
 
 const HabitInfo: React.FunctionComponent<{
     habit: Habit
@@ -21,21 +21,13 @@ const HabitInfo: React.FunctionComponent<{
     onDeleteWarningOpen: () => void
 }> = ({ habit, onEditFormOpen, onDeleteWarningOpen }) => {
     const lastCompleted = habit.currentStreak?.end ?? habit.longestStreak.end
-    const lastCompletedFormatted = getLastCompleted(lastCompleted, habit.type)
-    const { isGoals, relevantGoals, loading } = useGetRelevantGoals({
-        habitID: habit.id,
-        habitType: habit.type
-    })
 
     const currentStreak = getCurrentStreak({
         lastCompleted,
         currentStreak: habit.currentStreak.streak,
         type: habit.type
     })
-    const longestStreakRange = getLongestStreakRange(
-        habit.longestStreak,
-        habit.type
-    )
+
     const currentStreakTooltipLabel =
         currentStreak === 0
             ? `You're not on an active streak at the momemnt`
@@ -71,54 +63,8 @@ const HabitInfo: React.FunctionComponent<{
                     <Text fontSize='md'>🔥{currentStreak}</Text>
                 </Tooltip>
             </Heading>
-            <Text mb={4} fontSize='xl'>
-                {habit.description}
-            </Text>
-            <Flex fontSize='lg' align='center'>
-                <Text as='strong'>Longest Streak:</Text>
-                <Text>🔥{habit.longestStreak.streak}</Text>
-                {longestStreakRange && (
-                    <Tooltip
-                        label={longestStreakRange}
-                        aria-label='Longest streak range'
-                    >
-                        <Text as='span'>
-                            <InfoIcon
-                                ml={1}
-                                color='purple.700'
-                                mb={2}
-                                boxSize={4}
-                            />
-                        </Text>
-                    </Tooltip>
-                )}
-            </Flex>
-            <Flex gap={2} fontSize='lg'>
-                <Text as='strong'>Last Completed:</Text>
-                <Text>{lastCompletedFormatted}</Text>
-            </Flex>
-
-            <Heading as='h2' fontSize='xl' mt={8} mb={4}>
-                Linked Goals
-            </Heading>
-            {loading && <Spinner />}
-            {!isGoals && (
-                <Text>
-                    You haven&apos;t attached this habit to any of your goals
-                </Text>
-            )}
-            <SimpleGrid
-                columns={3}
-                spacing={6}
-                minChildWidth='300px'
-                templateColumns='1fr 1fr 1fr'
-            >
-                {relevantGoals?.map((goal: Goal) => (
-                    <GoalBox key={goal.id} goal={goal} />
-                ))}
-            </SimpleGrid>
-
-            <AdditionalHabitInfo />
+            <Text fontSize='xl'>{habit.description}</Text>
+            <AdditionalHabitInfo habit={habit} />
         </>
     )
 }

@@ -6,7 +6,8 @@ const EmptyContent: React.FunctionComponent<{
 }> = ({ shortName }) => (
     <Flex alignItems='center' justifyContent='center' h={36}>
         <Text fontSize='xl'>
-            No {shortName}... You can add some by pressing &apos;<b>Add</b>
+            No {shortName}... You can add some by pressing &apos;
+            <b>Configure</b>
             &apos;! 😌
         </Text>
     </Flex>

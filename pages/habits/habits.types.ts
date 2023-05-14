@@ -23,4 +23,5 @@ export interface Habit {
     currentStreak: Streak
     urlPath: string
     description?: string
+    isKeystone?: boolean
 }

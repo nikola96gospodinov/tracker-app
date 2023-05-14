@@ -6,7 +6,6 @@ import { formatDateForUI } from '../../../../helpers/date-manipulation-functions
 import { capitalizeFirstLetter } from '../../../../helpers/string-manipulation-functions'
 import { goalsIcons } from '../../data'
 import { Goal } from '../../goals.types'
-import { Dispatch } from '../../../../typings'
 import CalendarIcon from '../../../../components/Icons/CalendarIcon'
 import { CategoryPill } from '../../features/CategoryPill'
 import { DocActions } from '../../../../components/Docs/DocActions'

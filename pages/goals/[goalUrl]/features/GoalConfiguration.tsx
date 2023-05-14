@@ -22,31 +22,26 @@ const GoalConfiguration: React.FunctionComponent<{
         <>
             <Flex justifyContent='flex-end' mb={-9}>
                 <Button
-                    height='auto'
-                    py={2}
-                    px={4}
-                    mt={8}
-                    mr={1}
                     onClick={() => setNewElementAdded(true)}
+                    size='sm'
                     boxShadow='none'
-                    fontSize='md'
                 >
-                    Add +
+                    Configure
                 </Button>
             </Flex>
             <Tabs colorScheme='purple'>
                 <TabList>
-                    {tabs.map((tab, key) => (
+                    {tabs.map(({ name }) => (
                         <Tab
-                            key={key}
+                            key={name}
                             onClick={() => {
-                                setActiveTab(tab.name)
-                                if (tab.name !== activeTab)
+                                setActiveTab(name)
+                                if (name !== activeTab)
                                     setNewElementAdded(false)
                             }}
                             borderBottomWidth={3}
                         >
-                            {tab.name}
+                            {name}
                         </Tab>
                     ))}
                 </TabList>
@@ -54,7 +49,6 @@ const GoalConfiguration: React.FunctionComponent<{
                     {tabs.map(({ Component, shortName }, key) => (
                         <TabPanel key={key} p={0}>
                             <Component
-                                key={key}
                                 shortName={shortName}
                                 goalID={goal.id}
                                 newElementAdded={newElementAdded}

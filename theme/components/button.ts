@@ -14,8 +14,14 @@ export const Button = {
             fontSize: 'xl',
             px: 10
         },
-        xsm: {
-            px: 5
+        sm: {
+            height: 'auto',
+            py: 2,
+            px: 4,
+            mt: 8,
+            mr: 1,
+            boxShadow: 'none',
+            fontSize: 'md'
         }
     },
     variants: {
