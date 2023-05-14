@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 
 import DeleteDoc from '../../../../components/Docs/DeleteDoc'
-import InitialSection from '../../../../components/InitialSection'
 import { Spinner } from '../../../../components/UIElements/Spinner'
 import useGetDoc from '../../../../hooks/useGetDoc'
 import { HABIT, HABITS } from '../../constants'

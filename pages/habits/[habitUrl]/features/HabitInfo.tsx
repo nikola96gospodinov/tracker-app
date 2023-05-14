@@ -1,18 +1,9 @@
 import { Flex, Heading, SimpleGrid, Text, Tooltip } from '@chakra-ui/react'
 
 import { Habit } from '../../habits.types'
-import {
-    getCurrentStreak,
-    getLastCompleted,
-    getLongestStreakRange
-} from '../../helpers'
-import { useGetRelevantGoals } from '../../../../hooks/useGetRelevantGoals'
-import { Spinner } from '../../../../components/UIElements/Spinner'
-import { GoalBox } from '../../../goals/features/GoalsList/GoalBox'
+import { getCurrentStreak } from '../../helpers'
 import { UpdateHabitMetrics } from '../../features/UpdateHabitMetrics/UpdateHabitMetrics'
 import { DocActions } from '../../../../components/Docs/DocActions'
-import InfoIcon from '../../../../components/Icons/InfoIcon'
-import { Goal } from '../../../goals/goals.types'
 import { AdditionalHabitInfo } from './AdditionalHabitInfo/AdditionalHabitInfo'
 
 const HabitInfo: React.FunctionComponent<{

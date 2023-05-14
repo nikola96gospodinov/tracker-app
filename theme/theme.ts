@@ -4,6 +4,7 @@ import { Button } from './components/button'
 import { Checkbox } from './components/checkbox'
 import { Heading } from './components/heading'
 import { Switch } from './components/switch'
+import { Radio } from './components/radio'
 import { Tooltip } from './components/tooltip'
 import { breakpoints } from './breakpoints'
 import { colors } from './colors'
@@ -28,7 +29,8 @@ const overrides = {
         Switch,
         Tooltip,
         Checkbox,
-        Heading
+        Heading,
+        Radio
     }
 }
 

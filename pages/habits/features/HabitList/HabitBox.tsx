@@ -8,12 +8,25 @@ import {
     getHabitTooltipLabel,
     isHabitCompleted
 } from '../../helpers'
+import { useGetRelevantGoals } from '../../../../hooks/useGetRelevantGoals'
 
 export const HabitBox: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
-    const { name, description, target, metric, type, urlPath, currentStreak } =
-        habit
+    const {
+        name,
+        description,
+        target,
+        metric,
+        type,
+        urlPath,
+        currentStreak,
+        isKeystone
+    } = habit
+    const { isGoals } = useGetRelevantGoals({
+        habitID: habit.id,
+        habitType: habit.type
+    })
     const href = `/habits/${urlPath}`
     const streak = getCurrentStreak({
         lastCompleted: currentStreak.end,
@@ -28,6 +41,7 @@ export const HabitBox: React.FunctionComponent<{
         type: habit.type,
         streak
     })
+    const isOnDashboard = habit.isKeystone || isGoals
 
     return (
         <Link
@@ -41,7 +55,7 @@ export const HabitBox: React.FunctionComponent<{
             transition='0.2s ease'
             cursor='pointer'
             borderLeft='solid'
-            borderLeftColor='purple.500'
+            borderLeftColor={isOnDashboard ? 'purple.500' : 'neutral.400'}
             borderLeftWidth={4}
             _hover={{
                 transform: 'translateY(4px)'
@@ -55,7 +69,12 @@ export const HabitBox: React.FunctionComponent<{
                         mb={2}
                     >
                         <Heading as='h3' fontSize='lg'>
-                            {name}
+                            {name}{' '}
+                            {isKeystone && (
+                                <Tooltip label='Keystone habit'>
+                                    <Text as='sup'>🪨</Text>
+                                </Tooltip>
+                            )}
                         </Heading>
                         <Text>🔥{streak}</Text>
                     </Flex>

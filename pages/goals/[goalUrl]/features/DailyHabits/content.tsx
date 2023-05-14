@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { Box } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
-import { Spinner } from '../../../../../components/UIElements/spinner'
+import { Spinner } from '../../../../../components/UIElements/Spinner'
 import useGetFilteredDocs from '../../../../../hooks/useGetFilteredDocs'
 import { HABITS } from '../../../../habits/constants'
 import { Habit } from '../../../../habits/habits.types'

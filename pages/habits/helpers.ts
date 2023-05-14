@@ -439,3 +439,24 @@ export const getHabitTooltipLabel = ({
 
     return ''
 }
+
+interface OnKeystoneStatusChangeProps {
+    userId: string | undefined
+    habitId: string
+    isKeystone: boolean | undefined
+}
+
+export const onKeystoneStatusChange = ({
+    userId,
+    habitId,
+    isKeystone
+}: OnKeystoneStatusChangeProps) => {
+    submitDoc<Habit>({
+        path: HABITS,
+        userID: userId,
+        orgDoc: {
+            id: habitId,
+            isKeystone: !Boolean(isKeystone)
+        } as Habit
+    })
+}
