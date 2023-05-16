@@ -22,7 +22,7 @@ export const FormHolder: React.FunctionComponent<PropsWithChildren> = ({
             borderTop='solid .5rem'
             borderColor='purple.600'
             position='relative'
-            gap={6}
+            gap={4}
         >
             {children}
         </Flex>

@@ -62,12 +62,12 @@ export const GoalBox: React.FunctionComponent<{
                 />
                 <Text>{category}</Text>
             </CategoryPill>
-            <Box mt={2} color='neutral.900'>
+            <Box mt={3} color='neutral.900'>
                 <Heading as='h3' fontWeight={600} fontSize='xl' mb={1}>
                     {goal.name}
                 </Heading>
                 <Text>{goal.description}</Text>
-                <Flex alignItems='center' gap={1} mt={1}>
+                <Flex alignItems='center' gap={1} pt={goal.description ? 2 : 4}>
                     <CalendarIcon />
                     {deadline}
                 </Flex>

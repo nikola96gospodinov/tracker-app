@@ -142,7 +142,7 @@ const HabitForm: React.FunctionComponent<{
                 errorContent='Please select a metric'
             />
             <Input
-                label='Description'
+                label='Description (Optional)'
                 name='description'
                 value={description}
                 type='text'

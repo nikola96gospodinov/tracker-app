@@ -16,9 +16,10 @@ import {
     MILESTONES_CAPITALIZED,
     MILESTONES
 } from './constants'
-import DailyHabits from './[goalUrl]/features/DailyHabits/DailyHabits'
 import Milestones from './[goalUrl]/features/Milestones/Milestones'
-import WeeklyHabits from './[goalUrl]/features/WeeklyHabits/WeeklyHabits'
+import AttachedHabits from './[goalUrl]/features/AttachedHabits/AttachedHabits'
+import { FunctionComponent } from 'react'
+import { TabElementProps } from './goals.types'
 
 export const goalsIcons = {
     health: {
@@ -98,20 +99,36 @@ export const goalOptions = {
     collective: collectiveGoalOptions
 }
 
-export const tabs = [
+interface Tab {
+    name: string
+    shortName: string
+    Component: FunctionComponent<TabElementProps>
+    props: {
+        type?: 'daily' | 'weekly'
+    }
+}
+
+export const tabs: Tab[] = [
     {
         name: DAILY_HABITS_CAPITALIZED,
         shortName: DAILY_HABITS,
-        Component: DailyHabits
+        Component: AttachedHabits,
+        props: {
+            type: 'daily'
+        }
     },
     {
         name: WEEKLY_HABITS_CAPITALIZED,
         shortName: WEEKLY_HABITS,
-        Component: WeeklyHabits
+        Component: AttachedHabits,
+        props: {
+            type: 'weekly'
+        }
     },
     {
         name: MILESTONES_CAPITALIZED,
         shortName: MILESTONES,
-        Component: Milestones
+        Component: Milestones,
+        props: {}
     }
 ]

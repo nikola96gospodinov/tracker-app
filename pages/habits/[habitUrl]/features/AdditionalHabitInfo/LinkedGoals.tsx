@@ -22,7 +22,7 @@ export const LinkedGoals: FunctionComponent<{ habit: Habit }> = ({ habit }) => {
     if (!isGoals && !habit.isKeystone)
         return (
             <VStack mt={8} fontSize='lg' ml={4} align='flex-start'>
-                <Text fontSize='2xl'>
+                <Text fontSize='xl' fontWeight={600}>
                     You haven&apos;t attached this habit to any of your goals.
                     🤨
                 </Text>
@@ -30,10 +30,13 @@ export const LinkedGoals: FunctionComponent<{ habit: Habit }> = ({ habit }) => {
                     If you want this habit to appear on your dashboard either:
                 </Text>
                 <Flex gap={2}>
+                    <Link href='/goals' size='sm' mt={4} boxShadow='secondary'>
+                        Add habit to any goal
+                    </Link>
                     <Button
+                        variant='tertiary'
                         size='sm'
                         mt={4}
-                        boxShadow='secondary'
                         onClick={() =>
                             onKeystoneStatusChange({
                                 userId,
@@ -44,9 +47,6 @@ export const LinkedGoals: FunctionComponent<{ habit: Habit }> = ({ habit }) => {
                     >
                         Make this a keystone habit
                     </Button>
-                    <Link href='/goals' size='sm' variant='tertiary' mt={4}>
-                        Add it to any goal
-                    </Link>
                 </Flex>
             </VStack>
         )
@@ -54,7 +54,9 @@ export const LinkedGoals: FunctionComponent<{ habit: Habit }> = ({ habit }) => {
     if (!isGoals && habit.isKeystone)
         return (
             <VStack mt={8} fontSize='lg' ml={4} align='flex-start'>
-                <Text fontSize='2xl'>🪨 This is a keystone habit</Text>
+                <Text fontSize='xl' fontWeight={600}>
+                    This is a keystone habit 🪨
+                </Text>
                 <Text pb={2} color='neutral.800'>
                     Keystone habits don&apos;t need to be linked to goals in
                     order to appear on your dashboard.

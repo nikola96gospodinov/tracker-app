@@ -12,6 +12,7 @@ import {
 import { Goal } from '../../goals.types'
 import { tabs } from '../../data'
 import GearIcon from '../../../../components/Icons/GearIcon'
+import AddIcon from '../../../../components/Icons/AddIcon'
 
 const GoalConfiguration: React.FunctionComponent<{
     goal: Goal
@@ -28,7 +29,12 @@ const GoalConfiguration: React.FunctionComponent<{
                     boxShadow='none'
                     variant='tertiary'
                 >
-                    <GearIcon mr={1} /> Configure
+                    {activeTab === tabs[2].name ? (
+                        <AddIcon mr={1} />
+                    ) : (
+                        <GearIcon mr={1} />
+                    )}{' '}
+                    {activeTab === tabs[2].name ? 'Add' : 'Configure'}
                 </Button>
             </Flex>
             <Tabs colorScheme='purple'>
@@ -48,7 +54,7 @@ const GoalConfiguration: React.FunctionComponent<{
                     ))}
                 </TabList>
                 <TabPanels>
-                    {tabs.map(({ Component, shortName }) => (
+                    {tabs.map(({ Component, shortName, props }) => (
                         <TabPanel key={shortName} p={0}>
                             <Component
                                 shortName={shortName}
@@ -57,6 +63,7 @@ const GoalConfiguration: React.FunctionComponent<{
                                 setNewElementAdded={setNewElementAdded}
                                 activeTab={activeTab}
                                 goal={goal}
+                                {...props}
                             />
                         </TabPanel>
                     ))}

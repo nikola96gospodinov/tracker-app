@@ -7,6 +7,7 @@ interface Tab {
     name: string
     Component: FunctionComponent<{
         type?: 'daily' | 'weekly'
+        onOpen: () => void
     }>
     props: {
         type?: 'daily' | 'weekly'

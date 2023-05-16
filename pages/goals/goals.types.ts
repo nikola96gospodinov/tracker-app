@@ -36,4 +36,5 @@ export interface TabElementProps {
     setNewElementAdded: Dispatch<boolean>
     activeTab: string
     goal?: Goal
+    type?: 'daily' | 'weekly'
 }

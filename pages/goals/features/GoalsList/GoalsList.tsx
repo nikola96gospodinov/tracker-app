@@ -1,12 +1,12 @@
+import { SimpleGrid } from '@chakra-ui/react'
+
 import useGetDocs from '../../../../hooks/useGetDocs'
 import NoDocsYet from '../../../../components/Docs/NoDocsYet'
 import { Spinner } from '../../../../components/UIElements/Spinner'
 import { GoalBox } from '../../../../features/GoalBox'
 import { Goal } from '../../goals.types'
 import { GOALS } from '../../constants'
-import { Dispatch } from '../../../../typings'
 import { ErrorFetchingDocs } from '../../../../components/Docs/ErrorFetchingDocs'
-import { SimpleGrid } from '@chakra-ui/react'
 
 const GoalsList: React.FunctionComponent<{
     userID: string

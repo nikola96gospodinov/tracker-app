@@ -7,7 +7,7 @@ export const CategoryPill: React.FunctionComponent<PropsWithChildren> = ({
     return (
         <Flex
             bgGradient='linear(to-l, transparent, purple.50)'
-            py={2}
+            py={1}
             px={4}
             borderRadius='2rem'
             gap={12}

@@ -61,7 +61,12 @@ export const HabitBox: React.FunctionComponent<{
                 transform: 'translateY(4px)'
             }}
         >
-            <VStack align='space-between' justify='space-between' h='100%'>
+            <VStack
+                align='space-between'
+                justify='space-between'
+                h='100%'
+                gap={description ? 2 : 6}
+            >
                 <Box>
                     <Flex
                         alignItems='flex-end'
@@ -80,7 +85,7 @@ export const HabitBox: React.FunctionComponent<{
                     </Flex>
                     <Text>{description}</Text>
                 </Box>
-                <Flex pt={2} alignItems='center' justifyContent='space-between'>
+                <Flex alignItems='center' justifyContent='space-between'>
                     <Text>
                         🎯 {target} {metric} {type}
                     </Text>

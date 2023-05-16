@@ -13,7 +13,8 @@ import { thisWeek, today } from '../../../helpers/date-manipulation-functions'
 
 export const HabitView: FunctionComponent<{
     type?: 'daily' | 'weekly'
-}> = ({ type }) => {
+    onOpen: () => void
+}> = ({ type, onOpen }) => {
     const { activeHabits, loading, errorFetching } =
         useGetAllActiveHabitsByType(type!)
 
@@ -22,7 +23,14 @@ export const HabitView: FunctionComponent<{
     if (errorFetching) return <ErrorFetchingDocs docType={HABITS} size='sm' />
 
     if (activeHabits.length === 0)
-        return <NoDocsYet docType={HABITS} onClick={() => {}} size='sm' />
+        return (
+            <NoDocsYet
+                docType={HABITS}
+                onClick={() => onOpen()}
+                size='sm'
+                customMessage={`You haven't added any habits to your dashboard yet 🤔`}
+            />
+        )
 
     const completedHabits = activeHabits.filter(
         ({ currentStreak: { end } }) => {

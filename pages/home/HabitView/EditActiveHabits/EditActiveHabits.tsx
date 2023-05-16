@@ -26,7 +26,12 @@ export const EditActiveHabits: FunctionComponent<{
         return (
             <NoDocsYet
                 docType={HABITS}
-                onClick={() => router.push('/habits')}
+                onClick={() =>
+                    router.push(
+                        { pathname: '/habits', query: { formOpen: true } },
+                        '/habits'
+                    )
+                }
                 size='sm'
             />
         )

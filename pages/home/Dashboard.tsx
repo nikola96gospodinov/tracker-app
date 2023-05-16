@@ -48,7 +48,7 @@ export const Dashboard: FunctionComponent = () => {
                 <TabPanels>
                     {tabs.map(({ Component, name, props }) => (
                         <TabPanel key={name} p={0}>
-                            <Component {...props} />
+                            <Component {...props} onOpen={onOpen} />
                         </TabPanel>
                     ))}
                 </TabPanels>

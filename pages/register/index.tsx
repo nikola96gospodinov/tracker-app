@@ -6,7 +6,14 @@ import {
     useCreateUserWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
-import { Box, Button, ListItem, Text, UnorderedList } from '@chakra-ui/react'
+import {
+    Box,
+    Button,
+    ListItem,
+    Stack,
+    Text,
+    UnorderedList
+} from '@chakra-ui/react'
 
 import { auth, db } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
@@ -137,40 +144,42 @@ const Register: NextPage = () => {
         <FormHolder>
             <FormHeading>Register</FormHeading>
             <form onSubmit={(e) => FormSubmit(e)} autoComplete='off'>
-                <Input
-                    label='Email'
-                    ref={emailRef}
-                    id='email'
-                    type='email'
-                    isError={errors.email}
-                    errorContent='Please enter a valid email'
-                />
-                <Input
-                    label='Password'
-                    ref={passwordRef}
-                    id='password'
-                    type='password'
-                    isError={isPasswordError}
-                    errorContent={
-                        <NameErrors passwordErrors={passwordErrors} />
-                    }
-                />
-                <Input
-                    label='Confirm Password'
-                    ref={confirmPasswordRef}
-                    id='confirm-password'
-                    type='password'
-                    isError={errors.confirmPassword}
-                    errorContent='Passwords must match'
-                />
-                <Button
-                    type='submit'
-                    isLoading={isLoadingRegister}
-                    w='100%'
-                    mt={4}
-                >
-                    Register
-                </Button>
+                <Stack gap={3}>
+                    <Input
+                        label='Email'
+                        ref={emailRef}
+                        id='email'
+                        type='email'
+                        isError={errors.email}
+                        errorContent='Please enter a valid email'
+                    />
+                    <Input
+                        label='Password'
+                        ref={passwordRef}
+                        id='password'
+                        type='password'
+                        isError={isPasswordError}
+                        errorContent={
+                            <NameErrors passwordErrors={passwordErrors} />
+                        }
+                    />
+                    <Input
+                        label='Confirm Password'
+                        ref={confirmPasswordRef}
+                        id='confirm-password'
+                        type='password'
+                        isError={errors.confirmPassword}
+                        errorContent='Passwords must match'
+                    />
+                    <Button
+                        type='submit'
+                        isLoading={isLoadingRegister}
+                        w='100%'
+                        mt={4}
+                    >
+                        Register
+                    </Button>
+                </Stack>
             </form>
             <Box textAlign='center' mt={6}>
                 Already have an account?&nbsp;

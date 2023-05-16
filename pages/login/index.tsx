@@ -5,7 +5,7 @@ import {
     useAuthState,
     useSignInWithEmailAndPassword
 } from 'react-firebase-hooks/auth'
-import { Box, Button } from '@chakra-ui/react'
+import { Box, Button, Stack } from '@chakra-ui/react'
 
 import { auth } from '../../firebase/firebase'
 import { Input } from '../../components/Form/Input'
@@ -49,26 +49,33 @@ const Login: NextPage = () => {
         <FormHolder>
             <FormHeading>Login</FormHeading>
             <form onSubmit={(e) => logUser(e)}>
-                <Input ref={emailRef} id='email' type='email' label='Email' />
-                <Input
-                    ref={passwordRef}
-                    id='password'
-                    type='password'
-                    label='Password'
-                />
-                <Button
-                    type='submit'
-                    isLoading={isLoadingSignIn}
-                    w='100%'
-                    mt={4}
-                >
-                    Login
-                </Button>
+                <Stack gap={3}>
+                    <Input
+                        ref={emailRef}
+                        id='email'
+                        type='email'
+                        label='Email'
+                    />
+                    <Input
+                        ref={passwordRef}
+                        id='password'
+                        type='password'
+                        label='Password'
+                    />
+                    <Button
+                        type='submit'
+                        isLoading={isLoadingSignIn}
+                        w='100%'
+                        mt={4}
+                    >
+                        Login
+                    </Button>
+                </Stack>
             </form>
             <Link href='/reset-password' variant='link' textAlign='center'>
                 Forgot your password?
             </Link>
-            <Box textAlign='center' mb={errorMessage ? 4 : 0}>
+            <Box textAlign='center'>
                 Don&#39;t have an account?&nbsp;
                 <Link href='/register' variant='link'>
                     Sign up
