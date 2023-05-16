@@ -15,6 +15,7 @@ export const ErrorFetchingDocs: FunctionComponent<{
             flexDir='column'
             gap={4}
             py={12}
+            textAlign='center'
         >
             <Text fontSize={size === 'md' ? '2xl' : 'xl'}>
                 Oh no... 😨 There was an error fetching your {docType}...

@@ -6,7 +6,6 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverHeader,
     PopoverTrigger,
     SimpleGrid,
     Text
@@ -47,6 +46,10 @@ export const CompletedHabits: FunctionComponent<{
                             }}
                         >
                             {habit.name}
+                            <Text as='sup'>
+                                {' '}
+                                🔥{habit.currentStreak.streak}
+                            </Text>
                         </Link>
                     </Flex>
                     <Popover>

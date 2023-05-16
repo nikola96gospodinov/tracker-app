@@ -43,6 +43,7 @@ export const HabitView: FunctionComponent<{
             <Progress
                 dailyHabitsLength={activeHabits.length}
                 completedHabitsLength={completedHabits.length}
+                incompletedHabits={incompletedHabits}
             />
             <VStack flexGrow={1} align='flex-start'>
                 <IncompletedHabits

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { uniq, uniqBy } from 'lodash'
+import { difference, uniq, uniqBy } from 'lodash'
 
 import { UserContext } from '../../../context/userContext'
 import useGetFilteredDocs from '../../../hooks/useGetFilteredDocs'
@@ -72,5 +72,7 @@ export const useGetAllActiveHabitsByType = (type: 'daily' | 'weekly') => {
     const loading = loadingHabits || loadingGoals
     const errorFetching = errorFetchingHabits || errorFetchingGoals
 
-    return { activeHabits, loading, errorFetching }
+    const inactiveHabits = difference(allHabits, activeHabits)
+
+    return { activeHabits, inactiveHabits, loading, errorFetching }
 }

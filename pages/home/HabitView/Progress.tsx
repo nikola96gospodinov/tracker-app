@@ -1,12 +1,23 @@
 import { FunctionComponent } from 'react'
 import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
+import { Habit } from '../../habits/habits.types'
 
 export const Progress: FunctionComponent<{
     dailyHabitsLength: number
     completedHabitsLength: number
-}> = ({ dailyHabitsLength, completedHabitsLength }) => {
+    incompletedHabits: Habit[]
+}> = ({ dailyHabitsLength, completedHabitsLength, incompletedHabits }) => {
+    const partialProgress = incompletedHabits.reduce((accumulator, habit) => {
+        if (habit.target > 1 && habit.progress) {
+            return accumulator + habit.progress.progress / habit.target
+        }
+
+        return accumulator
+    }, 0)
+    const totalProgress = completedHabitsLength + partialProgress
+
     const percentageCompleted = Math.round(
-        (completedHabitsLength / dailyHabitsLength) * 100
+        (totalProgress / dailyHabitsLength) * 100
     )
 
     const color = (() => {
@@ -26,7 +37,7 @@ export const Progress: FunctionComponent<{
             h={36}
         >
             <CircularProgressLabel fontSize='3xl' fontWeight={600}>
-                {completedHabitsLength}/{dailyHabitsLength}
+                {percentageCompleted}%
             </CircularProgressLabel>
         </CircularProgress>
     )
