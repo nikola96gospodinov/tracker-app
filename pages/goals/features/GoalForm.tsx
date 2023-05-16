@@ -15,9 +15,8 @@ import { Input } from '../../../components/Form/Input'
 import { Select } from '../../../components/Form/Select'
 import { Textarea } from '../../../components/Form/Textarea'
 import { UserContext } from '../../../context/userContext'
+import { today } from '../../../helpers/date-manipulation-functions'
 
-const now = new Date()
-const today = now.toISOString().substring(0, 10)
 const GoalForm: React.FunctionComponent<{
     isFormOpen: boolean
     onFormClose: () => void

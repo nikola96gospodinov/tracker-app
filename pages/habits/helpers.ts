@@ -6,7 +6,11 @@ import {
     formatDateForUI,
     formatWeek,
     goOneDayBack,
-    goOneDayForward
+    goOneDayForward,
+    lastWeek,
+    thisWeek,
+    today,
+    yesterday
 } from '../../helpers/date-manipulation-functions'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { HABITS } from './constants'
@@ -16,11 +20,6 @@ import { GOALS } from '../goals/constants'
 import { Goal } from '../goals/goals.types'
 import CheckIcon from '../../components/Icons/CheckIcon'
 import DangerIcon from '../../components/Icons/DangerIcon'
-
-const today = formatDate(moment())
-const yesterday = formatDate(moment().subtract(1, 'days'))
-const thisWeek = formatWeek(moment())
-const lastWeek = formatWeek(moment().subtract(7, 'days'))
 
 export const getUpdatedStreaksForDailyHabits = (
     habit: Habit,

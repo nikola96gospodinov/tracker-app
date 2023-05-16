@@ -1,4 +1,4 @@
-import { Flex, Heading, SimpleGrid, Text, Tooltip } from '@chakra-ui/react'
+import { Flex, Heading, Text, Tooltip } from '@chakra-ui/react'
 
 import { Habit } from '../../habits.types'
 import { getCurrentStreak } from '../../helpers'

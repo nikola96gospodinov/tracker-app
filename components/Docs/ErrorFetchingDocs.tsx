@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 
 export const ErrorFetchingDocs: FunctionComponent<{
     docType: string
-}> = ({ docType }) => {
+    size?: 'sm' | 'md'
+}> = ({ docType, size = 'md' }) => {
     const router = useRouter()
 
     return (
@@ -13,12 +14,18 @@ export const ErrorFetchingDocs: FunctionComponent<{
             justifyContent='center'
             flexDir='column'
             gap={4}
-            py={8}
+            py={12}
         >
-            <Text fontSize='2xl'>
+            <Text fontSize={size === 'md' ? '2xl' : 'xl'}>
                 Oh no... 😨 There was an error fetching your {docType}...
             </Text>
-            <Button onClick={() => router.reload()}>Refresh Page</Button>
+            <Button
+                size={size}
+                onClick={() => router.reload()}
+                mt={size === 'md' ? 2 : 0}
+            >
+                Refresh Page
+            </Button>
         </Flex>
     )
 }

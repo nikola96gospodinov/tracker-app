@@ -1,15 +1,15 @@
 import { Box, Flex, Heading, Text, Tooltip } from '@chakra-ui/react'
 
-import { Habit } from '../../../habits/habits.types'
+import { Habit } from '../pages/habits/habits.types'
 import {
     getCurrentStreak,
     getHabitCompletionIcon,
     getHabitTooltipLabel,
     isHabitCompleted
-} from '../../../habits/helpers'
-import { Link } from '../../../../components/UIElements/Link'
-import { UpdateHabitMetrics } from '../../../habits/features/UpdateHabitMetrics/UpdateHabitMetrics'
-import { formatDateForUI } from '../../../../helpers/date-manipulation-functions'
+} from '../pages/habits/helpers'
+import { Link } from '../components/UIElements/Link'
+import { UpdateHabitMetrics } from '../pages/habits/features/UpdateHabitMetrics/UpdateHabitMetrics'
+import { formatDateForUI } from '../helpers/date-manipulation-functions'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
@@ -49,7 +49,12 @@ const HabitCell: React.FunctionComponent<{
                     _hover={{ textDecoration: 'none', color: 'purple.600' }}
                 >
                     <Heading as='h3' fontSize='lg' fontWeight={600}>
-                        {habit.name}
+                        {habit.name}{' '}
+                        {habit.isKeystone && (
+                            <Tooltip label='Keystone habit'>
+                                <Text as='sup'>🪨</Text>
+                            </Tooltip>
+                        )}
                     </Heading>
                 </Link>
                 <Text>🔥{currentStreak}</Text>

@@ -3,7 +3,7 @@ import { Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
 import { Habit } from '../../../habits.types'
 import { useGetRelevantGoals } from '../../../../../hooks/useGetRelevantGoals'
-import { GoalBox } from '../../../../goals/features/GoalsList/GoalBox'
+import { GoalBox } from '../../../../../features/GoalBox'
 import { Goal } from '../../../../goals/goals.types'
 import { Spinner } from '../../../../../components/UIElements/Spinner'
 import { onKeystoneStatusChange } from '../../../helpers'

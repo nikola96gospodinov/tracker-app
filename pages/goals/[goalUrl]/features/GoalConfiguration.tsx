@@ -48,8 +48,8 @@ const GoalConfiguration: React.FunctionComponent<{
                     ))}
                 </TabList>
                 <TabPanels>
-                    {tabs.map(({ Component, shortName }, key) => (
-                        <TabPanel key={key} p={0}>
+                    {tabs.map(({ Component, shortName }) => (
+                        <TabPanel key={shortName} p={0}>
                             <Component
                                 shortName={shortName}
                                 goalID={goal.id}

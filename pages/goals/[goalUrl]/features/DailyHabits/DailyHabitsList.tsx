@@ -1,7 +1,7 @@
 import { SimpleGrid } from '@chakra-ui/react'
 import { Habit } from '../../../../habits/habits.types'
 import { Goal } from '../../../goals.types'
-import HabitCell from '../HabitCell'
+import HabitCell from '../../../../../features/HabitCell'
 
 const DailyHabitsList: React.FunctionComponent<{
     goal: Goal

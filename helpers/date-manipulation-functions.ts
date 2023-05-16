@@ -39,3 +39,8 @@ export const formatWeek = (
     const year = moment(date).year()
     return `Week ${week}, ${year}`
 }
+
+export const today = formatDate(moment())
+export const yesterday = formatDate(moment().subtract(1, 'days'))
+export const thisWeek = formatWeek(moment())
+export const lastWeek = formatWeek(moment().subtract(7, 'days'))
