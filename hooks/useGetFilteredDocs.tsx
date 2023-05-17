@@ -50,7 +50,7 @@ const useGetFilteredDocs = <T,>({
         )
 
         return () => unsubscribe()
-    }, [])
+    }, [value])
 
     return { docs: allDocs, loading, errorFetching }
 }

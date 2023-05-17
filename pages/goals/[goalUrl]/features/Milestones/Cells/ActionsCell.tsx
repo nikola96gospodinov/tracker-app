@@ -35,8 +35,6 @@ export const ActionsCell: React.FunctionComponent<{
     target,
     progress
 }) => {
-    console.log(progress, target)
-
     return (
         <Td>
             <Flex justifyContent='flex-end' alignItems='center'>

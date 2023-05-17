@@ -13,9 +13,7 @@ import AttachedHabitsContent from './AttachedHabitsContent'
 
 const AttachedHabits: React.FunctionComponent<TabElementProps> = ({
     shortName,
-    newElementAdded,
     goal,
-    setNewElementAdded,
     type
 }) => {
     const router = useRouter()
@@ -47,13 +45,7 @@ const AttachedHabits: React.FunctionComponent<TabElementProps> = ({
         )
 
     return (
-        <AttachedHabitsContent
-            goal={goal}
-            newElementAdded={newElementAdded}
-            shortName={shortName}
-            setNewElementAdded={setNewElementAdded}
-            type={type!}
-        />
+        <AttachedHabitsContent goal={goal} shortName={shortName} type={type!} />
     )
 }
 

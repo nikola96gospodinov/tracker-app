@@ -12,8 +12,8 @@ import { FunctionComponent, useState } from 'react'
 
 import { tabs } from './data'
 import GearIcon from '../../components/Icons/GearIcon'
-import { EditActiveHabits } from './HabitView/EditActiveHabits/EditActiveHabits'
-import { FormModal } from '../../components/Form/FormModal'
+import { EditActiveHabits } from '../../features/EditActiveHabits/EditActiveHabits'
+import { EditActiveHabitsOnDashboard } from './EditActiveHabitsOnDashboard'
 
 export const Dashboard: FunctionComponent = () => {
     const [activeTab, setActiveTab] = useState(tabs[0].name)
@@ -54,13 +54,11 @@ export const Dashboard: FunctionComponent = () => {
                 </TabPanels>
             </Tabs>
 
-            <FormModal
-                formOpen={isOpen}
-                onFormClose={onClose}
-                onSubmit={() => {}}
-            >
-                <EditActiveHabits activeTab={activeTab} />
-            </FormModal>
+            <EditActiveHabitsOnDashboard
+                type={activeTab === 'Today' ? 'daily' : 'weekly'}
+                isOpen={isOpen}
+                onClose={onClose}
+            />
         </>
     )
 }
