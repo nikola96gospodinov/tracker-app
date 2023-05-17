@@ -1,21 +1,16 @@
 import { FunctionComponent } from 'react'
 import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
+
 import { Habit } from '../../habits/habits.types'
+import { calculatePartialProgress } from '../helpers'
 
 export const Progress: FunctionComponent<{
     dailyHabitsLength: number
     completedHabitsLength: number
     incompletedHabits: Habit[]
 }> = ({ dailyHabitsLength, completedHabitsLength, incompletedHabits }) => {
-    const partialProgress = incompletedHabits.reduce((accumulator, habit) => {
-        if (habit.target > 1 && habit.progress) {
-            return accumulator + habit.progress.progress / habit.target
-        }
-
-        return accumulator
-    }, 0)
+    const partialProgress = calculatePartialProgress(incompletedHabits)
     const totalProgress = completedHabitsLength + partialProgress
-
     const percentageCompleted = Math.round(
         (totalProgress / dailyHabitsLength) * 100
     )
