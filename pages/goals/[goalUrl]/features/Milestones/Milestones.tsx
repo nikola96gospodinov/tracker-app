@@ -78,11 +78,22 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
     }, [])
 
     const handleEdit = useCallback(
-        (name: string, deadline: string | undefined) => {
+        (
+            name: string,
+            deadline: string | undefined,
+            target: number | undefined,
+            progress: number | undefined
+        ) => {
             const updatedMilestone = {
                 ...activeMilestone,
                 name,
-                deadline
+                deadline,
+                target,
+                progress,
+                completed:
+                    progress && target
+                        ? progress >= target
+                        : activeMilestone?.completed
             } as Milestone
 
             editMilestone({

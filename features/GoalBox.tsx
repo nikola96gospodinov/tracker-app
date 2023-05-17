@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import { Box, Flex, Heading, Text } from '@chakra-ui/react'
+import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react'
 
 import { Goal } from '../pages/goals/goals.types'
 import { goalsIcons } from '../pages/goals/data'
@@ -52,26 +52,40 @@ export const GoalBox: React.FunctionComponent<{
                     }}
                 />
             )}
-            <CategoryPill>
-                <Image
-                    src={icon.src}
-                    alt={icon.alt}
-                    width={24}
-                    height={24}
-                    style={{ scale: '0.75' }} // Next.js Image being strange
-                />
-                <Text>{category}</Text>
-            </CategoryPill>
-            <Box mt={3} color='neutral.900'>
-                <Heading as='h3' fontWeight={600} fontSize='xl' mb={1}>
-                    {goal.name}
-                </Heading>
-                <Text>{goal.description}</Text>
+            <VStack
+                color='neutral.900'
+                align='flex-start'
+                justify='space-between'
+                h='100%'
+            >
+                <Box>
+                    <CategoryPill>
+                        <Image
+                            src={icon.src}
+                            alt={icon.alt}
+                            width={24}
+                            height={24}
+                            style={{ scale: '0.75' }} // Next.js Image being strange
+                        />
+                        <Text>{category}</Text>
+                    </CategoryPill>
+                    <Heading
+                        as='h3'
+                        fontWeight={600}
+                        fontSize='xl'
+                        lineHeight='1.35'
+                        mt={3}
+                        mb={2}
+                    >
+                        {goal.name}
+                    </Heading>
+                    <Text>{goal.description}</Text>
+                </Box>
                 <Flex alignItems='center' gap={1} pt={goal.description ? 2 : 4}>
                     <CalendarIcon />
                     {deadline}
                 </Flex>
-            </Box>
+            </VStack>
         </Link>
     )
 }

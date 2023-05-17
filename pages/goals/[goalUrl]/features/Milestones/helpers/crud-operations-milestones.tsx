@@ -122,9 +122,23 @@ export const toggleMilestone = async ({
     const milestonesCollection = getMilestonesCollection(userID)
     const milestonesRef = doc(milestonesCollection, milestone.id)
 
+    const progress = (() => {
+        if (
+            milestone.progress &&
+            milestone.target &&
+            milestone.completed &&
+            milestone.progress >= milestone.target
+        ) {
+            return milestone.target - 1
+        }
+
+        return milestone.progress
+    })()
+
     try {
         updateDoc(milestonesRef, {
-            completed: !milestone.completed
+            completed: !milestone.completed,
+            progress
         })
     } catch (e) {
         console.log(e)

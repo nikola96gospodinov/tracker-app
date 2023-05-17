@@ -16,6 +16,8 @@ export interface Milestone {
     name: string
     completed: boolean
     deadline?: string
+    target?: number
+    progress?: number
 }
 
 export interface Goal {

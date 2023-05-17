@@ -6,9 +6,10 @@ export const TableHeader = () => (
     <>
         <colgroup>
             <col style={{ width: '5%' }} />
-            <col style={{ width: '40%' }} />
-            <col style={{ width: '40%' }} />
-            <col style={{ width: '15%' }} />
+            <col style={{ width: '30%' }} />
+            <col style={{ width: '30%' }} />
+            <col style={{ width: '30%' }} />
+            <col style={{ width: '5%' }} />
         </colgroup>
         <Thead bg='neutral.100' boxShadow='inset'>
             <Tr>
@@ -19,6 +20,7 @@ export const TableHeader = () => (
                 </Th>
                 <Th>Name</Th>
                 <Th>Deadline</Th>
+                <Th>Progress</Th>
                 <Th></Th>
             </Tr>
         </Thead>
