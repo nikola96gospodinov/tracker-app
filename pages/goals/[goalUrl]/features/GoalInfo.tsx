@@ -5,7 +5,7 @@ import { Goal } from '../../goals.types'
 import { Pill } from '../../../../components/Pill'
 import { DocActions } from '../../../../components/Docs/DocActions'
 import { Deadline } from '../../../../features/Deadline'
-import { MilestonesHit } from './Milestones/MilestonesHit'
+import { UpdateGoalMetrics } from './UpdateGoalMetrics'
 
 const GoalInfo: React.FunctionComponent<{
     goal: Goal
@@ -15,8 +15,10 @@ const GoalInfo: React.FunctionComponent<{
     <Stack>
         <Flex alignItems='center' justifyContent='space-between'>
             <Pill>
-                <MilestonesHit goalId={goal.id} />
+                {/* Maybe to use later */}
+                {/* <MilestonesHit goalId={goal.id} /> */}
                 <Deadline deadline={goal.deadline} />
+                <UpdateGoalMetrics goal={goal} />
             </Pill>
             <DocActions
                 editAction={onEditFormOpen}

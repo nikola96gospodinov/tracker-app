@@ -37,13 +37,15 @@ export const useGetAllActiveHabitsByType = (type: HabitType) => {
     useEffect(() => {
         if (isGoals && isHabits) {
             const attachedHabitIds: string[] = []
-            goals?.forEach((goal) => {
-                if (goal[`${type}Habits`]) {
-                    goal[`${type}Habits`]?.forEach((habitId) =>
-                        attachedHabitIds.push(habitId)
-                    )
-                }
-            })
+            goals
+                ?.filter(({ status }) => status === 'active')
+                .forEach((goal) => {
+                    if (goal[`${type}Habits`]) {
+                        goal[`${type}Habits`]?.forEach((habitId) =>
+                            attachedHabitIds.push(habitId)
+                        )
+                    }
+                })
 
             const attachedHabits = allHabits?.filter(({ id }) =>
                 attachedHabitIds.includes(id)

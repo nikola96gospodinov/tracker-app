@@ -36,7 +36,7 @@ export const SetProgress: FunctionComponent<{
     }
 
     return (
-        <Flex gap={2} alignItems='flex-end'>
+        <Flex gap={2} alignItems={isEdited ? 'center' : 'flex-end'}>
             <BatteryIcon
                 current={progress}
                 total={target}
@@ -54,6 +54,7 @@ export const SetProgress: FunctionComponent<{
                             }}
                             placeholder='Progress'
                             isSmall
+                            maxWidth={20}
                         />
                         <Text>/</Text>
                         <Input
@@ -64,6 +65,7 @@ export const SetProgress: FunctionComponent<{
                             }}
                             placeholder='Target'
                             isSmall
+                            maxWidth={20}
                         />
                     </Flex>
                 ) : (

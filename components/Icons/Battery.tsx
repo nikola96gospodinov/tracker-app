@@ -32,15 +32,15 @@ const BatteryIcons = {
     },
     [THRITY]: {
         Icon: MdBattery30,
-        color: 'orange.500'
+        color: 'orange.400'
     },
     [FIFTY]: {
         Icon: MdBattery50,
-        color: 'yellow.600'
+        color: 'yellow.500'
     },
     [SIXTY]: {
         Icon: MdBattery60,
-        color: 'yellow.600'
+        color: 'yellow.500'
     },
     [EIGHTY]: {
         Icon: MdBattery80,

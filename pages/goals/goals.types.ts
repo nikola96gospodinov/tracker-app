@@ -1,4 +1,7 @@
 import { Dispatch } from '../../typings'
+import { HabitType } from '../habits/habits.types'
+
+export type GoalStatus = 'active' | 'completed' | 'archived'
 
 export interface Milestone {
     id: string
@@ -14,8 +17,11 @@ export interface Goal {
     id: string
     name: string
     urlPath: string
+    status: GoalStatus
     description?: string
     deadline?: string
+    progress?: number | null
+    target?: number | null
     dailyHabits?: string[]
     weeklyHabits?: string[]
 }
@@ -27,5 +33,5 @@ export interface TabElementProps {
     setNewElementAdded: Dispatch<boolean>
     activeTab: string
     goal?: Goal
-    type?: 'daily' | 'weekly'
+    type?: HabitType
 }

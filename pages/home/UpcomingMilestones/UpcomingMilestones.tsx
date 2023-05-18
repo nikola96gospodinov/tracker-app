@@ -9,21 +9,17 @@ import { MILESTONES } from '../../goals/constants'
 import { Milestone } from '../../goals/goals.types'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import { MilestoneBox } from './MilestoneBox'
+import { useGetRelentlessMilestones } from '../hooks/useGetRelevantMilestones'
 
 export const UpcomingMilestones: FunctionComponent = () => {
     const router = useRouter()
     const toast = useToast()
 
     const {
-        docs: milestones,
+        relativeMilestones: milestones,
         loading,
         errorFetching
-    } = useGetFilteredDocs<Milestone>({
-        path: MILESTONES,
-        fieldPath: 'completed',
-        opStr: '==',
-        value: false
-    })
+    } = useGetRelentlessMilestones()
 
     if (loading) return <Spinner mt={8} text='Loading...' />
 

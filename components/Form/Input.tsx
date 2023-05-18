@@ -10,7 +10,7 @@ import {
 import { RefObject, ReactNode } from 'react'
 
 const smStyles = {
-    py: 1,
+    py: 0.5,
     px: 2,
     height: 'auto',
     fontSize: 'sm'

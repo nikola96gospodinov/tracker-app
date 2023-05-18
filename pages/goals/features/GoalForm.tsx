@@ -1,7 +1,7 @@
 import { useContext, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
-import { Button } from '@chakra-ui/react'
+import { Button, Flex } from '@chakra-ui/react'
 
 import { toKebabCase } from '../../../helpers/string-manipulation-functions'
 import useGetDocs from '../../../hooks/useGetDocs'
@@ -25,6 +25,8 @@ const GoalForm: React.FunctionComponent<{
     const [name, setName] = useState(goal?.name ?? '')
     const [description, setDescription] = useState(goal?.description ?? '')
     const [deadline, setDeadline] = useState(goal?.deadline ?? '')
+    const [target, setTarget] = useState(goal?.target)
+    const [progress, setProgress] = useState(goal?.progress)
     const [errors, setErrors] = useState({
         nameErr: '',
         form: false
@@ -58,7 +60,10 @@ const GoalForm: React.FunctionComponent<{
                 name,
                 description,
                 deadline,
+                target: target ?? null,
+                progress: progress ?? null,
                 id: goal?.id ?? uuidv4(),
+                status: goal?.status ?? 'active',
                 urlPath: toKebabCase(name)
             }
 
@@ -98,6 +103,22 @@ const GoalForm: React.FunctionComponent<{
                 isError={isNameErr}
                 errorContent={errors.nameErr}
             />
+            <Flex gap={4}>
+                <Input
+                    label='Progress (Optional)'
+                    name='progress'
+                    value={progress ?? undefined}
+                    type='number'
+                    onChange={(e) => setProgress(e.target.valueAsNumber)}
+                />
+                <Input
+                    label='Target (Optional)'
+                    name='target'
+                    value={target ?? undefined}
+                    type='number'
+                    onChange={(e) => setTarget(e.target.valueAsNumber)}
+                />
+            </Flex>
             <Input
                 label='Deadline (Optional)'
                 name='deadline'
