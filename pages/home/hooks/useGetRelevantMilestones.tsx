@@ -26,9 +26,13 @@ export const useGetRelentlessMilestones = () => {
     })
 
     const activeGoalsIds = activeGoals?.map(({ id }) => id)
-    const relativeMilestones = milestones?.filter(({ goalID }) =>
-        activeGoalsIds?.includes(goalID)
-    )
+    const relativeMilestones = milestones
+        ?.filter(({ goalID }) => activeGoalsIds?.includes(goalID))
+        .sort((a, b) => {
+            if (!a.deadline) return 1
+            if (!b.deadline) return -1
+            return a.deadline.localeCompare(b.deadline)
+        })
 
     const loading = loadingMilestones || loadingGoals
     const errorFetching = errorFetchingMilestones || errorFetchingGoals
