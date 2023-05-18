@@ -36,7 +36,7 @@ export const SetProgress: FunctionComponent<{
     }
 
     return (
-        <Flex gap={2} alignItems='center'>
+        <Flex gap={2} alignItems='flex-end'>
             <BatteryIcon
                 current={progress}
                 total={target}
@@ -67,13 +67,13 @@ export const SetProgress: FunctionComponent<{
                         />
                     </Flex>
                 ) : (
-                    <Text>{progressText}</Text>
+                    <Text transform='translateY(3px)'>{progressText}</Text>
                 )}
             </motion.div>
             {isEdited ? (
-                <SaveIcon onClick={onSaveClick} cursor='pointer' mt={0.5} />
+                <SaveIcon onClick={onSaveClick} cursor='pointer' />
             ) : (
-                <EditIcon onClick={onEditIconClick} cursor='pointer' mt={0.5} />
+                <EditIcon onClick={onEditIconClick} cursor='pointer' />
             )}
         </Flex>
     )

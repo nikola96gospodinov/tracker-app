@@ -1,15 +1,5 @@
 import { Dispatch } from '../../typings'
 
-type Category =
-    | 'health'
-    | 'career'
-    | 'financial'
-    | 'other-personal'
-    | 'family'
-    | 'partner'
-    | 'comunity'
-    | 'other-collective'
-
 export interface Milestone {
     id: string
     goalID: string
@@ -23,7 +13,6 @@ export interface Milestone {
 export interface Goal {
     id: string
     name: string
-    category: Category
     urlPath: string
     description?: string
     deadline?: string

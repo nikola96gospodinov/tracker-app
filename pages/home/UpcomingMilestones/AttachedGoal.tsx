@@ -1,4 +1,4 @@
-import { SkeletonText, Text } from '@chakra-ui/react'
+import { Skeleton, Text } from '@chakra-ui/react'
 import { FunctionComponent, useContext } from 'react'
 
 import { Link } from '../../../components/UIElements/Link'
@@ -30,7 +30,7 @@ export const AttachedGoal: FunctionComponent<{
         )
 
     return (
-        <SkeletonText isLoaded={!loading}>
+        <Skeleton isLoaded={!loading}>
             <Link
                 href={`/goals/${goal.urlPath}`}
                 variant='link'
@@ -40,6 +40,6 @@ export const AttachedGoal: FunctionComponent<{
             >
                 {goal.name} 🎯
             </Link>
-        </SkeletonText>
+        </Skeleton>
     )
 }

@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 
 import { Goal } from '../../goals.types'
-import { tabs } from '../../data'
+import { tabs } from '../data'
 import GearIcon from '../../../../components/Icons/GearIcon'
 import AddIcon from '../../../../components/Icons/AddIcon'
 import {

@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react'
 import { PropsWithChildren } from 'react'
 
-export const CategoryPill: React.FunctionComponent<PropsWithChildren> = ({
+export const Pill: React.FunctionComponent<PropsWithChildren> = ({
     children
 }) => {
     return (
@@ -12,10 +12,9 @@ export const CategoryPill: React.FunctionComponent<PropsWithChildren> = ({
             borderRadius='2rem'
             gap={12}
             display='inline-flex'
+            align='center'
         >
-            <Flex gap={2} alignItems='center'>
-                {children}
-            </Flex>
+            {children}
         </Flex>
     )
 }

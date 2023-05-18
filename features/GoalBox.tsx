@@ -1,91 +1,53 @@
-import { useState } from 'react'
-import Image from 'next/image'
 import { Box, Heading, Text, VStack } from '@chakra-ui/react'
 
 import { Goal } from '../pages/goals/goals.types'
-import { goalsIcons } from '../pages/goals/data'
-import { capitalizeFirstLetter } from '../helpers/string-manipulation-functions'
-import { formatDateForUI } from '../helpers/date-manipulation-functions'
-import EditIcon from '../components/Icons/EditIcon'
 import { Link } from '../components/UIElements/Link'
-import { CategoryPill } from '../pages/goals/features/CategoryPill'
 import { Deadline } from './Deadline'
 
 export const GoalBox: React.FunctionComponent<{
     goal: Goal
-}> = ({ goal }) => {
-    const [showEditIcon, setShowEditIcon] = useState(false)
-
-    const icon = goalsIcons[goal.category as keyof typeof goalsIcons]
-    const deadline = goal.deadline ? formatDateForUI(goal.deadline) : 'N/A'
-    const category = capitalizeFirstLetter(goal.category)
-
-    return (
-        <Link
-            href={`/goals/${goal.urlPath}`}
-            onMouseEnter={() => setShowEditIcon(true)}
-            onMouseLeave={() => setShowEditIcon(false)}
-            bg='white'
-            color='purple.600'
-            p={6}
-            borderRadius='2xl'
-            transition='0.2s ease'
-            position='relative'
-            boxShadow='inset'
-            fontWeight={500}
-            fontSize='md'
-            _hover={{
-                borderTop: 'solid',
-                borderWidth: 4,
-                borderColor: 'purple.600'
-            }}
+}> = ({ goal }) => (
+    <Link
+        href={`/goals/${goal.urlPath}`}
+        bg='white'
+        color='purple.600'
+        p={6}
+        borderRadius='2xl'
+        transition='0.2s ease'
+        position='relative'
+        boxShadow='inset'
+        fontWeight={500}
+        fontSize='md'
+        borderLeft='solid'
+        borderLeftColor='purple.600'
+        borderLeftWidth={3}
+        _hover={{
+            bg: 'white',
+            transform: 'translateY(4px)'
+        }}
+    >
+        <VStack
+            color='neutral.900'
+            align='flex-start'
+            justify='space-between'
+            h='100%'
         >
-            {showEditIcon && (
-                <EditIcon
-                    position='absolute'
-                    top={4}
-                    right={4}
-                    boxSize={5}
-                    transition='0.1s ease'
-                    _hover={{
-                        transform: 'scale(0.9)'
-                    }}
-                />
-            )}
-            <VStack
-                color='neutral.900'
-                align='flex-start'
-                justify='space-between'
-                h='100%'
-            >
-                <Box>
-                    <CategoryPill>
-                        <Image
-                            src={icon.src}
-                            alt={icon.alt}
-                            width={24}
-                            height={24}
-                            style={{ scale: '0.75' }} // Next.js Image being strange
-                        />
-                        <Text>{category}</Text>
-                    </CategoryPill>
-                    <Heading
-                        as='h3'
-                        fontWeight={600}
-                        fontSize='xl'
-                        lineHeight='1.35'
-                        mt={3}
-                        mb={2}
-                    >
-                        {goal.name}
-                    </Heading>
-                    <Text>{goal.description}</Text>
-                </Box>
+            <Box>
+                <Heading
+                    as='h3'
+                    fontWeight={600}
+                    fontSize='xl'
+                    lineHeight='1.35'
+                    mb={2}
+                >
+                    {goal.name}
+                </Heading>
+                <Text>{goal.description}</Text>
+            </Box>
 
-                <Box pt={goal.description ? 2 : 4}>
-                    <Deadline deadline={deadline} />
-                </Box>
-            </VStack>
-        </Link>
-    )
-}
+            <Box pt={goal.description ? 2 : 4}>
+                <Deadline deadline={goal.deadline} gap={1.5} />
+            </Box>
+        </VStack>
+    </Link>
+)

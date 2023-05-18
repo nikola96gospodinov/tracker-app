@@ -10,9 +10,7 @@ import { GOALS } from '../constants'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
 import { ErrorsDispatch } from '../../../types/crud-opearations.types'
 import { FormModal } from '../../../components/Form/FormModal'
-import { goalOptions } from '../data'
 import { Input } from '../../../components/Form/Input'
-import { Select } from '../../../components/Form/Select'
 import { Textarea } from '../../../components/Form/Textarea'
 import { UserContext } from '../../../context/userContext'
 import { today } from '../../../helpers/date-manipulation-functions'
@@ -27,10 +25,8 @@ const GoalForm: React.FunctionComponent<{
     const [name, setName] = useState(goal?.name ?? '')
     const [description, setDescription] = useState(goal?.description ?? '')
     const [deadline, setDeadline] = useState(goal?.deadline ?? '')
-    const [category, setCategory] = useState(goal?.category ?? '')
     const [errors, setErrors] = useState({
         nameErr: '',
-        categoryErr: false,
         form: false
     })
 
@@ -53,17 +49,15 @@ const GoalForm: React.FunctionComponent<{
 
         setErrors({
             ...errors,
-            nameErr: nameError(),
-            categoryErr: !Boolean(category)
+            nameErr: nameError()
         })
 
-        if (nameError() === '' && category) {
+        if (nameError() === '') {
             const fields = {
                 ...goal,
                 name,
                 description,
                 deadline,
-                category,
                 id: goal?.id ?? uuidv4(),
                 urlPath: toKebabCase(name)
             }
@@ -81,7 +75,6 @@ const GoalForm: React.FunctionComponent<{
 
     const formTitle = goal ? 'Update goal' : 'Set a goal'
     const isNameErr = errors.nameErr !== ''
-    const isCategoryErr = errors.categoryErr
     const btnText = `${goal ? 'Update' : 'Set'} Goal`
     const isFormErr = errors.form
     const formError = `There was an issue ${goal ? 'updating' : 'setting'} your
@@ -104,15 +97,6 @@ const GoalForm: React.FunctionComponent<{
                 onChange={(e) => setName(e.target.value)}
                 isError={isNameErr}
                 errorContent={errors.nameErr}
-            />
-            <Select
-                label='Category'
-                name='category'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                isError={isCategoryErr}
-                errorContent='Please select a category'
-                options={goalOptions}
             />
             <Input
                 label='Deadline (Optional)'
