@@ -33,11 +33,17 @@ export const AddMilestone: React.FunctionComponent<{
         if (nameRef.current?.value === '' || !nameRef.current?.value) {
             setError(true)
         } else {
+            const completed =
+                !!progressRef.current?.valueAsNumber &&
+                !!targetRef.current?.valueAsNumber &&
+                progressRef.current?.valueAsNumber >=
+                    targetRef.current?.valueAsNumber
+
             const newMilestone = {
                 id: uuidv4(),
                 goalID,
                 name: nameRef.current.value,
-                completed: false,
+                completed,
                 deadline: deadlineRef.current?.value ?? '',
                 progress: progressRef.current?.valueAsNumber,
                 target: targetRef.current?.valueAsNumber
