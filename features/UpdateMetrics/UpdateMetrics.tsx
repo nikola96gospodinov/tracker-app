@@ -7,8 +7,8 @@ export const UpdateMetrics: FunctionComponent<{
     toggleText: string
     onToggleChange: () => void
     isCompleted: boolean
-    target?: number
-    progress?: number
+    target?: number | null
+    progress?: number | null
     progressText?: string
     onProgressChange?: (progress: number, target: number) => void
     onClick?: () => void

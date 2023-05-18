@@ -51,7 +51,7 @@ export const getUpdatedStreaksForDailyHabits = (
                 newStreak = {
                     streak: 0,
                     start: null,
-                    end: newStreak?.lastEnd,
+                    end: newStreak?.lastEnd ?? null,
                     lastEnd: null
                 }
             } else {
@@ -70,6 +70,8 @@ export const getUpdatedStreaksForDailyHabits = (
             }
         }
     }
+
+    console.log(newStreak)
 
     if (
         longestStreak.streak < newStreak.streak ||

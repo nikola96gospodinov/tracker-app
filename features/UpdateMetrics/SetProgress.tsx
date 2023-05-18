@@ -8,7 +8,7 @@ import SaveIcon from '../../components/Icons/SaveIcon'
 import { Input } from '../../components/Form/Input'
 
 export const SetProgress: FunctionComponent<{
-    progress?: number
+    progress?: number | null
     target: number
     onProgressChange?: (progress: number, target: number) => void
     onClick?: () => void
@@ -18,7 +18,7 @@ export const SetProgress: FunctionComponent<{
     const [progressInput, setProgressInput] = useState(progress ?? 0)
     const [targetInput, setTargetInput] = useState(target)
 
-    const progressText = text ?? `${progress} / ${target}`
+    const progressText = text ?? `${progress ?? 0} / ${target}`
 
     const onEditIconClick = () => {
         if (onClick) onClick()
@@ -28,17 +28,17 @@ export const SetProgress: FunctionComponent<{
     const onSaveClick = () => {
         if (
             onProgressChange &&
-            targetInput !== target &&
-            progressInput !== progress
-        )
+            (targetInput !== target || progressInput !== progress)
+        ) {
             onProgressChange(progressInput, targetInput)
+        }
         setIsEdited(false)
     }
 
     return (
         <Flex gap={2} alignItems={isEdited ? 'center' : 'flex-end'}>
             <BatteryIcon
-                current={progress}
+                current={progress ?? 0}
                 total={target}
                 boxSize={5}
                 ml={-0.5}

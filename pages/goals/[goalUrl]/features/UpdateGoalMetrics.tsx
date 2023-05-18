@@ -25,6 +25,7 @@ export const UpdateGoalMetrics: FunctionComponent<{
 
     const onProgressChange = (progress: number, target: number) => {
         const status = progress >= target ? 'completed' : goal.status
+        console.log(progress)
 
         submitDoc<Goal>({
             path: GOALS,
