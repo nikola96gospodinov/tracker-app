@@ -1,11 +1,11 @@
 import { SimpleGrid } from '@chakra-ui/react'
-import { Habit } from '../../../../habits/habits.types'
+import { Habit, HabitType } from '../../../../habits/habits.types'
 import { Goal } from '../../../goals.types'
 import HabitCell from '../../../../../features/HabitCell'
 
 const AttachedHabitsList: React.FunctionComponent<{
     goal: Goal
-    type: 'daily' | 'weekly'
+    type: HabitType
     habits?: Habit[]
 }> = ({ goal, habits, type }) => {
     const attachedHabits = habits?.filter(({ id }) =>

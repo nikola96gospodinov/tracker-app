@@ -9,11 +9,9 @@ import { Habit } from '../../habits.types'
 import { HabitBox } from './HabitBox'
 
 const HabitsList: React.FunctionComponent<{
-    userID: string
     onAddHabitsFormOpen: () => void
-}> = ({ userID, onAddHabitsFormOpen }) => {
+}> = ({ onAddHabitsFormOpen }) => {
     const { docs: habits, errorFetching } = useGetDocs<Habit>({
-        userID,
         path: HABITS
     })
 

@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react'
 import { SimpleGrid, Text } from '@chakra-ui/react'
-import { Habit } from '../../habits/habits.types'
+import { Habit, HabitType } from '../../habits/habits.types'
 import HabitCell from '../../../features/HabitCell'
 
 export const IncompletedHabits: FunctionComponent<{
     incompletedHabits: Habit[]
-    type: 'daily' | 'weekly'
+    type: HabitType
 }> = ({ incompletedHabits, type }) => {
     if (incompletedHabits.length === 0)
         return (

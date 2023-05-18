@@ -1,9 +1,10 @@
 import { FunctionComponent } from 'react'
 import { EditActiveHabits } from '../../features/EditActiveHabits/EditActiveHabits'
 import { useGetAllActiveHabitsByType } from './hooks/useGetAllActiveHabitsByType'
+import { HabitType } from '../habits/habits.types'
 
 export const EditActiveHabitsOnDashboard: FunctionComponent<{
-    type: 'daily' | 'weekly'
+    type: HabitType
     isOpen: boolean
     onClose: () => void
 }> = ({ type, isOpen, onClose }) => {

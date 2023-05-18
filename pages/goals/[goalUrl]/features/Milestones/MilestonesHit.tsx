@@ -1,21 +1,18 @@
-import { FunctionComponent, useContext } from 'react'
+import { FunctionComponent } from 'react'
 import { Skeleton, Text, Tooltip } from '@chakra-ui/react'
 
 import useGetFilteredDocs from '../../../../../hooks/useGetFilteredDocs'
 import { MILESTONES } from '../../../constants'
 import { Milestone } from '../../../goals.types'
-import { UserContext } from '../../../../../context/userContext'
 
 export const MilestonesHit: FunctionComponent<{
     goalId: string
 }> = ({ goalId }) => {
-    const { userId } = useContext(UserContext)
     const {
         docs: milestones,
         loading,
         errorFetching
     } = useGetFilteredDocs<Milestone>({
-        userID: userId,
         path: MILESTONES,
         fieldPath: 'goalID',
         opStr: '==',

@@ -34,7 +34,7 @@ const HabitForm: React.FunctionComponent<{
         form: false
     })
 
-    const { docs: habits } = useGetDocs<Habit>({ userID: userId, path: HABITS })
+    const { docs: habits } = useGetDocs<Habit>({ path: HABITS })
     const habitsNames = useMemo(() => {
         return habits
             ?.map((habit: Habit) => habit.name)

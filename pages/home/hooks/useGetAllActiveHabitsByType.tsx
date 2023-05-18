@@ -1,16 +1,14 @@
-import { useContext, useEffect, useState } from 'react'
-import { difference, uniq, uniqBy } from 'lodash'
+import { useEffect, useState } from 'react'
+import { difference, uniqBy } from 'lodash'
 
-import { UserContext } from '../../../context/userContext'
 import useGetFilteredDocs from '../../../hooks/useGetFilteredDocs'
 import { HABITS } from '../../habits/constants'
-import { Habit } from '../../habits/habits.types'
+import { Habit, HabitType } from '../../habits/habits.types'
 import useGetDocs from '../../../hooks/useGetDocs'
 import { GOALS } from '../../goals/constants'
 import { Goal } from '../../goals/goals.types'
 
-export const useGetAllActiveHabitsByType = (type: 'daily' | 'weekly') => {
-    const { userId } = useContext(UserContext)
+export const useGetAllActiveHabitsByType = (type: HabitType) => {
     const [activeHabits, setActiveHabits] = useState<Habit[]>([])
 
     const {
@@ -18,7 +16,6 @@ export const useGetAllActiveHabitsByType = (type: 'daily' | 'weekly') => {
         loading: loadingHabits,
         errorFetching: errorFetchingHabits
     } = useGetFilteredDocs<Habit>({
-        userID: userId,
         path: HABITS,
         fieldPath: 'type',
         opStr: '==',
@@ -32,7 +29,6 @@ export const useGetAllActiveHabitsByType = (type: 'daily' | 'weekly') => {
         loading: loadingGoals,
         errorFetching: errorFetchingGoals
     } = useGetDocs<Goal>({
-        userID: userId,
         path: GOALS
     })
 

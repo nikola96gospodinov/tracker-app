@@ -39,7 +39,6 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
         errorFetching,
         loading
     } = useGetFilteredDocs<Milestone>({
-        userID: userId,
         path: MILESTONES,
         fieldPath: 'goalID',
         opStr: '==',

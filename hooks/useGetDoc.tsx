@@ -5,20 +5,21 @@ import {
     query,
     where
 } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { db } from '../firebase/firebase'
+import { UserContext } from '../context/userContext'
 
 interface Props {
-    userID: string | undefined
     path: string
     property: string
     value: string
     opStr?: WhereFilterOp
 }
 
-const useGetDoc = <T,>({ userID, path, property, value, opStr }: Props) => {
-    const fullPath = `users/${userID}/${path}`
+const useGetDoc = <T,>({ path, property, value, opStr }: Props) => {
+    const { userId } = useContext(UserContext)
+    const fullPath = `users/${userId}/${path}`
     const [doc, setDoc] = useState<T>()
     const [loading, setLoading] = useState(false)
     const [errorFetching, setErrorFetching] = useState(false)

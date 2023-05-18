@@ -30,7 +30,7 @@ const GoalForm: React.FunctionComponent<{
         form: false
     })
 
-    const { docs: goals } = useGetDocs<Goal>({ userID: userId, path: GOALS })
+    const { docs: goals } = useGetDocs<Goal>({ path: GOALS })
     const goalsNames = useMemo(() => {
         return goals
             ?.map((goal: Goal) => goal.name)

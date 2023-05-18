@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { useDisclosure } from '@chakra-ui/react'
 
@@ -10,12 +9,10 @@ import { Goal } from '../../goals.types'
 import { GOAL, GOALS } from '../../constants'
 import DeleteDoc from '../../../../components/Docs/DeleteDoc'
 import useGetDoc from '../../../../hooks/useGetDoc'
-import { UserContext } from '../../../../context/userContext'
 import { ErrorFetchingDocs } from '../../../../components/Docs/ErrorFetchingDocs'
 import { NonExistingDoc } from '../../../../components/Docs/NonExistingDoc'
 
 const IndividualGoalContent = () => {
-    const { userId } = useContext(UserContext)
     const router = useRouter()
     const { goalUrl } = router.query
     const {
@@ -23,7 +20,6 @@ const IndividualGoalContent = () => {
         loading,
         errorFetching
     } = useGetDoc<Goal>({
-        userID: userId,
         path: GOALS,
         property: 'urlPath',
         value: goalUrl as string
@@ -39,7 +35,7 @@ const IndividualGoalContent = () => {
         onClose: onDeleteWarningClose
     } = useDisclosure()
 
-    if (!userId || loading) return <Spinner text='Loading...' />
+    if (loading) return <Spinner text='Loading...' />
 
     if (errorFetching) return <ErrorFetchingDocs docType={GOAL} />
 

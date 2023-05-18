@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router'
-import { FunctionComponent, useContext } from 'react'
+import { FunctionComponent } from 'react'
 import { SimpleGrid, useToast } from '@chakra-ui/react'
 
 import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
 import NoDocsYet from '../../../components/Docs/NoDocsYet'
-import { UserContext } from '../../../context/userContext'
 import useGetFilteredDocs from '../../../hooks/useGetFilteredDocs'
 import { MILESTONES } from '../../goals/constants'
 import { Milestone } from '../../goals/goals.types'
@@ -13,7 +12,6 @@ import { MilestoneBox } from './MilestoneBox'
 
 export const UpcomingMilestones: FunctionComponent = () => {
     const router = useRouter()
-    const { userId } = useContext(UserContext)
     const toast = useToast()
 
     const {
@@ -21,7 +19,6 @@ export const UpcomingMilestones: FunctionComponent = () => {
         loading,
         errorFetching
     } = useGetFilteredDocs<Milestone>({
-        userID: userId,
         path: MILESTONES,
         fieldPath: 'completed',
         opStr: '==',

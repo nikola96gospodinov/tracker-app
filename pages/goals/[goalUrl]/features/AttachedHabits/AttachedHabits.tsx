@@ -1,9 +1,7 @@
-import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 import { TabElementProps } from '../../../goals.types'
 import { ErrorFetchingDocs } from '../../../../../components/Docs/ErrorFetchingDocs'
-import { UserContext } from '../../../../../context/userContext'
 import useGetFilteredDocs from '../../../../../hooks/useGetFilteredDocs'
 import { HABITS } from '../../../../habits/constants'
 import { Habit } from '../../../../habits/habits.types'
@@ -17,13 +15,11 @@ const AttachedHabits: React.FunctionComponent<TabElementProps> = ({
     type
 }) => {
     const router = useRouter()
-    const { userId } = useContext(UserContext)
     const {
         docs: habits,
         loading,
         errorFetching
     } = useGetFilteredDocs<Habit>({
-        userID: userId,
         path: HABITS,
         fieldPath: 'type',
         opStr: '==',

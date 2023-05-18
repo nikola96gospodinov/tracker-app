@@ -1,8 +1,6 @@
 import { Breadcrumb, BreadcrumbItem, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
 
-import { UserContext } from '../../../context/userContext'
 import useGetDoc from '../../../hooks/useGetDoc'
 import { Goal } from '../../../pages/goals/goals.types'
 import { Habit } from '../../../pages/habits/habits.types'
@@ -11,7 +9,6 @@ import DashboardIcon from '../../Icons/DashboardIcon'
 import { Link } from '../../UIElements/Link'
 
 export const Breadcrumbs: React.FunctionComponent = () => {
-    const { userId } = useContext(UserContext)
     const { pathname, asPath } = useRouter()
     const currentItem = menu.find((item) =>
         item.subpath === 'home' && pathname === '/'
@@ -23,7 +20,6 @@ export const Breadcrumbs: React.FunctionComponent = () => {
     linkPath.shift()
     const isSubPath = linkPath.length > 1
     const { doc } = useGetDoc<Habit | Goal>({
-        userID: userId,
         path: currentItem?.subpath ?? ' ',
         property: 'urlPath',
         value: isSubPath ? linkPath[1] : ''

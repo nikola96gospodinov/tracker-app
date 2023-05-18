@@ -9,11 +9,9 @@ import { GOALS } from '../../constants'
 import { ErrorFetchingDocs } from '../../../../components/Docs/ErrorFetchingDocs'
 
 const GoalsList: React.FunctionComponent<{
-    userID: string
     setAddGoalsFormOpen: () => void
-}> = ({ userID, setAddGoalsFormOpen }) => {
+}> = ({ setAddGoalsFormOpen }) => {
     const { docs: goals, errorFetching } = useGetDocs<Goal>({
-        userID,
         path: GOALS
     })
 

@@ -1,15 +1,16 @@
 import { collection, onSnapshot } from 'firebase/firestore'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { db } from '../firebase/firebase'
+import { UserContext } from '../context/userContext'
 
 interface Props {
-    userID: string | undefined
     path: string
 }
 
-const useGetDocs = <T,>({ userID, path }: Props) => {
-    const fullPath = `users/${userID}/${path}`
+const useGetDocs = <T,>({ path }: Props) => {
+    const { userId } = useContext(UserContext)
+    const fullPath = `users/${userId}/${path}`
     const [allDocs, setAllDocs] = useState<T[]>()
     const [loading, setLoading] = useState(false)
     const [errorFetching, setErrorFetching] = useState(false)
