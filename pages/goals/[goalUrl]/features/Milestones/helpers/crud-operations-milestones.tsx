@@ -140,6 +140,16 @@ export const toggleMilestone = async ({
             completed: !milestone.completed,
             progress
         })
+        toast({
+            ...toastConfig,
+            render: ({ onClose }: ToastProps) => (
+                <Toast
+                    type='success'
+                    text='Milestone successfully changed'
+                    onClose={onClose}
+                />
+            )
+        })
     } catch (e) {
         console.log(e)
         toast({
@@ -158,7 +168,7 @@ export const toggleMilestone = async ({
 interface EditMilestoneProps {
     userID: string
     updatedMilestone: Milestone
-    setActiveMilestone: Dispatch<Milestone | undefined>
+    setActiveMilestone?: Dispatch<Milestone | undefined>
     toast: any
 }
 
@@ -179,7 +189,7 @@ export const editMilestone = async ({
             },
             { merge: true }
         )
-        setActiveMilestone(undefined)
+        if (setActiveMilestone) setActiveMilestone(undefined)
         toast({
             ...toastConfig,
             render: ({ onClose }: ToastProps) => (

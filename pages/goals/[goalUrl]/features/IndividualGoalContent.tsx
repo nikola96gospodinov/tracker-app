@@ -25,7 +25,8 @@ const IndividualGoalContent = () => {
     } = useGetDoc<Goal>({
         userID: userId,
         path: GOALS,
-        url: goalUrl as string
+        property: 'urlPath',
+        value: goalUrl as string
     })
     const {
         isOpen: isEditFormOpen,

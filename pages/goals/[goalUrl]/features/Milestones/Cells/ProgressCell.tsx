@@ -4,6 +4,7 @@ import { inputStyles } from '../data'
 import { Input } from '../../../../../../components/Form/Input'
 import { Milestone } from '../../../../goals.types'
 import { Dispatch } from '../../../../../../typings'
+import { getProgressForUI } from '../helpers/utils'
 
 export const ProgressCell: FunctionComponent<{
     milestone: Milestone
@@ -20,24 +21,7 @@ export const ProgressCell: FunctionComponent<{
     target,
     setTarget
 }) => {
-    const text = (() => {
-        if (
-            milestone.completed ||
-            (milestone.progress &&
-                milestone.target &&
-                milestone.progress >= milestone.target)
-        ) {
-            return 'Completed! 🥳'
-        }
-
-        if (!milestone.target) return 'N/A'
-
-        if (!milestone.progress && milestone.target)
-            return `0 / ${milestone.target}`
-
-        return `${milestone.progress} / ${milestone.target}`
-    })()
-
+    const text = getProgressForUI(milestone)
     return (
         <Td>
             {isActiveMilestone ? (

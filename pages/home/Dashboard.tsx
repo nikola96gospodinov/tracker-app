@@ -12,25 +12,28 @@ import { FunctionComponent, useState } from 'react'
 
 import { tabs } from './data'
 import GearIcon from '../../components/Icons/GearIcon'
-import { EditActiveHabits } from '../../features/EditActiveHabits/EditActiveHabits'
 import { EditActiveHabitsOnDashboard } from './EditActiveHabitsOnDashboard'
 
 export const Dashboard: FunctionComponent = () => {
     const [activeTab, setActiveTab] = useState(tabs[0].name)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const showButton = activeTab === 'Today' || activeTab === 'This Week'
+
     return (
         <>
-            <Flex justifyContent='flex-end' my={-9}>
-                <Button
-                    size='sm'
-                    boxShadow='none'
-                    variant='tertiary'
-                    onClick={() => onOpen()}
-                >
-                    <GearIcon mr={1} /> Configure
-                </Button>
-            </Flex>
+            {showButton && (
+                <Flex justifyContent='flex-end' my={-9}>
+                    <Button
+                        size='sm'
+                        boxShadow='none'
+                        variant='tertiary'
+                        onClick={() => onOpen()}
+                    >
+                        <GearIcon mr={1} /> Configure
+                    </Button>
+                </Flex>
+            )}
             <Tabs colorScheme='purple'>
                 <TabList>
                     <TabList>

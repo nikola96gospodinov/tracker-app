@@ -1,50 +1,69 @@
 import {
-    FaBatteryFull,
-    FaBatteryThreeQuarters,
-    FaBatteryHalf,
-    FaBatteryQuarter,
-    FaBatteryEmpty
-} from 'react-icons/fa'
+    MdBatteryFull,
+    MdBattery20,
+    MdBattery30,
+    MdBattery50,
+    MdBattery60,
+    MdBattery80,
+    MdBattery90
+} from 'react-icons/md'
 import { Icon } from '@chakra-ui/react'
 
 import { calculateProgressPercentage } from '../../helpers/calculate-functions'
 import { IconProps } from './types.icons'
 
 const EMPTY = 'empty'
-const QUARTER = 'quarter'
-const HALF = 'half'
-const THREE_QUARTERS = 'three-quarters'
+const TWENTY = 'twenty'
+const THRITY = 'thrity'
+const FIFTY = 'fifty'
+const SIXTY = 'sixty'
+const EIGHTY = 'eighty'
+const NINETY = 'ninety'
 const FULL = 'full'
 
 const BatteryIcons = {
     [EMPTY]: {
-        Icon: FaBatteryEmpty,
+        Icon: MdBatteryFull,
+        color: 'red.100'
+    },
+    [TWENTY]: {
+        Icon: MdBattery20,
         color: 'red.500'
     },
-    [QUARTER]: {
-        Icon: FaBatteryQuarter,
-        color: 'red.500'
+    [THRITY]: {
+        Icon: MdBattery30,
+        color: 'orange.500'
     },
-    [HALF]: {
-        Icon: FaBatteryHalf,
+    [FIFTY]: {
+        Icon: MdBattery50,
         color: 'yellow.600'
     },
-    [THREE_QUARTERS]: {
-        Icon: FaBatteryThreeQuarters,
+    [SIXTY]: {
+        Icon: MdBattery60,
         color: 'yellow.600'
+    },
+    [EIGHTY]: {
+        Icon: MdBattery80,
+        color: 'green.500'
+    },
+    [NINETY]: {
+        Icon: MdBattery90,
+        color: 'green.600'
     },
     [FULL]: {
-        Icon: FaBatteryFull,
-        color: 'green.500'
+        Icon: MdBatteryFull,
+        color: 'green.600'
     }
 }
 
 const getIconType = (percentageComplete: number): keyof typeof BatteryIcons => {
     if (percentageComplete === 0) return EMPTY
-    // Always adding 12.5% to the limit to make the icon more accurate
-    if (percentageComplete < 37.5) return QUARTER
-    if (percentageComplete < 62.5) return HALF
-    if (percentageComplete < 100) return THREE_QUARTERS
+    if (percentageComplete <= 20) return TWENTY
+    if (percentageComplete <= 30) return THRITY
+    if (percentageComplete <= 50) return FIFTY
+    if (percentageComplete <= 60) return SIXTY
+    if (percentageComplete <= 80) return EIGHTY
+    if (percentageComplete <= 99) return NINETY
 
     return FULL
 }

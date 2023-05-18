@@ -24,7 +24,8 @@ const IndividualHabitContent = () => {
     } = useGetDoc<Habit>({
         userID: userId,
         path: HABITS,
-        url: habitUrl as string
+        property: 'urlPath',
+        value: habitUrl as string
     })
     const {
         isOpen: isEditFormOpen,

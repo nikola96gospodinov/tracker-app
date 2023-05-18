@@ -9,6 +9,13 @@ import {
 } from '@chakra-ui/react'
 import { RefObject, ReactNode } from 'react'
 
+const smStyles = {
+    py: 1,
+    px: 2,
+    height: 'auto',
+    fontSize: 'sm'
+}
+
 export const Input: React.FunctionComponent<
     {
         label?: string
@@ -16,9 +23,13 @@ export const Input: React.FunctionComponent<
         isError?: boolean
         errorContent?: ReactNode
         ref?: RefObject<HTMLInputElement> // Chakra is using a different ref type
+        isSmall?: boolean
     } & InputProps
 > = forwardRef(
-    ({ label, helperText, isError, errorContent, ...inputProps }, ref) => {
+    (
+        { label, helperText, isError, errorContent, isSmall, ...inputProps },
+        ref
+    ) => {
         const showHelperText = helperText && !isError
         const error = errorContent ?? 'This field is not valid'
 
@@ -35,6 +46,7 @@ export const Input: React.FunctionComponent<
                     _focus={{
                         boxShadow: 'inset'
                     }}
+                    {...(isSmall ? smStyles : {})}
                     ref={ref}
                     {...inputProps}
                 />

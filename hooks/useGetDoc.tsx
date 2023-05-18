@@ -1,4 +1,10 @@
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import {
+    WhereFilterOp,
+    collection,
+    onSnapshot,
+    query,
+    where
+} from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 
 import { db } from '../firebase/firebase'
@@ -6,16 +12,21 @@ import { db } from '../firebase/firebase'
 interface Props {
     userID: string | undefined
     path: string
-    url: string
+    property: string
+    value: string
+    opStr?: WhereFilterOp
 }
 
-const useGetDoc = <T,>({ userID, path, url }: Props) => {
+const useGetDoc = <T,>({ userID, path, property, value, opStr }: Props) => {
     const fullPath = `users/${userID}/${path}`
     const [doc, setDoc] = useState<T>()
     const [loading, setLoading] = useState(false)
     const [errorFetching, setErrorFetching] = useState(false)
     const docsCollection = collection(db, fullPath)
-    const docQuery = query(docsCollection, where('urlPath', '==', url ?? ''))
+    const docQuery = query(
+        docsCollection,
+        where(property, opStr ?? '==', value ?? '')
+    )
 
     useEffect(() => {
         setLoading(true)

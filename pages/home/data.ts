@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 
 import { HabitView } from './HabitView/HabitView'
-import { UpcomingMilestones } from './UpcomingMilestones'
+import { UpcomingMilestones } from './UpcomingMilestones/UpcomingMilestones'
 
 interface Tab {
     name: string

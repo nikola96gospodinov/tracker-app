@@ -16,7 +16,8 @@ const IndividualGoal: NextPage = () => {
     const { doc: goal } = useGetDoc<Goal>({
         userID: userId,
         path: GOALS,
-        url: router.query.goalUrl as string
+        property: 'urlPath',
+        value: router.query.goalUrl as string
     })
 
     return (

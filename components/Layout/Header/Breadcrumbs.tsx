@@ -25,7 +25,8 @@ export const Breadcrumbs: React.FunctionComponent = () => {
     const { doc } = useGetDoc<Habit | Goal>({
         userID: userId,
         path: currentItem?.subpath ?? ' ',
-        url: isSubPath ? linkPath[1] : ''
+        property: 'urlPath',
+        value: isSubPath ? linkPath[1] : ''
     })
 
     return (

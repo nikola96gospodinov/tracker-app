@@ -16,7 +16,8 @@ const IndividuaHait: NextPage = () => {
     const { doc: habit } = useGetDoc<Habit>({
         userID: userId,
         path: HABITS,
-        url: router.query.habitUrl as string
+        property: 'urlPath',
+        value: router.query.habitUrl as string
     })
 
     return (

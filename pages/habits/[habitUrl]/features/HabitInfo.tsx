@@ -2,7 +2,7 @@ import { Flex, Heading, Text, Tooltip } from '@chakra-ui/react'
 
 import { Habit } from '../../habits.types'
 import { getCurrentStreak } from '../../helpers'
-import { UpdateHabitMetrics } from '../../features/UpdateHabitMetrics/UpdateHabitMetrics'
+import { UpdateHabitMetrics } from '../../../../features/UpdateMetrics/updateHabitMetrics/UpdateHabitMetrics'
 import { DocActions } from '../../../../components/Docs/DocActions'
 import { AdditionalHabitInfo } from './AdditionalHabitInfo/AdditionalHabitInfo'
 

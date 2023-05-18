@@ -292,25 +292,23 @@ export const toggleHabitCompletion = ({
     habit,
     completedToday,
     userID
-}: ToggleHabitCompletionProps): (() => void) => {
-    return () => {
-        const updatedStreaks =
-            habit.type === 'daily'
-                ? getUpdatedStreaksForDailyHabits(habit, completedToday)
-                : getUpdatedStreaksForWeeklyHabits(habit, {
-                      progress: completedToday ? 0 : 1,
-                      dateOfProgress: completedToday ? today : undefined
-                  })
+}: ToggleHabitCompletionProps) => {
+    const updatedStreaks =
+        habit.type === 'daily'
+            ? getUpdatedStreaksForDailyHabits(habit, completedToday)
+            : getUpdatedStreaksForWeeklyHabits(habit, {
+                  progress: completedToday ? 0 : 1,
+                  dateOfProgress: completedToday ? today : undefined
+              })
 
-        submitDoc<Habit>({
-            path: HABITS,
-            userID: userID ?? '',
-            orgDoc: {
-                id: habit.id,
-                ...updatedStreaks
-            } as Habit
-        })
-    }
+    submitDoc<Habit>({
+        path: HABITS,
+        userID: userID ?? '',
+        orgDoc: {
+            id: habit.id,
+            ...updatedStreaks
+        } as Habit
+    })
 }
 
 interface UpdateHabitProgressProps {
