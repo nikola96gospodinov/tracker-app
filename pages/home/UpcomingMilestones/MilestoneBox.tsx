@@ -1,11 +1,7 @@
 import { FunctionComponent, useCallback, useContext } from 'react'
-import { Box, Flex, Heading, Text, Tooltip } from '@chakra-ui/react'
-import moment from 'moment'
+import { Box, Heading } from '@chakra-ui/react'
 
 import { Milestone } from '../../goals/goals.types'
-import CalendarIcon from '../../../components/Icons/CalendarIcon'
-import { formatDateForUI } from '../../../helpers/date-manipulation-functions'
-import DangerIcon from '../../../components/Icons/DangerIcon'
 import { getProgressForUI } from '../../goals/[goalUrl]/features/Milestones/helpers/utils'
 import { AttachedGoal } from './AttachedGoal'
 import { UpdateMetrics } from '../../../features/UpdateMetrics/UpdateMetrics'
@@ -14,18 +10,13 @@ import {
     editMilestone,
     toggleMilestone
 } from '../../goals/[goalUrl]/features/Milestones/helpers/crud-operations-milestones'
+import { Deadline } from '../../../features/Deadline'
 
 export const MilestoneBox: FunctionComponent<{
     milestone: Milestone
     toast: any
 }> = ({ milestone, toast }) => {
     const { userId } = useContext(UserContext)
-
-    const deadline =
-        milestone.deadline || milestone.deadline !== ''
-            ? formatDateForUI(milestone.deadline)
-            : 'N/A'
-    const isPastDeadline = moment(milestone.deadline).isBefore(moment())
     const progress = getProgressForUI(milestone)
 
     const onProgressChange = useCallback(
@@ -81,16 +72,9 @@ export const MilestoneBox: FunctionComponent<{
                 />
             </Box>
 
-            <Flex align='center' gap={1} mt={2}>
-                <CalendarIcon /> <Text>{deadline}</Text>{' '}
-                {isPastDeadline && (
-                    <Tooltip label='Past the deadline'>
-                        <Text as='span'>
-                            <DangerIcon color='red.600' />
-                        </Text>
-                    </Tooltip>
-                )}
-            </Flex>
+            <Box mt={2}>
+                <Deadline deadline={milestone.deadline} />
+            </Box>
         </Box>
     )
 }

@@ -25,7 +25,7 @@ export const ProgressCell: FunctionComponent<{
     return (
         <Td>
             {isActiveMilestone ? (
-                <Flex gap={1}>
+                <Flex gap={1} align='center'>
                     <Input
                         value={progress ?? milestone.progress}
                         type='number'

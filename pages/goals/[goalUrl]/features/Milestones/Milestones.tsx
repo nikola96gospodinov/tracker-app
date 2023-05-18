@@ -103,7 +103,7 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
                 toast
             })
         },
-        [activeMilestone, milestones, userId]
+        [activeMilestone, userId]
     )
 
     const handleCancelClick = useCallback(() => {

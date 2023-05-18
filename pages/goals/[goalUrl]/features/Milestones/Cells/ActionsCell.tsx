@@ -35,20 +35,22 @@ export const ActionsCell: React.FunctionComponent<{
     target,
     progress
 }) => {
+    const onSaveIconClick = () => {
+        handleEdit(
+            name ?? milestone.name,
+            deadline ?? milestone.deadline,
+            target ?? milestone.target,
+            progress ?? milestone.progress
+        )
+    }
+
     return (
         <Td>
             <Flex justifyContent='flex-end' alignItems='center'>
                 {isActiveMilestone ? (
                     <>
                         <SaveIcon
-                            onClick={() =>
-                                handleEdit(
-                                    name ?? milestone.name,
-                                    deadline ?? milestone.deadline,
-                                    target ?? milestone.target,
-                                    progress ?? milestone.progress
-                                )
-                            }
+                            onClick={onSaveIconClick}
                             {...iconStyles}
                             mr={2}
                             _hover={{

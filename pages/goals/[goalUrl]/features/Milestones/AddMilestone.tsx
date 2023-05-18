@@ -16,6 +16,8 @@ export const AddMilestone: React.FunctionComponent<{
 }> = ({ setNewElementAdded, goalID, userID }) => {
     const nameRef = useRef<HTMLInputElement>(null)
     const deadlineRef = useRef<HTMLInputElement>(null)
+    const targetRef = useRef<HTMLInputElement>(null)
+    const progressRef = useRef<HTMLInputElement>(null)
     const [error, setError] = useState(false)
     const [submitError, setSubmitError] = useState(false)
 
@@ -36,7 +38,9 @@ export const AddMilestone: React.FunctionComponent<{
                 goalID,
                 name: nameRef.current.value,
                 completed: false,
-                deadline: deadlineRef.current?.value ?? ''
+                deadline: deadlineRef.current?.value ?? '',
+                progress: progressRef.current?.valueAsNumber,
+                target: targetRef.current?.valueAsNumber
             } as Milestone
             addMilestone({
                 newMilestone,
@@ -75,6 +79,23 @@ export const AddMilestone: React.FunctionComponent<{
             </Td>
             <Td>
                 <Input type='date' ref={deadlineRef} {...inputStyles} />
+            </Td>
+            <Td>
+                <Flex gap={1} align='center'>
+                    <Input
+                        type='number'
+                        ref={progressRef}
+                        {...inputStyles}
+                        placeholder='Progress'
+                    />
+                    <Text>/</Text>
+                    <Input
+                        type='number'
+                        ref={targetRef}
+                        {...inputStyles}
+                        placeholder='Target'
+                    />
+                </Flex>
             </Td>
             <Td>
                 <Flex justifyContent='flex-end' alignItems='center'>

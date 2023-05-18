@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react'
+import { Box, Heading, Text, VStack } from '@chakra-ui/react'
 
 import { Goal } from '../pages/goals/goals.types'
 import { goalsIcons } from '../pages/goals/data'
 import { capitalizeFirstLetter } from '../helpers/string-manipulation-functions'
 import { formatDateForUI } from '../helpers/date-manipulation-functions'
 import EditIcon from '../components/Icons/EditIcon'
-import CalendarIcon from '../components/Icons/CalendarIcon'
 import { Link } from '../components/UIElements/Link'
 import { CategoryPill } from '../pages/goals/features/CategoryPill'
+import { Deadline } from './Deadline'
 
 export const GoalBox: React.FunctionComponent<{
     goal: Goal
@@ -81,10 +81,10 @@ export const GoalBox: React.FunctionComponent<{
                     </Heading>
                     <Text>{goal.description}</Text>
                 </Box>
-                <Flex alignItems='center' gap={1} pt={goal.description ? 2 : 4}>
-                    <CalendarIcon />
-                    {deadline}
-                </Flex>
+
+                <Box pt={goal.description ? 2 : 4}>
+                    <Deadline deadline={deadline} />
+                </Box>
             </VStack>
         </Link>
     )

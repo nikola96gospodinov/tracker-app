@@ -22,18 +22,20 @@ export const Dashboard: FunctionComponent = () => {
 
     return (
         <>
-            {showButton && (
-                <Flex justifyContent='flex-end' my={-9}>
-                    <Button
-                        size='sm'
-                        boxShadow='none'
-                        variant='tertiary'
-                        onClick={() => onOpen()}
-                    >
-                        <GearIcon mr={1} /> Configure
-                    </Button>
-                </Flex>
-            )}
+            <Flex justifyContent='flex-end' my={-9}>
+                <Button
+                    size='sm'
+                    boxShadow='none'
+                    variant='tertiary'
+                    onClick={() => {
+                        if (showButton) onOpen()
+                    }}
+                    opacity={showButton ? 1 : 0}
+                    cursor={showButton ? 'pointer' : 'default'}
+                >
+                    <GearIcon mr={1} /> Configure
+                </Button>
+            </Flex>
             <Tabs colorScheme='purple'>
                 <TabList>
                     <TabList>
