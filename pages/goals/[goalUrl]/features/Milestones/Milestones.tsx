@@ -21,7 +21,7 @@ import { TableHeader } from './TableHeader'
 import { UpcomingMilestones } from './UpcomingMilestones'
 import useGetFilteredDocs from '../../../../../hooks/useGetFilteredDocs'
 import { UserContext } from '../../../../../context/userContext'
-import { Spinner } from '../../../../../components/UIElements/Spinner'
+import { Spinner } from '../../../../../components/Spinner'
 import { ErrorFetchingDocs } from '../../../../../components/Docs/ErrorFetchingDocs'
 import DeleteDoc from '../../../../../components/Docs/DeleteDoc'
 

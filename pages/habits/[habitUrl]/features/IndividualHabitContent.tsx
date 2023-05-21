@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useDisclosure } from '@chakra-ui/react'
 
 import DeleteDoc from '../../../../components/Docs/DeleteDoc'
-import { Spinner } from '../../../../components/UIElements/Spinner'
+import { Spinner } from '../../../../components/Spinner'
 import useGetDoc from '../../../../hooks/useGetDoc'
 import { HABIT, HABITS } from '../../constants'
 import { Habit } from '../../habits.types'

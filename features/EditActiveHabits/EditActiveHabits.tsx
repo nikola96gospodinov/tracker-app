@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import { Box, Text, VStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
-import { Spinner } from '../../components/UIElements/Spinner'
+import { Spinner } from '../../components/Spinner'
 import { ErrorFetchingDocs } from '../../components/Docs/ErrorFetchingDocs'
 import { HABITS } from '../../pages/habits/constants'
 import { ActiveHabits } from './ActiveHabits'

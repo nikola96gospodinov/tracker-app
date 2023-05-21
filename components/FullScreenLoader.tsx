@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import { Spinner } from './UIElements/Spinner'
+import { Spinner } from './Spinner'
 
 export const FullScreenLoader = () => (
     <Flex alignItems='center' justifyContent='center' w='100vw' h='100vh'>

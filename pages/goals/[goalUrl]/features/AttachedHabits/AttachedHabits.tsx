@@ -5,7 +5,7 @@ import { ErrorFetchingDocs } from '../../../../../components/Docs/ErrorFetchingD
 import useGetFilteredDocs from '../../../../../hooks/useGetFilteredDocs'
 import { HABITS } from '../../../../habits/constants'
 import { Habit } from '../../../../habits/habits.types'
-import { Spinner } from '../../../../../components/UIElements/Spinner'
+import { Spinner } from '../../../../../components/Spinner'
 import NoDocsYet from '../../../../../components/Docs/NoDocsYet'
 import AttachedHabitsContent from './AttachedHabitsContent'
 

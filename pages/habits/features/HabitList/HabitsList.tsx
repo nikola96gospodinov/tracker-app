@@ -2,7 +2,7 @@ import { SimpleGrid } from '@chakra-ui/react'
 
 import { ErrorFetchingDocs } from '../../../../components/Docs/ErrorFetchingDocs'
 import NoDocsYet from '../../../../components/Docs/NoDocsYet'
-import { Spinner } from '../../../../components/UIElements/Spinner'
+import { Spinner } from '../../../../components/Spinner'
 import useGetDocs from '../../../../hooks/useGetDocs'
 import { HABITS } from '../../constants'
 import { Habit } from '../../habits.types'
