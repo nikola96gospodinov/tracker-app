@@ -8,7 +8,7 @@ import {
     isHabitCompleted
 } from '../pages/habits/helpers'
 import { Link } from '../components/UIElements/Link'
-import { UpdateHabitMetrics } from './UpdateMetrics/UpdateHabitMetrics/UpdateHabitMetrics'
+import { UpdateHabitMetrics } from './UpdateMetrics/UpdateHabitMetrics'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit
