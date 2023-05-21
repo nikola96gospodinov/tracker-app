@@ -4,13 +4,13 @@ import { useRouter } from 'next/router'
 
 import { Spinner } from '../../components/UIElements/Spinner'
 import { ErrorFetchingDocs } from '../../components/Docs/ErrorFetchingDocs'
-import { HABITS } from '../../pages/habits/constants'
+import { HABITS } from '../../constants/habitsConstants'
 import { ActiveHabits } from './ActiveHabits'
 import { InactiveHabits } from './InactiveHabits'
 import NoDocsYet from '../../components/Docs/NoDocsYet'
 import { FormModal } from '../../components/Form/FormModal'
-import { Habit } from '../../pages/habits/habits.types'
-import { Goal } from '../../pages/goals/goals.types'
+import { Habit } from '../../types/habits.types'
+import { Goal } from '../../types/goals.types'
 
 export const EditActiveHabits: FunctionComponent<{
     isOpen: boolean

@@ -10,9 +10,9 @@ import {
     Text
 } from '@chakra-ui/react'
 
-import { HABITS } from '../../pages/habits/constants'
-import { Habit } from '../../pages/habits/habits.types'
-import { removeHabitFromGoalsOnDelete } from '../../pages/habits/helpers'
+import { HABITS } from '../../constants/habitsConstants'
+import { Habit } from '../../types/habits.types'
+import { removeHabitFromGoalsOnDelete } from '../../features/Habits/helpers'
 import { removeDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { removeLastCharacter } from '../../helpers/string-manipulation-functions'
 import { useGetRelevantGoals } from '../../hooks/useGetRelevantGoals'

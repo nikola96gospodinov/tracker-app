@@ -1,10 +1,10 @@
 import { NextPage } from 'next/types'
 import { useRouter } from 'next/router'
 
-import IndividualGoalContent from './features/IndividualGoalContent'
-import { GOALS } from '../constants'
+import IndividualGoalContent from '../../../features/Goal/IndividualGoalContent'
+import { GOALS } from '../../../constants/goalsConstants'
 import { PageWrapper } from '../../../components/Layout/PageWrapper'
-import { Goal } from '../goals.types'
+import { Goal } from '../../../types/goals.types'
 import useGetDoc from '../../../hooks/useGetDoc'
 import InitialSection from '../../../components/InitialSection'
 

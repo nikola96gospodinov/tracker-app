@@ -1,13 +1,13 @@
 import { FunctionComponent, useContext } from 'react'
 import { Box, Flex, Text, Tooltip } from '@chakra-ui/react'
 
-import { Habit } from '../../pages/habits/habits.types'
+import { Habit } from '../../types/habits.types'
 import { Tag } from '../../components/UIElements/Tag'
-import { onKeystoneStatusChange } from '../../pages/habits/helpers'
+import { onKeystoneStatusChange } from '../Habits/helpers'
 import { UserContext } from '../../context/userContext'
-import { Goal } from '../../pages/goals/goals.types'
+import { Goal } from '../../types/goals.types'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
-import { GOALS } from '../../pages/goals/constants'
+import { GOALS } from '../../constants/goalsConstants'
 
 export const ActiveHabits: FunctionComponent<{
     habits: Habit[]

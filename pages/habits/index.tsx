@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import { HabitsContent } from './features/HabitsContent'
+import { HabitsContent } from '../../features/Habits/HabitsContent'
 import { PageWrapper } from '../../components/Layout/PageWrapper'
 
 const Habits: NextPage = () => (

@@ -5,12 +5,9 @@ import { Flex, Heading, Button } from '@chakra-ui/react'
 
 import { FormModal } from '../../../components/Form/FormModal'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
-import {
-    getCurrentProgress,
-    updateHabitProgress
-} from '../../../pages/habits/helpers'
+import { getCurrentProgress, updateHabitProgress } from '../../Habits/helpers'
 import { auth } from '../../../firebase/firebase'
-import { Habit } from '../../../pages/habits/habits.types'
+import { Habit } from '../../../types/habits.types'
 import { formatDate } from '../../../helpers/date-manipulation-functions'
 import { Input } from '../../../components/Form/Input'
 

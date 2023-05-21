@@ -6,8 +6,8 @@ import {
     getCurrentProgress,
     isHabitCompleted,
     toggleHabitCompletion
-} from '../../../pages/habits/helpers'
-import { Habit } from '../../../pages/habits/habits.types'
+} from '../../Habits/helpers'
+import { Habit } from '../../../types/habits.types'
 import { UpdateMetrics } from '../UpdateMetrics'
 import { ProgressForm } from './ProgressForm'
 

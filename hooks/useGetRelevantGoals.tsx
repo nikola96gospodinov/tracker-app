@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { GOALS } from '../pages/goals/constants'
-import { Goal } from '../pages/goals/goals.types'
-import { HabitType } from '../pages/habits/habits.types'
+import { GOALS } from '../constants/goalsConstants'
+import { Goal } from '../types/goals.types'
+import { HabitType } from '../types/habits.types'
 import useGetDocs from './useGetDocs'
 
 interface Props {

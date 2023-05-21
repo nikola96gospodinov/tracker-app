@@ -1,11 +1,11 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
-import IndividualHabitContent from './features/IndividualHabitContent'
+import IndividualHabitContent from '../../../features/Habit/IndividualHabitContent'
 import { PageWrapper } from '../../../components/Layout/PageWrapper'
-import { Habit } from '../habits.types'
+import { Habit } from '../../../types/habits.types'
 import useGetDoc from '../../../hooks/useGetDoc'
-import { HABITS } from '../constants'
+import { HABITS } from '../../../constants/habitsConstants'
 import InitialSection from '../../../components/InitialSection'
 
 const IndividuaHait: NextPage = () => {
