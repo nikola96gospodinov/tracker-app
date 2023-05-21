@@ -8,8 +8,8 @@ import {
     toggleHabitCompletion
 } from '../../../pages/habits/helpers'
 import { Habit } from '../../../pages/habits/habits.types'
-import { ProgressForm } from './ProgressForm'
 import { UpdateMetrics } from '../UpdateMetrics'
+import { ProgressForm } from './ProgressForm'
 
 export const UpdateHabitMetrics: React.FunctionComponent<{
     habit: Habit

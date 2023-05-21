@@ -2,7 +2,7 @@ import useGetDocs from '../../hooks/useGetDocs'
 import { GOALS } from '../goals/constants'
 import { Goal } from '../goals/goals.types'
 import NoGoals from '../../components/NoGoals'
-import { Spinner } from '../../components/Spinner'
+import { Spinner } from '../../components/UIElements/Spinner'
 import { ErrorFetchingDocs } from '../../components/Docs/ErrorFetchingDocs'
 
 const WeeklyReview = () => {

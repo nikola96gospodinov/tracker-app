@@ -3,7 +3,7 @@ import { Flex, VStack } from '@chakra-ui/react'
 
 import { HABITS } from '../../habits/constants'
 import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
-import { Spinner } from '../../../components/Spinner'
+import { Spinner } from '../../../components/UIElements/Spinner'
 import { useGetAllActiveHabitsByType } from '../hooks/useGetAllActiveHabitsByType'
 import { Progress } from './Progress'
 import NoDocsYet from '../../../components/Docs/NoDocsYet'

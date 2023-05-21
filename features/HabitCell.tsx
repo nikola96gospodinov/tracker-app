@@ -9,7 +9,6 @@ import {
 } from '../pages/habits/helpers'
 import { Link } from '../components/UIElements/Link'
 import { UpdateHabitMetrics } from './UpdateMetrics/UpdateHabitMetrics/UpdateHabitMetrics'
-import { formatDateForUI } from '../helpers/date-manipulation-functions'
 
 const HabitCell: React.FunctionComponent<{
     habit: Habit

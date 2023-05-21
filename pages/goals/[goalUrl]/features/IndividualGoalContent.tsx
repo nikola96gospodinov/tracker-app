@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useDisclosure } from '@chakra-ui/react'
 
 import GoalInfo from './GoalInfo'
-import { Spinner } from '../../../../components/Spinner'
+import { Spinner } from '../../../../components/UIElements/Spinner'
 import GoalForm from '../../features/GoalForm'
 import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../../goals.types'

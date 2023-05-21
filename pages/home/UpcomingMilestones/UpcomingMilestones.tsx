@@ -7,7 +7,7 @@ import NoDocsYet from '../../../components/Docs/NoDocsYet'
 import useGetFilteredDocs from '../../../hooks/useGetFilteredDocs'
 import { MILESTONES } from '../../goals/constants'
 import { Milestone } from '../../goals/goals.types'
-import { Spinner } from '../../../components/Spinner'
+import { Spinner } from '../../../components/UIElements/Spinner'
 import { MilestoneBox } from './MilestoneBox'
 import { useGetRelentlessMilestones } from '../hooks/useGetRelevantMilestones'
 
