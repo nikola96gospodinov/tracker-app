@@ -15,7 +15,7 @@ import { Habit } from '../../habits/habits.types'
 import CheckIcon from '../../../components/Icons/CheckIcon'
 import GearIcon from '../../../components/Icons/GearIcon'
 import { Link } from '../../../components/UIElements/Link'
-import { UpdateHabitMetrics } from '../../../features/UpdateMetrics/UpdateHabitMetrics'
+import { UpdateHabitMetrics } from '../../../features/UpdateMetrics/UpdateHabitMetrics/UpdateHabitMetrics'
 
 export const CompletedHabits: FunctionComponent<{
     completedHabits: Habit[]
