@@ -46,7 +46,7 @@ const useGetDoc = <T,>({ path, property, value, opStr }: Props) => {
         )
 
         return () => unsubscribe()
-    }, [])
+    }, [value])
 
     return { doc, loading, errorFetching }
 }
