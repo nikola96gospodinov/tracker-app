@@ -7,19 +7,29 @@ import useGetDocs from '../../../hooks/useGetDocs'
 import { HABITS } from '../../../constants/habitsConstants'
 import { Habit } from '../../../types/habits.types'
 import { HabitBox } from './HabitBox'
+import useGetFilteredDocs from '../../../hooks/useGetFilteredDocs'
 
 const HabitsList: React.FunctionComponent<{
     onAddHabitsFormOpen: () => void
-}> = ({ onAddHabitsFormOpen }) => {
-    const { docs: habits, errorFetching } = useGetDocs<Habit>({
-        path: HABITS
+    activeOptionValue: string
+}> = ({ onAddHabitsFormOpen, activeOptionValue }) => {
+    const { docs: allHabits, errorFetching: errorFetchingAllHabits } =
+        useGetDocs<Habit>({
+            path: HABITS
+        })
+    const { docs: habits, errorFetching } = useGetFilteredDocs<Habit>({
+        path: HABITS,
+        fieldPath: 'type',
+        opStr: '==',
+        value: activeOptionValue
     })
 
-    if (errorFetching) return <ErrorFetchingDocs docType={HABITS} />
+    if (errorFetchingAllHabits || errorFetching)
+        return <ErrorFetchingDocs docType={HABITS} />
 
-    if (!habits) return <Spinner text='Loading...' />
+    if (!allHabits || !habits) return <Spinner text='Loading...' />
 
-    if (habits.length === 0)
+    if (allHabits.length === 0)
         return (
             <NoDocsYet docType={HABITS} onClick={() => onAddHabitsFormOpen()} />
         )
@@ -31,9 +41,11 @@ const HabitsList: React.FunctionComponent<{
             minChildWidth='300px'
             templateColumns='1fr 1fr 1fr'
         >
-            {habits.map((habit: Habit) => (
-                <HabitBox key={habit.id} habit={habit} />
-            ))}
+            {(activeOptionValue === 'all' ? allHabits : habits).map(
+                (habit: Habit) => (
+                    <HabitBox key={habit.id} habit={habit} />
+                )
+            )}
         </SimpleGrid>
     )
 }
