@@ -8,6 +8,7 @@ import { HABITS } from '../../../constants/habitsConstants'
 import { Habit } from '../../../types/habits.types'
 import { HabitBox } from './HabitBox'
 import useGetFilteredDocs from '../../../hooks/useGetFilteredDocs'
+import { NoFilteredDocs } from '../../../components/Docs/NoFilteredDocs'
 
 const HabitsList: React.FunctionComponent<{
     onAddHabitsFormOpen: () => void
@@ -33,6 +34,9 @@ const HabitsList: React.FunctionComponent<{
         return (
             <NoDocsYet docType={HABITS} onClick={() => onAddHabitsFormOpen()} />
         )
+
+    if (habits.length === 0 && activeOptionValue !== 'all')
+        return <NoFilteredDocs docType={HABITS} />
 
     return (
         <SimpleGrid

@@ -8,6 +8,7 @@ import { GOALS } from '../../constants/goalsConstants'
 import { ErrorFetchingDocs } from '../../components/Docs/ErrorFetchingDocs'
 import useGetFilteredDocs from '../../hooks/useGetFilteredDocs'
 import useGetDocs from '../../hooks/useGetDocs'
+import { NoFilteredDocs } from '../../components/Docs/NoFilteredDocs'
 
 const GoalsList: React.FunctionComponent<{
     setAddGoalsFormOpen: () => void
@@ -33,6 +34,9 @@ const GoalsList: React.FunctionComponent<{
         return (
             <NoDocsYet docType={GOALS} onClick={() => setAddGoalsFormOpen()} />
         )
+
+    if (goals.length === 0 && activeOptionValue !== 'all')
+        return <NoFilteredDocs docType={GOALS} />
 
     return (
         <SimpleGrid
