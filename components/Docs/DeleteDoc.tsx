@@ -19,6 +19,9 @@ import { useGetRelevantGoals } from '../../hooks/useGetRelevantGoals'
 import { Doc } from '../../types/crud-opearations.types'
 import { UserContext } from '../../context/userContext'
 import { FormError } from '../Form/FormError'
+import { ArchiveGoal } from '../../features/Goal/ArchiveGoal'
+import { GOALS } from '../../constants/goalsConstants'
+import { Goal } from '../../types/goals.types'
 
 interface Props<T> {
     isDeleteWarningOpen: boolean
@@ -64,6 +67,9 @@ const DeleteDoc = <T extends Doc>({
         }
     }, [doc, path, userId])
 
+    const showArchiveGoal =
+        path === GOALS && (doc as Goal)?.status !== 'archived'
+
     return (
         <Modal
             isOpen={isDeleteWarningOpen}
@@ -101,6 +107,12 @@ const DeleteDoc = <T extends Doc>({
                     formError={error}
                     errorText={`There was an issue deleting ${singularPath}. Please try again`}
                 />
+                {showArchiveGoal && (
+                    <ArchiveGoal
+                        onClose={onDeleteWarningClose}
+                        goalId={doc?.id ?? ''}
+                    />
+                )}
             </ModalContent>
         </Modal>
     )

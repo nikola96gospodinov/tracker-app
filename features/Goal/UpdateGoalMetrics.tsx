@@ -4,6 +4,7 @@ import { Goal } from '../../types/goals.types'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { GOALS } from '../../constants/goalsConstants'
 import { UserContext } from '../../context/userContext'
+import { UnarchveGoal } from './UnarchiveGoal'
 
 export const UpdateGoalMetrics: FunctionComponent<{
     goal: Goal
@@ -25,7 +26,6 @@ export const UpdateGoalMetrics: FunctionComponent<{
 
     const onProgressChange = (progress: number, target: number) => {
         const status = progress >= target ? 'completed' : goal.status
-        console.log(progress)
 
         submitDoc<Goal>({
             path: GOALS,
@@ -38,6 +38,8 @@ export const UpdateGoalMetrics: FunctionComponent<{
             userID: userId
         })
     }
+
+    if (goal.status === 'archived') return <UnarchveGoal goalId={goal.id} />
 
     return (
         <UpdateMetrics
