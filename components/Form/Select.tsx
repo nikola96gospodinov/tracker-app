@@ -8,12 +8,12 @@ import {
 } from '@chakra-ui/react'
 import { capitalizeFirstLetter } from '../../helpers/string-manipulation-functions'
 
-interface Option {
+export interface Option {
     value: string
     label: string
 }
 
-interface Options {
+export interface Options {
     [key: string]: Option[]
 }
 
@@ -24,8 +24,17 @@ export const Select: React.FunctionComponent<
         isError?: boolean
         errorContent?: React.ReactNode
         options: Options | Option[]
+        activeOptionValue?: string
     } & SelectProps
-> = ({ options, label, helperText, isError, errorContent, ...inputProps }) => {
+> = ({
+    options,
+    label,
+    helperText,
+    isError,
+    errorContent,
+    activeOptionValue,
+    ...inputProps
+}) => {
     const noOptGroups = Array.isArray(options)
     const showHelperText = helperText && !isError
     const error = errorContent ?? 'This field is not valid'
@@ -46,12 +55,16 @@ export const Select: React.FunctionComponent<
                 <option
                     value=''
                     disabled
-                    selected
+                    selected={activeOptionValue === undefined}
                     style={{ opacity: 0.5 }}
                 ></option>
                 {noOptGroups
                     ? options.map(({ value, label }) => (
-                          <option key={value} value={value}>
+                          <option
+                              key={value}
+                              value={value}
+                              selected={value === activeOptionValue}
+                          >
                               {label}
                           </option>
                       ))
