@@ -19,6 +19,7 @@ interface SubmitDocProps<T> {
     setError?: Dispatch<boolean>
     setErrors?: ErrorsDispatch
     setDocsFormOpen?: Dispatch<boolean>
+    reducerAction?: () => void
     router?: NextRouter
 }
 
@@ -29,6 +30,7 @@ export const submitDoc = async <T extends Doc>({
     setDocsFormOpen,
     setError,
     setErrors,
+    reducerAction,
     router
 }: SubmitDocProps<T>) => {
     const fullPath = `users/${userID}/${path}`
@@ -45,10 +47,8 @@ export const submitDoc = async <T extends Doc>({
             await setDoc(docsRef, orgDoc)
         }
 
-        if (setDocsFormOpen && router) {
-            setDocsFormOpen(false)
-            router.push(`/${path}/${orgDoc.urlPath}`)
-        }
+        if (setDocsFormOpen) setDocsFormOpen(false)
+        if (router) router.push(`/${path}/${orgDoc.urlPath}`)
     } catch (e) {
         console.log(e)
         if (setErrors) {
@@ -58,6 +58,7 @@ export const submitDoc = async <T extends Doc>({
             }))
         }
         if (setError) setError(true)
+        if (reducerAction) reducerAction()
     }
 }
 

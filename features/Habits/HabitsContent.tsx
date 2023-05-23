@@ -18,21 +18,19 @@ export const HabitsContent = () => {
     const [activeOptionValue, setActiveOptionValue] = useState(initialValue)
 
     return (
-        <>
-            <InitialSection>
-                <DocHeader
-                    heading='My Habits'
-                    onClick={onOpen}
-                    filteringOptions={filteringOptions}
-                    activeOptionValue={activeOptionValue}
-                    setActiveOptionValue={setActiveOptionValue}
-                />
-                <HabitsList
-                    onAddHabitsFormOpen={onOpen}
-                    activeOptionValue={activeOptionValue}
-                />
-                <HabitForm isFormOpen={isOpen} onFormClose={onClose} />
-            </InitialSection>
-        </>
+        <InitialSection>
+            <DocHeader
+                heading='My Habits'
+                onClick={onOpen}
+                filteringOptions={filteringOptions}
+                activeOptionValue={activeOptionValue}
+                setActiveOptionValue={setActiveOptionValue}
+            />
+            <HabitsList
+                onAddHabitsFormOpen={onOpen}
+                activeOptionValue={activeOptionValue}
+            />
+            <HabitForm isFormOpen={isOpen} onFormClose={onClose} />
+        </InitialSection>
     )
 }
