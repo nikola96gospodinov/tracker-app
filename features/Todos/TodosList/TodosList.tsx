@@ -9,6 +9,7 @@ import useGetFilteredDocs from '../../../hooks/useGetFilteredDocs'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import { Todo } from '../../../types/todos.types'
 import { TODOS } from '../../../constants/todoConstants'
+import { TodoBox } from './TodoBox'
 
 const TodosList: FunctionComponent<{
     onAddTodosFormOpen: () => void
@@ -47,7 +48,7 @@ const TodosList: FunctionComponent<{
         >
             {(activeOptionValue === 'all' ? allTodos : todos).map(
                 (todo: Todo) => (
-                    <Box key={todo.id}>{todo.title}</Box>
+                    <TodoBox key={todo.id} todo={todo} />
                 )
             )}
         </SimpleGrid>

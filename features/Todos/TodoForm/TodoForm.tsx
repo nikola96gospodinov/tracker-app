@@ -10,7 +10,6 @@ import { UserContext } from '../../../context/userContext'
 import { TODOS } from '../../../constants/todoConstants'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
 import { toKebabCase } from '../../../helpers/string-manipulation-functions'
-import { set } from 'lodash'
 
 export const TodoForm: FunctionComponent<{
     isFormOpen: boolean
@@ -98,7 +97,7 @@ export const TodoForm: FunctionComponent<{
                 type='date'
                 onChange={(e) =>
                     dispatch({
-                        type: 'SET_DESCRIPTION',
+                        type: 'SET_DUE_BY',
                         payload: e.target.value
                     })
                 }
