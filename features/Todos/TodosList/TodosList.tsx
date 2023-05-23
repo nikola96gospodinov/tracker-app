@@ -39,6 +39,13 @@ const TodosList: FunctionComponent<{
     if (todos.length === 0 && activeOptionValue !== 'all')
         return <NoFilteredDocs docType={TODOS} />
 
+    const activeTodos = activeOptionValue === 'all' ? allTodos : todos
+    const sortedTodos = activeTodos.sort((a, b) => {
+        if (!a.dueBy) return 1
+        if (!b.dueBy) return -1
+        return a.dueBy.localeCompare(b.dueBy)
+    })
+
     return (
         <SimpleGrid
             columns={3}
@@ -46,11 +53,9 @@ const TodosList: FunctionComponent<{
             minChildWidth='300px'
             templateColumns='1fr 1fr 1fr'
         >
-            {(activeOptionValue === 'all' ? allTodos : todos).map(
-                (todo: Todo) => (
-                    <TodoBox key={todo.id} todo={todo} />
-                )
-            )}
+            {sortedTodos.map((todo: Todo) => (
+                <TodoBox key={todo.id} todo={todo} />
+            ))}
         </SimpleGrid>
     )
 }

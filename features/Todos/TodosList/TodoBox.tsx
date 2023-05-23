@@ -1,11 +1,25 @@
 import { FunctionComponent, useContext } from 'react'
-import { Flex, Heading, Text, VStack } from '@chakra-ui/react'
+import {
+    Flex,
+    Heading,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverTrigger,
+    Text,
+    VStack
+} from '@chakra-ui/react'
+
 import { Todo } from '../../../types/todos.types'
 import { Deadline } from '../../Deadline'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
 import { TODOS } from '../../../constants/todoConstants'
 import { UserContext } from '../../../context/userContext'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
+import GearIcon from '../../../components/Icons/GearIcon'
+import { TodoActions } from './TodoActions'
 
 export const TodoBox: FunctionComponent<{
     todo: Todo
@@ -34,10 +48,13 @@ export const TodoBox: FunctionComponent<{
             borderRadius='2xl'
             justify='space-between'
         >
-            <VStack align='flex-start'>
-                <Heading as='h3' fontSize='lg'>
-                    {todo.title}
-                </Heading>
+            <VStack align='flex-start' w='100%'>
+                <Flex w='100%' justify='space-between'>
+                    <Heading as='h3' fontSize='lg'>
+                        {todo.title}
+                    </Heading>
+                    <TodoActions todo={todo} />
+                </Flex>
                 <Text>{todo.description}</Text>
             </VStack>
             <Flex gap={4} pt={4}>
