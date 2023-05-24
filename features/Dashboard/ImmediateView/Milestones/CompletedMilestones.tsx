@@ -30,6 +30,7 @@ export const CompletedMilestones: FunctionComponent<{
                 borderTopWidth={3}
                 borderTopColor='green.500'
                 align='center'
+                justify='space-between'
             >
                 <Flex align='center' gap={2}>
                     <CheckIcon boxSize={5} fill='green.500' />

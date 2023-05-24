@@ -1,15 +1,8 @@
-import { FunctionComponent, useCallback, useContext } from 'react'
-import { Box, Heading, useToast } from '@chakra-ui/react'
+import { FunctionComponent } from 'react'
+import { Box, Heading } from '@chakra-ui/react'
 
 import { Milestone } from '../../../types/goals.types'
-import { getProgressForUI } from '../../Goal/Milestones/helpers/utils'
 import { AttachedGoal } from './AttachedGoal'
-import { UpdateMetrics } from '../../UpdateMetrics/UpdateMetrics'
-import { UserContext } from '../../../context/userContext'
-import {
-    editMilestone,
-    toggleMilestone
-} from '../../Goal/Milestones/helpers/crud-operations-milestones'
 import { Deadline } from '../../Deadline'
 import { UpdateMilestoneMetrics } from '../../UpdateMetrics/UpdateMilestoneMetrics'
 

@@ -9,6 +9,7 @@ import {
     toggleMilestone
 } from '../Goal/Milestones/helpers/crud-operations-milestones'
 import { getProgressForUI } from '../Goal/Milestones/helpers/utils'
+import { today } from '../../helpers/date-manipulation-functions'
 
 export const UpdateMilestoneMetrics: FunctionComponent<{
     milestone: Milestone
@@ -20,12 +21,15 @@ export const UpdateMilestoneMetrics: FunctionComponent<{
 
     const onProgressChange = useCallback(
         (progress: number, target: number) => {
+            const completed = progress >= target
             editMilestone({
                 userID: userId ?? '',
                 updatedMilestone: {
                     ...milestone,
                     progress,
-                    target
+                    target,
+                    completed,
+                    completedOn: completed ? today : ''
                 },
                 toast
             })

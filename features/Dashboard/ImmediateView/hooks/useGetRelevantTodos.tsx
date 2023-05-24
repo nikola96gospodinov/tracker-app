@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import { HabitType } from '../../../../types/habits.types'
 import { Todo } from '../../../../types/todos.types'
 import { TODOS } from '../../../../constants/todoConstants'
@@ -17,7 +19,7 @@ export const useGetRelevantTodos = (type: HabitType) => {
 
     const filteredTodos = (todos ?? []).filter((todo) => {
         if (type === 'daily') {
-            return todo.dueBy === today
+            return moment(todo.dueBy).isBefore(today)
         }
 
         return todo.dueBy !== today && formatWeek(todo.dueBy) === thisWeek

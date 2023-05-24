@@ -27,6 +27,7 @@ import { UserContext } from '../../../context/userContext'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
 import DeleteDoc from '../../../components/Docs/DeleteDoc'
+import { today } from '../../../helpers/date-manipulation-functions'
 
 const Milestones: React.FunctionComponent<TabElementProps> = ({
     goalID,
@@ -95,7 +96,9 @@ const Milestones: React.FunctionComponent<TabElementProps> = ({
                 completed:
                     progress && target
                         ? progress >= target
-                        : activeMilestone?.completed
+                        : activeMilestone?.completed,
+                completedOn:
+                    progress && target && progress >= target ? today : ''
             } as Milestone
 
             editMilestone({

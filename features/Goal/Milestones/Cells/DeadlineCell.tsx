@@ -18,7 +18,8 @@ export const DeadlineCell: FunctionComponent<{
     const formattedDeadline =
         milestone.deadline === '' ? 'N/A' : formatDateForUI(milestone.deadline)
     const isPastDeadline =
-        moment(milestone.deadline).isBefore(moment()) && !milestone.completed
+        moment(milestone.deadline).add(1, 'day').isBefore(moment()) &&
+        !milestone.completed
 
     return (
         <Td>

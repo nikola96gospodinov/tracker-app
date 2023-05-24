@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { MILESTONES } from '../../../../constants/goalsConstants'
 import { thisWeek } from '../../../../helpers/date-manipulation-functions'
 import {
@@ -19,7 +20,7 @@ export const useGetRelevantMilestones = (type: HabitType) => {
 
     const filteredMilestones = milestones?.filter((milestone) => {
         if (type === 'daily') {
-            return milestone.deadline === today
+            return moment(milestone.deadline).isBefore(today)
         }
 
         return (

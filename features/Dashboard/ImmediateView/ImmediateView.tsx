@@ -40,7 +40,11 @@ export const ImmediateView: FunctionComponent<{
     const errorFetching =
         errorFetchingHabits || errorFetchingTodos || errorFetchingMilestones
     const totalLength =
-        activeHabits.length + completedTodos.length + incompletedTodos.length
+        activeHabits.length +
+        completedTodos.length +
+        incompletedTodos.length +
+        (completedMilestones?.length ?? 0) +
+        (incompletedMilestones?.length ?? 0)
 
     if (loading) return <Spinner mt={8} text='Loading...' />
 

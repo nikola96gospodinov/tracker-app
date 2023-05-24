@@ -12,6 +12,7 @@ import { Milestone } from '../../../../types/goals.types'
 import { db } from '../../../../firebase/firebase'
 import { Dispatch } from '../../../../typings'
 import { Toast } from '../../../../components/UIElements/Toast'
+import { today } from '../../../../helpers/date-manipulation-functions'
 
 const toastConfig: ToastProps = {
     position: 'top-right',
@@ -138,7 +139,8 @@ export const toggleMilestone = async ({
     try {
         updateDoc(milestonesRef, {
             completed: !milestone.completed,
-            progress
+            progress,
+            completedOn: !milestone.completed ? today : ''
         })
         toast({
             ...toastConfig,
