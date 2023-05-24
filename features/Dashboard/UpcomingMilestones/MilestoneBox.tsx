@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useContext } from 'react'
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Heading, useToast } from '@chakra-ui/react'
 
 import { Milestone } from '../../../types/goals.types'
 import { getProgressForUI } from '../../Goal/Milestones/helpers/utils'
@@ -11,70 +11,35 @@ import {
     toggleMilestone
 } from '../../Goal/Milestones/helpers/crud-operations-milestones'
 import { Deadline } from '../../Deadline'
+import { UpdateMilestoneMetrics } from '../../UpdateMetrics/UpdateMilestoneMetrics'
 
 export const MilestoneBox: FunctionComponent<{
     milestone: Milestone
-    toast: any
-}> = ({ milestone, toast }) => {
-    const { userId } = useContext(UserContext)
-    const progress = getProgressForUI(milestone)
+}> = ({ milestone }) => (
+    <Box
+        bg='white'
+        p={4}
+        borderRadius='lg'
+        boxShadow='inset'
+        borderLeft='solid'
+        borderLeftColor='purple.600'
+        borderLeftWidth={3}
+    >
+        <AttachedGoal goalId={milestone.goalID} />
 
-    const onProgressChange = useCallback(
-        (progress: number, target: number) => {
-            editMilestone({
-                userID: userId ?? '',
-                updatedMilestone: {
-                    ...milestone,
-                    progress,
-                    target
-                },
-                toast
-            })
-        },
-        [milestone, userId]
-    )
+        <Heading as='h3' fontSize='lg' mt={2}>
+            {milestone.name}
+        </Heading>
 
-    const onToggleChange = useCallback(
-        () =>
-            toggleMilestone({
-                userID: userId ?? '',
-                milestone,
-                toast
-            }),
-        [milestone, userId]
-    )
-
-    return (
-        <Box
-            bg='white'
-            p={4}
-            borderRadius='lg'
-            boxShadow='inset'
-            borderLeft='solid'
-            borderLeftColor='purple.600'
-            borderLeftWidth={3}
-        >
-            <AttachedGoal goalId={milestone.goalID} />
-
-            <Heading as='h3' fontSize='lg' mt={2}>
-                {milestone.name}
-            </Heading>
-
-            <Box mt={2}>
-                <UpdateMetrics
-                    toggleText='Set as completed'
-                    onToggleChange={onToggleChange}
-                    onProgressChange={onProgressChange}
-                    isCompleted={milestone.completed}
-                    target={milestone.target}
-                    progress={milestone.progress}
-                    progressText={progress}
-                />
-            </Box>
-
-            <Box mt={2}>
-                <Deadline deadline={milestone.deadline} />
-            </Box>
+        <Box mt={2}>
+            <UpdateMilestoneMetrics
+                milestone={milestone}
+                toggleText='Set as completed'
+            />
         </Box>
-    )
-}
+
+        <Box mt={2}>
+            <Deadline deadline={milestone.deadline} />
+        </Box>
+    </Box>
+)

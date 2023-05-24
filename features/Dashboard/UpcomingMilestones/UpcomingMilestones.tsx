@@ -1,17 +1,16 @@
 import { useRouter } from 'next/router'
 import { FunctionComponent } from 'react'
-import { SimpleGrid, useToast } from '@chakra-ui/react'
+import { SimpleGrid } from '@chakra-ui/react'
 
 import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
 import NoDocsYet from '../../../components/Docs/NoDocsYet'
 import { MILESTONES } from '../../../constants/goalsConstants'
 import { Spinner } from '../../../components/UIElements/Spinner'
 import { MilestoneBox } from './MilestoneBox'
-import { useGetRelentlessMilestones } from '../../../hooks/useGetRelevantMilestones'
+import { useGetRelentlessMilestones } from './hooks/useGetRelevantMilestones'
 
 export const UpcomingMilestones: FunctionComponent = () => {
     const router = useRouter()
-    const toast = useToast()
 
     const {
         relativeMilestones: milestones,
@@ -37,11 +36,7 @@ export const UpcomingMilestones: FunctionComponent = () => {
     return (
         <SimpleGrid columns={3} gap={4} w='100%' pt={8}>
             {milestones.map((milestone) => (
-                <MilestoneBox
-                    key={milestone.id}
-                    milestone={milestone}
-                    toast={toast}
-                />
+                <MilestoneBox key={milestone.id} milestone={milestone} />
             ))}
         </SimpleGrid>
     )

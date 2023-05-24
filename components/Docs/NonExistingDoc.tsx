@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
 
 import { Link } from '../UIElements/Link'

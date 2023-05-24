@@ -1,6 +1,6 @@
-import useGetFilteredDocs from './useGetFilteredDocs'
-import { GOALS, MILESTONES } from '../constants/goalsConstants'
-import { Goal, Milestone } from '../types/goals.types'
+import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
+import { GOALS, MILESTONES } from '../../../../constants/goalsConstants'
+import { Goal, Milestone } from '../../../../types/goals.types'
 
 export const useGetRelentlessMilestones = () => {
     const {

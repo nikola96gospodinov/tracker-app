@@ -7,15 +7,12 @@ import { Spinner } from '../../../components/UIElements/Spinner'
 import { useGetAllActiveHabitsByType } from '../../../hooks/useGetAllActiveHabitsByType'
 import { Progress } from './Progress'
 import NoDocsYet from '../../../components/Docs/NoDocsYet'
-import {
-    thisWeek,
-    today,
-    formatWeek
-} from '../../../helpers/date-manipulation-functions'
+import { thisWeek, today } from '../../../helpers/date-manipulation-functions'
 import { HabitType } from '../../../types/habits.types'
-import { useGetRelevantTodos } from '../../../hooks/useGetRelevantTodos'
+import { useGetRelevantTodos } from './hooks/useGetRelevantTodos'
 import { IncompletedItems } from './IncompletedItems'
 import { CompletedItems } from './CompletedItems'
+import { useGetRelevantMilestones } from './hooks/useGetRelevantMilestones'
 
 export const ImmediateView: FunctionComponent<{
     type?: HabitType
@@ -27,14 +24,23 @@ export const ImmediateView: FunctionComponent<{
         errorFetching: errorFetchingHabits
     } = useGetAllActiveHabitsByType(type!)
     const {
-        todos,
+        completedTodos,
+        incompletedTodos,
         loading: loadingTodos,
         errorFetching: errorFetchingTodos
     } = useGetRelevantTodos(type!)
+    const {
+        completedMilestones,
+        incompletedMilestones,
+        loading: loadingMilestones,
+        errorFetching: errorFetchingMilestones
+    } = useGetRelevantMilestones(type!)
 
-    const loading = loadingHabits || loadingTodos
-    const errorFetching = errorFetchingHabits || errorFetchingTodos
-    const totalLength = activeHabits.length + todos.length
+    const loading = loadingHabits || loadingTodos || loadingMilestones
+    const errorFetching =
+        errorFetchingHabits || errorFetchingTodos || errorFetchingMilestones
+    const totalLength =
+        activeHabits.length + completedTodos.length + incompletedTodos.length
 
     if (loading) return <Spinner mt={8} text='Loading...' />
 
@@ -46,7 +52,7 @@ export const ImmediateView: FunctionComponent<{
                 docType={HABITS}
                 onClick={() => onOpen()}
                 size='sm'
-                customMessage={`You haven't added any habits to your dashboard yet 🤔`}
+                customMessage={`You don't have anything on your dashboard yet 🤔`}
             />
         )
 
@@ -64,18 +70,6 @@ export const ImmediateView: FunctionComponent<{
         }
     )
 
-    const completedTodos = todos.filter(({ status, completedAt }) => {
-        if (type === 'daily') {
-            return status === 'completed' && completedAt === today
-        } else {
-            return (
-                status === 'completed' && formatWeek(completedAt) === thisWeek
-            )
-        }
-    })
-
-    const incompletedTodos = todos.filter(({ status }) => status === 'active')
-
     return (
         <Flex mt={8} gap={8}>
             <Progress
@@ -83,16 +77,19 @@ export const ImmediateView: FunctionComponent<{
                 completedHabitsLength={completedHabits.length}
                 incompletedHabits={incompletedHabits}
                 completedTodosLength={completedTodos.length}
+                completedMilestonesLength={completedMilestones?.length ?? 0}
             />
             <VStack flexGrow={1} align='flex-start'>
                 <IncompletedItems
                     habits={incompletedHabits}
                     todos={incompletedTodos}
+                    milestones={incompletedMilestones ?? []}
                     type={type!}
                 />
                 <CompletedItems
                     habits={completedHabits}
                     todos={completedTodos}
+                    milestones={completedMilestones ?? []}
                 />
             </VStack>
         </Flex>
