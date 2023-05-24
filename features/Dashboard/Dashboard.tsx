@@ -1,6 +1,10 @@
 import {
     Button,
     Flex,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
     Tab,
     TabList,
     TabPanel,
@@ -13,28 +17,55 @@ import { FunctionComponent, useState } from 'react'
 import { tabs } from './data'
 import GearIcon from '../../components/Icons/GearIcon'
 import { EditActiveHabitsOnDashboard } from './EditActiveHabitsOnDashboard'
+import { TodoForm } from '../Todos/TodoForm/TodoForm'
 
 export const Dashboard: FunctionComponent = () => {
     const [activeTab, setActiveTab] = useState(tabs[0].name)
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const {
+        isOpen: isOpenHabitList,
+        onOpen: onOpenHabitList,
+        onClose: onCloseHabitList
+    } = useDisclosure()
+
+    const {
+        isOpen: isOpenAddTodo,
+        onOpen: onOpenAddTodo,
+        onClose: onCloseAddTodo
+    } = useDisclosure()
 
     const showButton = activeTab === 'Today' || activeTab === 'This Week'
 
     return (
         <>
             <Flex justifyContent='flex-end' my={-9}>
-                <Button
-                    size='sm'
-                    boxShadow='none'
-                    variant='tertiary'
-                    onClick={() => {
-                        if (showButton) onOpen()
-                    }}
-                    opacity={showButton ? 1 : 0}
-                    cursor={showButton ? 'pointer' : 'default'}
-                >
-                    <GearIcon mr={1} /> Configure
-                </Button>
+                <Menu>
+                    <MenuButton
+                        as={Button}
+                        size='sm'
+                        boxShadow='none'
+                        variant='tertiary'
+                        opacity={showButton ? 1 : 0}
+                        cursor={showButton ? 'pointer' : 'default'}
+                    >
+                        <GearIcon mr={1} /> Configure
+                    </MenuButton>
+                    <MenuList borderRadius='lg' boxShadow='secondary'>
+                        <MenuItem
+                            onClick={() => {
+                                if (showButton) onOpenHabitList()
+                            }}
+                        >
+                            Manage active habits
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                if (showButton) onOpenAddTodo()
+                            }}
+                        >
+                            Add a todo
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
             </Flex>
             <Tabs colorScheme='purple'>
                 <TabList>
@@ -53,7 +84,7 @@ export const Dashboard: FunctionComponent = () => {
                 <TabPanels>
                     {tabs.map(({ Component, name, props }) => (
                         <TabPanel key={name} p={0}>
-                            <Component {...props} onOpen={onOpen} />
+                            <Component {...props} onOpen={onOpenHabitList} />
                         </TabPanel>
                     ))}
                 </TabPanels>
@@ -61,9 +92,11 @@ export const Dashboard: FunctionComponent = () => {
 
             <EditActiveHabitsOnDashboard
                 type={activeTab === 'Today' ? 'daily' : 'weekly'}
-                isOpen={isOpen}
-                onClose={onClose}
+                isOpen={isOpenHabitList}
+                onClose={onCloseHabitList}
             />
+
+            <TodoForm isFormOpen={isOpenAddTodo} onFormClose={onCloseAddTodo} />
         </>
     )
 }
