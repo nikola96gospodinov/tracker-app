@@ -54,6 +54,8 @@ const GoalForm: React.FunctionComponent<{
             nameErr: nameError()
         })
 
+        const isCompleted = progress && target && progress >= target
+
         if (nameError() === '') {
             const fields = {
                 ...goal,
@@ -63,7 +65,8 @@ const GoalForm: React.FunctionComponent<{
                 target: target ?? null,
                 progress: progress ?? null,
                 id: goal?.id ?? uuidv4(),
-                status: goal?.status ?? 'active',
+                status: isCompleted ? 'completed' : goal?.status ?? 'active',
+                completedOn: isCompleted ? today : '',
                 urlPath: toKebabCase(name)
             }
 

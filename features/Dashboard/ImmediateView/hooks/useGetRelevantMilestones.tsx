@@ -20,7 +20,10 @@ export const useGetRelevantMilestones = (type: HabitType) => {
 
     const filteredMilestones = milestones?.filter((milestone) => {
         if (type === 'daily') {
-            return moment(milestone.deadline).isBefore(today)
+            return (
+                moment(milestone.deadline).isBefore(today) ||
+                milestone.deadline === today
+            )
         }
 
         return (

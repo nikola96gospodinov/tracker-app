@@ -5,27 +5,30 @@ import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-do
 import { GOALS } from '../../constants/goalsConstants'
 import { UserContext } from '../../context/userContext'
 import { UnarchveGoal } from './UnarchiveGoal'
+import { today } from '../../helpers/date-manipulation-functions'
 
 export const UpdateGoalMetrics: FunctionComponent<{
     goal: Goal
 }> = ({ goal }) => {
     const { userId } = useContext(UserContext)
-    const toggleText =
-        goal.status === 'completed' ? 'Completed! 🥳' : 'Set as complete'
+    const isCompleted = goal.status === 'completed'
+    const toggleText = isCompleted ? 'Completed! 🥳' : 'Set as complete'
 
     const onToggleChange = () => {
         submitDoc<Goal>({
             path: GOALS,
             orgDoc: {
                 id: goal.id,
-                status: goal.status === 'completed' ? 'active' : 'completed'
+                status: isCompleted ? 'active' : 'completed',
+                completedOn: !isCompleted ? today : ''
             } as Goal,
             userID: userId
         })
     }
 
     const onProgressChange = (progress: number, target: number) => {
-        const status = progress >= target ? 'completed' : goal.status
+        const isCompleted = progress >= target
+        const status = isCompleted ? 'completed' : goal.status
 
         submitDoc<Goal>({
             path: GOALS,
@@ -33,7 +36,8 @@ export const UpdateGoalMetrics: FunctionComponent<{
                 id: goal.id,
                 progress: progress,
                 target: target,
-                status
+                status,
+                completedOn: isCompleted ? today : ''
             } as Goal,
             userID: userId
         })

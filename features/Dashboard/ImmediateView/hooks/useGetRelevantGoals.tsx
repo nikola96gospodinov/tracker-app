@@ -20,7 +20,9 @@ export const useGetRelevantGoals = (type: HabitType) => {
 
     const filteredGoals = goals?.filter((goal) => {
         if (type === 'daily') {
-            return moment(goal.deadline).isBefore(today)
+            return (
+                moment(goal.deadline).isBefore(today) || goal.deadline === today
+            )
         }
 
         return goal.deadline !== today && formatWeek(goal.deadline) === thisWeek
@@ -37,7 +39,7 @@ export const useGetRelevantGoals = (type: HabitType) => {
     })
 
     const incompletedGoals = filteredGoals?.filter(
-        (goal) => goal.status !== 'active'
+        (goal) => goal.status === 'active'
     )
 
     return {
