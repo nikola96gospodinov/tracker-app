@@ -1,16 +1,5 @@
 import { FunctionComponent, useContext } from 'react'
-import {
-    Flex,
-    Heading,
-    Popover,
-    PopoverArrow,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverTrigger,
-    Text,
-    VStack
-} from '@chakra-ui/react'
+import { Flex, Heading, Text, VStack } from '@chakra-ui/react'
 
 import { Todo } from '../../../types/todos.types'
 import { Deadline } from '../../Deadline'
@@ -18,22 +7,23 @@ import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
 import { TODOS } from '../../../constants/todoConstants'
 import { UserContext } from '../../../context/userContext'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
-import GearIcon from '../../../components/Icons/GearIcon'
 import { TodoActions } from './TodoActions'
+import { today } from '../../../helpers/date-manipulation-functions'
 
 export const TodoBox: FunctionComponent<{
     todo: Todo
 }> = ({ todo }) => {
     const { userId } = useContext(UserContext)
     const isCompleted = todo.status === 'completed'
-    const toggleText = isCompleted ? 'Completed 🥳' : 'Set as completed'
+    const toggleText = isCompleted ? 'Completed 🥳' : 'Completed?'
 
     const onToggleChange = () => {
         submitDoc<Todo>({
             path: TODOS,
             orgDoc: {
                 id: todo.id,
-                status: isCompleted ? 'active' : 'completed'
+                status: isCompleted ? 'active' : 'completed',
+                completedAt: isCompleted ? '' : today
             } as Todo,
             userID: userId
         })
@@ -57,9 +47,13 @@ export const TodoBox: FunctionComponent<{
                 </Flex>
                 <Text>{todo.description}</Text>
             </VStack>
-            <Flex gap={4} pt={4}>
+            <Flex gap={6} pt={4}>
                 {!isCompleted && (
-                    <Deadline deadline={todo.dueBy} isCompleted={isCompleted} />
+                    <Deadline
+                        deadline={todo.dueBy}
+                        isCompleted={isCompleted}
+                        gap={1.5}
+                    />
                 )}
                 <ToggleSwitch
                     text={toggleText}

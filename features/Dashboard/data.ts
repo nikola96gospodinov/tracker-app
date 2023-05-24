@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 
-import { HabitView } from './HabitView/HabitView'
+import { ImmediateView } from './ImmediateView/ImmediateView'
 import { UpcomingMilestones } from './UpcomingMilestones/UpcomingMilestones'
 
 interface Tab {
@@ -17,14 +17,14 @@ interface Tab {
 export const tabs: Tab[] = [
     {
         name: 'Today',
-        Component: HabitView,
+        Component: ImmediateView,
         props: {
             type: 'daily'
         }
     },
     {
         name: 'This Week',
-        Component: HabitView,
+        Component: ImmediateView,
         props: {
             type: 'weekly'
         }

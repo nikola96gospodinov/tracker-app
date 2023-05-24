@@ -12,7 +12,8 @@ export const Deadline: FunctionComponent<{
 }> = ({ deadline, isCompleted, gap }) => {
     const formattedDeadline =
         deadline || deadline !== '' ? formatDateForUI(deadline) : 'N/A'
-    const isPastDeadline = moment(deadline).isBefore(moment()) && !isCompleted
+    const isPastDeadline =
+        moment(deadline).add(1, 'days').isBefore(moment()) && !isCompleted
 
     return (
         <Flex align='center' gap={gap ?? 2.5}>

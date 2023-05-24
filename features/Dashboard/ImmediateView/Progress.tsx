@@ -5,15 +5,20 @@ import { Habit } from '../../../types/habits.types'
 import { calculatePartialProgress } from '../helpers'
 
 export const Progress: FunctionComponent<{
-    dailyHabitsLength: number
+    totalLength: number
     completedHabitsLength: number
     incompletedHabits: Habit[]
-}> = ({ dailyHabitsLength, completedHabitsLength, incompletedHabits }) => {
+    completedTodosLength: number
+}> = ({
+    totalLength,
+    completedHabitsLength,
+    incompletedHabits,
+    completedTodosLength
+}) => {
     const partialProgress = calculatePartialProgress(incompletedHabits)
-    const totalProgress = completedHabitsLength + partialProgress
-    const percentageCompleted = Math.round(
-        (totalProgress / dailyHabitsLength) * 100
-    )
+    const totalProgress =
+        completedHabitsLength + partialProgress + completedTodosLength
+    const percentageCompleted = Math.round((totalProgress / totalLength) * 100)
 
     const color = (() => {
         if (percentageCompleted < 50) return 'red.400'
