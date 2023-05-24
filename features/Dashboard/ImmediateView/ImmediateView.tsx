@@ -13,6 +13,7 @@ import { useGetRelevantTodos } from './hooks/useGetRelevantTodos'
 import { IncompletedItems } from './IncompletedItems'
 import { CompletedItems } from './CompletedItems'
 import { useGetRelevantMilestones } from './hooks/useGetRelevantMilestones'
+import { useGetRelevantGoals } from './hooks/useGetRelevantGoals'
 
 export const ImmediateView: FunctionComponent<{
     type?: HabitType
@@ -35,16 +36,30 @@ export const ImmediateView: FunctionComponent<{
         loading: loadingMilestones,
         errorFetching: errorFetchingMilestones
     } = useGetRelevantMilestones(type!)
+    const {
+        completedGoals,
+        incompletedGoals,
+        loading: loadingGoals,
+        errorFetching: errorFetchingGoals
+    } = useGetRelevantGoals(type!)
 
-    const loading = loadingHabits || loadingTodos || loadingMilestones
+    const loading =
+        loadingHabits || loadingTodos || loadingMilestones || loadingGoals
+
     const errorFetching =
-        errorFetchingHabits || errorFetchingTodos || errorFetchingMilestones
+        errorFetchingHabits ||
+        errorFetchingTodos ||
+        errorFetchingMilestones ||
+        errorFetchingGoals
+
     const totalLength =
         activeHabits.length +
         completedTodos.length +
         incompletedTodos.length +
         (completedMilestones?.length ?? 0) +
-        (incompletedMilestones?.length ?? 0)
+        (incompletedMilestones?.length ?? 0) +
+        (completedGoals?.length ?? 0) +
+        (incompletedGoals?.length ?? 0)
 
     if (loading) return <Spinner mt={8} text='Loading...' />
 
@@ -82,18 +97,21 @@ export const ImmediateView: FunctionComponent<{
                 incompletedHabits={incompletedHabits}
                 completedTodosLength={completedTodos.length}
                 completedMilestonesLength={completedMilestones?.length ?? 0}
+                completedGoalsLength={completedGoals?.length ?? 0}
             />
             <VStack flexGrow={1} align='flex-start'>
                 <IncompletedItems
                     habits={incompletedHabits}
                     todos={incompletedTodos}
                     milestones={incompletedMilestones ?? []}
+                    goals={incompletedGoals ?? []}
                     type={type!}
                 />
                 <CompletedItems
                     habits={completedHabits}
                     todos={completedTodos}
                     milestones={completedMilestones ?? []}
+                    goals={completedGoals ?? []}
                 />
             </VStack>
         </Flex>

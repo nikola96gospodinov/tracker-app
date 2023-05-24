@@ -5,15 +5,17 @@ import { Habit, HabitType } from '../../../types/habits.types'
 import { Todo } from '../../../types/todos.types'
 import { IncompletedHabits } from './Habits/IncompletedHabits'
 import { IncompletedTodos } from './Todos/IncompletedTodos'
-import { Milestone } from '../../../types/goals.types'
+import { Goal, Milestone } from '../../../types/goals.types'
 import { IncompletedMilestones } from './Milestones/IncompletedMilestones'
+import { IncompletedGoals } from './Goals/IncompletedGoals'
 
 export const IncompletedItems: FunctionComponent<{
     habits: Habit[]
     todos: Todo[]
     milestones: Milestone[]
+    goals: Goal[]
     type: HabitType
-}> = ({ habits, todos, milestones, type }) => {
+}> = ({ habits, todos, milestones, goals, type }) => {
     const totalItems = habits.length + todos.length + milestones.length
 
     if (totalItems === 0)
@@ -26,6 +28,7 @@ export const IncompletedItems: FunctionComponent<{
 
     return (
         <SimpleGrid columns={2} gap={4} w='100%'>
+            <IncompletedGoals goals={goals} />
             <IncompletedMilestones milestones={milestones} />
             <IncompletedHabits incompletedHabits={habits} />
             <IncompletedTodos todos={todos} />

@@ -21,6 +21,7 @@ export interface Goal {
     status: GoalStatus
     description?: string
     deadline?: string
+    completedOn?: string
     progress?: number | null
     target?: number | null
     dailyHabits?: string[]

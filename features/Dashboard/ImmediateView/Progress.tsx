@@ -10,19 +10,22 @@ export const Progress: FunctionComponent<{
     incompletedHabits: Habit[]
     completedTodosLength: number
     completedMilestonesLength: number
+    completedGoalsLength: number
 }> = ({
     totalLength,
     completedHabitsLength,
     incompletedHabits,
     completedTodosLength,
-    completedMilestonesLength
+    completedMilestonesLength,
+    completedGoalsLength
 }) => {
     const partialProgress = calculatePartialProgress(incompletedHabits)
     const totalProgress =
         completedHabitsLength +
         partialProgress +
         completedTodosLength +
-        completedMilestonesLength
+        completedMilestonesLength +
+        completedGoalsLength
     const percentageCompleted = Math.round((totalProgress / totalLength) * 100)
 
     const color = (() => {
