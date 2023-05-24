@@ -82,6 +82,7 @@ export const TodoActions: FunctionComponent<{
                 onDeleteWarningClose={onDeleteWarningClose}
                 doc={todo}
                 path={TODOS}
+                noRedirect
             />
         </>
     )

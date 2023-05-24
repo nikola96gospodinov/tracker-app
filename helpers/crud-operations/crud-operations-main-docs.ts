@@ -68,6 +68,7 @@ interface RemoveDocProps<T> {
     userID: string | undefined
     router: NextRouter
     setError: Dispatch<boolean>
+    noRedirect?: boolean
 }
 
 export const removeDoc = async <T extends Doc>({
@@ -75,7 +76,8 @@ export const removeDoc = async <T extends Doc>({
     orgDoc,
     userID,
     router,
-    setError
+    setError,
+    noRedirect
 }: RemoveDocProps<T>) => {
     const fullPath = `users/${userID}/${path}`
     const docsCollection = collection(db, fullPath)
@@ -83,7 +85,7 @@ export const removeDoc = async <T extends Doc>({
 
     try {
         await deleteDoc(docsRef)
-        router.push(`/${path}`)
+        if (!noRedirect) router.push(`/${path}`)
     } catch (e) {
         console.log(e)
         setError(true)

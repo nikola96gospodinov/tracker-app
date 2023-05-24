@@ -30,6 +30,7 @@ interface Props<T> {
     doc?: T
     customHandleDelete?: () => void
     customHandleCancel?: () => void
+    noRedirect?: boolean
 }
 
 const DeleteDoc = <T extends Doc>({
@@ -38,7 +39,8 @@ const DeleteDoc = <T extends Doc>({
     doc,
     path,
     customHandleDelete,
-    customHandleCancel
+    customHandleCancel,
+    noRedirect
 }: Props<T>) => {
     const { userId } = useContext(UserContext)
     const router = useRouter()
@@ -55,7 +57,8 @@ const DeleteDoc = <T extends Doc>({
             orgDoc: doc!,
             userID: userId,
             router,
-            setError
+            setError,
+            noRedirect
         })
 
         if (path === HABITS) {
