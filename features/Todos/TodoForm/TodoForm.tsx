@@ -10,6 +10,7 @@ import { UserContext } from '../../../context/userContext'
 import { TODOS } from '../../../constants/todoConstants'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
 import { toKebabCase } from '../../../helpers/string-manipulation-functions'
+import { today } from '../../../helpers/date-manipulation-functions'
 
 export const TodoForm: FunctionComponent<{
     isFormOpen: boolean
@@ -95,6 +96,7 @@ export const TodoForm: FunctionComponent<{
                 name='dueBy'
                 value={dueBy}
                 type='date'
+                min={today}
                 onChange={(e) =>
                     dispatch({
                         type: 'SET_DUE_BY',
