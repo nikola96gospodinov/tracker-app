@@ -7,10 +7,12 @@ import {
     updateDoc
 } from 'firebase/firestore'
 import { NextRouter } from 'next/router'
+import { ToastProps } from '@chakra-ui/react'
 
 import { db } from '../../firebase/firebase'
 import { Doc, ErrorsDispatch } from '../../types/crud-opearations.types'
 import { Dispatch } from '../../typings'
+import { toastConfig, Toast } from '../../components/UIElements/Toast'
 
 interface SubmitDocProps<T> {
     path: string
@@ -21,6 +23,9 @@ interface SubmitDocProps<T> {
     setDocsFormOpen?: Dispatch<boolean>
     reducerAction?: () => void
     router?: NextRouter
+    toast?: any
+    toastSuccessMessage?: string
+    toastErrorMessage?: string
 }
 
 export const submitDoc = async <T extends Doc>({
@@ -31,7 +36,10 @@ export const submitDoc = async <T extends Doc>({
     setError,
     setErrors,
     reducerAction,
-    router
+    router,
+    toast,
+    toastSuccessMessage,
+    toastErrorMessage
 }: SubmitDocProps<T>) => {
     const fullPath = `users/${userID}/${path}`
     const docsCollection = collection(db, fullPath)
@@ -49,6 +57,18 @@ export const submitDoc = async <T extends Doc>({
 
         if (setDocsFormOpen) setDocsFormOpen(false)
         if (router) router.push(`/${path}/${orgDoc.urlPath}`)
+        if (toast) {
+            toast({
+                ...toastConfig,
+                render: ({ onClose }: ToastProps) => (
+                    <Toast
+                        type='success'
+                        text={toastSuccessMessage ?? 'Success!'}
+                        onClose={onClose}
+                    />
+                )
+            })
+        }
     } catch (e) {
         console.log(e)
         if (setErrors) {
@@ -59,6 +79,18 @@ export const submitDoc = async <T extends Doc>({
         }
         if (setError) setError(true)
         if (reducerAction) reducerAction()
+        if (toast) {
+            toast({
+                ...toastConfig,
+                render: ({ onClose }: ToastProps) => (
+                    <Toast
+                        type='error'
+                        text={toastErrorMessage ?? 'Error!'}
+                        onClose={onClose}
+                    />
+                )
+            })
+        }
     }
 }
 
@@ -69,6 +101,9 @@ interface RemoveDocProps<T> {
     router: NextRouter
     setError: Dispatch<boolean>
     noRedirect?: boolean
+    toast?: any
+    toastSuccessMessage?: string
+    toastErrorMessage?: string
 }
 
 export const removeDoc = async <T extends Doc>({
@@ -77,7 +112,10 @@ export const removeDoc = async <T extends Doc>({
     userID,
     router,
     setError,
-    noRedirect
+    noRedirect,
+    toast,
+    toastSuccessMessage,
+    toastErrorMessage
 }: RemoveDocProps<T>) => {
     const fullPath = `users/${userID}/${path}`
     const docsCollection = collection(db, fullPath)
@@ -86,8 +124,32 @@ export const removeDoc = async <T extends Doc>({
     try {
         await deleteDoc(docsRef)
         if (!noRedirect) router.push(`/${path}`)
+        if (toast) {
+            toast({
+                ...toastConfig,
+                render: ({ onClose }: ToastProps) => (
+                    <Toast
+                        type='success'
+                        text={toastSuccessMessage ?? 'Success!'}
+                        onClose={onClose}
+                    />
+                )
+            })
+        }
     } catch (e) {
         console.log(e)
         setError(true)
+        if (toast) {
+            toast({
+                ...toastConfig,
+                render: ({ onClose }: ToastProps) => (
+                    <Toast
+                        type='error'
+                        text={toastErrorMessage ?? 'Error!'}
+                        onClose={onClose}
+                    />
+                )
+            })
+        }
     }
 }

@@ -11,13 +11,8 @@ import { MILESTONES } from '../../../../constants/goalsConstants'
 import { Milestone } from '../../../../types/goals.types'
 import { db } from '../../../../firebase/firebase'
 import { Dispatch } from '../../../../typings'
-import { Toast } from '../../../../components/UIElements/Toast'
+import { Toast, toastConfig } from '../../../../components/UIElements/Toast'
 import { today } from '../../../../helpers/date-manipulation-functions'
-
-const toastConfig: ToastProps = {
-    position: 'top-right',
-    duration: 5000
-}
 
 const getMilestonesCollection = (userID: string) => {
     return collection(db, `users/${userID}/${MILESTONES}`)

@@ -1,5 +1,5 @@
 import { FunctionComponent, useContext, useReducer } from 'react'
-import { Button } from '@chakra-ui/react'
+import { Button, useToast } from '@chakra-ui/react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Todo } from '../../../types/todos.types'
@@ -17,6 +17,7 @@ export const TodoForm: FunctionComponent<{
     onFormClose: () => void
     todo?: Todo
 }> = ({ isFormOpen, onFormClose, todo }) => {
+    const toast = useToast()
     const { userId } = useContext(UserContext)
     const [{ title, description, dueBy, formError, titleError }, dispatch] =
         useReducer(reducer, {
@@ -48,7 +49,14 @@ export const TodoForm: FunctionComponent<{
                     dispatch({
                         type: 'SET_FORM_ERROR',
                         payload: true
-                    })
+                    }),
+                toast: toast,
+                toastSuccessMessage: `Todo ${
+                    todo?.id ? 'updated' : 'added'
+                } successfully`,
+                toastErrorMessage: `There was an issue ${
+                    todo?.id ? 'updating' : 'adding'
+                } your todo. Please try again`
             })
         }
     }

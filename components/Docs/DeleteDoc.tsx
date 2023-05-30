@@ -7,7 +7,8 @@ import {
     ModalContent,
     ModalFooter,
     ModalOverlay,
-    Text
+    Text,
+    useToast
 } from '@chakra-ui/react'
 
 import { HABITS } from '../../constants/habitsConstants'
@@ -31,6 +32,8 @@ interface Props<T> {
     customHandleDelete?: () => void
     customHandleCancel?: () => void
     noRedirect?: boolean
+    toastSuccessMessage?: string
+    toastErrorMessage?: string
 }
 
 const DeleteDoc = <T extends Doc>({
@@ -40,8 +43,11 @@ const DeleteDoc = <T extends Doc>({
     path,
     customHandleDelete,
     customHandleCancel,
-    noRedirect
+    noRedirect,
+    toastSuccessMessage,
+    toastErrorMessage
 }: Props<T>) => {
+    const toast = useToast()
     const { userId } = useContext(UserContext)
     const router = useRouter()
     const [error, setError] = useState(false)
@@ -58,7 +64,10 @@ const DeleteDoc = <T extends Doc>({
             userID: userId,
             router,
             setError,
-            noRedirect
+            noRedirect,
+            toast,
+            toastSuccessMessage,
+            toastErrorMessage
         })
 
         if (path === HABITS) {

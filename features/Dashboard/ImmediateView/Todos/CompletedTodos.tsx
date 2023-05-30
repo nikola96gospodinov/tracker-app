@@ -1,5 +1,5 @@
 import { FunctionComponent, useContext } from 'react'
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, useToast } from '@chakra-ui/react'
 
 import { Todo } from '../../../../types/todos.types'
 import ToggleSwitch from '../../../../components/UIElements/ToggleSwitch'
@@ -11,6 +11,23 @@ export const CompletedTodos: FunctionComponent<{
     todos: Todo[]
 }> = ({ todos }) => {
     const { userId } = useContext(UserContext)
+    const toast = useToast()
+
+    const onChange = (id: string) => {
+        submitDoc<Todo>({
+            path: TODOS,
+            orgDoc: {
+                id: id,
+                status: 'active',
+                completedAt: ''
+            } as Todo,
+            userID: userId,
+            toast,
+            toastSuccessMessage: 'Todo set as active successfully',
+            toastErrorMessage:
+                'There was an issue setting your todo as active. Please try again'
+        })
+    }
 
     return (
         <>
@@ -27,17 +44,7 @@ export const CompletedTodos: FunctionComponent<{
                     align='center'
                 >
                     <ToggleSwitch
-                        onChange={() => {
-                            submitDoc<Todo>({
-                                path: TODOS,
-                                orgDoc: {
-                                    id: id,
-                                    status: 'active',
-                                    completedAt: ''
-                                } as Todo,
-                                userID: userId
-                            })
-                        }}
+                        onChange={() => onChange(id)}
                         defaultChecked
                         size='sm'
                     />

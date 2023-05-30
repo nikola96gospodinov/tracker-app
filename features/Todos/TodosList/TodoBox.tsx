@@ -1,5 +1,5 @@
 import { FunctionComponent, useContext } from 'react'
-import { Flex, Heading, Text, VStack } from '@chakra-ui/react'
+import { Flex, Heading, Text, VStack, useToast } from '@chakra-ui/react'
 
 import { Todo } from '../../../types/todos.types'
 import { Deadline } from '../../Deadline'
@@ -13,9 +13,10 @@ import { today } from '../../../helpers/date-manipulation-functions'
 export const TodoBox: FunctionComponent<{
     todo: Todo
 }> = ({ todo }) => {
+    const toast = useToast()
     const { userId } = useContext(UserContext)
     const isCompleted = todo.status === 'completed'
-    const toggleText = isCompleted ? 'Completed 🥳' : 'Completed?'
+    const toggleText = isCompleted ? 'Completed 🥳' : 'Done?'
 
     const onToggleChange = () => {
         submitDoc<Todo>({
@@ -25,7 +26,14 @@ export const TodoBox: FunctionComponent<{
                 status: isCompleted ? 'active' : 'completed',
                 completedAt: isCompleted ? '' : today
             } as Todo,
-            userID: userId
+            userID: userId,
+            toast: toast,
+            toastSuccessMessage: `Todo set as ${
+                isCompleted ? 'active' : 'completed'
+            } successfully`,
+            toastErrorMessage: `There was an issue setting your todo as ${
+                isCompleted ? 'active' : 'completed'
+            }. Please try again`
         })
     }
 

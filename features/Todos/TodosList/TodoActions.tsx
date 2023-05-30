@@ -83,6 +83,8 @@ export const TodoActions: FunctionComponent<{
                 doc={todo}
                 path={TODOS}
                 noRedirect
+                toastSuccessMessage='Todo deleted successfully'
+                toastErrorMessage='There was an issue deleting your todo. Please try again'
             />
         </>
     )

@@ -1,9 +1,14 @@
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, ToastProps } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
 
 import CheckIcon from '../Icons/CheckIcon'
 import DangerIcon from '../Icons/DangerIcon'
 import CloseIcon from '../Icons/CloseIcon'
+
+export const toastConfig: ToastProps = {
+    position: 'top-right',
+    duration: 5000
+}
 
 export const Toast: FunctionComponent<{
     type: 'success' | 'error'
