@@ -1,5 +1,5 @@
 import { FunctionComponent, useContext } from 'react'
-import { Button, Tooltip, Text, Flex } from '@chakra-ui/react'
+import { Button, Tooltip, Text, Flex, useToast } from '@chakra-ui/react'
 
 import QuestionMarkIcon from '../../components/Icons/QuestionMark'
 import { GOALS } from '../../constants/goalsConstants'
@@ -11,6 +11,7 @@ export const ArchiveGoal: FunctionComponent<{
     onClose: () => void
     goalId: string
 }> = ({ onClose, goalId }) => {
+    const toast = useToast()
     const { userId } = useContext(UserContext)
 
     const archiveGoal = () => {
@@ -20,7 +21,10 @@ export const ArchiveGoal: FunctionComponent<{
                 id: goalId,
                 status: 'archived'
             } as Goal,
-            userID: userId
+            userID: userId,
+            toast,
+            toastSuccessMessage: 'Goal staus updated successfully',
+            toastErrorMessage: 'There was an error updating the goal status'
         })
         onClose()
     }

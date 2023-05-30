@@ -1,4 +1,6 @@
 import { FunctionComponent, useContext } from 'react'
+import { useToast } from '@chakra-ui/react'
+
 import { UpdateMetrics } from '../UpdateMetrics/UpdateMetrics'
 import { Goal } from '../../types/goals.types'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
@@ -10,6 +12,7 @@ import { today } from '../../helpers/date-manipulation-functions'
 export const UpdateGoalMetrics: FunctionComponent<{
     goal: Goal
 }> = ({ goal }) => {
+    const toast = useToast()
     const { userId } = useContext(UserContext)
     const isCompleted = goal.status === 'completed'
     const toggleText = isCompleted ? 'Completed! 🥳' : 'Set as complete'
@@ -22,7 +25,14 @@ export const UpdateGoalMetrics: FunctionComponent<{
                 status: isCompleted ? 'active' : 'completed',
                 completedOn: !isCompleted ? today : ''
             } as Goal,
-            userID: userId
+            userID: userId,
+            toast,
+            toastSuccessMessage: `Goal set to ${
+                isCompleted ? 'active' : 'completed'
+            } successfully`,
+            toastErrorMessage: `There was an error setting the goal to ${
+                isCompleted ? 'active' : 'completed'
+            }. Please try again`
         })
     }
 
@@ -39,7 +49,11 @@ export const UpdateGoalMetrics: FunctionComponent<{
                 status,
                 completedOn: isCompleted ? today : ''
             } as Goal,
-            userID: userId
+            userID: userId,
+            toast,
+            toastSuccessMessage: 'Goal progress updated successfully',
+            toastErrorMessage:
+                'There was an error updating the goal progress. Please try again'
         })
     }
 

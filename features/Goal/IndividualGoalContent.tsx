@@ -58,6 +58,8 @@ const IndividualGoalContent = () => {
                 onDeleteWarningClose={onDeleteWarningClose}
                 doc={goal}
                 path={GOALS}
+                toastSuccessMessage='Goal successfully deleted'
+                toastErrorMessage='There was an error deleting your goal. Please try again'
             />
             <GoalConfiguration goal={goal} />
         </>

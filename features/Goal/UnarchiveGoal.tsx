@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, useToast } from '@chakra-ui/react'
 import { FunctionComponent, useContext, useState } from 'react'
 
 import ArchiveIcon from '../../components/Icons/ArchiveIcon'
@@ -10,6 +10,7 @@ import { UserContext } from '../../context/userContext'
 export const UnarchveGoal: FunctionComponent<{
     goalId: string
 }> = ({ goalId }) => {
+    const toast = useToast()
     const { userId } = useContext(UserContext)
     const [isHovering, setIsHovering] = useState(false)
     const text = isHovering ? 'Unarchive' : 'Archived'
@@ -21,7 +22,11 @@ export const UnarchveGoal: FunctionComponent<{
                 id: goalId,
                 status: 'active'
             } as Goal,
-            userID: userId
+            userID: userId,
+            toast,
+            toastSuccessMessage: 'Goal staus updated successfully',
+            toastErrorMessage:
+                'There was an error updating the goal status. Please try again'
         })
     }
 

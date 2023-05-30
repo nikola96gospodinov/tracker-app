@@ -1,7 +1,7 @@
 import { useContext, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
-import { Button, Flex } from '@chakra-ui/react'
+import { Button, Flex, useToast } from '@chakra-ui/react'
 
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDocs'
@@ -21,6 +21,7 @@ const GoalForm: React.FunctionComponent<{
     goal?: Goal
 }> = ({ isFormOpen, onFormClose, goal }) => {
     const router = useRouter()
+    const toast = useToast()
     const { userId } = useContext(UserContext)
     const [name, setName] = useState(goal?.name ?? '')
     const [description, setDescription] = useState(goal?.description ?? '')
@@ -76,7 +77,14 @@ const GoalForm: React.FunctionComponent<{
                 userID: userId,
                 setDocsFormOpen: onFormClose,
                 setErrors: setErrors as ErrorsDispatch,
-                router
+                router,
+                toast,
+                toastSuccessMessage: `Goal ${
+                    goal?.id ? 'updated' : 'set'
+                } successfully`,
+                toastErrorMessage: `There was an issue ${
+                    goal?.id ? 'updating' : 'setting'
+                } your goal. Please try again.`
             })
         }
     }
