@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import moment from 'moment'
-import { Flex, Heading, Button } from '@chakra-ui/react'
+import { Flex, Heading, Button, useToast } from '@chakra-ui/react'
 
 import { FormModal } from '../../../components/Form/FormModal'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
@@ -36,6 +36,7 @@ export const ProgressForm: React.FunctionComponent<{
     onProgressFormClose: () => void
     habit: Habit
 }> = ({ progressFormOpen, onProgressFormClose, habit }) => {
+    const toast = useToast()
     const currentProgress = getCurrentProgress(habit)
     const [progressValue, setProgressValue] = useState<number>(currentProgress)
     const [user] = useAuthState(auth)
@@ -62,7 +63,8 @@ export const ProgressForm: React.FunctionComponent<{
             },
             habit,
             userID: user?.uid ?? '',
-            completed
+            completed,
+            toast
         })
         onProgressFormClose()
     }

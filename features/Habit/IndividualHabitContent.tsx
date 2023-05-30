@@ -57,6 +57,8 @@ const IndividualHabitContent = () => {
                 onDeleteWarningClose={onDeleteWarningClose}
                 doc={habit}
                 path={HABITS}
+                toastSuccessMessage='Habit successfully deleted'
+                toastErrorMessage='Error deleting habit. Please try again'
             />
         </>
     )

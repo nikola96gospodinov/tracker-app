@@ -5,7 +5,8 @@ import {
     TabList,
     Tab,
     TabPanels,
-    TabPanel
+    TabPanel,
+    useToast
 } from '@chakra-ui/react'
 import { useContext } from 'react'
 
@@ -17,6 +18,7 @@ import { onKeystoneStatusChange } from '../../Habits/helpers'
 export const AdditionalHabitInfo: React.FunctionComponent<{ habit: Habit }> = ({
     habit
 }) => {
+    const toast = useToast()
     const { userId } = useContext(UserContext)
 
     const buttonText = habit.isKeystone
@@ -33,7 +35,8 @@ export const AdditionalHabitInfo: React.FunctionComponent<{ habit: Habit }> = ({
                         onKeystoneStatusChange({
                             userId,
                             habitId: habit.id,
-                            isKeystone: habit.isKeystone
+                            isKeystone: habit.isKeystone,
+                            toast
                         })
                     }
                 >

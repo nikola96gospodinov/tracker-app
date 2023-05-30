@@ -1,5 +1,5 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useDisclosure } from '@chakra-ui/react'
+import { useDisclosure, useToast } from '@chakra-ui/react'
 
 import { auth } from '../../../firebase/firebase'
 import {
@@ -14,6 +14,7 @@ import { ProgressForm } from './ProgressForm'
 export const UpdateHabitMetrics: React.FunctionComponent<{
     habit: Habit
 }> = ({ habit }) => {
+    const toast = useToast()
     const [user] = useAuthState(auth)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const progress = getCurrentProgress(habit)
@@ -26,7 +27,8 @@ export const UpdateHabitMetrics: React.FunctionComponent<{
         toggleHabitCompletion({
             habit,
             completedToday: isCompleted,
-            userID: user?.uid
+            userID: user?.uid,
+            toast
         })
     }
 

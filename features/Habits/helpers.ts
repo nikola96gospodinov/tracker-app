@@ -288,12 +288,14 @@ interface ToggleHabitCompletionProps {
     habit: Habit
     completedToday: boolean
     userID: string | undefined
+    toast?: any
 }
 
 export const toggleHabitCompletion = ({
     habit,
     completedToday,
-    userID
+    userID,
+    toast
 }: ToggleHabitCompletionProps) => {
     const updatedStreaks =
         habit.type === 'daily'
@@ -309,7 +311,11 @@ export const toggleHabitCompletion = ({
         orgDoc: {
             id: habit.id,
             ...updatedStreaks
-        } as Habit
+        } as Habit,
+        toast,
+        toastSuccessMessage: 'Habit progress successfully updated!',
+        toastErrorMessage:
+            'There was an error updating the habit progress. Please try again'
     })
 }
 
@@ -318,13 +324,15 @@ interface UpdateHabitProgressProps {
     userID: string
     progress: Progress
     completed: boolean
+    toast?: any
 }
 
 export const updateHabitProgress = ({
     habit,
     userID,
     progress,
-    completed
+    completed,
+    toast
 }: UpdateHabitProgressProps) => {
     const updatedStreaks =
         habit.type === 'daily'
@@ -338,7 +346,11 @@ export const updateHabitProgress = ({
             id: habit.id,
             progress,
             ...updatedStreaks
-        } as Habit
+        } as Habit,
+        toast,
+        toastSuccessMessage: 'Habit progress successfully updated!',
+        toastErrorMessage:
+            'There was an error updating the habit progress. Please try again'
     })
 }
 
@@ -443,12 +455,14 @@ interface OnKeystoneStatusChangeProps {
     userId: string | undefined
     habitId: string
     isKeystone: boolean | undefined
+    toast?: any
 }
 
 export const onKeystoneStatusChange = ({
     userId,
     habitId,
-    isKeystone
+    isKeystone,
+    toast
 }: OnKeystoneStatusChangeProps) => {
     submitDoc<Habit>({
         path: HABITS,
@@ -456,6 +470,10 @@ export const onKeystoneStatusChange = ({
         orgDoc: {
             id: habitId,
             isKeystone: !Boolean(isKeystone)
-        } as Habit
+        } as Habit,
+        toast,
+        toastSuccessMessage: 'Habit keystone status successfully updated!',
+        toastErrorMessage:
+            'There was an error updating the keystone status. Please try again'
     })
 }

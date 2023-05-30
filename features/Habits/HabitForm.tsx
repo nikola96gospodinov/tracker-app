@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
-import { Button } from '@chakra-ui/react'
+import { Button, useToast } from '@chakra-ui/react'
 
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { toKebabCase } from '../../helpers/string-manipulation-functions'
@@ -20,6 +20,7 @@ const HabitForm: React.FunctionComponent<{
     onFormClose: () => void
     habit?: Habit
 }> = ({ isFormOpen, onFormClose, habit }) => {
+    const toast = useToast()
     const router = useRouter()
     const { userId } = useContext(UserContext)
     const [name, setName] = useState(habit?.name ?? '')
@@ -85,7 +86,14 @@ const HabitForm: React.FunctionComponent<{
                 userID: userId,
                 setDocsFormOpen: onFormClose,
                 setErrors: setErrors as ErrorsDispatch,
-                router
+                router,
+                toast,
+                toastSuccessMessage: `Habit successfully ${
+                    habit ? 'edited' : 'added'
+                }`,
+                toastErrorMessage: `There was an issue ${
+                    habit ? 'editing' : 'adding'
+                } your habit. Please try again`
             })
         }
     }
