@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Flex,
     Menu,
@@ -10,17 +11,25 @@ import {
     TabPanel,
     TabPanels,
     Tabs,
+    Text,
     useDisclosure
 } from '@chakra-ui/react'
 import { FunctionComponent, useState } from 'react'
 
-import { tabs } from './data'
+import { ActivePeriod, periods, tabs } from './data'
 import GearIcon from '../../components/Icons/GearIcon'
 import { EditActiveHabitsOnDashboard } from './EditActiveHabitsOnDashboard'
 import { TodoForm } from '../Todos/TodoForm/TodoForm'
+import { ImmediateViewMenuItems } from './ImmediateView/ImmediateViewMenuItems'
+import { UpcommingMenuItems } from './UpcomingMilestones/UpcommingMenuItems'
 
 export const Dashboard: FunctionComponent = () => {
     const [activeTab, setActiveTab] = useState(tabs[0].name)
+    const [activePeriod, setActivePeriod] = useState<ActivePeriod>(
+        periods[0].label
+    )
+    const [includeWithNoDeadline, setIncludeWithNoDeadline] = useState(false)
+
     const {
         isOpen: isOpenHabitList,
         onOpen: onOpenHabitList,
@@ -33,7 +42,8 @@ export const Dashboard: FunctionComponent = () => {
         onClose: onCloseAddTodo
     } = useDisclosure()
 
-    const showButton = activeTab === 'Today' || activeTab === 'This Week'
+    const showImmediateViewActions =
+        activeTab === 'Today' || activeTab === 'This Week'
 
     return (
         <>
@@ -44,26 +54,27 @@ export const Dashboard: FunctionComponent = () => {
                         size='sm'
                         boxShadow='none'
                         variant='tertiary'
-                        opacity={showButton ? 1 : 0}
-                        cursor={showButton ? 'pointer' : 'default'}
+                        cursor='pointer'
                     >
-                        <GearIcon mr={1} /> Configure
+                        <GearIcon mr={1} transform='translateY(2px)' />{' '}
+                        Configure
                     </MenuButton>
                     <MenuList borderRadius='lg' boxShadow='secondary'>
-                        <MenuItem
-                            onClick={() => {
-                                if (showButton) onOpenHabitList()
-                            }}
-                        >
-                            Manage active habits
-                        </MenuItem>
-                        <MenuItem
-                            onClick={() => {
-                                if (showButton) onOpenAddTodo()
-                            }}
-                        >
-                            Add a todo
-                        </MenuItem>
+                        {showImmediateViewActions ? (
+                            <ImmediateViewMenuItems
+                                onOpenAddTodo={onOpenAddTodo}
+                                onOpenHabitList={onOpenHabitList}
+                            />
+                        ) : (
+                            <UpcommingMenuItems
+                                activePeriod={activePeriod}
+                                setActivePeriod={setActivePeriod}
+                                includeWithNoDeadline={includeWithNoDeadline}
+                                setIncludeWithNoDeadline={
+                                    setIncludeWithNoDeadline
+                                }
+                            />
+                        )}
                     </MenuList>
                 </Menu>
             </Flex>
@@ -76,7 +87,9 @@ export const Dashboard: FunctionComponent = () => {
                                 borderBottomWidth={3}
                                 onClick={() => setActiveTab(name)}
                             >
-                                {name}
+                                {name === periods[0].label
+                                    ? activePeriod
+                                    : name}
                             </Tab>
                         ))}
                     </TabList>
@@ -84,7 +97,12 @@ export const Dashboard: FunctionComponent = () => {
                 <TabPanels>
                     {tabs.map(({ Component, name, props }) => (
                         <TabPanel key={name} p={0}>
-                            <Component {...props} onOpen={onOpenHabitList} />
+                            <Component
+                                {...props}
+                                onOpen={onOpenHabitList}
+                                activePeriod={activePeriod}
+                                includeWithNoDeadline={includeWithNoDeadline}
+                            />
                         </TabPanel>
                     ))}
                 </TabPanels>

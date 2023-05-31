@@ -6,17 +6,24 @@ import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
 import NoDocsYet from '../../../components/Docs/NoDocsYet'
 import { MILESTONES } from '../../../constants/goalsConstants'
 import { Spinner } from '../../../components/UIElements/Spinner'
-import { MilestoneBox } from './MilestoneBox'
+import { MilestoneBox } from '../MilestoneBox/MilestoneBox'
 import { useGetRelentlessMilestones } from './hooks/useGetRelevantMilestones'
+import { ActivePeriod } from '../data'
 
-export const UpcomingMilestones: FunctionComponent = () => {
+export const UpcomingMilestones: FunctionComponent<{
+    activePeriod?: ActivePeriod
+    includeWithNoDeadline?: boolean
+}> = ({ activePeriod, includeWithNoDeadline }) => {
     const router = useRouter()
 
     const {
-        relativeMilestones: milestones,
+        relevantMilestones: milestones,
         loading,
         errorFetching
-    } = useGetRelentlessMilestones()
+    } = useGetRelentlessMilestones({
+        activePeriod,
+        includeWithNoDeadline
+    })
 
     if (loading) return <Spinner mt={8} text='Loading...' />
 

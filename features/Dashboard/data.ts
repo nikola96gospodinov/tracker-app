@@ -2,15 +2,39 @@ import { FunctionComponent } from 'react'
 
 import { ImmediateView } from './ImmediateView/ImmediateView'
 import { UpcomingMilestones } from './UpcomingMilestones/UpcomingMilestones'
+import { HabitType } from '../../types/habits.types'
+
+export const periods = [
+    {
+        label: 'Whithin a Month',
+        value: 'oneMonth'
+    },
+    {
+        label: 'Whithin Three Months',
+        value: 'threeMonths'
+    },
+    {
+        label: 'Whithin Six Months',
+        value: 'sixMonths'
+    },
+    {
+        label: 'Whithin a Year',
+        value: 'oneYear'
+    }
+] as const
+
+export type ActivePeriod = (typeof periods)[number]['label']
 
 interface Tab {
     name: string
     Component: FunctionComponent<{
-        type?: 'daily' | 'weekly'
+        includeWithNoDeadline?: boolean
+        activePeriod?: ActivePeriod
+        type?: HabitType
         onOpen: () => void
     }>
     props: {
-        type?: 'daily' | 'weekly'
+        type?: HabitType
     }
 }
 
@@ -30,7 +54,7 @@ export const tabs: Tab[] = [
         }
     },
     {
-        name: 'Upcoming Milestones',
+        name: periods[0].label,
         Component: UpcomingMilestones,
         props: {}
     }

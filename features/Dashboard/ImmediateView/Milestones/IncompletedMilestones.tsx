@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import { Milestone } from '../../../../types/goals.types'
-import { MilestoneBox } from '../../UpcomingMilestones/MilestoneBox'
+import { MilestoneBox } from '../../MilestoneBox/MilestoneBox'
 
 export const IncompletedMilestones: FunctionComponent<{
     milestones: Milestone[]
