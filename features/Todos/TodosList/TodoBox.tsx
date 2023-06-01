@@ -47,7 +47,7 @@ export const TodoBox: FunctionComponent<{
             justify='space-between'
         >
             <VStack align='flex-start' w='100%'>
-                <Flex w='100%' justify='space-between'>
+                <Flex w='100%' justify='space-between' gap={2}>
                     <Heading as='h3' fontSize='lg'>
                         {todo.title}
                     </Heading>
