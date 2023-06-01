@@ -1,5 +1,9 @@
 import useGetFilteredDocs from '../../../../hooks/useGetFilteredDocs'
-import { GOALS, MILESTONES } from '../../../../constants/goalsConstants'
+import {
+    GOALS,
+    MILESTONE,
+    MILESTONES
+} from '../../../../constants/goalsConstants'
 import { Goal, Milestone } from '../../../../types/goals.types'
 import { ActivePeriod } from '../../data'
 import { filterBasedOnPeriod } from '../../helpers'
@@ -9,7 +13,7 @@ interface Props {
     includeWithNoDeadline?: boolean
 }
 
-export const useGetRelentlessMilestones = ({
+export const useGetRelevantMilestones = ({
     activePeriod,
     includeWithNoDeadline
 }: Props) => {
@@ -49,6 +53,10 @@ export const useGetRelentlessMilestones = ({
             if (includeWithNoDeadline) return true
             return !!deadline
         })
+        .map((milestone) => ({
+            ...milestone,
+            type: MILESTONE
+        }))
         // Sort by deadline and put the ones with no deadline (if any) at the end
         .sort((a, b) => {
             if (!a.deadline) return 1

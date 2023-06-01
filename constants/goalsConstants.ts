@@ -1,6 +1,7 @@
 export const GOAL = 'goal'
 export const GOALS = 'goals'
 
+export const MILESTONE = 'milestone'
 export const MILESTONES = 'milestones'
 export const DAILY_HABITS = 'daily habits'
 export const WEEKLY_HABITS = 'weekly habits'
