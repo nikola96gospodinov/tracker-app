@@ -1,5 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react'
 import { useState } from 'react'
+import { isEmpty } from 'lodash'
+import { useRouter } from 'next/router'
 
 import InitialSection from '../../components/InitialSection'
 import GoalForm from './GoalForm'
@@ -8,7 +10,10 @@ import { DocHeader } from '../../components/Docs/DocHeader'
 import { filteringOptions } from './data'
 
 export const GoalsContent = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { query } = useRouter()
+    const { isOpen, onOpen, onClose } = useDisclosure({
+        defaultIsOpen: !isEmpty(query)
+    })
     const initialValue = filteringOptions[1].value
     const [activeOptionValue, setActiveOptionValue] = useState(initialValue)
 

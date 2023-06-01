@@ -33,6 +33,7 @@ export const EditActiveHabits: FunctionComponent<{
 }) => {
     const router = useRouter()
     const noHabits = activeHabits.length === 0 && inactiveHabits.length === 0
+    const showContent = !loading && !errorFetching && !noHabits
 
     return (
         <FormModal formOpen={isOpen} onFormClose={onClose} onSubmit={() => {}}>
@@ -50,7 +51,7 @@ export const EditActiveHabits: FunctionComponent<{
                     size='sm'
                 />
             )}
-            {!loading && !errorFetching && !noHabits && (
+            {showContent && (
                 <VStack gap={6} align='flex-start'>
                     <Box>
                         <Text fontSize='lg' mb={2}>

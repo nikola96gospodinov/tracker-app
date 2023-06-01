@@ -10,7 +10,10 @@ import { onKeystoneStatusChange } from '../../Habits/helpers'
 import { UserContext } from '../../../context/userContext'
 import { Link } from '../../../components/UIElements/Link'
 
-export const LinkedGoals: FunctionComponent<{ habit: Habit }> = ({ habit }) => {
+export const LinkedGoals: FunctionComponent<{
+    habit: Habit
+    onOpen: () => void
+}> = ({ habit, onOpen }) => {
     const { userId } = useContext(UserContext)
     const { isGoals, relevantGoals, loading } = useGetRelevantGoals({
         habitID: habit.id,
@@ -30,9 +33,14 @@ export const LinkedGoals: FunctionComponent<{ habit: Habit }> = ({ habit }) => {
                     If you want this habit to appear on your dashboard either:
                 </Text>
                 <Flex gap={2}>
-                    <Link href='/goals' size='sm' mt={4} boxShadow='secondary'>
+                    <Button
+                        onClick={onOpen}
+                        size='sm'
+                        mt={4}
+                        boxShadow='secondary'
+                    >
                         Add habit to any goal
-                    </Link>
+                    </Button>
                     <Button
                         variant='tertiary'
                         size='sm'
@@ -57,23 +65,34 @@ export const LinkedGoals: FunctionComponent<{ habit: Habit }> = ({ habit }) => {
                 <Text fontSize='xl' fontWeight={600}>
                     This is a keystone habit 🪨
                 </Text>
-                <Text pb={2} color='neutral.800'>
+                <Text color='neutral.800'>
                     Keystone habits don&apos;t need to be linked to goals in
                     order to appear on your dashboard.
                 </Text>
-                <Button
-                    variant='tertiary'
-                    size='sm'
-                    onClick={() =>
-                        onKeystoneStatusChange({
-                            userId,
-                            habitId: habit.id,
-                            isKeystone: habit.isKeystone
-                        })
-                    }
-                >
-                    Remove from keystone habits
-                </Button>
+                <Flex gap={2}>
+                    <Button
+                        mt={2}
+                        size='sm'
+                        boxShadow='secondary'
+                        onClick={() =>
+                            onKeystoneStatusChange({
+                                userId,
+                                habitId: habit.id,
+                                isKeystone: habit.isKeystone
+                            })
+                        }
+                    >
+                        Remove from keystone habits
+                    </Button>
+                    <Button
+                        mt={2}
+                        size='sm'
+                        variant='tertiary'
+                        onClick={onOpen}
+                    >
+                        Add to a goal anyway
+                    </Button>
+                </Flex>
             </VStack>
         )
 
