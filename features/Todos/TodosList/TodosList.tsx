@@ -41,9 +41,9 @@ const TodosList: FunctionComponent<{
 
     const activeTodos = activeOptionValue === 'all' ? allTodos : todos
     const sortedTodos = activeTodos.sort((a, b) => {
-        if (!a.dueBy) return 1
-        if (!b.dueBy) return -1
-        return a.dueBy.localeCompare(b.dueBy)
+        if (!a.deadline) return 1
+        if (!b.deadline) return -1
+        return a.deadline.localeCompare(b.deadline)
     })
 
     return (

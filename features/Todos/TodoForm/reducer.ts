@@ -1,6 +1,6 @@
 type ActionType =
     | {
-          type: 'SET_TITLE' | 'SET_DESCRIPTION' | 'SET_DUE_BY'
+          type: 'SET_TITLE' | 'SET_DESCRIPTION' | 'SET_DEADLINE'
           payload: string
       }
     | {
@@ -11,7 +11,7 @@ type ActionType =
 export const initialState = {
     title: '',
     description: '',
-    dueBy: '',
+    deadline: '',
     formError: false,
     titleError: false
 }
@@ -28,10 +28,10 @@ export const reducer = (state: typeof initialState, action: ActionType) => {
                 ...state,
                 description: action.payload
             }
-        case 'SET_DUE_BY':
+        case 'SET_DEADLINE':
             return {
                 ...state,
-                dueBy: action.payload
+                deadline: action.payload
             }
         case 'SET_TITLE_ERROR':
             return {

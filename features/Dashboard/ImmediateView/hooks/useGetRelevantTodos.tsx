@@ -19,10 +19,12 @@ export const useGetRelevantTodos = (type: HabitType) => {
 
     const filteredTodos = (todos ?? []).filter((todo) => {
         if (type === 'daily') {
-            return moment(todo.dueBy).isBefore(today) || todo.dueBy === today
+            return (
+                moment(todo.deadline).isBefore(today) || todo.deadline === today
+            )
         }
 
-        return todo.dueBy !== today && formatWeek(todo.dueBy) === thisWeek
+        return todo.deadline !== today && formatWeek(todo.deadline) === thisWeek
     })
 
     const completedTodos = filteredTodos.filter(({ status, completedAt }) => {

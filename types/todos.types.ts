@@ -5,7 +5,7 @@ export interface Todo {
     title: string
     status: TodoStatus
     urlPath: string
-    dueBy?: string
+    deadline?: string
     description?: string
     completedAt?: string
 }

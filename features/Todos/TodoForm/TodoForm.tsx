@@ -19,12 +19,12 @@ export const TodoForm: FunctionComponent<{
 }> = ({ isFormOpen, onFormClose, todo }) => {
     const toast = useToast()
     const { userId } = useContext(UserContext)
-    const [{ title, description, dueBy, formError, titleError }, dispatch] =
+    const [{ title, description, deadline, formError, titleError }, dispatch] =
         useReducer(reducer, {
             ...initialState,
             title: todo?.title ?? '',
             description: todo?.description ?? '',
-            dueBy: todo?.dueBy ?? ''
+            deadline: todo?.deadline ?? ''
         })
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -40,7 +40,7 @@ export const TodoForm: FunctionComponent<{
                     urlPath: todo?.urlPath ?? toKebabCase(title) ?? '',
                     title,
                     description,
-                    dueBy,
+                    deadline,
                     status: todo?.status ?? 'active'
                 },
                 userID: userId,
@@ -102,12 +102,12 @@ export const TodoForm: FunctionComponent<{
             <Input
                 label='Due By (Optional)'
                 name='dueBy'
-                value={dueBy}
+                value={deadline}
                 type='date'
                 min={today}
                 onChange={(e) =>
                     dispatch({
-                        type: 'SET_DUE_BY',
+                        type: 'SET_DEADLINE',
                         payload: e.target.value
                     })
                 }

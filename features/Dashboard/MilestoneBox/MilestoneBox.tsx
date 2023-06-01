@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import { Box, Heading } from '@chakra-ui/react'
 
 import { Milestone } from '../../../types/goals.types'
-import { AttachedGoal } from '../UpcomingMilestones/AttachedGoal'
+import { AttachedGoal } from './AttachedGoal'
 import { Deadline } from '../../Deadline'
 import { UpdateMilestoneMetrics } from '../../UpdateMetrics/UpdateMilestoneMetrics'
 

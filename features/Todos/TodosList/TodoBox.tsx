@@ -58,7 +58,7 @@ export const TodoBox: FunctionComponent<{
             <Flex gap={6} pt={4}>
                 {!isCompleted && (
                     <Deadline
-                        deadline={todo.dueBy}
+                        deadline={todo.deadline}
                         isCompleted={isCompleted}
                         gap={1.5}
                     />
