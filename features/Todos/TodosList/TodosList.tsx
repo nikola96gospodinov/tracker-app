@@ -40,11 +40,18 @@ const TodosList: FunctionComponent<{
         return <NoFilteredDocs docType={TODOS} />
 
     const activeTodos = activeOptionValue === 'all' ? allTodos : todos
-    const sortedTodos = activeTodos.sort((a, b) => {
-        if (!a.deadline) return 1
-        if (!b.deadline) return -1
-        return a.deadline.localeCompare(b.deadline)
-    })
+    const sortedTodos = activeTodos
+        .sort((a, b) => {
+            if (!a.deadline) return 1
+            if (!b.deadline) return -1
+            return a.deadline.localeCompare(b.deadline)
+        })
+        // So we put the uncompleted todos first regardless of deadline
+        .sort((a, b) => {
+            if (a.status === 'completed') return 1
+            if (b.status === 'completed') return -1
+            return 0
+        })
 
     return (
         <SimpleGrid
