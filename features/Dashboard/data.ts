@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 
 import { ImmediateView } from './ImmediateView/ImmediateView'
-import { UpcomingMilestones } from './UpcomingMilestones/UpcomingMilestones'
+import { UpcomingMilestones } from './Upcomming/Upcomming'
 import { HabitType } from '../../types/habits.types'
 
 export const periods = [
