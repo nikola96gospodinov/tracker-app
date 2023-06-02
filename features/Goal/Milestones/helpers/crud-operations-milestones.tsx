@@ -211,3 +211,25 @@ export const editMilestone = async ({
         })
     }
 }
+
+interface DeleteMilestonesFromDeletedGoalProps {
+    userId: string | undefined
+    milestones?: Milestone[]
+}
+
+export const deleteMilestonesFromDeletedGoal = async ({
+    userId,
+    milestones
+}: DeleteMilestonesFromDeletedGoalProps) => {
+    const fullPath = `users/${userId}/${MILESTONES}`
+    const milestonesCollection = collection(db, fullPath)
+
+    for (const milestone of milestones ?? []) {
+        const milestoneRef = doc(milestonesCollection, milestone.id)
+        try {
+            await deleteDoc(milestoneRef)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}

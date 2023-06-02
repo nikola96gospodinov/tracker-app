@@ -21,8 +21,11 @@ import { Doc } from '../../types/crud-opearations.types'
 import { UserContext } from '../../context/userContext'
 import { FormError } from '../Form/FormError'
 import { ArchiveGoal } from '../../features/Goal/ArchiveGoal'
-import { GOALS } from '../../constants/goalsConstants'
-import { Goal } from '../../types/goals.types'
+import { GOALS, MILESTONES } from '../../constants/goalsConstants'
+import { Goal, Milestone } from '../../types/goals.types'
+import useGetFilteredDocs from '../../hooks/useGetFilteredDocs'
+import { deleteMilestonesFromDeletedGoal } from '../../features/Goal/Milestones/helpers/crud-operations-milestones'
+import { Spinner } from '../UIElements/Spinner'
 
 interface Props<T> {
     isDeleteWarningOpen: boolean
@@ -52,12 +55,19 @@ const DeleteDoc = <T extends Doc>({
     const router = useRouter()
     const [error, setError] = useState(false)
     const singularPath = removeLastCharacter(path)
-    const { relevantGoals } = useGetRelevantGoals({
+    const { relevantGoals, loading: goalsLoading } = useGetRelevantGoals({
         habitID: doc?.id ?? '',
         habitType: doc?.hasOwnProperty('type') ? (doc as Habit).type : 'daily'
     })
+    const { docs: relevantMilestones, loading: milestonesLoading } =
+        useGetFilteredDocs<Milestone>({
+            path: MILESTONES,
+            fieldPath: 'goalID',
+            opStr: '==',
+            value: doc?.id ?? ''
+        })
 
-    const handleDelete = useCallback(() => {
+    const handleDelete = () => {
         removeDoc({
             path,
             orgDoc: doc!,
@@ -70,17 +80,25 @@ const DeleteDoc = <T extends Doc>({
             toastErrorMessage
         })
 
-        if (path === HABITS) {
+        if (path === HABITS && relevantGoals) {
             removeHabitFromGoalsOnDelete({
                 userID: userId,
                 relevantGoals,
                 habitID: doc?.id ?? ''
             })
         }
-    }, [doc, path, userId])
+
+        if (path === GOALS && relevantMilestones) {
+            deleteMilestonesFromDeletedGoal({
+                userId,
+                milestones: relevantMilestones
+            })
+        }
+    }
 
     const showArchiveGoal =
         path === GOALS && (doc as Goal)?.status !== 'archived'
+    const loading = goalsLoading || milestonesLoading
 
     return (
         <Modal
@@ -96,30 +114,38 @@ const DeleteDoc = <T extends Doc>({
                 pt={showArchiveGoal ? 16 : 12}
                 bg='neutral.50'
             >
-                <ModalBody>
-                    <Text fontSize='xl' textAlign='center'>
-                        Are you sure you want to <b>delete</b> the{' '}
-                        {singularPath}?
-                    </Text>
-                </ModalBody>
-                <ModalFooter
-                    alignItems='center'
-                    justifyContent='center'
-                    gap={4}
-                >
-                    <Button
-                        onClick={customHandleDelete ?? handleDelete}
-                        variant='delete'
-                    >
-                        Delete
-                    </Button>
-                    <Button
-                        onClick={customHandleCancel ?? onDeleteWarningClose}
-                        variant='tertiary'
-                    >
-                        Cancel
-                    </Button>
-                </ModalFooter>
+                {loading ? (
+                    <Spinner />
+                ) : (
+                    <>
+                        <ModalBody>
+                            <Text fontSize='xl' textAlign='center'>
+                                Are you sure you want to <b>delete</b> the{' '}
+                                {singularPath}?
+                            </Text>
+                        </ModalBody>
+                        <ModalFooter
+                            alignItems='center'
+                            justifyContent='center'
+                            gap={4}
+                        >
+                            <Button
+                                onClick={customHandleDelete ?? handleDelete}
+                                variant='delete'
+                            >
+                                Delete
+                            </Button>
+                            <Button
+                                onClick={
+                                    customHandleCancel ?? onDeleteWarningClose
+                                }
+                                variant='tertiary'
+                            >
+                                Cancel
+                            </Button>
+                        </ModalFooter>
+                    </>
+                )}
                 <FormError
                     formError={error}
                     errorText={`There was an issue deleting ${singularPath}. Please try again`}
