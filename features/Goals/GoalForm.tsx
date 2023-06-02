@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
 import { Button, Flex, useToast } from '@chakra-ui/react'
 
-import { toKebabCase } from '../../helpers/string-manipulation-functions'
+import { getUrlPath } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDocs'
 import { Goal } from '../../types/goals.types'
 import { GOALS } from '../../constants/goalsConstants'
@@ -39,6 +39,11 @@ const GoalForm: React.FunctionComponent<{
             ?.map((goal: Goal) => goal.name)
             .filter((name) => name !== goal?.name)
     }, [goals, goal?.name])
+    const goalPaths = useMemo(() => {
+        return goals
+            ?.map((goal: Goal) => goal.urlPath)
+            .filter((path) => path !== goal?.urlPath)
+    }, [goals, goal?.urlPath])
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
@@ -68,7 +73,7 @@ const GoalForm: React.FunctionComponent<{
                 id: goal?.id ?? uuidv4(),
                 status: isCompleted ? 'completed' : goal?.status ?? 'active',
                 completedOn: isCompleted ? today : '',
-                urlPath: toKebabCase(name)
+                urlPath: getUrlPath({ name, paths: goalPaths })
             }
 
             submitDoc<Goal>({

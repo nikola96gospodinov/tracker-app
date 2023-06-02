@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useReducer } from 'react'
+import { FunctionComponent, useContext, useMemo, useReducer } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -9,8 +9,9 @@ import { Input } from '../../../components/Form/Input'
 import { UserContext } from '../../../context/userContext'
 import { TODOS } from '../../../constants/todoConstants'
 import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
-import { toKebabCase } from '../../../helpers/string-manipulation-functions'
+import { getUrlPath } from '../../../helpers/string-manipulation-functions'
 import { today } from '../../../helpers/date-manipulation-functions'
+import useGetDocs from '../../../hooks/useGetDocs'
 
 export const TodoForm: FunctionComponent<{
     isFormOpen: boolean
@@ -27,6 +28,13 @@ export const TodoForm: FunctionComponent<{
             deadline: todo?.deadline ?? ''
         })
 
+    const { docs: todos } = useGetDocs<Todo>({ path: TODOS })
+    const todosPaths = useMemo(() => {
+        return todos
+            ?.map((todo: Todo) => todo.urlPath)
+            .filter((path) => path !== todo?.urlPath)
+    }, [todos, todo?.urlPath])
+
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
 
@@ -37,7 +45,7 @@ export const TodoForm: FunctionComponent<{
                 path: TODOS,
                 orgDoc: {
                     id: todo?.id ?? uuidv4(),
-                    urlPath: todo?.urlPath ?? toKebabCase(title) ?? '',
+                    urlPath: getUrlPath({ name: title, paths: todosPaths }),
                     title,
                     description,
                     deadline,

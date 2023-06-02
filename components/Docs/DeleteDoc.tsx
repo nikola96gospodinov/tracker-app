@@ -90,7 +90,12 @@ const DeleteDoc = <T extends Doc>({
             size='lg'
         >
             <ModalOverlay backdropFilter='blur(10px)' />
-            <ModalContent borderRadius='xl' p={12} bg='neutral.50'>
+            <ModalContent
+                borderRadius='xl'
+                p={12}
+                pt={showArchiveGoal ? 16 : 12}
+                bg='neutral.50'
+            >
                 <ModalBody>
                     <Text fontSize='xl' textAlign='center'>
                         Are you sure you want to <b>delete</b> the{' '}

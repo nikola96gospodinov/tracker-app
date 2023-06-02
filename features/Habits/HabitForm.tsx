@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Button, useToast } from '@chakra-ui/react'
 
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
-import { toKebabCase } from '../../helpers/string-manipulation-functions'
+import { getUrlPath } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDocs'
 import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { HABITS } from '../../constants/habitsConstants'
@@ -41,6 +41,11 @@ const HabitForm: React.FunctionComponent<{
             ?.map((habit: Habit) => habit.name)
             .filter((name) => name !== habit?.name)
     }, [habit?.name, habits])
+    const habitsPaths = useMemo(() => {
+        return habits
+            ?.map((habit: Habit) => habit.urlPath)
+            .filter((path) => path !== habit?.urlPath)
+    }, [habit?.urlPath, habits])
 
     const handleRadioChange = (val: string): void => {
         setType(val as HabitType)
@@ -71,7 +76,7 @@ const HabitForm: React.FunctionComponent<{
                 type,
                 target,
                 metric,
-                urlPath: toKebabCase(name) as string,
+                urlPath: getUrlPath({ name, paths: habitsPaths }),
                 longestStreak: habit?.longestStreak ?? {
                     streak: 0
                 },

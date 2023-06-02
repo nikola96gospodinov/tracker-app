@@ -30,7 +30,7 @@ export const ArchiveGoal: FunctionComponent<{
     }
 
     return (
-        <Flex justify='center' mt={8} gap={1}>
+        <Flex justify='center' mt={6} gap={1}>
             <Button variant='link' onClick={archiveGoal}>
                 Archive instead?
             </Button>
