@@ -14,6 +14,7 @@ import {
     Text,
     UnorderedList
 } from '@chakra-ui/react'
+import Head from 'next/head'
 
 import { auth, db } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
@@ -141,58 +142,65 @@ const Register: NextPage = () => {
         passwordErrors.number
 
     return (
-        <FormHolder>
-            <FormHeading>Register</FormHeading>
-            <form onSubmit={(e) => FormSubmit(e)} autoComplete='off'>
-                <Stack gap={3}>
-                    <Input
-                        label='Email'
-                        ref={emailRef}
-                        id='email'
-                        type='email'
-                        isError={errors.email}
-                        errorContent='Please enter a valid email'
-                    />
-                    <Input
-                        label='Password'
-                        ref={passwordRef}
-                        id='password'
-                        type='password'
-                        isError={isPasswordError}
-                        errorContent={
-                            <NameErrors passwordErrors={passwordErrors} />
-                        }
-                    />
-                    <Input
-                        label='Confirm Password'
-                        ref={confirmPasswordRef}
-                        id='confirm-password'
-                        type='password'
-                        isError={errors.confirmPassword}
-                        errorContent='Passwords must match'
-                    />
-                    <Button
-                        type='submit'
-                        isLoading={isLoadingRegister}
-                        w='100%'
-                        mt={4}
-                    >
-                        Register
-                    </Button>
-                </Stack>
-            </form>
-            <Box textAlign='center' mt={6}>
-                Already have an account?&nbsp;
-                <Link href='/login' variant='link'>
-                    Login
-                </Link>
-            </Box>
-            <FormError
-                formError={errors.form}
-                errorText='There was an issue with the registration. Please try
+        <>
+            <Head>
+                <title>Register</title>
+                <meta name='description' content='Register into Solve Life' />
+                <link rel='icon' href='/favicon.ico' />
+            </Head>
+            <FormHolder>
+                <FormHeading>Register</FormHeading>
+                <form onSubmit={(e) => FormSubmit(e)} autoComplete='off'>
+                    <Stack gap={3}>
+                        <Input
+                            label='Email'
+                            ref={emailRef}
+                            id='email'
+                            type='email'
+                            isError={errors.email}
+                            errorContent='Please enter a valid email'
+                        />
+                        <Input
+                            label='Password'
+                            ref={passwordRef}
+                            id='password'
+                            type='password'
+                            isError={isPasswordError}
+                            errorContent={
+                                <NameErrors passwordErrors={passwordErrors} />
+                            }
+                        />
+                        <Input
+                            label='Confirm Password'
+                            ref={confirmPasswordRef}
+                            id='confirm-password'
+                            type='password'
+                            isError={errors.confirmPassword}
+                            errorContent='Passwords must match'
+                        />
+                        <Button
+                            type='submit'
+                            isLoading={isLoadingRegister}
+                            w='100%'
+                            mt={4}
+                        >
+                            Register
+                        </Button>
+                    </Stack>
+                </form>
+                <Box textAlign='center' mt={6}>
+                    Already have an account?&nbsp;
+                    <Link href='/login' variant='link'>
+                        Login
+                    </Link>
+                </Box>
+                <FormError
+                    formError={errors.form}
+                    errorText='There was an issue with the registration. Please try
                     again'
-            />
-        </FormHolder>
+                />
+            </FormHolder>
+        </>
     )
 }
 

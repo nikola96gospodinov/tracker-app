@@ -5,6 +5,7 @@ import {
     useSendPasswordResetEmail
 } from 'react-firebase-hooks/auth'
 import { Box, Button, Text } from '@chakra-ui/react'
+import Head from 'next/head'
 
 import { auth } from '../../firebase/firebase'
 import { validateEmail } from '../../helpers/string-validator-functions'
@@ -102,62 +103,72 @@ const ResetPassword: NextPage = () => {
     if (isLoading || user) return <FullScreenLoader />
 
     return (
-        <FormHolder>
-            {isSuccess ? (
-                <>
-                    <Text fontSize='xl' textAlign='center' fontWeight={600}>
-                        An email with instructions for reseting your password
-                        has been sent to your email.
-                    </Text>
-                    <Text pt={2} textAlign='center' pb={4}>
-                        Make sure to check your spam folder if you can{"'"}t
-                        find the email.
-                    </Text>
-                    <Box textAlign='center' mt={4}>
-                        <Link href='/login'>Back to Login page</Link>
-                    </Box>
-                </>
-            ) : (
-                <>
-                    <FormHeading>Reset Password</FormHeading>
-                    <form onSubmit={(e) => sendResetEmail(e)}>
-                        <Input
-                            type='email'
-                            id='email'
-                            value={email}
-                            onChange={(e) =>
-                                dispatch({
-                                    type: 'SET_EMAIL',
-                                    payload: e.target.value
-                                })
-                            }
-                            label='Email'
-                            errorContent='Please enter a valid email'
-                            isError={emailError}
-                        />
-                        <Button
-                            type='submit'
-                            isLoading={isLoadindReseting}
-                            w='100%'
-                            mt={4}
-                        >
-                            Reset Password
-                        </Button>
-                    </form>
-                    <Box textAlign='center' mt={6}>
-                        Don&#39;t have an account?&nbsp;
-                        <Link href='/register' variant='link'>
-                            Sign up
-                        </Link>
-                    </Box>
-                    <FormError
-                        formError={formError}
-                        errorText='There was an issue with the password reset.
+        <>
+            <Head>
+                <title>Reset Password</title>
+                <meta
+                    name='description'
+                    content='Reset Password into Solve Life'
+                />
+                <link rel='icon' href='/favicon.ico' />
+            </Head>
+            <FormHolder>
+                {isSuccess ? (
+                    <>
+                        <Text fontSize='xl' textAlign='center' fontWeight={600}>
+                            An email with instructions for reseting your
+                            password has been sent to your email.
+                        </Text>
+                        <Text pt={2} textAlign='center' pb={4}>
+                            Make sure to check your spam folder if you can{"'"}t
+                            find the email.
+                        </Text>
+                        <Box textAlign='center' mt={4}>
+                            <Link href='/login'>Back to Login page</Link>
+                        </Box>
+                    </>
+                ) : (
+                    <>
+                        <FormHeading>Reset Password</FormHeading>
+                        <form onSubmit={(e) => sendResetEmail(e)}>
+                            <Input
+                                type='email'
+                                id='email'
+                                value={email}
+                                onChange={(e) =>
+                                    dispatch({
+                                        type: 'SET_EMAIL',
+                                        payload: e.target.value
+                                    })
+                                }
+                                label='Email'
+                                errorContent='Please enter a valid email'
+                                isError={emailError}
+                            />
+                            <Button
+                                type='submit'
+                                isLoading={isLoadindReseting}
+                                w='100%'
+                                mt={4}
+                            >
+                                Reset Password
+                            </Button>
+                        </form>
+                        <Box textAlign='center' mt={6}>
+                            Don&#39;t have an account?&nbsp;
+                            <Link href='/register' variant='link'>
+                                Sign up
+                            </Link>
+                        </Box>
+                        <FormError
+                            formError={formError}
+                            errorText='There was an issue with the password reset.
                                     Please try again'
-                    />
-                </>
-            )}
-        </FormHolder>
+                        />
+                    </>
+                )}
+            </FormHolder>
+        </>
     )
 }
 
