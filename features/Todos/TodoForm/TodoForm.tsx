@@ -1,6 +1,5 @@
 import { FunctionComponent, useContext, useMemo, useReducer } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
-import { v4 as uuidv4 } from 'uuid'
 
 import { Todo } from '../../../types/todos.types'
 import { FormModal } from '../../../components/Form/FormModal'
@@ -8,8 +7,6 @@ import { initialState, reducer } from './reducer'
 import { Input } from '../../../components/Form/Input'
 import { UserContext } from '../../../context/userContext'
 import { TODOS } from '../../../constants/todoConstants'
-import { submitDoc } from '../../../helpers/crud-operations/crud-operations-main-docs'
-import { getUrlPath } from '../../../helpers/string-manipulation-functions'
 import { today } from '../../../helpers/date-manipulation-functions'
 import useGetDocs from '../../../hooks/useGetDocs'
 
@@ -41,32 +38,27 @@ export const TodoForm: FunctionComponent<{
         if (title === '') {
             dispatch({ type: 'SET_TITLE_ERROR', payload: true })
         } else {
-            submitDoc<Todo>({
-                path: TODOS,
-                orgDoc: {
-                    id: todo?.id ?? uuidv4(),
-                    urlPath: getUrlPath({ name: title, paths: todosPaths }),
-                    title,
-                    description,
-                    deadline,
-                    status: todo?.status ?? 'active'
-                },
-                userID: userId,
-                setDocsFormOpen: onFormClose,
-                reducerAction: () =>
-                    dispatch({
-                        type: 'SET_FORM_ERROR',
-                        payload: true
-                    }),
-                toast: toast,
-                toastSuccessMessage: `Todo ${
-                    todo?.id ? 'updated' : 'added'
-                } successfully`,
-                toastErrorMessage: `There was an issue ${
-                    todo?.id ? 'updating' : 'adding'
-                } your todo. Please try again`
+            dispatch({
+                type: 'SUBMIT_FORM',
+                payload: {
+                    userId: userId ?? '',
+                    todosPaths,
+                    todo,
+                    toast,
+                    onSuccess: () => onFormClose(),
+                    onError: () =>
+                        dispatch({
+                            type: 'SET_FORM_ERROR',
+                            payload: true
+                        })
+                }
             })
         }
+    }
+
+    const handleFormClose = () => {
+        onFormClose()
+        dispatch({ type: 'RESET_FORM', payload: todo })
     }
 
     const action = todo ? 'Edit' : 'Add a'
@@ -78,7 +70,7 @@ export const TodoForm: FunctionComponent<{
     return (
         <FormModal
             formOpen={isFormOpen}
-            onFormClose={onFormClose}
+            onFormClose={handleFormClose}
             title={formTitle}
             onSubmit={handleFormSubmit}
             isFormError={formError}

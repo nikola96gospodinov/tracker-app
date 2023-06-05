@@ -8,7 +8,6 @@ import useGetDocs from '../../hooks/useGetDocs'
 import { Goal } from '../../types/goals.types'
 import { GOALS } from '../../constants/goalsConstants'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
-import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { FormModal } from '../../components/Form/FormModal'
 import { Input } from '../../components/Form/Input'
 import { Textarea } from '../../components/Form/Textarea'
@@ -45,6 +44,18 @@ const GoalForm: React.FunctionComponent<{
             .filter((path) => path !== goal?.urlPath)
     }, [goals, goal?.urlPath])
 
+    const onSuccessSubmit = (urlPath: string) => {
+        onFormClose()
+        router.push(`/${GOALS}/${urlPath}`)
+    }
+
+    const onErrorSubmit = () => {
+        setErrors((prev) => ({
+            ...prev,
+            form: true
+        }))
+    }
+
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
 
@@ -63,26 +74,25 @@ const GoalForm: React.FunctionComponent<{
         const isCompleted = progress && target && progress >= target
 
         if (nameError() === '') {
+            const urlPath = getUrlPath({ name, paths: goalPaths })
             const fields = {
-                ...goal,
+                id: goal?.id ?? uuidv4(),
                 name,
                 description,
                 deadline,
                 target: target ?? null,
                 progress: progress ?? null,
-                id: goal?.id ?? uuidv4(),
                 status: isCompleted ? 'completed' : goal?.status ?? 'active',
                 completedOn: isCompleted ? today : '',
-                urlPath: getUrlPath({ name, paths: goalPaths })
+                urlPath
             }
 
             submitDoc<Goal>({
                 path: GOALS,
                 orgDoc: fields as Goal,
                 userID: userId,
-                setDocsFormOpen: onFormClose,
-                setErrors: setErrors as ErrorsDispatch,
-                router,
+                onSuccess: () => onSuccessSubmit(urlPath),
+                onError: onErrorSubmit,
                 toast,
                 toastSuccessMessage: `Goal ${
                     goal?.id ? 'updated' : 'set'
@@ -92,6 +102,19 @@ const GoalForm: React.FunctionComponent<{
                 } your goal. Please try again.`
             })
         }
+    }
+
+    const handleFormClose = () => {
+        onFormClose()
+        setName(goal?.name ?? '')
+        setDescription(goal?.description ?? '')
+        setDeadline(goal?.deadline ?? '')
+        setTarget(goal?.target)
+        setProgress(goal?.progress)
+        setErrors({
+            nameErr: '',
+            form: false
+        })
     }
 
     const formTitle = goal ? 'Update goal' : 'Set a goal'
@@ -104,7 +127,7 @@ const GoalForm: React.FunctionComponent<{
     return (
         <FormModal
             formOpen={isFormOpen}
-            onFormClose={onFormClose}
+            onFormClose={handleFormClose}
             title={formTitle}
             onSubmit={handleFormSubmit}
             isFormError={isFormErr}

@@ -6,7 +6,6 @@ import { Button, useToast } from '@chakra-ui/react'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { getUrlPath } from '../../helpers/string-manipulation-functions'
 import useGetDocs from '../../hooks/useGetDocs'
-import { ErrorsDispatch } from '../../types/crud-opearations.types'
 import { HABITS } from '../../constants/habitsConstants'
 import { Habit, HabitType } from '../../types/habits.types'
 import { FormModal } from '../../components/Form/FormModal'
@@ -51,6 +50,18 @@ const HabitForm: React.FunctionComponent<{
         setType(val as HabitType)
     }
 
+    const onSuccessSubmit = (urlPath: string) => {
+        onFormClose()
+        router.push(`/${HABITS}/${urlPath}`)
+    }
+
+    const onErrorSubmit = () => {
+        setErrors((prev) => ({
+            ...prev,
+            form: true
+        }))
+    }
+
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
 
@@ -69,6 +80,7 @@ const HabitForm: React.FunctionComponent<{
         })
 
         if (target && metric && nameError() === '') {
+            const urlPath = getUrlPath({ name, paths: habitsPaths })
             const fields = {
                 id: habit?.id ?? uuidv4(),
                 name,
@@ -76,7 +88,7 @@ const HabitForm: React.FunctionComponent<{
                 type,
                 target,
                 metric,
-                urlPath: getUrlPath({ name, paths: habitsPaths }),
+                urlPath,
                 longestStreak: habit?.longestStreak ?? {
                     streak: 0
                 },
@@ -89,9 +101,8 @@ const HabitForm: React.FunctionComponent<{
                 path: HABITS,
                 orgDoc: fields,
                 userID: userId,
-                setDocsFormOpen: onFormClose,
-                setErrors: setErrors as ErrorsDispatch,
-                router,
+                onSuccess: () => onSuccessSubmit(urlPath),
+                onError: onErrorSubmit,
                 toast,
                 toastSuccessMessage: `Habit successfully ${
                     habit ? 'edited' : 'added'
@@ -101,6 +112,21 @@ const HabitForm: React.FunctionComponent<{
                 } your habit. Please try again`
             })
         }
+    }
+
+    const handleFormClose = () => {
+        onFormClose()
+        setName(habit?.name ?? '')
+        setDescription(habit?.description ?? '')
+        setType(habit?.type ?? 'daily')
+        setTarget(habit?.target)
+        setMetric(habit?.metric ?? '')
+        setErrors({
+            nameErr: '',
+            targetErr: false,
+            metricErr: false,
+            form: false
+        })
     }
 
     const action = habit ? 'Edit' : 'Add a'
@@ -113,7 +139,7 @@ const HabitForm: React.FunctionComponent<{
     return (
         <FormModal
             formOpen={isFormOpen}
-            onFormClose={onFormClose}
+            onFormClose={handleFormClose}
             title={title}
             onSubmit={handleFormSubmit}
             isFormError={errors.form}
