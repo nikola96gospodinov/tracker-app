@@ -15,19 +15,15 @@ export const Tag: FunctionComponent<{
         if (isActive)
             return (
                 <CloseIcon
-                    onClick={onClick}
-                    cursor='pointer'
                     _hover={{
-                        color: 'red.500'
+                        color: 'red.700'
                     }}
                 />
             )
         return (
             <AddIcon
-                onClick={onClick}
-                cursor='pointer'
                 _hover={{
-                    color: 'green.500'
+                    color: 'green.700'
                 }}
             />
         )
@@ -44,7 +40,11 @@ export const Tag: FunctionComponent<{
             px={3}
             borderRadius={20}
             boxShadow='inset'
-            cursor={isDisabled ? 'not-allowed' : 'auto'}
+            cursor={isDisabled ? 'not-allowed' : 'pointer'}
+            onClick={onClick}
+            _hover={{
+                bg: isActive ? 'red.50' : 'green.50'
+            }}
         >
             <Text>{text}</Text>
             <Icon />
