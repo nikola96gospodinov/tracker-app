@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { difference, uniqBy } from 'lodash'
+import { difference } from 'lodash'
 
 import useGetFilteredDocs from './useGetFilteredDocs'
 import { HABITS } from '../constants/habitsConstants'
@@ -9,7 +9,12 @@ import { GOALS } from '../constants/goalsConstants'
 import { Goal } from '../types/goals.types'
 
 export const useGetAllActiveHabitsByType = (type: HabitType) => {
-    const [activeHabits, setActiveHabits] = useState<Habit[]>([])
+    const [activeKeystoneHabits, setActiveKeystoneHabits] = useState<Habit[]>(
+        []
+    )
+    const [activeAttachedHabits, setActiveAttachedHabits] = useState<Habit[]>(
+        []
+    )
 
     const {
         docs: allHabits,
@@ -50,27 +55,28 @@ export const useGetAllActiveHabitsByType = (type: HabitType) => {
             const attachedHabits = allHabits?.filter(({ id }) =>
                 attachedHabitIds.includes(id)
             )
+            setActiveAttachedHabits(attachedHabits ? attachedHabits : [])
 
             const keystoneHabits = allHabits?.filter(
-                ({ isKeystone }) => isKeystone
+                ({ id, isKeystone }) =>
+                    isKeystone && !attachedHabitIds.includes(id)
             )
-
-            setActiveHabits(
-                uniqBy(
-                    [
-                        ...(keystoneHabits ? keystoneHabits : []),
-                        ...(attachedHabits ? attachedHabits : [])
-                    ],
-                    'id'
-                )
-            )
+            setActiveKeystoneHabits(keystoneHabits ? keystoneHabits : [])
         }
     }, [loadingGoals, loadingHabits, goals, allHabits])
 
     const loading = loadingHabits || loadingGoals
     const errorFetching = errorFetchingHabits || errorFetchingGoals
 
+    const activeHabits = [...activeKeystoneHabits, ...activeAttachedHabits]
     const inactiveHabits = difference(allHabits, activeHabits)
 
-    return { activeHabits, inactiveHabits, loading, errorFetching }
+    return {
+        activeHabits,
+        inactiveHabits,
+        activeAttachedHabits,
+        activeKeystoneHabits,
+        loading,
+        errorFetching
+    }
 }

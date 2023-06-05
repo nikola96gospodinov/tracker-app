@@ -13,11 +13,21 @@ export const ActiveHabits: FunctionComponent<{
     habits: Habit[]
     isOnGoal?: boolean
     goal?: Goal
-}> = ({ habits, isOnGoal, goal }) => {
+    activeAttachedHabits?: Habit[]
+    activeKeystoneHabits?: Habit[]
+}> = ({
+    habits,
+    isOnGoal,
+    goal,
+    activeAttachedHabits,
+    activeKeystoneHabits
+}) => {
     const { userId } = useContext(UserContext)
 
-    const attachedHabits = habits.filter(({ isKeystone }) => !isKeystone)
-    const keystoneHabits = habits.filter(({ isKeystone }) => isKeystone)
+    const attachedHabits =
+        activeAttachedHabits ?? habits.filter(({ isKeystone }) => !isKeystone)
+    const keystoneHabits =
+        activeKeystoneHabits ?? habits.filter(({ isKeystone }) => isKeystone)
 
     const changableHabits = isOnGoal ? habits : keystoneHabits
 

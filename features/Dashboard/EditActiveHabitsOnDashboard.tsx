@@ -8,8 +8,14 @@ export const EditActiveHabitsOnDashboard: FunctionComponent<{
     isOpen: boolean
     onClose: () => void
 }> = ({ type, isOpen, onClose }) => {
-    const { activeHabits, inactiveHabits, loading, errorFetching } =
-        useGetAllActiveHabitsByType(type)
+    const {
+        activeHabits,
+        activeAttachedHabits,
+        activeKeystoneHabits,
+        inactiveHabits,
+        loading,
+        errorFetching
+    } = useGetAllActiveHabitsByType(type)
 
     return (
         <EditActiveHabits
@@ -19,6 +25,8 @@ export const EditActiveHabitsOnDashboard: FunctionComponent<{
             inactiveHabits={inactiveHabits}
             loading={loading}
             errorFetching={errorFetching}
+            activeAttachedHabits={activeAttachedHabits}
+            activeKeystoneHabits={activeKeystoneHabits}
         />
     )
 }

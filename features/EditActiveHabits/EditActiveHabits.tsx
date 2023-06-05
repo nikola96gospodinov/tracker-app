@@ -21,6 +21,8 @@ export const EditActiveHabits: FunctionComponent<{
     errorFetching: boolean
     isOnGoal?: boolean
     goal?: Goal
+    activeAttachedHabits?: Habit[]
+    activeKeystoneHabits?: Habit[]
 }> = ({
     isOpen,
     onClose,
@@ -29,7 +31,9 @@ export const EditActiveHabits: FunctionComponent<{
     loading,
     errorFetching,
     isOnGoal,
-    goal
+    goal,
+    activeAttachedHabits,
+    activeKeystoneHabits
 }) => {
     const router = useRouter()
     const noHabits = activeHabits.length === 0 && inactiveHabits.length === 0
@@ -61,6 +65,8 @@ export const EditActiveHabits: FunctionComponent<{
                             habits={activeHabits}
                             isOnGoal={isOnGoal}
                             goal={goal}
+                            activeAttachedHabits={activeAttachedHabits}
+                            activeKeystoneHabits={activeKeystoneHabits}
                         />
                     </Box>
                     <Box>
