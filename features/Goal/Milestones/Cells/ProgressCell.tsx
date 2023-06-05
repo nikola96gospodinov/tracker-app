@@ -1,4 +1,4 @@
-import { Td, Flex, Text } from '@chakra-ui/react'
+import { Td, Flex, Text, Progress } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
 import { inputStyles } from '../data'
 import { Input } from '../../../../components/Form/Input'
@@ -22,6 +22,17 @@ export const ProgressCell: FunctionComponent<{
     setTarget
 }) => {
     const text = getProgressForUI(milestone)
+    const progressPercentage = (() => {
+        if (!milestone.progress && !milestone.target) return undefined
+        if (!milestone.progress && milestone.target) return 0
+        if (milestone.progress && milestone.target)
+            return (milestone.progress / milestone.target) * 100
+
+        return undefined
+    })()
+
+    const showProgress = progressPercentage && progressPercentage < 100
+
     return (
         <Td>
             {isActiveMilestone ? (
@@ -47,7 +58,19 @@ export const ProgressCell: FunctionComponent<{
                     />
                 </Flex>
             ) : (
-                <Text>{text}</Text>
+                <Text textAlign={showProgress ? 'center' : 'left'}>
+                    {text}
+                    {showProgress && (
+                        <Progress
+                            value={progressPercentage}
+                            colorScheme='purple'
+                            size='xs'
+                            hasStripe
+                            mt={1}
+                            bg='purple.100'
+                        />
+                    )}
+                </Text>
             )}
         </Td>
     )
