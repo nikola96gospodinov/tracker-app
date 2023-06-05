@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { Box, Text, VStack } from '@chakra-ui/react'
+import { Box, Text, Tooltip, VStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 import { Spinner } from '../../components/UIElements/Spinner'
@@ -11,6 +11,7 @@ import NoDocsYet from '../../components/Docs/NoDocsYet'
 import { FormModal } from '../../components/Form/FormModal'
 import { Habit } from '../../types/habits.types'
 import { Goal } from '../../types/goals.types'
+import QuestionMarkIcon from '../../components/Icons/QuestionMark'
 
 export const EditActiveHabits: FunctionComponent<{
     isOpen: boolean
@@ -38,6 +39,7 @@ export const EditActiveHabits: FunctionComponent<{
     const router = useRouter()
     const noHabits = activeHabits.length === 0 && inactiveHabits.length === 0
     const showContent = !loading && !errorFetching && !noHabits
+    const isOnDashboard = Boolean(activeAttachedHabits || activeKeystoneHabits)
 
     return (
         <FormModal formOpen={isOpen} onFormClose={onClose} onSubmit={() => {}}>
@@ -60,6 +62,16 @@ export const EditActiveHabits: FunctionComponent<{
                     <Box>
                         <Text fontSize='lg' mb={2}>
                             Active Habits:
+                            {isOnDashboard && (
+                                <Tooltip label='This includes keystone habits and habits attached to goals'>
+                                    <Text as='span'>
+                                        <QuestionMarkIcon
+                                            ml={2}
+                                            transform='translateY(2px)'
+                                        />
+                                    </Text>
+                                </Tooltip>
+                            )}
                         </Text>
                         <ActiveHabits
                             habits={activeHabits}
