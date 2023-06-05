@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash'
 import { useRouter } from 'next/router'
 
 import InitialSection from '../../components/InitialSection'
-import GoalForm from './GoalForm'
+import GoalForm from './GoalForm/GoalForm'
 import GoalsList from './GoalsList'
 import { DocHeader } from '../../components/Docs/DocHeader'
 import { filteringOptions } from './data'

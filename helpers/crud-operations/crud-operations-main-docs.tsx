@@ -62,9 +62,6 @@ export const submitDoc = async <T extends Doc>({
                 )
             })
         }
-
-        // if (setDocsFormOpen) setDocsFormOpen(false)
-        // if (router) router.push(`/${path}/${orgDoc.urlPath}`)
     } catch (e) {
         console.log(e)
 
@@ -81,15 +78,6 @@ export const submitDoc = async <T extends Doc>({
                 )
             })
         }
-
-        // if (setErrors) {
-        // setErrors((prev) => ({
-        //     ...prev,
-        //     form: true
-        // }))
-        // }
-        // if (setError) setError(true)
-        // if (reducerAction) reducerAction()
     }
 }
 

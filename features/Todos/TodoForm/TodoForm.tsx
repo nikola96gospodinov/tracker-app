@@ -9,6 +9,7 @@ import { UserContext } from '../../../context/userContext'
 import { TODOS } from '../../../constants/todoConstants'
 import { today } from '../../../helpers/date-manipulation-functions'
 import useGetDocs from '../../../hooks/useGetDocs'
+import { submitTodoForm } from './helpers'
 
 export const TodoForm: FunctionComponent<{
     isFormOpen: boolean
@@ -17,13 +18,13 @@ export const TodoForm: FunctionComponent<{
 }> = ({ isFormOpen, onFormClose, todo }) => {
     const toast = useToast()
     const { userId } = useContext(UserContext)
-    const [{ title, description, deadline, formError, titleError }, dispatch] =
-        useReducer(reducer, {
-            ...initialState,
-            title: todo?.title ?? '',
-            description: todo?.description ?? '',
-            deadline: todo?.deadline ?? ''
-        })
+    const [state, dispatch] = useReducer(reducer, {
+        ...initialState,
+        title: todo?.title ?? '',
+        description: todo?.description ?? '',
+        deadline: todo?.deadline ?? ''
+    })
+    const { title, description, deadline, formError, titleError } = state
 
     const { docs: todos } = useGetDocs<Todo>({ path: TODOS })
     const todosPaths = useMemo(() => {
@@ -32,26 +33,33 @@ export const TodoForm: FunctionComponent<{
             .filter((path) => path !== todo?.urlPath)
     }, [todos, todo?.urlPath])
 
-    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    const onSuccessSubmit = () => {
+        onFormClose()
+    }
+
+    const onErrorSubmit = () => {
+        dispatch({
+            type: 'SET_FORM_ERROR',
+            payload: true
+        })
+    }
+
+    const handleFormSubmit = async (
+        e: React.FormEvent<HTMLFormElement>
+    ): Promise<void> => {
         e.preventDefault()
 
         if (title === '') {
             dispatch({ type: 'SET_TITLE_ERROR', payload: true })
         } else {
-            dispatch({
-                type: 'SUBMIT_FORM',
-                payload: {
-                    userId: userId ?? '',
-                    todosPaths,
-                    todo,
-                    toast,
-                    onSuccess: () => onFormClose(),
-                    onError: () =>
-                        dispatch({
-                            type: 'SET_FORM_ERROR',
-                            payload: true
-                        })
-                }
+            submitTodoForm({
+                userId,
+                todo,
+                state,
+                toast,
+                todosPaths,
+                onSuccess: onSuccessSubmit,
+                onError: onErrorSubmit
             })
         }
     }

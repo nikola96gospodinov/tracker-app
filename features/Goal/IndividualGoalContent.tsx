@@ -3,7 +3,7 @@ import { useDisclosure } from '@chakra-ui/react'
 
 import GoalInfo from './GoalInfo'
 import { Spinner } from '../../components/UIElements/Spinner'
-import GoalForm from '../Goals/GoalForm'
+import GoalForm from '../Goals/GoalForm/GoalForm'
 import GoalConfiguration from './GoalConfiguration'
 import { Goal } from '../../types/goals.types'
 import { GOAL, GOALS } from '../../constants/goalsConstants'

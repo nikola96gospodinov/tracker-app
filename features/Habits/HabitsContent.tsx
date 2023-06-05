@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash'
 import { useState } from 'react'
 
 import InitialSection from '../../components/InitialSection'
-import HabitForm from './HabitForm'
+import HabitForm from './HabitForm/HabitForm'
 import HabitsList from './HabitsList/HabitsList'
 import { DocHeader } from '../../components/Docs/DocHeader'
 import { filteringOptions } from './data'
