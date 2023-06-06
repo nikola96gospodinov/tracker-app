@@ -1,3 +1,7 @@
+## Test the app
+
+https://solve-life-app.vercel.app/
+
 # About this project
 
 This a multi user app for tracking habits and goals. It is still unfinished.
