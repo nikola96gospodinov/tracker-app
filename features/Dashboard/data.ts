@@ -36,6 +36,7 @@ interface Tab {
     props: {
         type?: HabitType
     }
+    value: string
 }
 
 export const tabs: Tab[] = [
@@ -44,18 +45,21 @@ export const tabs: Tab[] = [
         Component: ImmediateView,
         props: {
             type: 'daily'
-        }
+        },
+        value: 'today'
     },
     {
         name: 'This Week',
         Component: ImmediateView,
         props: {
             type: 'weekly'
-        }
+        },
+        value: 'thisWeek'
     },
     {
         name: periods[0].label,
         Component: UpcomingMilestones,
-        props: {}
+        props: {},
+        value: 'whithinActivePeriod'
     }
 ]

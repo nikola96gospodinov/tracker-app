@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useContext, useEffect } from 'react'
 import { SimpleGrid } from '@chakra-ui/react'
 
 import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
@@ -18,11 +18,14 @@ import { Goal, Milestone } from '../../../types/goals.types'
 import { GoalBox } from '../../Goal/GoalBox'
 import { TodoBox } from '../../Todos/TodosList/TodoBox'
 import { Todo } from '../../../types/todos.types'
+import { TabsNumbersDispatchContext } from '../context/context'
 
 export const UpcomingMilestones: FunctionComponent<{
     activePeriod?: ActivePeriod
     includeWithNoDeadline?: boolean
 }> = ({ activePeriod, includeWithNoDeadline }) => {
+    const dispatch = useContext(TabsNumbersDispatchContext)
+
     const {
         sortedDocs: docs,
         loading,
@@ -31,6 +34,15 @@ export const UpcomingMilestones: FunctionComponent<{
         activePeriod,
         includeWithNoDeadline
     })
+
+    useEffect(() => {
+        if (dispatch) {
+            dispatch({
+                type: 'SET_WHITHIN_ACTIVE_PERIOD',
+                payload: docs.length
+            })
+        }
+    }, [docs, dispatch])
 
     if (loading) return <Spinner mt={8} text='Loading...' />
 

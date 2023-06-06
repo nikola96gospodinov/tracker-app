@@ -6,6 +6,7 @@ import { EditActiveHabitsOnDashboard } from './EditActiveHabitsOnDashboard'
 import { TodoForm } from '../Todos/TodoForm/TodoForm'
 import { ConfigureButton } from './ConfigureButton'
 import { DashboardTabs } from './DashboardTabs'
+import { TabsNumbersProvider } from './context/context'
 
 export const Dashboard: FunctionComponent = () => {
     const [activeTab, setActiveTab] = useState(tabs[0].name)
@@ -27,7 +28,7 @@ export const Dashboard: FunctionComponent = () => {
     } = useDisclosure()
 
     return (
-        <>
+        <TabsNumbersProvider>
             <ConfigureButton
                 activeTab={activeTab}
                 activePeriod={activePeriod}
@@ -39,6 +40,7 @@ export const Dashboard: FunctionComponent = () => {
             />
 
             <DashboardTabs
+                activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 activePeriod={activePeriod}
                 onOpenHabitList={onOpenHabitList}
@@ -52,6 +54,6 @@ export const Dashboard: FunctionComponent = () => {
             />
 
             <TodoForm isFormOpen={isOpenAddTodo} onFormClose={onCloseAddTodo} />
-        </>
+        </TabsNumbersProvider>
     )
 }

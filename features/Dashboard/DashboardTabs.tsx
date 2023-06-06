@@ -1,14 +1,18 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
-import { tabs, periods, ActivePeriod } from './data'
+
+import { tabs, ActivePeriod } from './data'
 import { Dispatch } from '../../typings'
+import { TabText } from './TabText'
 
 export const DashboardTabs: FunctionComponent<{
+    activeTab: string
     setActiveTab: Dispatch<string>
     activePeriod: ActivePeriod
     onOpenHabitList: () => void
     includeWithNoDeadline: boolean
 }> = ({
+    activeTab,
     setActiveTab,
     activePeriod,
     onOpenHabitList,
@@ -17,15 +21,23 @@ export const DashboardTabs: FunctionComponent<{
     <Tabs colorScheme='purple'>
         <TabList>
             <TabList>
-                {tabs.map(({ name }) => (
-                    <Tab
-                        key={name}
-                        borderBottomWidth={3}
-                        onClick={() => setActiveTab(name)}
-                    >
-                        {name === periods[0].label ? activePeriod : name}
-                    </Tab>
-                ))}
+                {tabs.map(({ name, value }) => {
+                    const isActiveTab = activeTab === name
+                    return (
+                        <Tab
+                            key={name}
+                            borderBottomWidth={3}
+                            onClick={() => setActiveTab(name)}
+                        >
+                            <TabText
+                                name={name}
+                                value={value}
+                                isActiveTab={isActiveTab}
+                                activePeriod={activePeriod}
+                            />
+                        </Tab>
+                    )
+                })}
             </TabList>
         </TabList>
         <TabPanels>

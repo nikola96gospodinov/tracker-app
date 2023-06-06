@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useContext, useEffect } from 'react'
 import { Flex, VStack } from '@chakra-ui/react'
 
 import { HABITS } from '../../../constants/habitsConstants'
@@ -14,11 +14,14 @@ import { IncompletedItems } from './IncompletedItems'
 import { CompletedItems } from './CompletedItems'
 import { useGetRelevantMilestones } from './hooks/useGetRelevantMilestones'
 import { useGetRelevantGoals } from './hooks/useGetRelevantGoals'
+import { TabsNumbersDispatchContext } from '../context/context'
 
 export const ImmediateView: FunctionComponent<{
     type?: HabitType
     onOpen: () => void
 }> = ({ type, onOpen }) => {
+    const dispatch = useContext(TabsNumbersDispatchContext)
+
     const {
         activeHabits,
         loading: loadingHabits,
@@ -61,20 +64,6 @@ export const ImmediateView: FunctionComponent<{
         (completedGoals?.length ?? 0) +
         (incompletedGoals?.length ?? 0)
 
-    if (loading) return <Spinner mt={8} text='Loading...' />
-
-    if (errorFetching) return <ErrorFetchingDocs docType={HABITS} size='sm' />
-
-    if (totalLength === 0)
-        return (
-            <NoDocsYet
-                docType={HABITS}
-                onClick={() => onOpen()}
-                size='sm'
-                customMessage={`You don't have anything on your dashboard yet 🤔`}
-            />
-        )
-
     const completedHabits = activeHabits.filter(
         ({ currentStreak: { end } }) => {
             if (type === 'daily') return end === today
@@ -88,6 +77,51 @@ export const ImmediateView: FunctionComponent<{
             return end !== thisWeek
         }
     )
+
+    useEffect(() => {
+        if (dispatch) {
+            dispatch({
+                type: type === 'daily' ? 'SET_TODAY' : 'SET_THIS_WEEK',
+                payload: {
+                    activeDocsNumber:
+                        incompletedHabits.length +
+                        incompletedTodos.length +
+                        (incompletedMilestones?.length ?? 0) +
+                        (incompletedGoals?.length ?? 0),
+                    inactiveDocsNumber:
+                        completedHabits.length +
+                        completedTodos.length +
+                        (completedMilestones?.length ?? 0) +
+                        (completedGoals?.length ?? 0)
+                }
+            })
+        }
+    }, [
+        completedHabits.length,
+        incompletedHabits.length,
+        completedTodos.length,
+        incompletedTodos.length,
+        completedMilestones?.length,
+        incompletedMilestones?.length,
+        completedGoals?.length,
+        incompletedGoals?.length,
+        dispatch,
+        type
+    ])
+
+    if (loading) return <Spinner mt={8} text='Loading...' />
+
+    if (errorFetching) return <ErrorFetchingDocs docType={HABITS} size='sm' />
+
+    if (totalLength === 0)
+        return (
+            <NoDocsYet
+                docType={HABITS}
+                onClick={() => onOpen()}
+                size='sm'
+                customMessage={`You don't have anything on your dashboard yet 🤔`}
+            />
+        )
 
     return (
         <Flex mt={8} gap={8}>
