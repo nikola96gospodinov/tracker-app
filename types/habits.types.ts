@@ -8,8 +8,9 @@ export interface Streak {
 }
 
 export interface Progress {
-    progress: number
+    totalProgress: number
     dateOfProgress: string | undefined
+    progressOnDate: number
 }
 
 export interface Habit {

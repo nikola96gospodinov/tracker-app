@@ -7,7 +7,7 @@ import {
     getHabitCompletionIcon,
     getHabitTooltipLabel,
     isHabitCompleted
-} from '../helpers'
+} from '../helpers/helpers'
 import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
 
 export const HabitBox: React.FunctionComponent<{

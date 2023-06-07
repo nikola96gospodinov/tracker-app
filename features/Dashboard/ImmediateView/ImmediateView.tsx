@@ -1,113 +1,33 @@
-import { FunctionComponent, useContext, useEffect } from 'react'
+import { FunctionComponent } from 'react'
 import { Flex, VStack } from '@chakra-ui/react'
 
 import { HABITS } from '../../../constants/habitsConstants'
 import { ErrorFetchingDocs } from '../../../components/Docs/ErrorFetchingDocs'
 import { Spinner } from '../../../components/UIElements/Spinner'
-import { useGetAllActiveHabitsByType } from '../../../hooks/useGetAllActiveHabitsByType'
 import { Progress } from './Progress'
 import NoDocsYet from '../../../components/Docs/NoDocsYet'
-import { thisWeek, today } from '../../../helpers/date-manipulation-functions'
 import { HabitType } from '../../../types/habits.types'
-import { useGetRelevantTodos } from './hooks/useGetRelevantTodos'
 import { IncompletedItems } from './IncompletedItems'
 import { CompletedItems } from './CompletedItems'
-import { useGetRelevantMilestones } from './hooks/useGetRelevantMilestones'
-import { useGetRelevantGoals } from './hooks/useGetRelevantGoals'
-import { TabsNumbersDispatchContext } from '../context/context'
+import { useGetRelevantDocs } from './hooks/useGetRelevantDocs'
 
 export const ImmediateView: FunctionComponent<{
     type?: HabitType
     onOpen: () => void
 }> = ({ type, onOpen }) => {
-    const dispatch = useContext(TabsNumbersDispatchContext)
-
     const {
-        activeHabits,
-        loading: loadingHabits,
-        errorFetching: errorFetchingHabits
-    } = useGetAllActiveHabitsByType(type!)
-    const {
+        loading,
+        errorFetching,
+        totalLength,
+        completedHabits,
+        incompletedHabits,
         completedTodos,
         incompletedTodos,
-        loading: loadingTodos,
-        errorFetching: errorFetchingTodos
-    } = useGetRelevantTodos(type!)
-    const {
         completedMilestones,
         incompletedMilestones,
-        loading: loadingMilestones,
-        errorFetching: errorFetchingMilestones
-    } = useGetRelevantMilestones(type!)
-    const {
         completedGoals,
-        incompletedGoals,
-        loading: loadingGoals,
-        errorFetching: errorFetchingGoals
-    } = useGetRelevantGoals(type!)
-
-    const loading =
-        loadingHabits || loadingTodos || loadingMilestones || loadingGoals
-
-    const errorFetching =
-        errorFetchingHabits ||
-        errorFetchingTodos ||
-        errorFetchingMilestones ||
-        errorFetchingGoals
-
-    const totalLength =
-        activeHabits.length +
-        completedTodos.length +
-        incompletedTodos.length +
-        (completedMilestones?.length ?? 0) +
-        (incompletedMilestones?.length ?? 0) +
-        (completedGoals?.length ?? 0) +
-        (incompletedGoals?.length ?? 0)
-
-    const completedHabits = activeHabits.filter(
-        ({ currentStreak: { end } }) => {
-            if (type === 'daily') return end === today
-            return end === thisWeek
-        }
-    )
-
-    const incompletedHabits = activeHabits.filter(
-        ({ currentStreak: { end } }) => {
-            if (type === 'daily') return end !== today
-            return end !== thisWeek
-        }
-    )
-
-    useEffect(() => {
-        if (dispatch) {
-            dispatch({
-                type: type === 'daily' ? 'SET_TODAY' : 'SET_THIS_WEEK',
-                payload: {
-                    activeDocsNumber:
-                        incompletedHabits.length +
-                        incompletedTodos.length +
-                        (incompletedMilestones?.length ?? 0) +
-                        (incompletedGoals?.length ?? 0),
-                    inactiveDocsNumber:
-                        completedHabits.length +
-                        completedTodos.length +
-                        (completedMilestones?.length ?? 0) +
-                        (completedGoals?.length ?? 0)
-                }
-            })
-        }
-    }, [
-        completedHabits.length,
-        incompletedHabits.length,
-        completedTodos.length,
-        incompletedTodos.length,
-        completedMilestones?.length,
-        incompletedMilestones?.length,
-        completedGoals?.length,
-        incompletedGoals?.length,
-        dispatch,
-        type
-    ])
+        incompletedGoals
+    } = useGetRelevantDocs(type!)
 
     if (loading) return <Spinner mt={8} text='Loading...' />
 
@@ -146,6 +66,7 @@ export const ImmediateView: FunctionComponent<{
                     todos={completedTodos}
                     milestones={completedMilestones ?? []}
                     goals={completedGoals ?? []}
+                    type={type!}
                 />
             </VStack>
         </Flex>

@@ -13,7 +13,7 @@ import {
 
 import { HABITS } from '../../constants/habitsConstants'
 import { Habit } from '../../types/habits.types'
-import { removeHabitFromGoalsOnDelete } from '../../features/Habits/helpers'
+import { removeHabitFromGoalsOnDelete } from '../../features/Habits/helpers/crud-operations'
 import { removeDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
 import { removeLastCharacter } from '../../helpers/string-manipulation-functions'
 import { useGetRelevantGoals } from '../../hooks/useGetRelevantGoals'

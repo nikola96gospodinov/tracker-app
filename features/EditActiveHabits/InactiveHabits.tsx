@@ -3,7 +3,7 @@ import { Flex, Text } from '@chakra-ui/react'
 
 import { Habit } from '../../types/habits.types'
 import { Tag } from '../../components/UIElements/Tag'
-import { onKeystoneStatusChange } from '../Habits/helpers'
+import { onKeystoneStatusChange } from '../Habits/helpers/crud-operations'
 import { UserContext } from '../../context/userContext'
 import { Goal } from '../../types/goals.types'
 import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'

@@ -6,9 +6,8 @@ import { useGetRelevantGoals } from '../../../hooks/useGetRelevantGoals'
 import { GoalBox } from '../../Goal/GoalBox'
 import { Goal } from '../../../types/goals.types'
 import { Spinner } from '../../../components/UIElements/Spinner'
-import { onKeystoneStatusChange } from '../../Habits/helpers'
+import { onKeystoneStatusChange } from '../../Habits/helpers/crud-operations'
 import { UserContext } from '../../../context/userContext'
-import { Link } from '../../../components/UIElements/Link'
 
 export const LinkedGoals: FunctionComponent<{
     habit: Habit

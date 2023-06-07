@@ -1,5 +1,4 @@
 import moment from 'moment'
-import { collection, doc, updateDoc } from 'firebase/firestore'
 
 import {
     formatDate,
@@ -11,15 +10,10 @@ import {
     thisWeek,
     today,
     yesterday
-} from '../../helpers/date-manipulation-functions'
-import { submitDoc } from '../../helpers/crud-operations/crud-operations-main-docs'
-import { HABITS } from '../../constants/habitsConstants'
-import { Habit, HabitType, Progress, Streak } from '../../types/habits.types'
-import { db } from '../../firebase/firebase'
-import { GOALS } from '../../constants/goalsConstants'
-import { Goal } from '../../types/goals.types'
-import CheckIcon from '../../components/Icons/CheckIcon'
-import DangerIcon from '../../components/Icons/DangerIcon'
+} from '../../../helpers/date-manipulation-functions'
+import { Habit, HabitType, Progress, Streak } from '../../../types/habits.types'
+import CheckIcon from '../../../components/Icons/CheckIcon'
+import DangerIcon from '../../../components/Icons/DangerIcon'
 
 export const getUpdatedStreaksForDailyHabits = (
     habit: Habit,
@@ -95,7 +89,7 @@ export const getUpdatedStreaksForWeeklyHabits = (
 ) => {
     const longestStreak = habit.longestStreak
     const currentStreak = habit.currentStreak
-    const isTargetHit = newProgress.progress >= habit.target
+    const isTargetHit = newProgress.totalProgress >= habit.target
     const completedThisWeek = currentStreak.end === thisWeek
     const completedLastWeek = currentStreak.end === lastWeek
 
@@ -237,7 +231,7 @@ export const isHabitCompletedThisWeek = ({
     }
 
     return (
-        progress?.progress === target &&
+        progress?.totalProgress === target &&
         moment(progress.dateOfProgress).isSame(moment(), 'isoWeek')
     )
 }
@@ -284,107 +278,6 @@ export const getLastCompleted = (
     return 'Never'
 }
 
-interface ToggleHabitCompletionProps {
-    habit: Habit
-    completedToday: boolean
-    userID: string | undefined
-    toast?: any
-}
-
-export const toggleHabitCompletion = ({
-    habit,
-    completedToday,
-    userID,
-    toast
-}: ToggleHabitCompletionProps) => {
-    const updatedStreaks =
-        habit.type === 'daily'
-            ? getUpdatedStreaksForDailyHabits(habit, completedToday)
-            : getUpdatedStreaksForWeeklyHabits(habit, {
-                  progress: completedToday ? 0 : 1,
-                  dateOfProgress: completedToday ? today : undefined
-              })
-
-    submitDoc<Habit>({
-        path: HABITS,
-        userID: userID ?? '',
-        orgDoc: {
-            id: habit.id,
-            ...updatedStreaks
-        } as Habit,
-        toast,
-        toastSuccessMessage: 'Habit progress successfully updated!',
-        toastErrorMessage:
-            'There was an error updating the habit progress. Please try again'
-    })
-}
-
-interface UpdateHabitProgressProps {
-    habit: Habit
-    userID: string
-    progress: Progress
-    completed: boolean
-    toast?: any
-}
-
-export const updateHabitProgress = ({
-    habit,
-    userID,
-    progress,
-    completed,
-    toast
-}: UpdateHabitProgressProps) => {
-    const updatedStreaks =
-        habit.type === 'daily'
-            ? getUpdatedStreaksForDailyHabits(habit, !completed)
-            : getUpdatedStreaksForWeeklyHabits(habit, progress)
-
-    submitDoc<Habit>({
-        path: HABITS,
-        userID: userID ?? '',
-        orgDoc: {
-            id: habit.id,
-            progress,
-            ...updatedStreaks
-        } as Habit,
-        toast,
-        toastSuccessMessage: 'Habit progress successfully updated!',
-        toastErrorMessage:
-            'There was an error updating the habit progress. Please try again'
-    })
-}
-
-interface RemoveHabitFromGoalsOnDeleteProps {
-    userID: string | undefined
-    relevantGoals: Goal[] | undefined
-    habitID: string
-}
-
-export const removeHabitFromGoalsOnDelete = async ({
-    userID,
-    relevantGoals,
-    habitID
-}: RemoveHabitFromGoalsOnDeleteProps) => {
-    const fullPath = `users/${userID}/${GOALS}`
-    const docsCollection = collection(db, fullPath)
-
-    for (const goal of relevantGoals ?? []) {
-        const docsRef = doc(docsCollection, goal.id)
-        try {
-            await updateDoc(docsRef, {
-                dailyHabits: goal.dailyHabits?.filter(
-                    (habit) => habit !== habitID
-                ),
-                weeklyHabits: goal.weeklyHabits?.filter(
-                    (habit) => habit !== habitID
-                )
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }
-}
-
 export const getLongestStreakRange = (
     longestStreak: Streak,
     habitType: HabitType
@@ -405,14 +298,14 @@ export const getLongestStreakRange = (
 
 export const getCurrentProgress = (habit: Habit): number => {
     if (habit.type === 'daily' && habit.progress?.dateOfProgress === today)
-        return habit.progress.progress
+        return habit.progress.totalProgress
 
     if (
         habit.type === 'weekly' &&
         habit.progress?.dateOfProgress &&
         formatWeek(moment(habit.progress?.dateOfProgress)) === thisWeek
     )
-        return habit.progress.progress
+        return habit.progress.totalProgress
 
     return 0
 }
@@ -451,29 +344,20 @@ export const getHabitTooltipLabel = ({
     return ''
 }
 
-interface OnKeystoneStatusChangeProps {
-    userId: string | undefined
-    habitId: string
-    isKeystone: boolean | undefined
-    toast?: any
-}
+export const calculateProgressOnDate = (
+    progressValue: number,
+    progress?: Progress
+) => {
+    if (!progress) return progressValue
 
-export const onKeystoneStatusChange = ({
-    userId,
-    habitId,
-    isKeystone,
-    toast
-}: OnKeystoneStatusChangeProps) => {
-    submitDoc<Habit>({
-        path: HABITS,
-        userID: userId,
-        orgDoc: {
-            id: habitId,
-            isKeystone: !Boolean(isKeystone)
-        } as Habit,
-        toast,
-        toastSuccessMessage: 'Habit keystone status successfully updated!',
-        toastErrorMessage:
-            'There was an error updating the keystone status. Please try again'
-    })
+    const isProgressFromToday = progress.dateOfProgress === today
+
+    if (isProgressFromToday) {
+        const result =
+            progress.progressOnDate + (progressValue - progress.totalProgress)
+        return result > 0 ? result : 0
+    } else {
+        const result = progressValue - progress.totalProgress
+        return result > 0 ? result : 0
+    }
 }

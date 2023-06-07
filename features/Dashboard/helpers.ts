@@ -18,7 +18,7 @@ export const calculatePartialProgress = (
                 (habit.type === 'weekly' &&
                     formatWeek(habit.progress.dateOfProgress) === thisWeek)
             ) {
-                return accumulator + habit.progress.progress / habit.target
+                return accumulator + habit.progress.totalProgress / habit.target
             }
         }
 

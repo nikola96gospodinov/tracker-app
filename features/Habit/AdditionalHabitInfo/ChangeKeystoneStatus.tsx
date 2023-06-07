@@ -2,7 +2,7 @@ import { MenuItem, useToast } from '@chakra-ui/react'
 import { FunctionComponent, useContext } from 'react'
 
 import { UserContext } from '../../../context/userContext'
-import { onKeystoneStatusChange } from '../../Habits/helpers'
+import { onKeystoneStatusChange } from '../../Habits/helpers/crud-operations'
 import { Habit } from '../../../types/habits.types'
 
 export const ChangeKeystoneStatus: FunctionComponent<{

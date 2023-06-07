@@ -5,7 +5,11 @@ import { Flex, Heading, Button, useToast } from '@chakra-ui/react'
 
 import { FormModal } from '../../../components/Form/FormModal'
 import ToggleSwitch from '../../../components/UIElements/ToggleSwitch'
-import { getCurrentProgress, updateHabitProgress } from '../../Habits/helpers'
+import {
+    calculateProgressOnDate,
+    getCurrentProgress
+} from '../../Habits/helpers/helpers'
+import { updateHabitProgress } from '../../Habits/helpers/crud-operations'
 import { auth } from '../../../firebase/firebase'
 import { Habit } from '../../../types/habits.types'
 import { formatDate } from '../../../helpers/date-manipulation-functions'
@@ -56,18 +60,27 @@ export const ProgressForm: React.FunctionComponent<{
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        const progressOnDate = calculateProgressOnDate(
+            progressValue,
+            habit.progress
+        )
+
         updateHabitProgress({
             progress: {
-                progress: progressValue,
-                dateOfProgress: formatDate(moment())
+                totalProgress: progressValue,
+                dateOfProgress: formatDate(moment()),
+                progressOnDate
             },
             habit,
             userID: user?.uid ?? '',
             completed,
             toast
         })
+
         onProgressFormClose()
     }
+
     const toggleText = completed ? 'Completed!' : 'Set as completed'
 
     return (

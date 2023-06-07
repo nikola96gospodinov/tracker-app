@@ -6,7 +6,7 @@ import {
     getHabitCompletionIcon,
     getHabitTooltipLabel,
     isHabitCompleted
-} from '../Habits/helpers'
+} from '../Habits/helpers/helpers'
 import { Link } from '../../components/UIElements/Link'
 import { UpdateHabitMetrics } from '../UpdateMetrics/UpdateHabitMetrics/UpdateHabitMetrics'
 

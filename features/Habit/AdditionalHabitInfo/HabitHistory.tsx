@@ -3,7 +3,10 @@ import { FunctionComponent } from 'react'
 
 import InfoIcon from '../../../components/Icons/InfoIcon'
 import { Habit } from '../../../types/habits.types'
-import { getLastCompleted, getLongestStreakRange } from '../../Habits/helpers'
+import {
+    getLastCompleted,
+    getLongestStreakRange
+} from '../../Habits/helpers/helpers'
 
 export const HabitHistory: FunctionComponent<{ habit: Habit }> = ({
     habit

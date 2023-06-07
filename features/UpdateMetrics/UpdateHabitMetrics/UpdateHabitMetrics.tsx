@@ -4,9 +4,9 @@ import { useDisclosure, useToast } from '@chakra-ui/react'
 import { auth } from '../../../firebase/firebase'
 import {
     getCurrentProgress,
-    isHabitCompleted,
-    toggleHabitCompletion
-} from '../../Habits/helpers'
+    isHabitCompleted
+} from '../../Habits/helpers/helpers'
+import { toggleHabitCompletion } from '../../Habits/helpers/crud-operations'
 import { Habit } from '../../../types/habits.types'
 import { UpdateMetrics } from '../UpdateMetrics'
 import { ProgressForm } from './ProgressForm'
