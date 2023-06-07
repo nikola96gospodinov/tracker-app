@@ -122,8 +122,9 @@ export const toggleHabitCompletion = ({
         habit.type === 'daily'
             ? getUpdatedStreaksForDailyHabits(habit, completedToday)
             : getUpdatedStreaksForWeeklyHabits(habit, {
-                  progress: completedToday ? 0 : 1,
-                  dateOfProgress: completedToday ? today : undefined
+                  totalProgress: completedToday ? 0 : 1,
+                  dateOfProgress: completedToday ? today : undefined,
+                  progressOnDate: completedToday ? 0 : 1
               })
 
     submitDoc<Habit>({
